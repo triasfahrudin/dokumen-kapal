@@ -1344,6 +1344,11 @@ class grocery_CRUD_Model_Driver extends grocery_CRUD_Field_Types
 			foreach($this->relation as $relation)
 				$this->basic_model->join_relation($relation[0],$relation[1],$relation[2]);
 
+		if(!empty($this->in_where))
+   			foreach($this->in_where as $in_where):
+				$this->basic_model->where($in_where[0].' in '.$in_where[1]);
+   			endforeach;	
+
 		if(!empty($this->relation_n_n))
 		{
 			$columns = $this->get_columns();
@@ -3683,6 +3688,8 @@ class Grocery_CRUD extends grocery_CRUD_States
 	protected $default_config_path		= 'assets/grocery_crud/config';
 	protected $default_assets_path		= 'assets/grocery_crud';
 
+	protected $in_where 				= array();
+
 	/**
 	 *
 	 * Constructor
@@ -4517,6 +4524,11 @@ class Grocery_CRUD extends grocery_CRUD_States
 		$this->or_where[] = array($key,$value,$escape);
 
 		return $this;
+	}
+
+	public function in_where($key, $value = NULL, $escape = TRUE)
+	{
+		if ($value != '()') $this->in_where[] = array($key,$value,$escape);
 	}
 
 	public function like($field, $match = '', $side = 'both')

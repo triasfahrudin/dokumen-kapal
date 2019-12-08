@@ -8,7 +8,7 @@ class Signout extends CI_Controller
         parent::__construct();
 
         $this->load->database();
-        $this->load->helper(array('url','userlog'));
+        $this->load->helper(array('url'));
         $this->load->library('session');
 
     }
@@ -17,14 +17,6 @@ class Signout extends CI_Controller
     {
         $level = $this->session->userdata('user_level');
 
-        if($level !== 'peserta'){
-            log_add(
-                array(                          
-                    'jenis'   => 'logout'
-                )
-            );
-    
-        }
         
         $this->session->sess_destroy();
         redirect(site_url('web'), 'reload');

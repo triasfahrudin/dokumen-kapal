@@ -50,5 +50,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |		my-controller/my-method	-> my_controller/my_method
 */
 $route['default_controller'] = 'web';
-$route['404_override'] = '';
+$route['404_override'] = 'custom_404';
+$route['admin/permohonan-masa-layar-(:any)'] = 'admin/permohonan-masa-layar/$1';
+$route['admin/permohonan-bongkar-muat-(:any)'] = 'admin/permohonan-bongkar-muat/$1';
+$route['admin/permohonan-sertifikat-keselamatan-(:any)'] = 'admin/permohonan-sertifikat-keselamatan/$1';
 $route['translate_uri_dashes'] = TRUE;
