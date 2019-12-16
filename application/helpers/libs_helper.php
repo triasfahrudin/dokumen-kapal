@@ -1,5 +1,21 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 
+function make_ratings($rating)
+{
+
+    $rating_span = "";
+
+    for ($i = 1; $i <= $rating; $i++) {
+        $rating_span .= '<span class="fa fa-star checked"></span>';
+    }
+
+    for ($i = $rating; $i < 5; $i++) {
+        $rating_span .= '<span class="fa fa-star-o"></span>';
+    }
+
+    return $rating_span;
+}
+
 function get_settings($collumn, $title)
 {
     $CI = &get_instance();
@@ -16,8 +32,6 @@ function get_settings($collumn, $title)
 
     return $result;
 }
-
-
 
 function terbilang($x)
 {

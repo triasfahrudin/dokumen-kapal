@@ -59,7 +59,7 @@ class Signin extends CI_Controller
                         )
                     );
 
-                    redirect(site_url($user['level']), 'reload');
+                    redirect(site_url('manage'), 'reload');
                 }
             }
             // }
