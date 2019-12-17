@@ -1,0 +1,21 @@
+menu_home
+menu_permohonan
+== menu_masa_layar
+==== listview_masalayar (+ form_masalayar)
+== menu_sertifikat_keselamatan
+==== listview_sertifikat_keselamatan (+ form_sertifikat_keselamatan)
+== menu_bongkar muat barang
+==== listview_bongkarmuat (+ form_bongkarmuat)
+menu_profile_data
+== menu_profile
+==== form_profile
+== menu_buku pelaut
+==== form buku_pelaut
+== menu_kapal
+==== listview_kapal (+ form_kapal)
+== menu_riwayat_pelayaran
+==== listview_riwayat_pelayaran (+ form_riwayat_pelayaran)
+== menu_sertifikat_pelaut
+==== listview_sertifikat_pelaut (+ form_sertifikat_pelaut)
+------------------------
+menu_keluar

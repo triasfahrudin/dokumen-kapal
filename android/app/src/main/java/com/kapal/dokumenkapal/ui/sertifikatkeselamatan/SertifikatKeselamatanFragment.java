@@ -41,7 +41,7 @@ public class SertifikatKeselamatanFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         sertifikatKeselamatanViewModel =
                 ViewModelProviders.of(this).get(SertifikatKeselamatanViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_permohonan_menu_sertifikat, container, false);
+        View root = inflater.inflate(R.layout.fragment_listview_sertifikat_keselamatan, container, false);
 
         ButterKnife.bind(this, root);
 

@@ -8,6 +8,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -15,12 +16,14 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.snackbar.Snackbar;
+import com.kapal.dokumenkapal.ui.masalayar.MasaLayarFormFragment;
+import com.kapal.dokumenkapal.ui.masalayar.MasaLayarFragment;
 import com.kapal.dokumenkapal.util.SharedPrefManager;
 
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
+    public FloatingActionButton fab;
 
     SharedPrefManager sharedPrefManager;
 
@@ -30,17 +33,33 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        FloatingActionButton fab = findViewById(R.id.fab);
+        fab = findViewById(R.id.fab);
 
         sharedPrefManager = new SharedPrefManager(this);
+//      ButterKnife.bind(this);
+//      NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
 
-//        ButterKnife.bind(this);
+                MasaLayarFragment masalayarFragment = (MasaLayarFragment) getSupportFragmentManager().findFragmentByTag("TAG_MASALAYAR_FRAGMENT");
 
-//        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+                if (masalayarFragment != null && masalayarFragment.isVisible()) {
+                    MasaLayarFormFragment mf = new MasaLayarFormFragment();
+                    FragmentTransaction ft = getSupportFragmentManager()
+                            .beginTransaction()
+                            .add(R.id.nav_host_fragment, mf, "TAG_FORM_MASALAYAR_FRAGMENT")
+                            .addToBackStack(null);
+                    ft.commit();
+                }
 
-        fab.setOnClickListener(view -> Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show());
+
+                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                //        .setAction("Action", null).show();
+            }
+        });
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);

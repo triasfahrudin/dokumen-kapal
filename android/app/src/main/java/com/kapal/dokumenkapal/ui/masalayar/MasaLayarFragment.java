@@ -45,7 +45,7 @@ public class MasaLayarFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         masalayarViewModel =
                 ViewModelProviders.of(this).get(MasaLayarViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_permohonan_menu_masalayar, container, false);
+        View root = inflater.inflate(R.layout.fragment_listview_masalayar, container, false);
 
         ButterKnife.bind(this, root);
 

@@ -65,7 +65,7 @@ public class MasaLayarFormFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
 
         ViewModelProviders.of(this).get(MasaLayarFormViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_permohonan_form_masalayar, container, false);
+        View root = inflater.inflate(R.layout.fragment_form_masalayar, container, false);
 
         ButterKnife.bind(this, root);
 

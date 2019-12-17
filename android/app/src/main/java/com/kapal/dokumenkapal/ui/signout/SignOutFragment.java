@@ -34,7 +34,7 @@ public class SignOutFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         sendViewModel =
                 ViewModelProviders.of(this).get(SendViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_signout, container, false);
+        View root = inflater.inflate(R.layout.menu_signout, container, false);
 
         sharedPrefManager = new SharedPrefManager(mContext);
 

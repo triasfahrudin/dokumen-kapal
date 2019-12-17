@@ -55,7 +55,7 @@ public class PermohonanFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         permohonanViewModel =
                 ViewModelProviders.of(this).get(PermohonanViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_permohonan_menu_main, container, false);
+        View root = inflater.inflate(R.layout.fragment_menu_permohonan, container, false);
 
         ButterKnife.bind(this, root);
 
@@ -80,7 +80,7 @@ public class PermohonanFragment extends Fragment {
         MasaLayarFragment mf = new MasaLayarFragment();
         FragmentTransaction ft = getActivity().getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.nav_host_fragment, mf,TAG_FRAGMENT)
+                .replace(R.id.nav_host_fragment, mf,"TAG_MASALAYAR_FRAGMENT")
                 .addToBackStack(null);
         ft.commit();
 
