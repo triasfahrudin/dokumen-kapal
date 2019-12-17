@@ -1,3 +1,15 @@
+
+ function ajax_komentar_rating(jenis,permohonan_id){
+     $.post(base_path + "/ajax_komentar_rating",
+        { 
+          jenis:jenis,
+          permohonan_id : permohonan_id 
+        }
+      ).done( function( data ){
+        $('#mb-komentar-rating').html(data);
+        $('#modalKomentarRating').modal('show');
+      })
+  }
   
   
   function ajax_alasan(jenis,permohonan_id){

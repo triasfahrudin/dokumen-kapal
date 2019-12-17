@@ -14,9 +14,7 @@
       <link href="<?php echo site_url('assets/manage/css/sb-admin-2.min.css');?>" rel="stylesheet">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css" />
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/red/pace-theme-flash.css" />
-      
       <style type="text/css"> .checked {  color: orange; } </style>
-      
       <?php
          if(isset($css_files)){
            foreach($css_files as $file): ?>
@@ -25,7 +23,6 @@
          }else{ ?>
       <link href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css" rel="stylesheet" >
       <?php }; ?>
-      
       <?php
          if(isset($js_files)){
            foreach($js_files as $file): ?>
@@ -36,8 +33,6 @@
       <script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
       <!-- <script src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap.min.js"></script> -->
       <?php }; ?>
-
-      
       <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.bundle.min.js" integrity="sha256-fzFFyH01cBVPYzl16KT40wqjhgPtq6FFUB6ckN2+GGw=" crossorigin="anonymous"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js" integrity="sha256-H3cjtrm/ztDeuhCN9I4yh4iN2Ybx/y1RM7rMmAesA0k=" crossorigin="anonymous"></script>
       <script src="<?php echo site_url('assets/manage/js/sb-admin-2.min.js');?>"></script>
@@ -47,7 +42,6 @@
       <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
       <script type="text/javascript">var base_path = "<?php echo site_url('manage')?>";</script>
       <script src="<?php echo site_url('assets/manage/js/admin.js')?>?timestamps=<?php echo date("YmdHis")?>"></script>
-      
    </head>
    <body id="page-top">
       <!-- Page Wrapper -->
@@ -76,6 +70,13 @@
                Menu
             </div>
             <!-- Nav Item - Pages Collapse Menu -->
+
+            <?php  $user_level = $this->session->userdata('user_level'); ?>
+
+            <?php 
+              $level = array('admin');
+              if (in_array($user_level, $level)) { ?>
+            
             <li class="nav-item">
                <a class="nav-link" href="<?php echo site_url('manage/permohonan')?>">
                <i class="fas fa-fw fa-cog"></i>
@@ -97,6 +98,45 @@
                <i class="fas fa-fw fa-table"></i>
                <span>Data Biaya</span></a>
             </li>
+            <li class="nav-item">
+               <a class="nav-link" href="<?php echo site_url('manage/berita')?>">
+               <i class="fas fa-fw fa-newspaper"></i>
+               <span>Data Berita</span></a>
+            </li>
+            <li class="nav-item">
+               <a class="nav-link" href="<?php echo site_url('manage/laporan')?>">
+               <i class="fas fa-fw fa-chart-bar"></i>
+               <span>Laporan</span></a>
+            </li>
+            <?php  } ?>
+
+
+            <?php 
+              $level = array('petugas');
+              if (in_array($user_level, $level)) { ?>
+            
+            <li class="nav-item">
+               <a class="nav-link" href="<?php echo site_url('manage/permohonan')?>">
+               <i class="fas fa-fw fa-cog"></i>
+               <span>Permohonan</span>
+               </a>                
+            </li>            
+            <?php  } ?>
+
+             <?php 
+              $level = array('ketua');
+              if (in_array($user_level, $level)) { ?>
+            
+             <li class="nav-item">
+               <a class="nav-link" href="<?php echo site_url('manage/laporan')?>">
+               <i class="fas fa-fw fa-chart-bar"></i>
+               <span>Laporan</span></a>
+            </li>
+            
+            <?php  } ?>
+
+
+            
          </ul>
          <!-- End of Sidebar -->
          <!-- Content Wrapper -->
@@ -105,11 +145,9 @@
             <div id="content">
                <!-- Topbar -->
                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-                  
                   <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
                   <i class="fa fa-bars"></i>
                   </button>                 
-                  
                   <ul class="navbar-nav ml-auto">
                      <div class="topbar-divider d-none d-sm-block"></div>
                      <!-- Nav Item - User Information -->
@@ -125,9 +163,9 @@
                            Profile
                            </a>
                            <!-- <a class="dropdown-item" href="#">
-                           <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                           Settings
-                           </a> -->
+                              <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                              Settings
+                              </a> -->
                            <div class="dropdown-divider"></div>
                            <a class="dropdown-item" href="#!" data-toggle="modal" data-target="#logoutModal">
                            <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
@@ -140,7 +178,6 @@
                <!-- End of Topbar -->
                <!-- Begin Page Content -->
                <div class="container-fluid">
-                 
                   <div class="row">
                      <div class="col-md-auto">
                         <nav aria-label="breadcrumb">
@@ -148,7 +185,6 @@
                         </nav>
                      </div>
                      <div class="col-sm">
-                 
                         <?php if(isset($filter)){ ?>
                         <div class="dropdown float-right">
                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -161,7 +197,6 @@
                            </div>
                         </div>
                         <?php } ?>                        
-
                      </div>
                   </div>
                   <div class="row">
@@ -206,70 +241,79 @@
             </div>
          </div>
       </div>
-      
       <div class="modal fade" id="modalBiodata" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" style=" min-width: 100%; margin: 0;" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Data Diri Pemohon</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
+         <div class="modal-dialog" style=" min-width: 100%; margin: 0;" role="document">
+            <div class="modal-content">
+               <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Data Diri Pemohon</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                  </button>
+               </div>
+               <div class="modal-body" id="tabBiodata">
+               </div>
+               <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                  <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+               </div>
             </div>
-            <div class="modal-body" id="tabBiodata">
-              
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-              <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
-            </div>
-          </div>
-        </div>
+         </div>
       </div>
-
-       <div class="modal fade" id="modalIjazahLaut" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Data Ijazah Laut</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
+      <div class="modal fade" id="modalIjazahLaut" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+         <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+               <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Data Ijazah Laut</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                  </button>
+               </div>
+               <div class="modal-body" id="contentIjazahLaut">
+               </div>
+               <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                  <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+               </div>
             </div>
-            <div class="modal-body" id="contentIjazahLaut">
-              
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-              <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
-            </div>
-          </div>
-        </div>
-
+         </div>
       </div>
-
-
       <div class="modal fade" id="modalAlasanStatus" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Alasan</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
+         <div class="modal-dialog" role="document">
+            <div class="modal-content">
+               <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Alasan</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                  </button>
+               </div>
+               <div class="modal-body" id="mb-alasan-status">
+               </div>
+               <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                  <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+               </div>
             </div>
-            <div class="modal-body" id="mb-alasan-status">
-              
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-              <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
-            </div>
-          </div>
-        </div>
-
+         </div>
       </div>
 
+      <div class="modal fade" id="modalKomentarRating" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+         <div class="modal-dialog" role="document">
+            <div class="modal-content">
+               <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Alasan</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                  </button>
+               </div>
+               <div class="modal-body" id="mb-komentar-rating">
+               </div>
+               <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                  <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+               </div>
+            </div>
+         </div>
+      </div>
 
    </body>
 </html>

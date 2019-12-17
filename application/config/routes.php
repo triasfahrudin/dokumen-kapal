@@ -58,5 +58,6 @@ $route['404_override'] = 'custom_404';
 // $route['petugas/permohonan-masa-layar-(:any)'] = 'petugas/permohonan-masa-layar/$1';
 // $route['petugas/permohonan-bongkar-muat-(:any)'] = 'petugas/permohonan-bongkar-muat/$1';
 // $route['petugas/permohonan-sertifikat-keselamatan-(:any)'] = 'petugas/permohonan-sertifikat-keselamatan/$1';
+$route['baca-berita/(:any)']     = 'web/baca-berita/$1';
 
 $route['translate_uri_dashes'] = TRUE;

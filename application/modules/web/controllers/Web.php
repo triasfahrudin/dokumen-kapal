@@ -10,8 +10,6 @@ if (substr_count($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip')) {
 
 class Web extends CI_Controller
 {
-    private $data = array();
-
     public function __construct()
     {
         parent::__construct();
@@ -23,120 +21,125 @@ class Web extends CI_Controller
 
         $this->load->libraries(array('session', 'form_validation'));
 
-
     }
 
+    public function _page_output($data = null)
+    {
+        $this->load->view('master_view.php', $data);
+    }
 
     public function index()
     {
-        $this->load->library('recaptcha');
+        $data = array('page_name' => 'beranda');
+        $this->_page_output($data);
+    }
 
-        if (!empty($_POST)) {
 
-            switch ($_POST['submit']) {
+    public function kontak()
+    {
+        $data = array('page_name' => 'kontak');
+        $this->_page_output($data);
+    }
 
-                case 'login':
 
-                    if (strrpos(current_url(), 'localhost') === false) {
-                        $captcha_answer = $this->input->post('g-recaptcha-response');
-                        $response       = $this->recaptcha->verifyResponse($captcha_answer);
+    private function _paginate($base_url, $total_rows, $per_page, $uri_segment)
+    {
+        $config = array(
+            'base_url'    => $base_url,
+            'total_rows'  => $total_rows,
+            'per_page'    => $per_page,
+            'uri_segment' => $uri_segment,
+        );
 
-                        if (!$response['success']) {
-                            redirect(site_url('web'), 'reload');
-                        }
-                    }
+        /*
+        <div class="pagination">
+        <a class="prev page-numbers" href="#"><span class="icon-text">◂</span>Previous Page</a>
+        <a class="page-numbers" href="#">1</a>
+        <span class="page-numbers current">2</span>
+        <a class="page-numbers" href="#">3</a>
+        <a class="page-numbers" href="#">4</a>
+        <a class="page-numbers" href="#">5</a>
+        <a class="page-numbers" href="#">6</a>
+        <a class="next page-numbers" href="#">Next Page<span class="icon-text">▸</span></a>
+        </div>
 
-                    // $captcha_answer = $this->input->post('g-recaptcha-response');
-                    // $response       = $this->recaptcha->verifyResponse($captcha_answer);
+         */
+        // $config['anchor_class'] = 'class="page-numbers" ';
+        $config['attributes'] = array('class' => 'page-link');
 
-                    // if ($response['success']) {
-                    $this->form_validation->set_rules('username', 'NIK / Email', 'required');
-                    $this->form_validation->set_rules('password', 'Password', 'required');
+        $config['first_link']      = 'First';
+        $config['first_tag_open']  = '';
+        $config['first_tag_close'] = '';
 
-                    if ($this->form_validation->run() == true) {
+        $config['last_link']      = 'Last';
+        $config['last_tag_open']  = '';
+        $config['last_tag_close'] = '';
 
-                        $username = $this->input->post('username');
-                        $password = md5($this->input->post('password'));
+        $config['next_link']      = 'Lanjut';
+        $config['next_tag_open']  = '<li class="page-item">';
+        $config['next_tag_close'] = ' </li>';
 
-                        $this->db->where('password', $password);
-                        $this->db->group_start();
-                        $this->db->where('nik', $username);
-                        $this->db->or_where('email', $username);
-                        $this->db->group_end();
-                        $cek = $this->db->get('pendaftar');
+        $config['prev_link']      = 'Sebelumnya';
+        $config['prev_tag_open']  = '<li class="page-item">';
+        $config['prev_tag_close'] = '</li>';
 
-                        if ($cek->num_rows() > 0) {
-                            $pendaftar = $cek->row_array();
+        $config['cur_tag_open']  = '<li class="page-item active"><a class="page-link" href="#">';
+        $config['cur_tag_close'] = '<span class="sr-only">(current)</span></a></li>';
 
-                            $this->session->set_userdata(
-                                array(
-                                    'user_id'           => $pendaftar['id'],
-                                    'user_kategori_id'  => $pendaftar['kategori_id'],
-                                    'user_nik'          => $pendaftar['nik'],
-                                    'user_email'        => $pendaftar['email'],
-                                    'user_nama_lengkap' => $pendaftar['nama_lengkap'],
-                                    'user_level'        => 'peserta',
-                                )
-                            );
+        $config['num_tag_open']  = '<li class="page-item">';
+        $config['num_tag_close'] = '</li>';
 
-                            //$this->load->helper('penilaian');
-                            //update_bobot_penilaian($pendaftar['id']);
+        return $config;
+    }
 
-                            redirect(site_url('peserta/index'), 'reload');
-                        } else {
-                            $this->alert->set('alert-danger', "User tidak ditemukan! Periksa kembali Email atau NIK dan Password yang anda masukkan", false);
-                        }
-                    } else {
-                        $this->alert->set('alert-danger', "Periksa kembali data yang anda masukkan", false);
-                    }
-                    // } else {
-                    // $this->alert->set('alert-danger', 'Validasi reCaptcha Error', false);
-                    // }
+    public function baca_berita()
+    {
 
-                    redirect(site_url('web'), 'reload');
+        // $user_ip = getUserIP();
+        $slug = $this->uri->segment(2, 'no-slug');
 
-                    break;
-
-                case 'reset-password':
-
-                    $email = $this->input->post('email');
-                    $cek   = $this->db->get_where('pendaftar', array('email' => $email));
-                    if ($cek->num_rows() > 0) {
-
-                        // $token_reset_password = generate_uuid();
-                        //
-                        // $this->db->where('email',$email);
-                        // $this->db->update('pendaftar',array('token_reset_password' => $token_reset_password ));
-
-                        //function send_email($recipient_email_address,$subject,$message,$attachment){
-                        // $message = "Seseorang telah melakukan permintaan reset password akun anda <br />";
-                        // $message .= "Jika anda tidak merasa melakukan hal ini, jangan hiraukan permintaan ini<br />";
-                        // $message .= "Klik <a href='" . site_url('web/reset-password/' . $token_reset_password) . "'>disini</a> jika anda ingin mereset password anda";
-                        $new_pass = generateRandomString(6);
-
-                        $this->db->where('email', $email);
-                        $this->db->update('pendaftar', array('password' => md5($new_pass)));
-
-                        $message = "Berikut ini adalah password anda yang baru : " . $new_pass;
-
-                        $message .= "<hr />";
-                        $message .= "{timestamp:" . date("Y-m-d H:i:s") . "}";
-                        send_email($email, 'reset password', $message, 'none');
-                        // echo "<script>alert('Silahkan buka email anda untuk langkah selanjutnya');</script>";
-                        $this->alert->set('alert-success', 'Silahkan cek email untuk langkah selanjutnya', false);
-                    }
-
-                    redirect(site_url('web'), 'reload');
-
-                    break;
-            }
-
-            // var_dump($response);
+        if ($slug === 'no-slug') {
+            redirect(site_url(), 'reload');
         }
 
-       
-        $this->load->view('web/master_view.php', $this->data);
+        $cek_blog = $this->db->get_where('berita', array('slug' => $slug));
+        if ($cek_blog->num_rows() == 0) {
+            redirect(site_url(), 'reload');
+        }
 
-        // compress_output();
+        $data = array(
+            'berita_konten' => $cek_blog->row_array(),
+            'page_name'     => 'baca_berita',
+
+        );
+        $this->_page_output($data);
     }
+
+    public function berita()
+    {
+
+        $this->load->library('pagination');
+
+        $url         = site_url('web/berita/');
+        $total_rows  = $this->db->get('berita')->num_rows();
+        $uri_segment = 3;
+        $per_page    = 3;
+
+        $config = $this->_paginate($url, $total_rows, $per_page, $uri_segment);
+        $this->pagination->initialize($config);
+
+        $awal  = $this->uri->segment(3, 0);
+        $akhir = $config['per_page'];
+
+        $this->db->limit($akhir, $awal);
+        $this->db->order_by('tgl_post DESC');
+        $berita = $this->db->get("berita");
+
+        $data = array(
+            'berita'    => $berita,
+            'page_name' => 'berita',
+        );
+        $this->_page_output($data);
+    }
+
 }
