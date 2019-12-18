@@ -1,30 +1,12 @@
--- --------------------------------------------------------
--- Host:                         127.0.0.1
--- Server version:               5.6.20 - Source distribution
--- Server OS:                    Linux
--- HeidiSQL Version:             9.3.0.4984
--- --------------------------------------------------------
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET NAMES utf8mb4 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-
--- Dumping database structure for dokumen_kapal
-DROP DATABASE IF EXISTS `dokumen_kapal`;
-CREATE DATABASE IF NOT EXISTS `dokumen_kapal` /*!40100 DEFAULT CHARACTER SET latin1 */;
-USE `dokumen_kapal`;
-
-
 -- Dumping structure for table dokumen_kapal.berita
 DROP TABLE IF EXISTS `berita`;
 CREATE TABLE IF NOT EXISTS `berita` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `gambar` varchar(50) DEFAULT NULL,
-  `judul` varchar(150) NOT NULL,
-  `slug` varchar(160) NOT NULL,
+  `judul` varchar(150) DEFAULT NULL,
+  `slug` varchar(160) DEFAULT NULL,
   `konten` text,
-  `tgl_post` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `tgl_post` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
@@ -42,10 +24,10 @@ INSERT INTO `berita` (`id`, `gambar`, `judul`, `slug`, `konten`, `tgl_post`) VAL
 DROP TABLE IF EXISTS `biaya`;
 CREATE TABLE IF NOT EXISTS `biaya` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `kode` varchar(50) NOT NULL,
-  `alias` varchar(50) NOT NULL,
-  `nominal` double NOT NULL,
-  `keterangan` varchar(50) NOT NULL,
+  `kode` varchar(50) DEFAULT NULL,
+  `alias` varchar(50) DEFAULT NULL,
+  `nominal` double DEFAULT NULL,
+  `keterangan` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
@@ -64,23 +46,23 @@ INSERT INTO `biaya` (`id`, `kode`, `alias`, `nominal`, `keterangan`) VALUES
 DROP TABLE IF EXISTS `bongkar_muat`;
 CREATE TABLE IF NOT EXISTS `bongkar_muat` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `pemohon_id` int(11) NOT NULL,
-  `kode_biaya` varchar(50) NOT NULL,
-  `jenis_muatan` varchar(50) NOT NULL,
-  `bobot` float NOT NULL,
-  `nama_kapal` varchar(50) NOT NULL,
-  `angkutan_nopol` varchar(50) NOT NULL,
-  `angkutan_supir` varchar(50) NOT NULL,
-  `tgl_mohon` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `file_surat_permohonan` varchar(50) NOT NULL,
-  `biaya` double NOT NULL,
-  `bukti_bayar` varchar(50) NOT NULL,
-  `tgl_upload_bukti_bayar` date NOT NULL,
-  `tgl_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `status` enum('pending','baru','diterima','ditolak','diambil') NOT NULL,
-  `alasan_status` varchar(50) NOT NULL,
-  `rating_kepuasan` tinyint(4) NOT NULL DEFAULT '0',
-  `komentar` text NOT NULL,
+  `pemohon_id` int(11) DEFAULT NULL,
+  `kode_biaya` varchar(50) DEFAULT NULL,
+  `jenis_muatan` varchar(50) DEFAULT NULL,
+  `bobot` float DEFAULT NULL,
+  `nama_kapal` varchar(50) DEFAULT NULL,
+  `angkutan_nopol` varchar(50) DEFAULT NULL,
+  `angkutan_supir` varchar(50) DEFAULT NULL,
+  `tgl_mohon` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `file_surat_permohonan` varchar(50) DEFAULT NULL,
+  `biaya` double DEFAULT NULL,
+  `bukti_bayar` varchar(50) DEFAULT NULL,
+  `tgl_upload_bukti_bayar` date DEFAULT NULL,
+  `tgl_update` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `status` enum('pending','baru','diterima','ditolak','diambil') DEFAULT NULL,
+  `alasan_status` varchar(50) DEFAULT NULL,
+  `rating_kepuasan` tinyint(4) DEFAULT '0',
+  `komentar` text,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
@@ -155,16 +137,16 @@ CREATE TABLE IF NOT EXISTS `kapal` (
   `kapasitas_penumpang` int(11) DEFAULT NULL,
   `kapasitas_roda_dua` int(11) DEFAULT NULL,
   `kapasitas_roda_empat` int(11) DEFAULT NULL,
-  `file_surat_ukur` varchar(50) NOT NULL,
-  `file_surat_laut` varchar(50) NOT NULL,
-  `file_sertifikat_keselamatan` varchar(50) NOT NULL,
-  `file_sertifikat_klasifikasi` varchar(50) NOT NULL,
-  `file_sertifikat_pmk` varchar(50) NOT NULL,
-  `file_sertifikat_liferaft` varchar(50) NOT NULL,
+  `file_surat_ukur` varchar(50) DEFAULT NULL,
+  `file_surat_laut` varchar(50) DEFAULT NULL,
+  `file_sertifikat_keselamatan` varchar(50) DEFAULT NULL,
+  `file_sertifikat_klasifikasi` varchar(50) DEFAULT NULL,
+  `file_sertifikat_pmk` varchar(50) DEFAULT NULL,
+  `file_sertifikat_liferaft` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1 COMMENT='imo =  International Maritime Organization ';
 
--- Dumping data for table dokumen_kapal.kapal: ~1 rows (approximately)
+-- Dumping data for table dokumen_kapal.kapal: ~2 rows (approximately)
 /*!40000 ALTER TABLE `kapal` DISABLE KEYS */;
 INSERT INTO `kapal` (`id`, `pemohon_id`, `nama_kapal`, `jenis_kapal`, `imo_number`, `grt`, `kapasitas_penumpang`, `kapasitas_roda_dua`, `kapasitas_roda_empat`, `file_surat_ukur`, `file_surat_laut`, `file_sertifikat_keselamatan`, `file_sertifikat_klasifikasi`, `file_sertifikat_pmk`, `file_sertifikat_liferaft`) VALUES
 	(1, 1, 'KMP.TUNU PRATAMA JAYA 3888', 'Ro-Ro', NULL, NULL, 12, 3, 4, '', '', '', '', '', ''),
@@ -178,14 +160,14 @@ CREATE TABLE IF NOT EXISTS `masa_layar` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `pemohon_id` int(11) DEFAULT NULL,
   `biaya` double DEFAULT NULL,
-  `tgl_upload_bukti_bayar` date NOT NULL,
-  `bukti_bayar` varchar(50) NOT NULL,
+  `tgl_upload_bukti_bayar` date DEFAULT NULL,
+  `bukti_bayar` varchar(50) DEFAULT NULL,
   `tgl_mohon` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `tgl_update` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `status` enum('pending','baru','diterima','ditolak','diambil') NOT NULL DEFAULT 'pending',
-  `alasan_status` varchar(50) NOT NULL,
-  `rating_kepuasan` tinyint(4) NOT NULL,
-  `komentar` text NOT NULL,
+  `status` enum('pending','baru','diterima','ditolak','diambil') DEFAULT 'pending',
+  `alasan_status` varchar(50) DEFAULT NULL,
+  `rating_kepuasan` tinyint(4) DEFAULT NULL,
+  `komentar` text,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
@@ -200,11 +182,11 @@ INSERT INTO `masa_layar` (`id`, `pemohon_id`, `biaya`, `tgl_upload_bukti_bayar`,
 DROP TABLE IF EXISTS `notifikasi`;
 CREATE TABLE IF NOT EXISTS `notifikasi` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `pemohon_id` int(11) NOT NULL,
-  `jenis_permohonan` varchar(50) NOT NULL,
-  `permohonan_id` int(11) NOT NULL,
-  `isi_notifikasi` varchar(150) NOT NULL,
-  `tgl` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `pemohon_id` int(11) DEFAULT NULL,
+  `jenis_permohonan` varchar(50) DEFAULT NULL,
+  `permohonan_id` int(11) DEFAULT NULL,
+  `isi_notifikasi` varchar(150) DEFAULT NULL,
+  `tgl` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -217,14 +199,14 @@ CREATE TABLE IF NOT EXISTS `notifikasi` (
 DROP TABLE IF EXISTS `pemohon`;
 CREATE TABLE IF NOT EXISTS `pemohon` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `jenis` enum('perorangan','perusahaan') NOT NULL,
-  `nama` varchar(50) NOT NULL,
-  `email` varchar(50) NOT NULL,
-  `password` varchar(50) NOT NULL,
-  `foto` varchar(50) NOT NULL,
-  `npwp` varchar(50) NOT NULL,
-  `alamat` varchar(50) NOT NULL,
-  `no_telp` varchar(50) NOT NULL,
+  `jenis` enum('perorangan','perusahaan') DEFAULT NULL,
+  `nama` varchar(50) DEFAULT NULL,
+  `email` varchar(50) DEFAULT NULL,
+  `password` varchar(50) DEFAULT NULL,
+  `foto` varchar(50) DEFAULT NULL,
+  `npwp` varchar(50) DEFAULT NULL,
+  `alamat` varchar(50) DEFAULT NULL,
+  `no_telp` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 COMMENT='pemohon bisa perorangan atau perusahaan\r\nfoto = foto diri atau logo';
@@ -241,15 +223,15 @@ DROP TABLE IF EXISTS `riwayat_pelayaran`;
 CREATE TABLE IF NOT EXISTS `riwayat_pelayaran` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `pemohon_id` int(11) DEFAULT NULL,
-  `nama_kapal` varchar(50) NOT NULL DEFAULT '0',
-  `tenaga_mesin` varchar(50) NOT NULL DEFAULT '0',
-  `jabatan` varchar(50) NOT NULL DEFAULT '0',
-  `tgl_naik` date NOT NULL DEFAULT '0000-00-00',
-  `tgl_turun` date NOT NULL DEFAULT '0000-00-00',
+  `nama_kapal` varchar(50) DEFAULT NULL,
+  `tenaga_mesin` varchar(50) DEFAULT NULL,
+  `jabatan` varchar(50) DEFAULT NULL,
+  `tgl_naik` date DEFAULT '0000-00-00',
+  `tgl_turun` date DEFAULT '0000-00-00',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
--- Dumping data for table dokumen_kapal.riwayat_pelayaran: ~0 rows (approximately)
+-- Dumping data for table dokumen_kapal.riwayat_pelayaran: ~1 rows (approximately)
 /*!40000 ALTER TABLE `riwayat_pelayaran` DISABLE KEYS */;
 INSERT INTO `riwayat_pelayaran` (`id`, `pemohon_id`, `nama_kapal`, `tenaga_mesin`, `jabatan`, `tgl_naik`, `tgl_turun`) VALUES
 	(1, 1, 'XXXX', '1111', 'DDDDD', '2019-12-16', '2019-12-17');
@@ -260,16 +242,16 @@ INSERT INTO `riwayat_pelayaran` (`id`, `pemohon_id`, `nama_kapal`, `tenaga_mesin
 DROP TABLE IF EXISTS `sertifikat_keselamatan`;
 CREATE TABLE IF NOT EXISTS `sertifikat_keselamatan` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `kapal_id` int(11) NOT NULL,
+  `kapal_id` int(11) DEFAULT NULL,
   `biaya` double DEFAULT NULL,
-  `bukti_bayar` varchar(50) NOT NULL,
-  `tgl_upload_bukti_bayar` date NOT NULL,
+  `bukti_bayar` varchar(50) DEFAULT NULL,
+  `tgl_upload_bukti_bayar` date DEFAULT NULL,
   `tgl_mohon` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `tgl_update` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `status` enum('pending','baru','diterima','ditolak','diambil') NOT NULL DEFAULT 'pending',
-  `alasan_status` varchar(50) NOT NULL,
-  `rating_kepuasan` tinyint(4) NOT NULL,
-  `komentar` text NOT NULL,
+  `status` enum('pending','baru','diterima','ditolak','diambil') DEFAULT 'pending',
+  `alasan_status` varchar(50) DEFAULT NULL,
+  `rating_kepuasan` tinyint(4) DEFAULT NULL,
+  `komentar` text,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
@@ -284,13 +266,13 @@ INSERT INTO `sertifikat_keselamatan` (`id`, `kapal_id`, `biaya`, `bukti_bayar`, 
 DROP TABLE IF EXISTS `sertifikat_pelaut`;
 CREATE TABLE IF NOT EXISTS `sertifikat_pelaut` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `pemohon_id` int(11) NOT NULL DEFAULT '0',
-  `nama_sertifikat` varchar(50) NOT NULL DEFAULT '0',
-  `nomor` varchar(50) NOT NULL DEFAULT '0',
-  `penerbit` varchar(50) NOT NULL DEFAULT '0',
-  `tgl_terbit` date NOT NULL DEFAULT '0000-00-00',
-  `tgl_berakhir` date NOT NULL DEFAULT '0000-00-00',
-  `file` varchar(50) NOT NULL,
+  `pemohon_id` int(11) DEFAULT NULL,
+  `nama_sertifikat` varchar(50) DEFAULT NULL,
+  `nomor` varchar(50) DEFAULT NULL,
+  `penerbit` varchar(50) DEFAULT NULL,
+  `tgl_terbit` date DEFAULT '0000-00-00',
+  `tgl_berakhir` date DEFAULT '0000-00-00',
+  `file` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
@@ -321,7 +303,7 @@ CREATE TABLE IF NOT EXISTS `settings` (
 -- Dumping structure for function dokumen_kapal.slugify
 DROP FUNCTION IF EXISTS `slugify`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` FUNCTION `slugify`(
+CREATE FUNCTION `slugify`(
 	`dirty_string` varchar(200)
 ) RETURNS varchar(200) CHARSET latin1
     DETERMINISTIC
@@ -384,11 +366,11 @@ DELIMITER ;
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE IF NOT EXISTS `user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `email` varchar(50) NOT NULL,
-  `password` varchar(50) NOT NULL,
-  `nama_lengkap` varchar(50) NOT NULL DEFAULT '0',
-  `level` enum('admin','petugas','kepala') NOT NULL,
-  `reset_token` varchar(50) NOT NULL,
+  `email` varchar(50) DEFAULT NULL,
+  `password` varchar(50) DEFAULT NULL,
+  `nama_lengkap` varchar(50) DEFAULT NULL,
+  `level` enum('admin','petugas','kepala') DEFAULT NULL,
+  `reset_token` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
@@ -406,8 +388,8 @@ INSERT INTO `user` (`id`, `email`, `password`, `nama_lengkap`, `level`, `reset_t
 DROP TABLE IF EXISTS `web_content`;
 CREATE TABLE IF NOT EXISTS `web_content` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `judul` varchar(50) NOT NULL,
-  `content` text NOT NULL,
+  `judul` varchar(50) DEFAULT NULL,
+  `content` text,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -497,6 +479,4 @@ CREATE TRIGGER `masa_layar_before_update` BEFORE UPDATE ON `masa_layar` FOR EACH
 END//
 DELIMITER ;
 SET SQL_MODE=@OLDTMP_SQL_MODE;
-/*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
-/*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+

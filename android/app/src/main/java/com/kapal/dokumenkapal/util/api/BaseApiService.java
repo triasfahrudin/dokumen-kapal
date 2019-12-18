@@ -1,5 +1,7 @@
 package com.kapal.dokumenkapal.util.api;
 
+import com.kapal.dokumenkapal.ui.kapal.KapalModelList;
+
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import okhttp3.MultipartBody;
@@ -12,6 +14,7 @@ import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface BaseApiService {
 
@@ -32,6 +35,8 @@ public interface BaseApiService {
     );
 
 
+    @GET("get_kapal")
+    Call<KapalModelList> getKapal(@Query("pemohon_id") int pemohon_id);
 
     @GET("get_profile/{id}")
     Call<ResponseBody> getProfileRequest(@Path("id") int id);

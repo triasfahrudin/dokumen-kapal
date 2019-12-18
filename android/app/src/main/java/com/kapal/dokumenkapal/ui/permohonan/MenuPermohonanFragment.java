@@ -24,11 +24,11 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import es.dmoral.toasty.Toasty;
 
-public class PermohonanFragment extends Fragment {
+public class MenuPermohonanFragment extends Fragment {
 
     private final static String TAG_FRAGMENT = "TAG_PERMOHONAN_FRAGMENT";
 
-    private PermohonanViewModel permohonanViewModel;
+    private MenuPermohonanViewModel menuPermohonanViewModel;
 
     @BindView(R.id.cvMasaLayar)
     CardView cvMasaLayar;
@@ -53,15 +53,15 @@ public class PermohonanFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        permohonanViewModel =
-                ViewModelProviders.of(this).get(PermohonanViewModel.class);
+        menuPermohonanViewModel =
+                ViewModelProviders.of(this).get(MenuPermohonanViewModel.class);
         View root = inflater.inflate(R.layout.fragment_menu_permohonan, container, false);
 
         ButterKnife.bind(this, root);
 
 
 //        final TextView textView = root.findViewById(R.id.text_permohonan);
-        permohonanViewModel.getText().observe(this, new Observer<String>() {
+        menuPermohonanViewModel.getText().observe(this, new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
 

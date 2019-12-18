@@ -13,7 +13,7 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
-        debug{
+        debug {
             ext.enableCrashlytics = false
             ext.alwaysUpdateBuildId = false
         }
@@ -54,6 +54,9 @@ dependencies {
 
     implementation('com.karumi:dexter:5.0.0') { exclude group: 'com.android.support' }
 
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+
+
     implementation 'androidx.cardview:cardview:1.0.0'
 
     implementation 'com.github.GrenderG:Toasty:1.4.2'
@@ -63,7 +66,7 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-   // implementation 'org.jetbrains:annotations-java5:15.0'
+    // implementation 'org.jetbrains:annotations-java5:15.0'
 
 
 }

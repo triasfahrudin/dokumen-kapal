@@ -14,7 +14,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.kapal.dokumenkapal.R;
-import com.kapal.dokumenkapal.ui.permohonan.PermohonanFragment;
+import com.kapal.dokumenkapal.ui.permohonan.MenuPermohonanFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -87,7 +87,7 @@ public class MasaLayarFragment extends Fragment {
 
                 //Toasty.info(mContext, "cvBongkarMuat Clicked", Toast.LENGTH_LONG, true).show();
 
-                PermohonanFragment mf = new PermohonanFragment();
+                MenuPermohonanFragment mf = new MenuPermohonanFragment();
                 FragmentTransaction ft = getActivity().getSupportFragmentManager()
                         .beginTransaction()
                         .add(R.id.nav_host_fragment, mf,TAG_FRAGMENT)

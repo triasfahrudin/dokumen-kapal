@@ -41,6 +41,24 @@ class Restapi extends CI_Controller
         );
     }
 
+    public function get_kapal()
+    {
+
+        header("content-type: application/json");
+
+        $pemohon_id = $this->input->get('pemohon_id');
+
+        $this->db->select('nama_kapal AS nama,jenis_kapal AS jenis,imo_number');
+        $qry = $this->db->get_where('kapal', array('pemohon_id' => $pemohon_id));
+
+        echo json_encode(
+            array(
+                'kapalList' => $qry->result(),
+            )
+        );
+
+    }
+
     public function get_profile($id)
     {
         //echo json_encode(array("status" => "false", "message" => "Failed!"));
@@ -131,18 +149,16 @@ class Restapi extends CI_Controller
                     "INSERT INTO buku_pelaut (pemohon_id,file)
                     VALUES($pemohon_id,'$file_name')
                     ON DUPLICATE KEY UPDATE file = '$file_name'"
-                );                
+                );
             }
 
             // $this->db->where('id', $pemohon_id);
             // $this->db->update('pelaut', array('foto' => $file_name));
 
-            
-
             echo json_encode(
                 array(
                     'message' => $this->db->error()['code'],
-                    'status'  => "OK:$jenis"
+                    'status'  => "OK:$jenis",
 
                 )
             );
@@ -169,17 +185,16 @@ class Restapi extends CI_Controller
                 // $user = $db->StoreUserInfo($name, $email, $password, $gender, $age);
                 $this->db->query("SET sql_mode = '' ");
                 $this->db->insert('pemohon', array(
-                        'jenis'     => $jenis,
-                        'nama'      => $nama, 
-                        'email'     => $email, 
-                        'password'  => md5($password)
-                    )
+                    'jenis'    => $jenis,
+                    'nama'     => $nama,
+                    'email'    => $email,
+                    'password' => md5($password),
+                )
                 );
 
-                $response["error"]          = false;                    
+                $response["error"] = false;
                 echo json_encode($response);
 
-                
             }
         }
     }

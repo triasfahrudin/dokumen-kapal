@@ -4,11 +4,11 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class PermohonanViewModel extends ViewModel {
+public class MenuPermohonanViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public PermohonanViewModel() {
+    public MenuPermohonanViewModel() {
         mText = new MutableLiveData<>();
         mText.setValue("This is permohonan fragment");
     }
