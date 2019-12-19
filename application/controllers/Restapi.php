@@ -61,8 +61,6 @@ class Restapi extends CI_Controller
 
     public function get_profile($id)
     {
-        //echo json_encode(array("status" => "false", "message" => "Failed!"));
-
         $qry                         = $this->db->get_where('pemohon', array('id' => $id));
         $user                        = $qry->row_array();
         $response["error"]           = false;
@@ -73,7 +71,19 @@ class Restapi extends CI_Controller
         $response["user"]["no_telp"] = $user["no_telp"];
 
         echo json_encode($response);
+    }
 
+    public function get_bukupelaut($id)
+    {
+        $qry                                     = $this->db->get_where('buku_pelaut', array('pemohon_id' => $id));
+        $buku_pelaut                             = $qry->row_array();
+        $response["error"]                       = false;
+        $response["buku_pelaut"]["id"]           = $buku_pelaut["id"];
+        $response["buku_pelaut"]["nomor_buku"]   = $buku_pelaut["nomor_buku"];
+        $response["buku_pelaut"]["kode_pelaut"]  = $buku_pelaut["kode_pelaut"];
+        $response["buku_pelaut"]["nomor_daftar"] = $buku_pelaut["nomor_daftar"];
+
+        echo json_encode($response);
     }
 
     public function notification()
@@ -162,6 +172,34 @@ class Restapi extends CI_Controller
 
                 )
             );
+        }
+    }
+
+    public function update_bukupelaut()
+    {
+        header('content-type: application/json');
+
+        if (isset($_POST['pemohon_id'])
+            && isset($_POST['nomor_buku'])
+            && isset($_POST['kode_pelaut'])
+            && isset($_POST['nomor_daftar'])) {
+
+            $pemohon_id   = $this->input->post('pemohon_id');
+            $nomor_buku   = $this->input->post('nomor_buku');
+            $kode_pelaut  = $this->input->post('kode_pelaut');
+            $nomor_daftar = $this->input->post('nomor_daftar');
+
+            $this->db->query(
+                "INSERT INTO buku_pelaut (pemohon_id,nomor_buku,kode_pelaut,nomor_daftar)
+                 VALUES($pemohon_id,'$nomor_buku','$kode_pelaut','$nomor_daftar')
+                 ON DUPLICATE KEY UPDATE nomor_buku = '$nomor_buku',
+                                         kode_pelaut = '$kode_pelaut',
+                                         nomor_daftar = '$nomor_daftar'"
+            );
+
+            $response["error"] = false;
+            echo json_encode($response);
+
         }
     }
 

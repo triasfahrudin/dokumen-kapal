@@ -13,6 +13,9 @@ import com.kapal.dokumenkapal.R;
 
 public class HomeFragment extends Fragment {
 
+    private final static String TAG_FRAGMENT = "TAG_HOME_FRAGMENT";
+
+
     private HomeViewModel homeViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,

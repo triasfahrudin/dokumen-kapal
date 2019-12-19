@@ -3,13 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg">
+    android:background="@drawable/bg_white">
 
     <LinearLayout
         android:id="@+id/input_group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp"
         android:layout_marginBottom="50dp"
@@ -17,63 +16,116 @@
         android:orientation="vertical"
         android:paddingTop="10dp">
 
-        <EditText
-            android:id="@+id/pbp_etNomorBuku"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/pbp_etNomorBukuWrapper"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/edit_text_top"
+            android:layout_height="match_parent"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
             android:hint="Nomor Buku"
-            android:inputType="text"
-            android:padding="15dp" />
 
-        <EditText
-            android:id="@+id/pbp_etKodePelaut"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <EditText
+                android:id="@+id/pbp_etNomorBuku"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/edit_text_top"
+                android:inputType="text"
+                android:padding="15dp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/pbp_etKodePelautWrapper"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/edit_text_top"
+            android:layout_height="match_parent"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
             android:hint="Kode Pelaut"
-            android:inputType="text"
-            android:padding="15dp" />
 
-        <EditText
-            android:id="@+id/pbp_etNomorDaftar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf ="@+id/pbp_etNomorBukuWrapper">
+
+            <EditText
+                android:id="@+id/pbp_etKodePelaut"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/edit_text_top"
+
+                android:importantForAutofill="no"
+                android:inputType="text"
+                android:padding="15dp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/pbp_etNomorDaftarWrapper"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/edit_text_top"
+            android:layout_height="match_parent"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
             android:hint="Nomor Pendaftaran"
-            android:inputType="text"
-            android:padding="15dp" />
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf ="@+id/pbp_etKodePelautWrapper">
+
+            <EditText
+                android:id="@+id/pbp_etNomorDaftar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/edit_text_top"
+                android:inputType="text"
+                android:padding="15dp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
 
 
         <LinearLayout
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:orientation="horizontal">
 
+            <Button
+                android:id="@+id/pbp_btnUpload"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+
+                android:gravity="center|clip_vertical|center_horizontal|center_vertical"
+                android:text="Cari File"
+                android:textAlignment="center"
+                android:textColor="#FE5295"
+                android:textStyle="bold"></Button>
+
             <EditText
                 android:id="@+id/pbp_etUpload"
-                android:layout_width="fill_parent"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/edit_text_middle"
                 android:hint="File Buku Pelaut"
+                android:importantForAutofill="no"
                 android:inputType="text"
                 android:padding="15dp"></EditText>
 
-            <Button
-                android:id="@+id/pbp_btnUpload"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
 
-                android:gravity="center_horizontal|center_vertical"
-                android:text="Cari"
-                android:textAlignment="center"
-                android:textColor="#FE5295"
-                android:textStyle="bold"></Button>
         </LinearLayout>
 
         <Button
@@ -81,7 +133,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="KIRIM" ></Button>
+            android:background="#304FFE"
+            android:text="KIRIM"
+            android:textColor="#F0E8E8"></Button>
     </LinearLayout>
 
 </ScrollView>

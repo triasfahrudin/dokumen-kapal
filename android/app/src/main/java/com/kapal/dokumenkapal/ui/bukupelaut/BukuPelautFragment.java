@@ -1,24 +1,31 @@
-package com.kapal.dokumenkapal.ui.profile;
+package com.kapal.dokumenkapal.ui.bukupelaut;
 
 import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.kapal.dokumenkapal.LoginActivity;
 import com.kapal.dokumenkapal.R;
+import com.kapal.dokumenkapal.ui.profile.ProfileViewModel;
 import com.kapal.dokumenkapal.util.SharedPrefManager;
 import com.kapal.dokumenkapal.util.api.BaseApiService;
 import com.kapal.dokumenkapal.util.api.UtilsApi;
@@ -51,24 +58,24 @@ import retrofit2.Response;
 
 import static android.app.Activity.RESULT_OK;
 
-public class ProfileFragment extends Fragment {
+public class BukuPelautFragment extends Fragment {
 
-    private ProfileViewModel profileViewModel;
+    private static final String TAG = BukuPelautFragment.class.getSimpleName();
 
-    @BindView(R.id.profile_etNamaLengkap)
-    EditText etNamaLengkap;
+    @BindView(R.id.pbp_etNomorBuku)
+    EditText etNomorBuku;
 
-    @BindView(R.id.profile_etEmail)
-    EditText etEmail;
+    @BindView(R.id.pbp_etKodePelaut)
+    EditText etKodePelaut;
 
-    @BindView(R.id.profile_etNoTelp)
-    EditText etNoTelp;
+    @BindView(R.id.pbp_etNomorDaftar)
+    EditText etNomorDaftar;
 
-    @BindView(R.id.profile_etAlamat)
-    EditText etAlamat;
+    @BindView(R.id.pbp_etUpload)
+    EditText etUpload;
 
-    @BindView(R.id.profile_btnLoadFile)
-    Button btnLoadFile;
+    @BindView(R.id.pbp_btnUpload)
+    Button btnUpload;
 
     ProgressDialog loading;
 
@@ -77,6 +84,7 @@ public class ProfileFragment extends Fragment {
     SharedPrefManager sharedPrefManager;
 
     private static final int BUFFER_SIZE = 1024 * 2;
+
 
     @Override
     public void onAttach(Context context) {
@@ -122,19 +130,19 @@ public class ProfileFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        profileViewModel =
-                ViewModelProviders.of(this).get(ProfileViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_form_profile, container, false);
+        View root = inflater.inflate(R.layout.fragment_form_bukupelaut, container, false);
 
         requestMultiplePermissions();
 
         ButterKnife.bind(this, root);
+
         mBaseApiService = UtilsApi.getAPIService();
         sharedPrefManager = new SharedPrefManager(mContext);
 
 
         loading = ProgressDialog.show(mContext, null, "Mengambil data ...", true, false);
-        mBaseApiService.getProfileRequest(sharedPrefManager.getSPID())
+
+        mBaseApiService.getBukuPelautRequest(sharedPrefManager.getSPID())
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -144,10 +152,9 @@ public class ProfileFragment extends Fragment {
                                 JSONObject jsonObject = new JSONObject(response.body().string());
                                 if (jsonObject.getString("error").equals("false")) {
 
-                                    etNamaLengkap.setText(jsonObject.getJSONObject("user").getString("nama"));
-                                    etAlamat.setText(jsonObject.getJSONObject("user").getString("alamat"));
-                                    etEmail.setText(jsonObject.getJSONObject("user").getString("email"));
-                                    etNoTelp.setText(jsonObject.getJSONObject("user").getString("no_telp"));
+                                    etKodePelaut.setText(jsonObject.getJSONObject("buku_pelaut").getString("kode_pelaut"));
+                                    etNomorBuku.setText(jsonObject.getJSONObject("buku_pelaut").getString("nomor_buku"));
+                                    etNomorDaftar.setText(jsonObject.getJSONObject("buku_pelaut").getString("nomor_daftar"));
 
                                 } else {
                                     String error_message = jsonObject.getString("error_msg");
@@ -170,78 +177,93 @@ public class ProfileFragment extends Fragment {
                     }
                 });
 
-
-//        final TextView textView = root.findViewById(R.id.text_gallery);
-        profileViewModel.getText().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-
-//                textView.setText(s);
-            }
-        });
         return root;
     }
 
-    @OnClick(R.id.profile_btnLoadFile)
+    @OnClick(R.id.pbp_btnUpload)
     public void btnLoadFileClicked() {
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_GET_CONTENT);
         intent.setType("application/pdf");
         startActivityForResult(intent, 1);
     }
-    /*
-    public static int copystream(InputStream input, OutputStream output) throws Exception, IOException {
-        byte[] buffer = new byte[BUFFER_SIZE];
 
-        BufferedInputStream in = new BufferedInputStream(input, BUFFER_SIZE);
-        BufferedOutputStream out = new BufferedOutputStream(output, BUFFER_SIZE);
-        int count = 0, n = 0;
-        try {
-            while ((n = in.read(buffer, 0, BUFFER_SIZE)) != -1) {
-                out.write(buffer, 0, n);
-                count += n;
-            }
-            out.flush();
-        } finally {
-            try {
-                out.close();
-            } catch (IOException e) {
-                Log.e(e.getMessage(), String.valueOf(e));
-            }
-            try {
-                in.close();
-            } catch (IOException e) {
-                Log.e(e.getMessage(), String.valueOf(e));
-            }
-        }
-        return count;
-    }
-
-    public static void copy(Context context, Uri srcUri, File dstFile) {
-        try {
-            InputStream inputStream = context.getContentResolver().openInputStream(srcUri);
-            if (inputStream == null) return;
-            OutputStream outputStream = new FileOutputStream(dstFile);
-            copystream(inputStream, outputStream);
-            inputStream.close();
-            outputStream.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
-
-            uploadFile(data.getData().getPath());
+            String filepath = data.getData().getPath();
+            etUpload.setText(filepath);
+            uploadFile(filepath);
         }
 
         super.onActivityResult(requestCode, resultCode, data);
 
     }
+
+    @OnClick(R.id.pbp_btnSubmit)
+    public void btnSubmitClicked() {
+
+        /*
+
+         @FormUrlEncoded
+    @POST("update_bukupelaut")
+    Call<ResponseBody> updateBukuPelautRequest(
+            @Field("pemohon_id") int pemohon_id,
+            @Field("nomor_buku") String nomor_buku,
+            @Field("kode_pelaut") String kode_pelaut,
+            @Field("nomor_daftar") String nomor_daftar
+    );
+
+        * */
+
+        loading = ProgressDialog.show(mContext, null, "Update Buku Pelaut, Mohon tunggu...", true, false);
+
+//        if(!etUpload.getText().toString().matches("")){
+//            uploadFile(etUpload.getText().toString());
+//        }
+
+        mBaseApiService.updateBukuPelautRequest(
+                sharedPrefManager.getSPID(),
+                etNomorBuku.getText().toString(),
+                etKodePelaut.getText().toString(),
+                etNomorDaftar.getText().toString()
+        ).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    loading.dismiss();
+                    try {
+                        JSONObject jsonObject = new JSONObject(response.body().string());
+                        if (jsonObject.getString("error").equals("false")) {
+
+                            Toast.makeText(mContext, "Buku Pelaut berhasil diupdate", Toast.LENGTH_SHORT).show();
+
+                        } else {
+                            String error_message = jsonObject.getString("error_msg");
+                            Toast.makeText(mContext, error_message, Toast.LENGTH_SHORT).show();
+                        }
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                } else {
+                    loading.dismiss();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.e("debug", "onFailure: ERROR > " + t.toString());
+                loading.dismiss();
+            }
+        });
+
+    }
+
 
     private void uploadFile(String path) {
         String pdfname = String.valueOf(Calendar.getInstance().getTimeInMillis());
@@ -251,12 +273,15 @@ public class ProfileFragment extends Fragment {
         MultipartBody.Part fileToUpload = MultipartBody.Part.createFormData("filename", file.getName(), requestBody);
         RequestBody filename = RequestBody.create(MediaType.parse("text/plain"), pdfname);
 
-        loading = ProgressDialog.show(mContext, null, "Upload file, Mohon tunggu ...", true, false);
+        loading = ProgressDialog.show(mContext, null, "Proses upload file, Mohon tunggu ...", true, false);
 
-        mBaseApiService.uploadFile("buku_pelaut",sharedPrefManager.getSPID(),fileToUpload,filename)
+        mBaseApiService.uploadFile("buku_pelaut", sharedPrefManager.getSPID(), fileToUpload, filename)
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+
+                        Log.e("", "Response returned by website is : " + response.code());
+
                         Toast.makeText(mContext, "Upload file berhasil", Toast.LENGTH_SHORT).show();
                         loading.dismiss();
                     }
@@ -264,10 +289,10 @@ public class ProfileFragment extends Fragment {
                     @Override
                     public void onFailure(Call<ResponseBody> call, Throwable t) {
                         loading.dismiss();
+                        Log.e("", "Response returned by website is : " + t.getMessage());
                     }
                 });
-
-
-
     }
+
+
 }

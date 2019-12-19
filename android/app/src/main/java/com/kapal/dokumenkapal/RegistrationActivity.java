@@ -73,15 +73,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
     @OnClick(R.id.btnSignUp)
     public void requestSignup(){
-        /*
-        *
-        * @FormUrlEncoded
-    @POST("register")
-    Call<ResponseBody> registerRequest(@Field("jenis") String jenis,
-                                       @Field("nama") String nama,
-                                       @Field("email") String email,
-                                       @Field("password") String password
-        * */
+
         String jenisAkun;
         if(cbPerusahaan.isChecked()){
             jenisAkun = "perusahaan";

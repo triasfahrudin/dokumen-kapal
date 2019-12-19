@@ -28,10 +28,21 @@ public interface BaseApiService {
     // Fungsi ini untuk memanggil API http://{PATH}/restapi/register
     @FormUrlEncoded
     @POST("register")
-    Call<ResponseBody> registerRequest(@Field("jenis") String jenis,
-                                       @Field("nama") String nama,
-                                       @Field("email") String email,
-                                       @Field("password") String password
+    Call<ResponseBody> registerRequest(
+            @Field("jenis") String jenis,
+            @Field("nama") String nama,
+            @Field("email") String email,
+            @Field("password") String password
+    );
+
+
+    @FormUrlEncoded
+    @POST("update_bukupelaut")
+    Call<ResponseBody> updateBukuPelautRequest(
+            @Field("pemohon_id") int pemohon_id,
+            @Field("nomor_buku") String nomor_buku,
+            @Field("kode_pelaut") String kode_pelaut,
+            @Field("nomor_daftar") String nomor_daftar
     );
 
 
@@ -54,12 +65,13 @@ public interface BaseApiService {
 
     @Multipart
     @POST("uploadfile")
-    Call<String> uploadFile(
+    Call<ResponseBody> uploadFile(
             @Part("jenis") String jenis,
             @Part("id") int id,
             @Part MultipartBody.Part file,
             @Part("filename") RequestBody name
     );
 
-
+    @GET("get_bukupelaut/{pemohon_id}")
+    Call<ResponseBody> getBukuPelautRequest(@Path("pemohon_id") int pemohon_id);
 }

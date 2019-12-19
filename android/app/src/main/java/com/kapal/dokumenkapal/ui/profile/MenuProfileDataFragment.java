@@ -1,4 +1,4 @@
-package com.kapal.dokumenkapal.ui.masalayar;
+package com.kapal.dokumenkapal.ui.profile;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -8,29 +8,34 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.kapal.dokumenkapal.R;
-import com.kapal.dokumenkapal.ui.permohonan.MenuPermohonanFragment;
+import com.kapal.dokumenkapal.ui.bukupelaut.BukuPelautFragment;
+import com.kapal.dokumenkapal.ui.home.HomeFragment;
+import com.kapal.dokumenkapal.ui.kapal.KapalFragment;
+import com.kapal.dokumenkapal.ui.masalayar.MasaLayarFragment;
+import com.kapal.dokumenkapal.ui.permohonan.MenuPermohonanViewModel;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MasaLayarFragment extends Fragment {
+public class MenuProfileDataFragment extends Fragment {
 
-    private final static String TAG_FRAGMENT = "TAG_MASALAYAR_FRAGMENT";
+    private final static String TAG = MenuProfileDataFragment.class.getSimpleName();
 
-    private MasaLayarViewModel masalayarViewModel;
+    @BindView(R.id.profile_cvKapal)
+    CardView cvKapal;
 
-    @BindView(R.id.cvRiwayatMasaLayar)
-    CardView cvRiwayatMasaLayar;
+    @BindView(R.id.profile_cvBukuPelaut)
+    CardView cvBukuPelaut;
 
-    @BindView(R.id.cvTambahMasaLayar)
-    CardView cvTambahMasaLayar;
 
     private Context mContext;
 
@@ -43,39 +48,37 @@ public class MasaLayarFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        masalayarViewModel =
-                ViewModelProviders.of(this).get(MasaLayarViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_listview_masalayar, container, false);
+
+        View root = inflater.inflate(R.layout.fragment_menu_profile_data, container, false);
 
         ButterKnife.bind(this, root);
 
-
-
-//        final TextView textView = root.findViewById(R.id.text_permohonan);
-//        masalayarViewModel.getText().observe(this, new Observer<String>() {
-//            @Override
-//            public void onChanged(@Nullable String s) {
-//
-//            textView.setText(s);
-//            }
-//        });
         return root;
     }
 
+    @OnClick(R.id.profile_cvKapal)
+    public void cvKapalClicked() {
 
-    @OnClick(R.id.cvTambahMasaLayar)
-    public void cvMasaLayarClicked() {
-
-        MasaLayarFormFragment mf = new MasaLayarFormFragment();
+        KapalFragment fragment = new KapalFragment();
         FragmentTransaction ft = getActivity().getSupportFragmentManager()
                 .beginTransaction()
-                .add(R.id.nav_host_fragment, mf,TAG_FRAGMENT)
+                .replace(R.id.nav_host_fragment, fragment,"TAG_KAPAL_FRAGMENT")
+                .addToBackStack(null);
+        ft.commit();
+    }
+
+    @OnClick(R.id.profile_cvBukuPelaut)
+    public void cvBukupelautClicked() {
+
+        BukuPelautFragment fragment = new BukuPelautFragment();
+        FragmentTransaction ft = getActivity().getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.nav_host_fragment, fragment,BukuPelautFragment.class.getSimpleName())
                 .addToBackStack(null);
         ft.commit();
     }
 
 
-    @Override
     //Pressed return button
     public void onResume() {
         super.onResume();
@@ -85,10 +88,10 @@ public class MasaLayarFragment extends Fragment {
 
             if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK){
 
-                MenuPermohonanFragment mf = new MenuPermohonanFragment();
+                HomeFragment mf = new HomeFragment();
                 FragmentTransaction ft = getActivity().getSupportFragmentManager()
                         .beginTransaction()
-                        .add(R.id.nav_host_fragment, mf,TAG_FRAGMENT)
+                        .add(R.id.nav_host_fragment, mf,"TAG_HOME_FRAGMENT")
                         .addToBackStack(null);
                 ft.commit();
 
@@ -97,6 +100,7 @@ public class MasaLayarFragment extends Fragment {
             return false;
         });
     }
+
 
 
 }
