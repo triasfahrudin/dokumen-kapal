@@ -43,7 +43,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-
                 MasaLayarFragment masalayarFragment = (MasaLayarFragment) getSupportFragmentManager().findFragmentByTag("TAG_MASALAYAR_FRAGMENT");
 
                 if (masalayarFragment != null && masalayarFragment.isVisible()) {

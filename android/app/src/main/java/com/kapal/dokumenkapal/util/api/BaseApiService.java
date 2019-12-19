@@ -1,6 +1,7 @@
 package com.kapal.dokumenkapal.util.api;
 
 import com.kapal.dokumenkapal.ui.kapal.KapalModelList;
+import com.kapal.dokumenkapal.ui.riwayatpelayaran.RiwayatPelayaranModelList;
 
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
@@ -45,9 +46,15 @@ public interface BaseApiService {
             @Field("nomor_daftar") String nomor_daftar
     );
 
+    @GET("get_bukupelaut/{pemohon_id}")
+    Call<ResponseBody> getBukuPelautRequest(@Path("pemohon_id") int pemohon_id);
+
 
     @GET("get_kapal")
     Call<KapalModelList> getKapal(@Query("pemohon_id") int pemohon_id);
+
+    @GET("get_riwayatpelayaran")
+    Call<RiwayatPelayaranModelList> getRiwayatPelayaran(@Query("pemohon_id") int pemohon_id);
 
     @GET("get_profile/{id}")
     Call<ResponseBody> getProfileRequest(@Path("id") int id);
@@ -72,6 +79,5 @@ public interface BaseApiService {
             @Part("filename") RequestBody name
     );
 
-    @GET("get_bukupelaut/{pemohon_id}")
-    Call<ResponseBody> getBukuPelautRequest(@Path("pemohon_id") int pemohon_id);
+
 }

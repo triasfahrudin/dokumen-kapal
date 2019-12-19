@@ -59,6 +59,25 @@ class Restapi extends CI_Controller
 
     }
 
+
+    public function get_riwayatpelayaran()
+    {
+
+        header("content-type: application/json");
+
+        $pemohon_id = $this->input->get('pemohon_id');
+
+        $this->db->select("CONCAT('Kapal :',nama_kapal) AS namaKapal,CONCAT('Jabatan :',jabatan) AS jabatan,CONCAT('Dari ',' : ',DATE_FORMAT(tgl_naik, '%d/%m/%Y'),' s/d ',DATE_FORMAT(tgl_turun, '%d/%m/%Y')) AS tanggal");
+        $qry = $this->db->get_where('riwayat_pelayaran', array('pemohon_id' => $pemohon_id));
+
+        echo json_encode(
+            array(
+                'riwayatPelayaranList' => $qry->result(),
+            )
+        );
+
+    }
+
     public function get_profile($id)
     {
         $qry                         = $this->db->get_where('pemohon', array('id' => $id));

@@ -23,7 +23,7 @@
             <androidx.cardview.widget.CardView
                 android:foreground="?android:attr/selectableItemBackground"
                 android:clickable="true"
-                android:id="@+id/cvMasaLayar"
+                android:id="@+id/profile_cvProfile"
                 android:layout_width="160dp"
                 android:layout_height="190dp"
                 android:layout_margin="10dp">
@@ -159,7 +159,7 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
             <androidx.cardview.widget.CardView
-                android:id="@+id/cvBongkarMuatf"
+                android:id="@+id/profile_cvRiwayatPelayaran"
                 android:layout_width="160dp"
                 android:layout_height="190dp"
                 android:layout_margin="10dp"
@@ -212,12 +212,13 @@
             android:layout_height="wrap_content">
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/cvSertifikatPelaut"
+                android:id="@+id/profile_cvSertifikatPelaut"
                 android:layout_width="160dp"
                 android:layout_height="190dp"
                 android:layout_margin="10dp"
                 android:clickable="true"
-                android:foreground="?android:attr/selectableItemBackground">
+                android:foreground="?android:attr/selectableItemBackground"
+                android:focusable="true">
 
                 <LinearLayout
                     android:layout_width="match_parent"

@@ -8,19 +8,17 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 
 import com.kapal.dokumenkapal.R;
 import com.kapal.dokumenkapal.ui.bukupelaut.BukuPelautFragment;
 import com.kapal.dokumenkapal.ui.home.HomeFragment;
 import com.kapal.dokumenkapal.ui.kapal.KapalFragment;
-import com.kapal.dokumenkapal.ui.masalayar.MasaLayarFragment;
-import com.kapal.dokumenkapal.ui.permohonan.MenuPermohonanViewModel;
+import com.kapal.dokumenkapal.ui.riwayatpelayaran.RiwayatPelayaranFragment;
+
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -32,9 +30,14 @@ public class MenuProfileDataFragment extends Fragment {
 
     @BindView(R.id.profile_cvKapal)
     CardView cvKapal;
-
     @BindView(R.id.profile_cvBukuPelaut)
     CardView cvBukuPelaut;
+    @BindView(R.id.profile_cvProfile)
+    CardView cvProfile;
+    @BindView(R.id.profile_cvRiwayatPelayaran)
+    CardView cvRiwayatPelayaran;
+    @BindView(R.id.profile_cvSertifikatPelaut)
+    CardView cvSertifikatPelaut;
 
 
     private Context mContext;
@@ -50,7 +53,6 @@ public class MenuProfileDataFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_menu_profile_data, container, false);
-
         ButterKnife.bind(this, root);
 
         return root;
@@ -62,7 +64,7 @@ public class MenuProfileDataFragment extends Fragment {
         KapalFragment fragment = new KapalFragment();
         FragmentTransaction ft = getActivity().getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.nav_host_fragment, fragment,"TAG_KAPAL_FRAGMENT")
+                .replace(R.id.nav_host_fragment, fragment, "TAG_KAPAL_FRAGMENT")
                 .addToBackStack(null);
         ft.commit();
     }
@@ -73,7 +75,7 @@ public class MenuProfileDataFragment extends Fragment {
         BukuPelautFragment fragment = new BukuPelautFragment();
         FragmentTransaction ft = getActivity().getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.nav_host_fragment, fragment,BukuPelautFragment.class.getSimpleName())
+                .replace(R.id.nav_host_fragment, fragment, BukuPelautFragment.class.getSimpleName())
                 .addToBackStack(null);
         ft.commit();
     }
@@ -86,12 +88,12 @@ public class MenuProfileDataFragment extends Fragment {
         getView().requestFocus();
         getView().setOnKeyListener((v, keyCode, event) -> {
 
-            if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK){
+            if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK) {
 
                 HomeFragment mf = new HomeFragment();
                 FragmentTransaction ft = getActivity().getSupportFragmentManager()
                         .beginTransaction()
-                        .add(R.id.nav_host_fragment, mf,"TAG_HOME_FRAGMENT")
+                        .add(R.id.nav_host_fragment, mf, "TAG_HOME_FRAGMENT")
                         .addToBackStack(null);
                 ft.commit();
 
@@ -102,5 +104,30 @@ public class MenuProfileDataFragment extends Fragment {
     }
 
 
+    @OnClick(R.id.profile_cvProfile)
+    public void onCvProfileClicked() {
 
+        ProfileFragment fragment = new ProfileFragment();
+        FragmentTransaction ft = Objects.requireNonNull(getActivity()).getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.nav_host_fragment, fragment, ProfileFragment.class.getSimpleName())
+                .addToBackStack(null);
+        ft.commit();
+    }
+
+    @OnClick(R.id.profile_cvRiwayatPelayaran)
+    public void onCvRiwayatPelayaranClicked() {
+
+        RiwayatPelayaranFragment fragment = new RiwayatPelayaranFragment();
+        FragmentTransaction ft = Objects.requireNonNull(getActivity()).getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.nav_host_fragment, fragment, RiwayatPelayaranFragment.class.getSimpleName())
+                .addToBackStack(null);
+        ft.commit();
+
+    }
+
+    @OnClick(R.id.profile_cvSertifikatPelaut)
+    public void onCvSertifikatPelautClicked() {
+    }
 }

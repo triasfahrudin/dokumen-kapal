@@ -81,16 +81,16 @@ public class LoginActivity extends AppCompatActivity {
 
     @OnClick(R.id.btnSignIn)
     public void requestLogin() {
-        loading = ProgressDialog.show(mContext,null,"Mohon tunggu...",true,false);
-        mBaseApiService.loginRequest(etEmail.getText().toString(),etPassword.getText().toString())
+        loading = ProgressDialog.show(mContext, null, "Mohon tunggu...", true, false);
+        mBaseApiService.loginRequest(etEmail.getText().toString(), etPassword.getText().toString())
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                        if(response.isSuccessful()){
+                        if (response.isSuccessful()) {
                             loading.dismiss();
                             try {
                                 JSONObject jsonObject = new JSONObject(response.body().string());
-                                if(jsonObject.getString("error").equals("false")){
+                                if (jsonObject.getString("error").equals("false")) {
 
                                     /*
                                     *
@@ -108,7 +108,7 @@ public class LoginActivity extends AppCompatActivity {
                                     sharedPrefManager.saveSPString(SharedPrefManager.SP_NAMA, nama);
 
                                     int id = jsonObject.getJSONObject("user").getInt("id");
-                                    sharedPrefManager.saveSPInt(SharedPrefManager.SP_ID,id);
+                                    sharedPrefManager.saveSPInt(SharedPrefManager.SP_ID, id);
 
                                     String email = jsonObject.getJSONObject("user").getString("email");
                                     sharedPrefManager.saveSPString(SharedPrefManager.SP_EMAIL, email);
@@ -119,7 +119,7 @@ public class LoginActivity extends AppCompatActivity {
                                             .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
                                     finish();
 
-                                }else {
+                                } else {
                                     String error_message = jsonObject.getString("error_msg");
                                     Toast.makeText(mContext, error_message, Toast.LENGTH_SHORT).show();
                                 }
@@ -131,7 +131,7 @@ public class LoginActivity extends AppCompatActivity {
                                 e.printStackTrace();
                             }
 
-                        }else{
+                        } else {
                             loading.dismiss();
                         }
                     }
