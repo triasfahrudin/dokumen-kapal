@@ -12,8 +12,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -53,8 +53,7 @@ import static android.app.Activity.RESULT_OK;
 
 public class ProfileFragment extends Fragment {
 
-    private ProfileViewModel profileViewModel;
-
+    private static final int BUFFER_SIZE = 1024 * 2;
     @BindView(R.id.profile_etNamaLengkap)
     EditText etNamaLengkap;
 
@@ -75,8 +74,7 @@ public class ProfileFragment extends Fragment {
     Context mContext;
     BaseApiService mBaseApiService;
     SharedPrefManager sharedPrefManager;
-
-    private static final int BUFFER_SIZE = 1024 * 2;
+    private ProfileViewModel profileViewModel;
 
     @Override
     public void onAttach(Context context) {

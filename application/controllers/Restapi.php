@@ -78,6 +78,25 @@ class Restapi extends CI_Controller
 
     }
 
+    public function get_sertifikatpelaut()
+    {
+
+        header("content-type: application/json");
+
+        $pemohon_id = $this->input->get('pemohon_id');
+
+        $this->db->select("nama_sertifikat,penerbit,CONCAT('Masa Berlaku ',' : ',DATE_FORMAT(tgl_terbit, '%d/%m/%Y'),' s/d ',DATE_FORMAT(tgl_berakhir, '%d/%m/%Y')) AS tanggal");
+        $qry = $this->db->get_where('sertifikat_pelaut', array('pemohon_id' => $pemohon_id));
+
+        echo json_encode(
+            array(
+                'sertifikatPelautList' => $qry->result(),
+            )
+        );
+
+    }
+
+
     public function get_profile($id)
     {
         $qry                         = $this->db->get_where('pemohon', array('id' => $id));

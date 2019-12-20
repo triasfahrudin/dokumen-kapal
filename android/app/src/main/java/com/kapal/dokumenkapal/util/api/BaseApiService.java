@@ -2,6 +2,7 @@ package com.kapal.dokumenkapal.util.api;
 
 import com.kapal.dokumenkapal.ui.kapal.KapalModelList;
 import com.kapal.dokumenkapal.ui.riwayatpelayaran.RiwayatPelayaranModelList;
+import com.kapal.dokumenkapal.ui.sertifikatpelaut.SertifikatPelautModelList;
 
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
@@ -79,5 +80,6 @@ public interface BaseApiService {
             @Part("filename") RequestBody name
     );
 
-
+    @GET("get_sertifikatpelaut")
+    Call<SertifikatPelautModelList> getSertifikatPelaut(@Query("pemohon_id") int pemohon_id);
 }
