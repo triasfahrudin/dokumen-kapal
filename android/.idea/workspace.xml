@@ -14,10 +14,23 @@
   <component name="ChangeListManager">
     <list default="true" id="551f5964-8101-48ad-a9bb-ffcf42d35a07" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/MainActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/bukupelaut/BukuPelautFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/bukupelaut/BukuPelautFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/home/HomeFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/home/HomeFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/kapal/KapalFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/kapal/KapalFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/profile/MenuProfileDataFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/profiledata/MenuProfileDataFragment.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/profile/ProfileFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/profile/ProfileFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/riwayatpelayaran/RiwayatPelayaranFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/riwayatpelayaran/RiwayatPelayaranFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/sertifikatpelaut/SertifikatPelautFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/sertifikatpelaut/SertifikatPelautFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/sertifikatpelaut/SertifikatPelautModelRecycler.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/sertifikatpelaut/SertifikatPelautModelRecycler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/util/api/BaseApiService.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/util/api/BaseApiService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/app_bar_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/app_bar_main.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_listview_sertifikat_pelaut.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_listview_sertifikat_pelaut.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/ic_add.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/ic_add.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_form_bukupelaut.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_form_bukupelaut.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_form_profile.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_form_profile.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_menu_home.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_menu_home.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/navigation/mobile_navigation.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/navigation/mobile_navigation.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../application/controllers/Restapi.php" beforeDir="false" afterPath="$PROJECT_DIR$/../application/controllers/Restapi.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -31,7 +44,7 @@
   <component name="DefaultGradleProjectSettings">
     <option name="isMigrated" value="true" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="Pixel_2_API_26" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="F9AZCY128299" />
   <component name="ExternalProjectsManager">
     <system id="GRADLE">
       <state>
@@ -50,100 +63,66 @@
     </system>
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/sertifikatpelaut/SertifikatPelautAdapter.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="510">
-              <caret line="48" column="85" selection-start-line="48" selection-start-column="85" selection-end-line="48" selection-end-column="85" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/sertifikatpelaut/SertifikatPelautModelRecycler.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="189">
-              <caret line="12" selection-start-line="12" selection-end-line="12" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/sertifikatpelaut/SertifikatPelautModelList.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="168">
-              <caret line="8" column="41" selection-start-line="8" selection-start-column="21" selection-end-line="8" selection-end-column="41" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/riwayatpelayaran/RiwayatPelayaranModelList.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="273">
-              <caret line="13" column="5" lean-forward="true" selection-start-line="13" selection-start-column="5" selection-end-line="13" selection-end-column="5" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/util/api/BaseApiService.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="404">
-              <caret line="82" column="30" selection-start-line="82" selection-start-column="30" selection-end-line="82" selection-end-column="30" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_form_sertifikat_pelaut.xml">
-          <provider selected="true" editor-type-id="text-editor" />
-          <provider editor-type-id="android-designer2" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_form_riwayat_pelayaran.xml">
-          <provider selected="true" editor-type-id="text-editor" />
-          <provider editor-type-id="android-designer2" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_form_sertifikat_keselamatan.xml">
-          <provider selected="true" editor-type-id="text-editor" />
-          <provider editor-type-id="android-designer2" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_listview_riwayat_pelayaran.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="357">
-              <caret line="17" column="43" selection-end-line="25" />
-            </state>
-          </provider>
-          <provider editor-type-id="android-designer2" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_listview_sertifikat_pelaut.xml">
-          <provider editor-type-id="text-editor">
-            <state relative-caret-position="357">
-              <caret line="17" column="60" selection-start-line="17" selection-start-column="60" selection-end-line="17" selection-end-column="60" />
-            </state>
-          </provider>
-          <provider selected="true" editor-type-id="android-designer2" />
-        </entry>
-      </file>
-    </leaf>
+    <splitter split-orientation="horizontal" split-proportion="0.5">
+      <split-first>
+        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_form_profile.xml">
+              <provider selected="true" editor-type-id="android-designer2" />
+              <provider editor-type-id="text-editor">
+                <state relative-caret-position="290">
+                  <caret line="118" column="32" selection-start-line="118" selection-start-column="32" selection-end-line="118" selection-end-column="32" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/profile/ProfileFragment.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="950">
+                  <caret line="192" column="69" lean-forward="true" selection-start-line="192" selection-start-column="69" selection-end-line="192" selection-end-column="69" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-first>
+      <split-second>
+        <leaf>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_form_bukupelaut.xml">
+              <provider selected="true" editor-type-id="android-designer2" />
+              <provider editor-type-id="text-editor">
+                <state relative-caret-position="261">
+                  <caret line="136" column="30" lean-forward="true" selection-start-line="136" selection-start-column="30" selection-end-line="136" selection-end-column="30" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/bukupelaut/BukuPelautFragment.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="1008">
+                  <caret line="240" column="11" lean-forward="true" selection-start-line="202" selection-start-column="8" selection-end-line="240" selection-end-column="11" />
+                  <folding>
+                    <element signature="imports" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/util/api/BaseApiService.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="268">
+                  <caret line="55" column="33" lean-forward="true" selection-start-line="52" selection-start-column="10" selection-end-line="56" selection-end-column="42" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-second>
+    </splitter>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -185,11 +164,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/sertifikatkeselamatan/KeselamatanKapalFragment.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/sertifikatkeselamatan/SertifikatKeselamatanFragment.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_permohonan_menu_masalayar.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_permohonan_menu_main.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_profile_bukupelaut.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/permohonan/PermohonanFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/form_masalayar.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/form_bukupelaut.xml" />
@@ -211,31 +185,36 @@
         <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_listview_masalayar.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/masalayar/MasaLayarFragment.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/kapal/KapalFragment.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/home/HomeFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/RegistrationActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/bukupelaut/BukuPelautFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/drawable-v24/bg_white.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_form_bukupelaut.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/LoginActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/MainActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_menu_profile_data.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_listview_riwayat_pelayaran.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/riwayatpelayaran/RiwayatPelayaranFragment.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/profile/MenuProfileDataFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/riwayatpelayaran/RiwayatPelayaranAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/riwayatpelayaran/RiwayatPelayaranModelList.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/riwayatpelayaran/RiwayatPelayaranModelRecycler.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/profile/ProfileFragment.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/app_bar_main.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/sertifikatpelaut/SertifikatPelautModelList.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/recycler_riwayat_pelayaran_list.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/recycler_sertifikat_pelaut_list.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/sertifikatpelaut/SertifikatPelautAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_listview_sertifikat_pelaut.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/sertifikatpelaut/SertifikatPelautFragment.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/util/api/BaseApiService.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/profile/MenuProfileDataFragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/profiledata/MenuProfileDataFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/sertifikatpelaut/SertifikatPelautModelRecycler.java" />
+        <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/app_bar_main.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/drawable/ic_add.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_menu_home.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/home/HomeFragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/MainActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/kapal/KapalFragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_form_bukupelaut.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_form_profile.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/bukupelaut/BukuPelautFragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/util/api/BaseApiService.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/profile/ProfileFragment.java" />
       </list>
     </option>
   </component>
@@ -264,7 +243,9 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="AndroidView" />
       <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -302,52 +283,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="AndroidView">
-        <subPane>
-          <expand>
-            <path>
-              <item name="Dokumen Kapal" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-            </path>
-            <path>
-              <item name="Dokumen Kapal" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
-            </path>
-            <path>
-              <item name="Dokumen Kapal" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
-              <item name="dokumenkapal" type="cbb59c9e:AndroidPsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Dokumen Kapal" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
-              <item name="dokumenkapal" type="cbb59c9e:AndroidPsiDirectoryNode" />
-              <item name="ui" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Dokumen Kapal" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
-              <item name="dokumenkapal" type="cbb59c9e:AndroidPsiDirectoryNode" />
-              <item name="ui" type="462c0819:PsiDirectoryNode" />
-              <item name="riwayatpelayaran" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Dokumen Kapal" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
-              <item name="dokumenkapal" type="cbb59c9e:AndroidPsiDirectoryNode" />
-              <item name="ui" type="462c0819:PsiDirectoryNode" />
-              <item name="sertifikatpelaut" type="462c0819:PsiDirectoryNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -485,7 +420,7 @@
     <layout>
       <window_info auto_hide="true" x="426" y="301" width="513" height="145" id="Palette " internal_type="SLIDING" order="0" type="SLIDING" weight="0.329429" />
       <window_info id="Structure" order="1" sideWeight="0.5132013" side_tool="true" weight="0.33987916" />
-      <window_info active="true" content_ui="combo" id="Project" order="2" sideWeight="0.48679867" visible="true" weight="0.25718608" />
+      <window_info content_ui="combo" id="Project" order="2" sideWeight="0.48679867" weight="0.25718608" />
       <window_info id="Captures" order="3" sideWeight="0.50165015" side_tool="true" weight="0.32930514" />
       <window_info id="Designer" order="4" />
       <window_info id="Build Variants" order="5" sideWeight="0.50165015" side_tool="true" weight="0.32930514" />
@@ -495,14 +430,14 @@
       <window_info id="Capture Tool" order="9" />
       <window_info id="Resources Explorer" order="10" sideWeight="0.49834985" weight="0.32930514" />
       <window_info anchor="bottom" id="DB Execution Console" order="0" />
-      <window_info anchor="bottom" id="Run" order="1" sideWeight="0.49773413" weight="0.3019802" />
-      <window_info anchor="bottom" id="Android Profiler" order="2" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Run" order="1" sideWeight="0.49773413" weight="0.29661018" />
+      <window_info anchor="bottom" id="Android Profiler" order="2" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.32854864" />
-      <window_info anchor="bottom" id="Event Log" order="4" sideWeight="0.5067976" side_tool="true" weight="0.30033004" />
+      <window_info anchor="bottom" id="Event Log" order="4" sideWeight="0.5075643" side_tool="true" weight="0.3" />
       <window_info anchor="bottom" id="Find" order="5" sideWeight="0.49924472" weight="0.3269565" />
-      <window_info anchor="bottom" id="Build" order="6" sideWeight="0.49320242" weight="0.30169493" />
+      <window_info anchor="bottom" id="Build" order="6" sideWeight="0.4924357" weight="0.30169493" />
       <window_info anchor="bottom" id="TODO" order="7" weight="0.32838285" />
-      <window_info anchor="bottom" id="Logcat" order="8" sideWeight="0.49924472" weight="0.31748727" />
+      <window_info anchor="bottom" id="Logcat" order="8" sideWeight="0.49924472" weight="0.3252174" />
       <window_info anchor="bottom" id="Version Control" order="9" weight="0.32838285" />
       <window_info anchor="bottom" id="Terminal" order="10" />
       <window_info anchor="bottom" id="Messages" order="11" weight="0.32854864" />
@@ -513,7 +448,7 @@
       <window_info anchor="right" id="Device File Explorer" order="4" sideWeight="0.50165015" side_tool="true" weight="0.32930514" />
       <window_info anchor="right" id="Flutter Outline" order="5" weight="0.32930514" />
       <window_info anchor="right" id="Flutter Performance" order="6" weight="0.32930514" />
-      <window_info anchor="right" id="Gradle" order="7" sideWeight="0.49834985" weight="0.32930514" />
+      <window_info anchor="right" id="Gradle" order="7" sideWeight="0.49834985" weight="0.3290469" />
       <window_info anchor="right" id="Theme Preview" order="8" />
       <window_info anchor="right" id="Assistant" order="9" weight="0.329429" />
       <window_info anchor="right" id="Android WiFi ADB" order="10" side_tool="true" weight="0.3290469" />
@@ -521,42 +456,6 @@
     </layout>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="14" column="34" lean-forward="true" selection-start-line="14" selection-start-column="34" selection-end-line="14" selection-end-column="34" />
-        </state>
-      </provider>
-      <provider editor-type-id="android-manifest" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="4" column="16" lean-forward="true" selection-start-line="4" selection-start-column="16" selection-end-line="4" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/androidx.fragment/fragment/1.1.0/b9ebb04df2cb0cad4419af3c658690bc82aa5706/fragment-1.1.0-sources.jar!/androidx/fragment/app/Fragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="128">
-          <caret line="786" column="34" selection-start-line="786" selection-start-column="34" selection-end-line="786" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/RegistrationActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="840">
-          <caret line="83" column="8" selection-start-line="83" selection-start-column="8" selection-end-line="123" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/home/HomeFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="15" column="65" selection-start-line="15" selection-start-column="48" selection-end-line="15" selection-end-column="65" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/masalayar/MasaLayarFormFragment.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1350">
@@ -615,21 +514,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_form_bukupelaut.xml">
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="1170">
-          <caret line="78" column="43" selection-start-line="78" selection-start-column="43" selection-end-line="78" selection-end-column="43" />
-        </state>
-      </provider>
-      <provider selected="true" editor-type-id="android-designer2" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_login.xml">
+      <provider editor-type-id="android-designer2" />
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="357">
           <caret line="17" column="33" lean-forward="true" selection-start-line="17" selection-start-column="33" selection-end-line="17" selection-end-column="33" />
         </state>
       </provider>
-      <provider editor-type-id="android-designer2" />
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/LoginActivity.java">
       <provider selected="true" editor-type-id="text-editor">
@@ -651,26 +542,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/MainActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="95">
-          <caret line="43" column="44" lean-forward="true" selection-start-line="43" selection-start-column="44" selection-end-line="43" selection-end-column="44" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/bukupelaut/BukuPelautFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-240">
-          <caret line="102" column="52" selection-start-line="102" selection-start-column="52" selection-end-line="102" selection-end-column="52" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/kapal/KapalFormFragment.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="42">
@@ -679,20 +550,20 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/recycler_kapal_list.xml">
+      <provider editor-type-id="android-designer2" />
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="357">
           <caret line="29" column="28" lean-forward="true" selection-end-line="38" />
         </state>
       </provider>
-      <provider editor-type-id="android-designer2" />
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_listview_kapal.xml">
+      <provider editor-type-id="android-designer2" />
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="183">
           <caret line="17" column="24" selection-start-line="17" selection-start-column="24" selection-end-line="17" selection-end-column="24" />
         </state>
       </provider>
-      <provider editor-type-id="android-designer2" />
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/kapal/KapalModelRecycler.java">
       <provider selected="true" editor-type-id="text-editor">
@@ -709,16 +580,6 @@
             <element signature="imports" expanded="true" />
             <element signature="e#1256#1257#0" expanded="true" />
             <element signature="e#1294#1295#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/kapal/KapalFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="38" column="24" selection-start-line="38" selection-start-column="24" selection-end-line="38" selection-end-column="24" />
-          <folding>
-            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -743,44 +604,16 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_menu_profile_data.xml">
+      <provider selected="true" editor-type-id="android-designer2" />
       <provider editor-type-id="text-editor">
         <state>
           <caret line="218" column="22" selection-start-line="218" selection-start-column="22" selection-end-line="218" selection-end-column="22" />
         </state>
       </provider>
-      <provider selected="true" editor-type-id="android-designer2" />
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/nav_header_main.xml">
-      <provider editor-type-id="text-editor" />
       <provider selected="true" editor-type-id="android-designer2" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/app_bar_main.xml">
       <provider editor-type-id="text-editor" />
-      <provider selected="true" editor-type-id="android-designer2" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/profile/MenuProfileDataFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-297">
-          <caret line="101" column="25" lean-forward="true" selection-start-line="101" selection-start-column="25" selection-end-line="101" selection-end-column="25" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/sertifikatpelaut/SertifikatPelautFormFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="42">
-          <caret line="2" column="41" selection-start-line="2" selection-start-column="41" selection-end-line="2" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/profile/ProfileFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="213">
-          <caret line="63" column="22" selection-start-line="63" selection-start-column="22" selection-end-line="63" selection-end-column="22" />
-        </state>
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/riwayatpelayaran/RiwayatPelayaranAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
@@ -810,58 +643,20 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/recycler_riwayat_pelayaran_list.xml">
+      <provider editor-type-id="android-designer2" />
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="546">
           <caret line="26" column="43" selection-start-line="26" selection-start-column="43" selection-end-line="26" selection-end-column="43" />
         </state>
       </provider>
-      <provider editor-type-id="android-designer2" />
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/recycler_sertifikat_pelaut_list.xml">
+      <provider selected="true" editor-type-id="android-designer2" />
       <provider editor-type-id="text-editor">
         <state relative-caret-position="399">
           <caret line="19" column="24" selection-start-line="19" selection-start-column="24" selection-end-line="19" selection-end-column="24" />
         </state>
       </provider>
-      <provider selected="true" editor-type-id="android-designer2" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/sertifikatpelaut/SertifikatPelautFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="672">
-          <caret line="59" column="43" selection-start-line="59" selection-start-column="43" selection-end-line="59" selection-end-column="43" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_form_sertifikat_pelaut.xml">
-      <provider selected="true" editor-type-id="text-editor" />
-      <provider editor-type-id="android-designer2" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_form_riwayat_pelayaran.xml">
-      <provider selected="true" editor-type-id="text-editor" />
-      <provider editor-type-id="android-designer2" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_form_sertifikat_keselamatan.xml">
-      <provider selected="true" editor-type-id="text-editor" />
-      <provider editor-type-id="android-designer2" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_listview_riwayat_pelayaran.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="17" column="43" selection-end-line="25" />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer2" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_listview_sertifikat_pelaut.xml">
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="17" column="60" selection-start-line="17" selection-start-column="60" selection-end-line="17" selection-end-column="60" />
-        </state>
-      </provider>
-      <provider selected="true" editor-type-id="android-designer2" />
     </entry>
     <entry file="file://$APPLICATION_CONFIG_DIR$/scratches/threadDump1.txt">
       <provider selected="true" editor-type-id="text-editor">
@@ -870,17 +665,48 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/util/api/BaseApiService.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_form_sertifikat_pelaut.xml">
+      <provider editor-type-id="android-designer2" />
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_form_riwayat_pelayaran.xml">
+      <provider editor-type-id="android-designer2" />
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_form_sertifikat_keselamatan.xml">
+      <provider editor-type-id="android-designer2" />
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_listview_riwayat_pelayaran.xml">
+      <provider editor-type-id="android-designer2" />
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="404">
-          <caret line="82" column="30" selection-start-line="82" selection-start-column="30" selection-end-line="82" selection-end-column="30" />
+        <state relative-caret-position="357">
+          <caret line="17" column="43" selection-end-line="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_listview_sertifikat_pelaut.xml">
+      <provider selected="true" editor-type-id="android-designer2" />
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="17" column="60" selection-start-line="17" selection-start-column="60" selection-end-line="17" selection-end-column="60" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/riwayatpelayaran/RiwayatPelayaranModelList.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="189">
+          <caret line="9" column="58" selection-start-line="9" selection-start-column="58" selection-end-line="9" selection-end-column="58" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/sertifikatpelaut/SertifikatPelautAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="48" column="85" selection-start-line="48" selection-start-column="85" selection-end-line="48" selection-end-column="85" />
+        <state relative-caret-position="168">
+          <caret line="18" column="64" selection-start-line="18" selection-start-column="64" selection-end-line="18" selection-end-column="64" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -889,14 +715,37 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/sertifikatpelaut/SertifikatPelautModelRecycler.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="189">
-          <caret line="12" selection-start-line="12" selection-end-line="12" />
+        <state relative-caret-position="126">
+          <caret line="6" column="27" selection-start-line="6" selection-start-column="27" selection-end-line="6" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
+      <provider editor-type-id="android-manifest" />
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="273">
+          <caret line="13" column="53" selection-start-line="13" selection-start-column="53" selection-end-line="13" selection-end-column="53" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/app_bar_main.xml">
+      <provider selected="true" editor-type-id="android-designer2" />
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="630">
+          <caret line="30" column="32" selection-start-line="30" selection-start-column="32" selection-end-line="30" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/sertifikatpelaut/SertifikatPelautFormFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="42">
+          <caret line="2" column="41" selection-start-line="2" selection-start-column="41" selection-end-line="2" selection-end-column="41" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/sertifikatpelaut/SertifikatPelautModelList.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="168">
+        <state relative-caret-position="105">
           <caret line="8" column="41" selection-start-line="8" selection-start-column="21" selection-end-line="8" selection-end-column="41" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -904,13 +753,107 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/riwayatpelayaran/RiwayatPelayaranModelList.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/profiledata/MenuProfileDataFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="273">
-          <caret line="13" column="5" lean-forward="true" selection-start-line="13" selection-start-column="5" selection-end-line="13" selection-end-column="5" />
+        <state relative-caret-position="2310">
+          <caret line="134" column="58" selection-start-line="134" selection-start-column="58" selection-end-line="134" selection-end-column="58" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/sertifikatpelaut/SertifikatPelautFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="84">
+          <caret line="31" column="13" selection-start-line="31" selection-start-column="13" selection-end-line="31" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/ic_add.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="21">
+          <caret line="1" column="21" selection-start-line="1" selection-start-column="21" selection-end-line="1" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_menu_home.xml">
+      <provider editor-type-id="android-designer2" />
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="84">
+          <caret line="4" lean-forward="true" selection-start-line="4" selection-end-line="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/home/HomeFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="33" column="19" selection-start-line="30" selection-start-column="8" selection-end-line="34" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/MainActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1407">
+          <caret line="67" column="30" selection-start-line="67" selection-start-column="30" selection-end-line="67" selection-end-column="30" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#3631#3632#0" expanded="true" />
+            <element signature="e#3665#3666#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/kapal/KapalFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="54">
+          <caret line="107" column="4" selection-start-line="107" selection-start-column="4" selection-end-line="128" selection-end-column="5" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_form_bukupelaut.xml">
+      <provider selected="true" editor-type-id="android-designer2" />
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="261">
+          <caret line="136" column="30" lean-forward="true" selection-start-line="136" selection-start-column="30" selection-end-line="136" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/bukupelaut/BukuPelautFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1008">
+          <caret line="240" column="11" lean-forward="true" selection-start-line="202" selection-start-column="8" selection-end-line="240" selection-end-column="11" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/profile/ProfileFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="950">
+          <caret line="192" column="69" lean-forward="true" selection-start-line="192" selection-start-column="69" selection-end-line="192" selection-end-column="69" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_form_profile.xml">
+      <provider selected="true" editor-type-id="android-designer2" />
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="290">
+          <caret line="118" column="32" selection-start-line="118" selection-start-column="32" selection-end-line="118" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/util/api/BaseApiService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="268">
+          <caret line="55" column="33" lean-forward="true" selection-start-line="52" selection-start-column="10" selection-end-line="56" selection-end-column="42" />
         </state>
       </provider>
     </entry>

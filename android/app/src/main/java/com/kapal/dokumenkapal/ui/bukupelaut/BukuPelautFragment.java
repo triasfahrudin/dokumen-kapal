@@ -131,15 +131,10 @@ public class BukuPelautFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_form_bukupelaut, container, false);
-
         requestMultiplePermissions();
-
         ButterKnife.bind(this, root);
-
         mBaseApiService = UtilsApi.getAPIService();
         sharedPrefManager = new SharedPrefManager(mContext);
-
-
         loading = ProgressDialog.show(mContext, null, "Mengambil data ...", true, false);
 
         mBaseApiService.getBukuPelautRequest(sharedPrefManager.getSPID())
@@ -203,24 +198,7 @@ public class BukuPelautFragment extends Fragment {
     @OnClick(R.id.pbp_btnSubmit)
     public void btnSubmitClicked() {
 
-        /*
-
-         @FormUrlEncoded
-    @POST("update_bukupelaut")
-    Call<ResponseBody> updateBukuPelautRequest(
-            @Field("pemohon_id") int pemohon_id,
-            @Field("nomor_buku") String nomor_buku,
-            @Field("kode_pelaut") String kode_pelaut,
-            @Field("nomor_daftar") String nomor_daftar
-    );
-
-        * */
-
         loading = ProgressDialog.show(mContext, null, "Update Buku Pelaut, Mohon tunggu...", true, false);
-
-//        if(!etUpload.getText().toString().matches("")){
-//            uploadFile(etUpload.getText().toString());
-//        }
 
         mBaseApiService.updateBukuPelautRequest(
                 sharedPrefManager.getSPID(),

@@ -47,6 +47,16 @@ public interface BaseApiService {
             @Field("nomor_daftar") String nomor_daftar
     );
 
+    @FormUrlEncoded
+    @POST("update_profile")
+    Call<ResponseBody> updateProfileRequest(
+            @Field("id") int pemohon_id,
+            @Field("nama") String nama,
+            @Field("email") String email,
+            @Field("no_telp") String no_telp,
+            @Field("alamat") String alamat
+    );
+
     @GET("get_bukupelaut/{pemohon_id}")
     Call<ResponseBody> getBukuPelautRequest(@Path("pemohon_id") int pemohon_id);
 
@@ -61,14 +71,14 @@ public interface BaseApiService {
     Call<ResponseBody> getProfileRequest(@Path("id") int id);
 
 
-    @POST("update_profile/{id}")
-    Call<ResponseBody> updateProfileRequest(
-            @Path("id") int id,
-            @Field("nama") String nama,
-            @Field("email") String email,
-            @Field("no_telp") String no_telp,
-            @Field("alamat") String alamat
-    );
+//    @POST("update_profile/{id}")
+//    Call<ResponseBody> updateProfileRequest(
+//            @Path("id") int id,
+//            @Field("nama") String nama,
+//            @Field("email") String email,
+//            @Field("no_telp") String no_telp,
+//            @Field("alamat") String alamat
+//    );
 
 
     @Multipart

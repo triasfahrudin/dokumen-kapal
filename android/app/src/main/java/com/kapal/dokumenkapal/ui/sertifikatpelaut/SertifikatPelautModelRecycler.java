@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class SertifikatPelautModelRecycler {
 
-    @SerializedName("namaSertifikat")
+    @SerializedName("nama_sertifikat")
     private String namaSertifikat;
     @SerializedName("penerbit")
     private String penerbit;

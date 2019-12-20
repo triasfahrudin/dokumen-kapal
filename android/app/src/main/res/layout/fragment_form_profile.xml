@@ -3,48 +3,95 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg">
+    android:background="@drawable/bg_white">
 
     <LinearLayout
         android:id="@+id/input_group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp"
         android:layout_marginBottom="50dp"
-        android:layout_alignParentBottom="true"
-        android:paddingTop="10dp"
-        android:gravity="center">
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingTop="10dp">
 
-        <EditText
-            android:id="@+id/profile_etNamaLengkap"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/profile_etNamaLengkapWrapper"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/edit_text_top"
-            android:hint="Nama lengkap"
-            android:inputType="textPersonName"
-            android:padding="15dp" />
+            android:layout_height="match_parent"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:hint="Nama Lengkap"
 
-        <EditText
-            android:id="@+id/profile_etEmail"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <EditText
+                android:id="@+id/profile_etNamaLengkap"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autofillHints=""
+                android:background="@drawable/edit_text_top"
+                android:inputType="text"
+                android:padding="15dp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/profile_etEmailWrapper"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/edit_text_top"
+            android:layout_height="match_parent"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
             android:hint="Email"
-            android:inputType="textEmailAddress"
-            android:padding="15dp" />
 
-        <EditText
-            android:id="@+id/profile_etNoTelp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/profile_etNamaLengkapWrapper">
+
+            <EditText
+                android:id="@+id/profile_etEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/edit_text_top"
+                android:inputType="textEmailAddress"
+                android:padding="15dp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/profile_etNoTelpWrapper"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/edit_text_top"
+            android:layout_height="match_parent"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
             android:hint="Nomor Telephon"
-            android:inputType="textPhonetic"
-            android:padding="15dp" />
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/profile_etEmailWrapper">
+
+            <EditText
+                android:id="@+id/profile_etNoTelp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/edit_text_top"
+                android:inputType="textPhonetic"
+                android:padding="15dp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
 
         <EditText
             android:id="@+id/profile_etAlamat"
@@ -55,28 +102,22 @@
             android:gravity="top|left"
             android:hint="Alamat"
             android:inputType="textMultiLine"
+            android:lines="6"
             android:overScrollMode="always"
+            android:padding="15dp"
+            android:scrollbarAlwaysDrawVerticalTrack="true"
             android:scrollbarStyle="insideInset"
             android:scrollbars="vertical"
-            android:scrollbarAlwaysDrawVerticalTrack="true"
-            android:lines="6"
-            android:scrollHorizontally="false"
-            android:padding="15dp" />
+            android:scrollHorizontally="false" />
 
         <Button
-            android:id="@+id/profile_btnLoadFile"
+            android:id="@+id/profile_btnUpdate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="Upload Buku Laut" />
-
-        <Button
-            android:id="@+id/btnUpdate"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="Update Profile" />
-
+            android:background="#304FFE"
+            android:text="SIMPAN"
+            android:textColor="#F0E8E8" />
 
 
     </LinearLayout>

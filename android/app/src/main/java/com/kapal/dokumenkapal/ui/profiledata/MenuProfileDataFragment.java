@@ -1,4 +1,4 @@
-package com.kapal.dokumenkapal.ui.profile;
+package com.kapal.dokumenkapal.ui.profiledata;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -16,7 +16,9 @@ import com.kapal.dokumenkapal.R;
 import com.kapal.dokumenkapal.ui.bukupelaut.BukuPelautFragment;
 import com.kapal.dokumenkapal.ui.home.HomeFragment;
 import com.kapal.dokumenkapal.ui.kapal.KapalFragment;
+import com.kapal.dokumenkapal.ui.profile.ProfileFragment;
 import com.kapal.dokumenkapal.ui.riwayatpelayaran.RiwayatPelayaranFragment;
+import com.kapal.dokumenkapal.ui.sertifikatpelaut.SertifikatPelautFragment;
 
 import java.util.Objects;
 
@@ -129,5 +131,13 @@ public class MenuProfileDataFragment extends Fragment {
 
     @OnClick(R.id.profile_cvSertifikatPelaut)
     public void onCvSertifikatPelautClicked() {
+
+        SertifikatPelautFragment fragment = new SertifikatPelautFragment();
+        FragmentTransaction ft = Objects.requireNonNull(getActivity()).getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.nav_host_fragment, fragment, SertifikatPelautFragment.class.getSimpleName())
+                .addToBackStack(null);
+        ft.commit();
+
     }
 }

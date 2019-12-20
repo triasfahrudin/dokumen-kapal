@@ -12,26 +12,21 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.kapal.dokumenkapal.MainActivity;
 import com.kapal.dokumenkapal.R;
-import com.kapal.dokumenkapal.ui.masalayar.MasaLayarViewModel;
-import com.kapal.dokumenkapal.ui.permohonan.MenuPermohonanFragment;
-import com.kapal.dokumenkapal.ui.profile.MenuProfileDataFragment;
+import com.kapal.dokumenkapal.ui.profiledata.MenuProfileDataFragment;
 import com.kapal.dokumenkapal.util.SharedPrefManager;
 import com.kapal.dokumenkapal.util.api.BaseApiService;
 import com.kapal.dokumenkapal.util.api.UtilsApi;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 import es.dmoral.toasty.Toasty;
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -58,6 +53,19 @@ public class KapalFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_listview_kapal, container, false);
+
+        FloatingActionButton floatingActionButton = ((MainActivity) Objects.requireNonNull(getActivity())).getFloatingActionButton();
+
+        if (floatingActionButton != null) {
+            floatingActionButton.show();
+
+            floatingActionButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toasty.error(mContext, "Ada kesalahan!", Toast.LENGTH_LONG, true).show();
+                }
+            });
+        }
 
         mBaseApiService = UtilsApi.getAPIService();
         sharedPrefManager = new SharedPrefManager(mContext);
@@ -90,9 +98,7 @@ public class KapalFragment extends Fragment {
     private void generateKapalList(ArrayList<KapalModelRecycler> kapalArrayList) {
 
         recyclerView = (RecyclerView) getView().findViewById(R.id.recycler_view_kapal_list);
-
         kapalAdapter = new KapalAdapter(kapalArrayList);
-
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
 
         recyclerView.setLayoutManager(layoutManager);
@@ -110,9 +116,9 @@ public class KapalFragment extends Fragment {
             if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK){
 
                 MenuProfileDataFragment mf = new MenuProfileDataFragment();
-                FragmentTransaction ft = getActivity().getSupportFragmentManager()
+                FragmentTransaction ft = Objects.requireNonNull(getActivity()).getSupportFragmentManager()
                         .beginTransaction()
-                        .add(R.id.nav_host_fragment, mf,"TAG_PROFILEDATA_FRAGMENT")
+                        .add(R.id.nav_host_fragment, mf,MenuProfileDataFragment.class.getSimpleName())
                         .addToBackStack(null);
                 ft.commit();
 

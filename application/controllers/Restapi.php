@@ -59,7 +59,6 @@ class Restapi extends CI_Controller
 
     }
 
-
     public function get_riwayatpelayaran()
     {
 
@@ -85,7 +84,7 @@ class Restapi extends CI_Controller
 
         $pemohon_id = $this->input->get('pemohon_id');
 
-        $this->db->select("nama_sertifikat,penerbit,CONCAT('Masa Berlaku ',' : ',DATE_FORMAT(tgl_terbit, '%d/%m/%Y'),' s/d ',DATE_FORMAT(tgl_berakhir, '%d/%m/%Y')) AS tanggal");
+        $this->db->select("nama_sertifikat,CONCAT('Penerbit : ',penerbit) AS penerbit,CONCAT('Masa Berlaku ',' : ',DATE_FORMAT(tgl_terbit, '%d/%m/%Y'),' s/d ',DATE_FORMAT(tgl_berakhir, '%d/%m/%Y')) AS tanggal");
         $qry = $this->db->get_where('sertifikat_pelaut', array('pemohon_id' => $pemohon_id));
 
         echo json_encode(
@@ -95,7 +94,6 @@ class Restapi extends CI_Controller
         );
 
     }
-
 
     public function get_profile($id)
     {
@@ -210,6 +208,47 @@ class Restapi extends CI_Controller
 
                 )
             );
+        }
+    }
+
+    /*
+    @Field("id") int pemohon_id,
+    @Field("nama") String nama,
+    @Field("email") String email,
+    @Field("no_telp") String no_telp,
+    @Field("alamat") String alamat
+     */
+
+    public function update_profile()
+    {
+        header('content-type: application/json');
+
+        if (isset($_POST['id'])
+            && isset($_POST['nama'])
+            && isset($_POST['email'])
+            && isset($_POST['no_telp'])
+            && isset($_POST['alamat'])
+        ) {
+
+            $id      = $this->input->post('id');
+            $nama    = $this->input->post('nama');
+            $email   = $this->input->post('email');
+            $no_telp = $this->input->post('no_telp');
+            $alamat  = $this->input->post('alamat');
+
+            $this->db->where('id', $id);
+            $this->db->update('pemohon',
+                array(
+                    'nama'    => $nama,
+                    'email'   => $email,
+                    'no_telp' => $no_telp,
+                    'alamat'  => $alamat,
+                )
+            );
+
+            $response["error"] = false;
+            echo json_encode($response);
+
         }
     }
 
