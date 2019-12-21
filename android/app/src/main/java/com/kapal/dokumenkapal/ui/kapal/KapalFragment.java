@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -63,7 +64,27 @@ public class KapalFragment extends Fragment {
             floatingActionButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toasty.error(mContext, "Ada kesalahan!", Toast.LENGTH_LONG, true).show();
+//                    Toasty.error(mContext, "Ada kesalahan!", Toast.LENGTH_LONG, true).show();
+
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("id", 0);
+                    bundle.putString("nama_kapal", "");
+                    bundle.putString("jenis_kapal", "");
+                    bundle.putString("imo_number", "");
+                    bundle.putInt("grt", 0);
+                    bundle.putInt("kapasitas_penumpang", 0);
+                    bundle.putInt("kapasitas_roda_dua", 0);
+                    bundle.putInt("kapasitas_roda_empat", 0);
+
+                    KapalFormFragment fragment = new KapalFormFragment();
+                    fragment.setArguments(bundle);
+                    AppCompatActivity activity = (AppCompatActivity) view.getContext();
+
+                    activity.getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.nav_host_fragment,fragment,KapalFormFragment.class.getSimpleName())
+                            .addToBackStack(null)
+                            .commit();
                 }
             });
         }

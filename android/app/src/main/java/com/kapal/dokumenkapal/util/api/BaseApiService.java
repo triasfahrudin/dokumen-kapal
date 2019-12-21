@@ -57,6 +57,20 @@ public interface BaseApiService {
             @Field("alamat") String alamat
     );
 
+    @FormUrlEncoded
+    @POST("insertupdate_kapal")
+    Call<ResponseBody> insertUpdateKapalRequest(
+            @Field("id") int id,
+            @Field("pemohon_id") int pemohon_id,
+            @Field("nama_kapal") String namaKapal,
+            @Field("jenis_kapal") String jenisKapal,
+            @Field("imo_number") String imoNumber,
+            @Field("grt") int grt,
+            @Field("kapasitas_penumpang") int kapasitasPenumpang,
+            @Field("kapasitas_roda_dua") int kapasitasRodaDua,
+            @Field("kapasitas_roda_empat") int kapasitasRodaEmpat
+    );
+
     @GET("get_bukupelaut/{pemohon_id}")
     Call<ResponseBody> getBukuPelautRequest(@Path("pemohon_id") int pemohon_id);
 

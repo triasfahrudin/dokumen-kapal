@@ -204,11 +204,10 @@
                 android:layout_height="match_parent"
 
                 android:gravity="center|clip_vertical|center_horizontal|center_vertical"
-                android:text="Cari File"
+                android:text="cari file"
                 android:textAlignment="center"
                 android:textColor="#FE5295"
                 android:textStyle="bold" />
-
 
             <EditText
                 android:id="@+id/kapal_etUploadSuratUkur"
@@ -237,7 +236,7 @@
                 android:layout_height="match_parent"
 
                 android:gravity="center|clip_vertical|center_horizontal|center_vertical"
-                android:text="Cari File"
+                android:text="cari file"
                 android:textAlignment="center"
                 android:textColor="#FE5295"
                 android:textStyle="bold" />

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,10 +16,12 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.kapal.dokumenkapal.MainActivity;
 import com.kapal.dokumenkapal.R;
+import com.kapal.dokumenkapal.ui.menuprofiledata.MenuProfileDataFragment;
 import com.kapal.dokumenkapal.util.SharedPrefManager;
 import com.kapal.dokumenkapal.util.api.BaseApiService;
 import com.kapal.dokumenkapal.util.api.UtilsApi;
@@ -128,7 +131,7 @@ public class KapalFormFragment extends Fragment {
             floatingActionButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toasty.error(mContext, "Ada kesalahan!", Toast.LENGTH_LONG, true).show();
+                    //Toasty.error(mContext, "Ada kesalahan!", Toast.LENGTH_LONG, true).show();
                 }
             });
         }
@@ -258,7 +261,7 @@ public class KapalFormFragment extends Fragment {
 
         loading = ProgressDialog.show(mContext, null, "Proses upload file, Mohon tunggu ...", true, false);
 
-        mBaseApiService.uploadFile(jenis, sharedPrefManager.getSPID(), this.recyclerKapalID, fileToUpload, filename)
+        mBaseApiService.uploadFile(jenis, this.recyclerKapalID, sharedPrefManager.getSPID(), fileToUpload, filename)
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -295,5 +298,87 @@ public class KapalFormFragment extends Fragment {
 
     @OnClick(R.id.kapal_btnUpdate)
     public void onKapalBtnUpdateClicked() {
+
+        loading = ProgressDialog.show(mContext, null, "Menyimpan data, Mohon tunggu...", true, false);
+        /*
+        *   @Field("id") int id,
+            @Field("pemohon_id") int pemohon_id,
+            @Field("nama_kapal") String namaKapal,
+            @Field("jenis_kapal") String jenisKapal,
+            @Field("imo_number") String imoNumber,
+            @Field("grt") int grt,
+            @Field("kapasitas_penumpang") String kapasitasPenumpang,
+            @Field("kapasitas_roda_dua") String kapasitasRodaDua,
+            @Field("kapasitas_roda_empat") String kapasitasRodaEmpat
+        * */
+        mBaseApiService.insertUpdateKapalRequest(
+                this.recyclerKapalID,
+                sharedPrefManager.getSPID(),
+                kapalEtNamaKapal.getText().toString(),
+                kapalEtJenisKapal.getText().toString(),
+                kapalEtIMONumber.getText().toString(),
+                Integer.parseInt(kapalEtGRT.getText().toString()),
+                Integer.parseInt(kapalEtKapasitasPenumpang.getText().toString()),
+                Integer.parseInt(kapalEtKapasitasRodaDua.getText().toString()),
+                Integer.parseInt(kapalEtKapasitasRodaEmpat.getText().toString())
+        ).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    loading.dismiss();
+                    try {
+                        JSONObject jsonObject = new JSONObject(response.body().string());
+                        if (jsonObject.getString("error").equals("false")) {
+
+                            KapalFormFragment.this.recyclerKapalID = jsonObject.getInt("last_id");
+                            Toast.makeText(mContext, "data kapal berhasil disimpan", Toast.LENGTH_SHORT).show();
+
+                        } else {
+                            String error_message = jsonObject.getString("error_msg");
+                            Toast.makeText(mContext, error_message, Toast.LENGTH_SHORT).show();
+                        }
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                } else {
+                    loading.dismiss();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.e("debug", "onFailure: ERROR > " + t.toString());
+                loading.dismiss();
+            }
+        });
+
+    }
+
+    @Override
+    //Pressed return button
+    public void onResume() {
+        super.onResume();
+        Objects.requireNonNull(getView()).setFocusableInTouchMode(true);
+        getView().requestFocus();
+        getView().setOnKeyListener((v, keyCode, event) -> {
+
+            if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK) {
+
+                KapalFragment mf = new KapalFragment();
+                FragmentTransaction ft = Objects.requireNonNull(getActivity()).getSupportFragmentManager()
+                        .beginTransaction()
+                        .add(R.id.nav_host_fragment, mf, KapalFragment.class.getSimpleName())
+                        .addToBackStack(null);
+                ft.commit();
+
+                return true;
+            }
+            return false;
+        });
     }
 }

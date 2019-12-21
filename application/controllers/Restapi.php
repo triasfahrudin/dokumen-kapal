@@ -155,6 +155,86 @@ class Restapi extends CI_Controller
 
     }
 
+    public function insertupdate_kapal()
+    {
+        /*
+        @Field("id") int id,
+        @Field("pemohon_id") int pemohon_id,
+        @Field("nama_kapal") String namaKapal,
+        @Field("jenis_kapal") String jenisKapal,
+        @Field("imo_number") String imoNumber,
+        @Field("grt") int grt,
+        @Field("kapasitas_penumpang") int kapasitasPenumpang,
+        @Field("kapasitas_roda_dua") int kapasitasRodaDua,
+        @Field("kapasitas_roda_empat") int kapasitasRodaEmpat
+         */
+
+        header('content-type: application/json');
+
+        $id                   = $this->input->post('id');
+        $pemohon_id           = $this->input->post('pemohon_id');
+        $nama_kapal           = $this->input->post('nama_kapal');
+        $jenis_kapal          = $this->input->post('jenis_kapal');
+        $imo_number           = $this->input->post('imo_number');
+        $grt                  = $this->input->post('grt');
+        $kapasitas_penumpang  = $this->input->post('kapasitas_penumpang');
+        $kapasitas_roda_dua   = $this->input->post('kapasitas_roda_dua');
+        $kapasitas_roda_empat = $this->input->post('kapasitas_roda_empat');
+
+        if ($id == 0) {
+
+            $this->db->insert('kapal',
+                array(
+                    'pemohon_id'           => $pemohon_id,
+                    'nama_kapal'           => $nama_kapal,
+                    'jenis_kapal'          => $jenis_kapal,
+                    'imo_number'           => $imo_number,
+                    'grt'                  => $grt,
+                    'kapasitas_penumpang'  => $kapasitas_penumpang,
+                    'kapasitas_roda_dua'   => $kapasitas_roda_dua,
+                    'kapasitas_roda_empat' => $kapasitas_roda_empat,
+                )
+            );
+
+            echo json_encode(
+                array(
+                    'status'    => "Upload berhasil",
+                    'error_msg' => $this->db->error()['code'],
+                    'error'     => false,
+                    'last_id'   => $this->db->insert_id(),
+
+                )
+            );
+
+        } else {
+
+
+            $this->db->where('id',$id);
+            $this->db->update('kapal',
+                array(
+                    'nama_kapal'           => $nama_kapal,
+                    'jenis_kapal'          => $jenis_kapal,
+                    'imo_number'           => $imo_number,
+                    'grt'                  => $grt,
+                    'kapasitas_penumpang'  => $kapasitas_penumpang,
+                    'kapasitas_roda_dua'   => $kapasitas_roda_dua,
+                    'kapasitas_roda_empat' => $kapasitas_roda_empat,
+                )
+            );
+
+            echo json_encode(
+                array(
+                    'status'    => "Upload berhasil",
+                    'error_msg' => $this->db->error()['code'],
+                    'error'     => false,
+                    'last_id'   => $id,
+
+                )
+            );
+        }
+
+    }
+
     public function uploadfile()
     {
         /*
@@ -463,7 +543,7 @@ class Restapi extends CI_Controller
 
                         $this->db->insert('kapal',
                             array(
-                                'pemohon_id'      => $pemohon_id,
+                                'pemohon_id'               => $pemohon_id,
                                 'file_sertifikat_liferaft' => $file_name,
                             )
                         );
