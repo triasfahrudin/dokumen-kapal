@@ -1,4 +1,4 @@
-package com.kapal.dokumenkapal.ui.permohonan;
+package com.kapal.dokumenkapal.ui.menupermohonan;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

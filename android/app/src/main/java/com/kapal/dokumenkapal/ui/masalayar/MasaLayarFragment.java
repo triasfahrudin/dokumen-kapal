@@ -14,7 +14,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.kapal.dokumenkapal.R;
-import com.kapal.dokumenkapal.ui.permohonan.MenuPermohonanFragment;
+import com.kapal.dokumenkapal.ui.menupermohonan.MenuPermohonanFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

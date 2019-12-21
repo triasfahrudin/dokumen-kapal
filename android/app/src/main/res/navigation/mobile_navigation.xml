@@ -19,7 +19,7 @@
 
     <fragment
         android:id="@+id/nav_permohonan"
-        android:name="com.kapal.dokumenkapal.ui.permohonan.MenuPermohonanFragment"
+        android:name="com.kapal.dokumenkapal.ui.menupermohonan.MenuPermohonanFragment"
         android:label="@string/menu_permohonan"
         tools:layout="@layout/fragment_menu_permohonan" />
 
