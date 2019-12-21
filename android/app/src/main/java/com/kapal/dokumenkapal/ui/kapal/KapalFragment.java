@@ -89,7 +89,8 @@ public class KapalFragment extends Fragment {
 
                     @Override
                     public void onFailure(Call<KapalModelList> call, Throwable t) {
-                        Toasty.error(mContext, "Ada kesalahan!", Toast.LENGTH_LONG, true).show();
+                        Toasty.error(mContext, String.format("Ada kesalahan! %s",t.getMessage()), Toast.LENGTH_LONG, true).show();
+                        loading.dismiss();
                     }
                 });
 

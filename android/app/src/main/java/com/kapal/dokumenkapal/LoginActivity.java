@@ -92,18 +92,6 @@ public class LoginActivity extends AppCompatActivity {
                                 JSONObject jsonObject = new JSONObject(response.body().string());
                                 if (jsonObject.getString("error").equals("false")) {
 
-                                    /*
-                                    *
-                                    $response["error"]          = false;
-                                    $response["user"]["id"]     = $user["id"];
-                                    $response["user"]["jenis"]  = $user["jenis"];
-                                    $response["user"]["foto"]   = $user["foto"];
-                                    $response["user"]["npwp"]   = $user["npwp"];
-                                    $response["user"]["alamat"] = $user["alamat"];
-                                    $response["user"]["nama"]   = $user["nama"];
-                                    $response["user"]["email"]  = $user["email"];
-                                    $response["user"]["telp"]   = $user["no_telp"];
-                                    * */
                                     String nama = jsonObject.getJSONObject("user").getString("nama");
                                     sharedPrefManager.saveSPString(SharedPrefManager.SP_NAMA, nama);
 

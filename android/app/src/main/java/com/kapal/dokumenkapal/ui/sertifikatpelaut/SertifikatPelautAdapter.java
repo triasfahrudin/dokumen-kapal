@@ -1,7 +1,5 @@
 package com.kapal.dokumenkapal.ui.sertifikatpelaut;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,11 +8,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.kapal.dokumenkapal.R;
-import com.kapal.dokumenkapal.ui.bukupelaut.BukuPelautFragment;
 import com.kapal.dokumenkapal.ui.profile.ProfileFragment;
 
 import java.util.ArrayList;
@@ -38,35 +34,12 @@ public class SertifikatPelautAdapter extends RecyclerView.Adapter<SertifikatPela
     @Override
     public void onBindViewHolder(@NonNull SertifikatPelautAdapter.SertifikatPelautViewHolder holder, int position) {
         holder.tvNamaSertifikat.setText(dataList.get(position).getNamaSertifikat());
-        holder.tvPenerbit.setText("Penerbit : " + dataList.get(position).getPenerbit());
-        holder.tvTanggal.setText("Masa Berlaku : " + dataList.get(position).getTglTerbit() + " s/d " + dataList.get(position).getTglBerakhir());
+        holder.tvPenerbit.setText(String.format("Penerbit : %s", dataList.get(position).getPenerbit()));
+        holder.tvTanggal.setText(String.format("Masa Berlaku : %s s/d %s", dataList.get(position).getTglTerbit(), dataList.get(position).getTglBerakhir()));
 
-        /*
-
-        @SerializedName("id")
-        private int id;
-        @SerializedName("nama_sertifikat")
-        private String namaSertifikat;
-        @SerializedName("nomor")
-        private String nomor;
-        @SerializedName("penerbit")
-        private String penerbit;
-        @SerializedName("tglTerbit")
-        private String tglTerbit;
-        @SerializedName("tglBerakhir")
-        private String tglBerakhir;
-
-    */
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent intent = new Intent(view.getContext(),BukuPelautFragment.class);
-//                intent.putExtra("id",dataList.get(position).getId());
-//                intent.putExtra("nama_sertifikat",dataList.get(position).getNamaSertifikat());
-//                intent.putExtra("nomor",dataList.get(position).getNomor());
-//                intent.putExtra("penerbit",dataList.get(position).getPenerbit());
-//                intent.putExtra("tgl_terbit",dataList.get(position).getTglTerbit());
-//                intent.putExtra("tgl_berakhir",dataList.get(position).getTglBerakhir());
 
                 Bundle bundle = new Bundle();
                 bundle.putInt("id", dataList.get(position).getId());
@@ -76,25 +49,16 @@ public class SertifikatPelautAdapter extends RecyclerView.Adapter<SertifikatPela
                 bundle.putString("tgl_terbit", dataList.get(position).getTglTerbit());
                 bundle.putString("tgl_berakhir", dataList.get(position).getTglBerakhir());
 
-//                Context context = view.getContext();
-//                context.startActivity(intent);
-
-                ProfileFragment fragment = new ProfileFragment();
+                SertifikatPelautFormFragment fragment = new SertifikatPelautFormFragment();
                 fragment.setArguments(bundle);
                 AppCompatActivity activity = (AppCompatActivity) view.getContext();
 
                 activity.getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.nav_host_fragment,fragment)
+                        .replace(R.id.nav_host_fragment,fragment,SertifikatPelautFormFragment.class.getSimpleName())
                         .addToBackStack(null)
                         .commit();
 
-
-//                FragmentTransaction ft =  getActivity().getSupportFragmentManager()
-//                        .beginTransaction()
-//                        .replace(R.id.nav_host_fragment, fragment, BukuPelautFragment.class.getSimpleName())
-//                        .addToBackStack(null);
-//                ft.commit();
             }
         });
     }

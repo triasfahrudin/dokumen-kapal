@@ -48,7 +48,14 @@ class Restapi extends CI_Controller
 
         $pemohon_id = $this->input->get('pemohon_id');
 
-        $this->db->select('nama_kapal AS nama,jenis_kapal AS jenis,imo_number');
+        $this->db->select('id,
+                           nama_kapal,
+                           jenis_kapal,
+                           IFNULL(imo_number,"-") AS imo_number,
+                           IFNULL(grt,"0") AS grt,
+                           IFNULL(kapasitas_penumpang,"0") AS kapasitas_penumpang,
+                           IFNULL(kapasitas_roda_dua,"0") AS kapasitas_roda_dua,
+                           IFNULL(kapasitas_roda_empat,"0") AS kapasitas_roda_empat');
         $qry = $this->db->get_where('kapal', array('pemohon_id' => $pemohon_id));
 
         echo json_encode(
@@ -79,20 +86,20 @@ class Restapi extends CI_Controller
 
     /*
 
-        @SerializedName("id")
-        private int id;
-        @SerializedName("nama_sertifikat")
-        private String namaSertifikat;
-        @SerializedName("nomor")
-        private String nomor;
-        @SerializedName("penerbit")
-        private String penerbit;
-        @SerializedName("tglTerbit")
-        private String tglTerbit;
-        @SerializedName("tglBerakhir")
-        private String tglBerakhir;
+    @SerializedName("id")
+    private int id;
+    @SerializedName("nama_sertifikat")
+    private String namaSertifikat;
+    @SerializedName("nomor")
+    private String nomor;
+    @SerializedName("penerbit")
+    private String penerbit;
+    @SerializedName("tglTerbit")
+    private String tglTerbit;
+    @SerializedName("tglBerakhir")
+    private String tglBerakhir;
 
-    */
+     */
     public function get_sertifikatpelaut()
     {
 
@@ -185,8 +192,7 @@ class Restapi extends CI_Controller
 
         header('content-type: application/json');
 
-        $pemohon_id = $this->input->post('id');
-        $jenis      = $this->input->post('jenis');
+        $jenis = $this->input->post('jenis');
 
         $upload['upload_path']   = './uploads/dokumen';
         $upload['allowed_types'] = 'pdf';
@@ -211,24 +217,290 @@ class Restapi extends CI_Controller
             $success   = $this->upload->data();
             $file_name = $success['file_name'];
 
-            if ($jenis === '"buku_pelaut"') {
-                $this->db->query(
-                    "INSERT INTO buku_pelaut (pemohon_id,file)
-                    VALUES($pemohon_id,'$file_name')
-                    ON DUPLICATE KEY UPDATE file = '$file_name'"
-                );
+            switch ($jenis) {
+                case '"buku_pelaut"':
+                    $pemohon_id = $this->input->post('id');
+
+                    $this->db->query(
+                        "INSERT INTO buku_pelaut (pemohon_id,file)
+                        VALUES($pemohon_id,'$file_name')
+                        ON DUPLICATE KEY UPDATE file = '$file_name'"
+                    );
+
+                    echo json_encode(
+                        array(
+                            'status'    => "Upload berhasil",
+                            'error_msg' => $this->db->error()['code'],
+                            'error'     => false,
+
+                        )
+                    );
+
+                    break;
+
+                case '"kapal_surat_ukur"':
+
+                    $id = $this->input->post('id');
+
+                    if ($id == 0) {
+                        //insert
+                        $pemohon_id = $this->input->post('pemohon_id');
+
+                        $this->db->insert('kapal',
+                            array(
+                                'pemohon_id'      => $pemohon_id,
+                                'file_surat_ukur' => $file_name,
+                            )
+                        );
+
+                        echo json_encode(
+                            array(
+                                'status'    => "Upload berhasil",
+                                'error_msg' => $this->db->error()['code'],
+                                'error'     => false,
+                                'last_id'   => $this->db->insert_id(),
+
+                            )
+                        );
+
+                    } else {
+
+                        $this->db->where('id', $id);
+                        $this->db->update('kapal', array('file_surat_ukur' => $file_name));
+
+                        echo json_encode(
+                            array(
+                                'status'    => "Upload berhasil",
+                                'error_msg' => $this->db->error()['code'],
+                                'error'     => false,
+                                'last_id'   => $id,
+
+                            )
+                        );
+                    }
+
+                    break;
+
+                case '"kapal_surat_laut"':
+
+                    $id = $this->input->post('id');
+
+                    if ($id == 0) {
+                        //insert
+                        $pemohon_id = $this->input->post('pemohon_id');
+
+                        $this->db->insert('kapal',
+                            array(
+                                'pemohon_id'      => $pemohon_id,
+                                'file_surat_laut' => $file_name,
+                            )
+                        );
+
+                        echo json_encode(
+                            array(
+                                'status'    => "Upload berhasil",
+                                'error_msg' => $this->db->error()['code'],
+                                'error'     => false,
+                                'last_id'   => $this->db->insert_id(),
+
+                            )
+                        );
+
+                    } else {
+
+                        $this->db->where('id', $id);
+                        $this->db->update('kapal', array('file_surat_laut' => $file_name));
+
+                        echo json_encode(
+                            array(
+                                'status'    => "Upload berhasil",
+                                'error_msg' => $this->db->error()['code'],
+                                'error'     => false,
+                                'last_id'   => $id,
+
+                            )
+                        );
+                    }
+
+                    break;
+
+                case '"kapal_sertifikat_keselamatan"':
+
+                    $id = $this->input->post('id');
+
+                    if ($id == 0) {
+                        //insert
+                        $pemohon_id = $this->input->post('pemohon_id');
+
+                        $this->db->insert('kapal',
+                            array(
+                                'pemohon_id'                  => $pemohon_id,
+                                'file_sertifikat_keselamatan' => $file_name,
+                            )
+                        );
+
+                        echo json_encode(
+                            array(
+                                'status'    => "Upload berhasil",
+                                'error_msg' => $this->db->error()['code'],
+                                'error'     => false,
+                                'last_id'   => $this->db->insert_id(),
+
+                            )
+                        );
+
+                    } else {
+
+                        $this->db->where('id', $id);
+                        $this->db->update('kapal', array('file_sertifikat_keselamatan' => $file_name));
+
+                        echo json_encode(
+                            array(
+                                'status'    => "Upload berhasil",
+                                'error_msg' => $this->db->error()['code'],
+                                'error'     => false,
+                                'last_id'   => $id,
+
+                            )
+                        );
+                    }
+
+                    break;
+
+                case '"kapal_sertifikat_klasifikasi"':
+
+                    $id = $this->input->post('id');
+
+                    if ($id == 0) {
+                        //insert
+                        $pemohon_id = $this->input->post('pemohon_id');
+
+                        $this->db->insert('kapal',
+                            array(
+                                'pemohon_id'                  => $pemohon_id,
+                                'file_sertifikat_klasifikasi' => $file_name,
+                            )
+                        );
+
+                        echo json_encode(
+                            array(
+                                'status'    => "Upload berhasil",
+                                'error_msg' => $this->db->error()['code'],
+                                'error'     => false,
+                                'last_id'   => $this->db->insert_id(),
+
+                            )
+                        );
+
+                    } else {
+
+                        $this->db->where('id', $id);
+                        $this->db->update('kapal', array('file_sertifikat_klasifikasi' => $file_name));
+
+                        echo json_encode(
+                            array(
+                                'status'    => "Upload berhasil",
+                                'error_msg' => $this->db->error()['code'],
+                                'error'     => false,
+                                'last_id'   => $id,
+
+                            )
+                        );
+                    }
+
+                    break;
+
+                case '"kapal_sertifikat_pmk"':
+
+                    $id = $this->input->post('id');
+
+                    if ($id == 0) {
+                        //insert
+                        $pemohon_id = $this->input->post('pemohon_id');
+
+                        $this->db->insert('kapal',
+                            array(
+                                'pemohon_id'          => $pemohon_id,
+                                'file_sertifikat_pmk' => $file_name,
+                            )
+                        );
+
+                        echo json_encode(
+                            array(
+                                'status'    => "Upload berhasil",
+                                'error_msg' => $this->db->error()['code'],
+                                'error'     => false,
+                                'last_id'   => $this->db->insert_id(),
+
+                            )
+                        );
+
+                    } else {
+
+                        $this->db->where('id', $id);
+                        $this->db->update('kapal', array('file_sertifikat_pmk' => $file_name));
+
+                        echo json_encode(
+                            array(
+                                'status'    => "Upload berhasil",
+                                'error_msg' => $this->db->error()['code'],
+                                'error'     => false,
+                                'last_id'   => $id,
+
+                            )
+                        );
+                    }
+
+                    break;
+
+                case '"kapal_sertifikat_liferaft"':
+
+                    $id = $this->input->post('id');
+
+                    if ($id == 0) {
+                        //insert
+                        $pemohon_id = $this->input->post('pemohon_id');
+
+                        $this->db->insert('kapal',
+                            array(
+                                'pemohon_id'      => $pemohon_id,
+                                'file_sertifikat_liferaft' => $file_name,
+                            )
+                        );
+
+                        echo json_encode(
+                            array(
+                                'status'    => "Upload berhasil",
+                                'error_msg' => $this->db->error()['code'],
+                                'error'     => false,
+                                'last_id'   => $this->db->insert_id(),
+
+                            )
+                        );
+
+                    } else {
+
+                        $this->db->where('id', $id);
+                        $this->db->update('kapal', array('file_sertifikat_liferaft' => $file_name));
+
+                        echo json_encode(
+                            array(
+                                'status'    => "Upload berhasil",
+                                'error_msg' => $this->db->error()['code'],
+                                'error'     => false,
+                                'last_id'   => $id,
+
+                            )
+                        );
+                    }
+
+                    break;
+
+                default:
+                    # code...
+                    break;
             }
 
-            // $this->db->where('id', $pemohon_id);
-            // $this->db->update('pelaut', array('foto' => $file_name));
-
-            echo json_encode(
-                array(
-                    'message' => $this->db->error()['code'],
-                    'status'  => "OK:$jenis",
-
-                )
-            );
         }
     }
 

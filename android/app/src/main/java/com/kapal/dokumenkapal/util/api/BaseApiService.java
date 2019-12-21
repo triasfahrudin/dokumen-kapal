@@ -90,6 +90,16 @@ public interface BaseApiService {
             @Part("filename") RequestBody name
     );
 
+    @Multipart
+    @POST("uploadfile")
+    Call<ResponseBody> uploadFile(
+            @Part("jenis") String jenis,
+            @Part("id") int id,
+            @Part("pemohon_id") int pemohon_id,
+            @Part MultipartBody.Part file,
+            @Part("filename") RequestBody name
+    );
+
     @GET("get_sertifikatpelaut")
     Call<SertifikatPelautModelList> getSertifikatPelaut(@Query("pemohon_id") int pemohon_id);
 }

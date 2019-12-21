@@ -1,14 +1,17 @@
 package com.kapal.dokumenkapal.ui.kapal;
 
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.kapal.dokumenkapal.R;
+import com.kapal.dokumenkapal.ui.sertifikatpelaut.SertifikatPelautFormFragment;
 
 import java.util.ArrayList;
 
@@ -30,9 +33,34 @@ public class KapalAdapter extends RecyclerView.Adapter<KapalAdapter.KapalViewHol
 
     @Override
     public void onBindViewHolder(@NonNull KapalViewHolder holder, int position) {
-        holder.tvNama.setText(dataList.get(position).getNama());
-        holder.tvJenis.setText(dataList.get(position).getJenis());
-        holder.tvImoNumber.setText(dataList.get(position).getImo_number());
+        holder.tvNama.setText(String.format("Kapal: %s",dataList.get(position).getNama_kapal()));
+        holder.tvJenis.setText(String.format("Jenis: %s", dataList.get(position).getJenis_kapal()));
+        holder.tvImoNumber.setText(String.format("IMO Number: %s", dataList.get(position).getImo_number()));
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle bundle = new Bundle();
+                bundle.putInt("id", dataList.get(position).getId());
+                bundle.putString("nama_kapal", dataList.get(position).getNama_kapal());
+                bundle.putString("jenis_kapal", dataList.get(position).getJenis_kapal());
+                bundle.putString("imo_number", dataList.get(position).getImo_number());
+                bundle.putInt("grt", dataList.get(position).getGrt());
+                bundle.putInt("kapasitas_penumpang", dataList.get(position).getKapasitas_penumpang());
+                bundle.putInt("kapasitas_roda_dua", dataList.get(position).getKapasitas_roda_dua());
+                bundle.putInt("kapasitas_roda_empat", dataList.get(position).getKapasitas_roda_empat());
+
+                KapalFormFragment fragment = new KapalFormFragment();
+                fragment.setArguments(bundle);
+                AppCompatActivity activity = (AppCompatActivity) view.getContext();
+
+                activity.getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.nav_host_fragment,fragment,KapalFormFragment.class.getSimpleName())
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
     }
 
     @Override

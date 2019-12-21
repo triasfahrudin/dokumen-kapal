@@ -80,10 +80,10 @@ public class ProfileFragment extends Fragment {
                 ViewModelProviders.of(this).get(ProfileViewModel.class);
         View root = inflater.inflate(R.layout.fragment_form_profile, container, false);
 
-        String strtext = getArguments().getString("nama_sertifikat");
+//        String strtext = getArguments().getString("nama_sertifikat");
 
         androidx.appcompat.widget.Toolbar toolbar = (androidx.appcompat.widget.Toolbar) getActivity().findViewById(R.id.toolbar);
-        toolbar.setTitle("Profile " + strtext);
+        toolbar.setTitle("Profile ");
 
         FloatingActionButton floatingActionButton = ((MainActivity) Objects.requireNonNull(getActivity())).getFloatingActionButton();
         if (floatingActionButton != null) {
