@@ -197,7 +197,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:padding="5dp"
-                        android:text="Berisi tanggal naik, tanggal turun dan juga jabatan dikapal"
+                        android:text="Berisi tglTerbit naik, tglTerbit turun dan juga jabatan dikapal"
                         android:textColor="@android:color/darker_gray" />
 
                 </LinearLayout>

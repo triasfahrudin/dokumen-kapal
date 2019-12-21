@@ -13,7 +13,7 @@
 
     <fragment
         android:id="@+id/nav_profile"
-        android:name="com.kapal.dokumenkapal.ui.profiledata.MenuProfileDataFragment"
+        android:name="com.kapal.dokumenkapal.ui.menuprofiledata.MenuProfileDataFragment"
         android:label="@string/menu_profile_data"
         tools:layout="@layout/fragment_menu_profile_data" />
 

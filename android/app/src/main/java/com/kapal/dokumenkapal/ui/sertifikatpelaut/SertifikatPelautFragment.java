@@ -15,8 +15,10 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.kapal.dokumenkapal.MainActivity;
 import com.kapal.dokumenkapal.R;
-import com.kapal.dokumenkapal.ui.profiledata.MenuProfileDataFragment;
+import com.kapal.dokumenkapal.ui.menuprofiledata.MenuProfileDataFragment;
 import com.kapal.dokumenkapal.util.SharedPrefManager;
 import com.kapal.dokumenkapal.util.api.BaseApiService;
 import com.kapal.dokumenkapal.util.api.UtilsApi;
@@ -55,6 +57,20 @@ public class SertifikatPelautFragment extends Fragment {
         mBaseApiService = UtilsApi.getAPIService();
         sharedPrefManager = new SharedPrefManager(mContext);
 
+        androidx.appcompat.widget.Toolbar toolbar = (androidx.appcompat.widget.Toolbar) getActivity().findViewById(R.id.toolbar);
+        toolbar.setTitle("Data Sertifikat Pelaut");
+        FloatingActionButton floatingActionButton = ((MainActivity) Objects.requireNonNull(getActivity())).getFloatingActionButton();
+        if (floatingActionButton != null) {
+            floatingActionButton.show();
+
+            floatingActionButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toasty.error(mContext, "Ada kesalahan!", Toast.LENGTH_LONG, true).show();
+                }
+            });
+        }
+
         loading = ProgressDialog.show(mContext, null, "Mengambil data ...", true, false);
 
         mBaseApiService.getSertifikatPelaut(sharedPrefManager.getSPID())
@@ -83,9 +99,7 @@ public class SertifikatPelautFragment extends Fragment {
     private void generateSertifikatPelautList(ArrayList<SertifikatPelautModelRecycler> sertifikatPelautArrayList) {
 
         recyclerView = (RecyclerView) getView().findViewById(R.id.recycler_view_riwayat_pelayaran_list);
-
         sertifikatPelautAdapter = new SertifikatPelautAdapter(sertifikatPelautArrayList);
-
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
 
         recyclerView.setLayoutManager(layoutManager);

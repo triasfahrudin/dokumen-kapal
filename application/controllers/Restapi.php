@@ -77,6 +77,22 @@ class Restapi extends CI_Controller
 
     }
 
+    /*
+
+        @SerializedName("id")
+        private int id;
+        @SerializedName("nama_sertifikat")
+        private String namaSertifikat;
+        @SerializedName("nomor")
+        private String nomor;
+        @SerializedName("penerbit")
+        private String penerbit;
+        @SerializedName("tglTerbit")
+        private String tglTerbit;
+        @SerializedName("tglBerakhir")
+        private String tglBerakhir;
+
+    */
     public function get_sertifikatpelaut()
     {
 
@@ -84,7 +100,12 @@ class Restapi extends CI_Controller
 
         $pemohon_id = $this->input->get('pemohon_id');
 
-        $this->db->select("nama_sertifikat,CONCAT('Penerbit : ',penerbit) AS penerbit,CONCAT('Masa Berlaku ',' : ',DATE_FORMAT(tgl_terbit, '%d/%m/%Y'),' s/d ',DATE_FORMAT(tgl_berakhir, '%d/%m/%Y')) AS tanggal");
+        $this->db->select("id,
+                           nama_sertifikat,
+                           nomor,
+                           penerbit,
+                           DATE_FORMAT(tgl_terbit, '%d/%m/%Y') AS tgl_terbit,
+                           DATE_FORMAT(tgl_berakhir, '%d/%m/%Y') AS tgl_berakhir");
         $qry = $this->db->get_where('sertifikat_pelaut', array('pemohon_id' => $pemohon_id));
 
         echo json_encode(

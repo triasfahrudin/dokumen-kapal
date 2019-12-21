@@ -6,26 +6,22 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FrameLayout;
-import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.fragment.app.FragmentTransaction;
 
-import com.kapal.dokumenkapal.LoginActivity;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.kapal.dokumenkapal.MainActivity;
 import com.kapal.dokumenkapal.R;
-import com.kapal.dokumenkapal.ui.profile.ProfileViewModel;
+import com.kapal.dokumenkapal.ui.menuprofiledata.MenuProfileDataFragment;
 import com.kapal.dokumenkapal.util.SharedPrefManager;
 import com.kapal.dokumenkapal.util.api.BaseApiService;
 import com.kapal.dokumenkapal.util.api.UtilsApi;
@@ -44,10 +40,12 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import es.dmoral.toasty.Toasty;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -130,9 +128,27 @@ public class BukuPelautFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+
+        //Objects.requireNonNull(getActivity()).setTitle("Form Buku Pelaut");
+
         View root = inflater.inflate(R.layout.fragment_form_bukupelaut, container, false);
         requestMultiplePermissions();
         ButterKnife.bind(this, root);
+
+        androidx.appcompat.widget.Toolbar toolbar = (androidx.appcompat.widget.Toolbar) getActivity().findViewById(R.id.toolbar);
+        toolbar.setTitle("Buku Pelaut");
+        FloatingActionButton floatingActionButton = ((MainActivity) Objects.requireNonNull(getActivity())).getFloatingActionButton();
+        if (floatingActionButton != null) {
+            floatingActionButton.hide();
+
+            floatingActionButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toasty.error(mContext, "Ada kesalahan!", Toast.LENGTH_LONG, true).show();
+                }
+            });
+        }
+
         mBaseApiService = UtilsApi.getAPIService();
         sharedPrefManager = new SharedPrefManager(mContext);
         loading = ProgressDialog.show(mContext, null, "Mengambil data ...", true, false);
@@ -270,6 +286,29 @@ public class BukuPelautFragment extends Fragment {
                         Log.e("", "Response returned by website is : " + t.getMessage());
                     }
                 });
+    }
+
+    @Override
+    //Pressed return button
+    public void onResume() {
+        super.onResume();
+        Objects.requireNonNull(getView()).setFocusableInTouchMode(true);
+        getView().requestFocus();
+        getView().setOnKeyListener((v, keyCode, event) -> {
+
+            if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK) {
+
+                MenuProfileDataFragment mf = new MenuProfileDataFragment();
+                FragmentTransaction ft = Objects.requireNonNull(getActivity()).getSupportFragmentManager()
+                        .beginTransaction()
+                        .add(R.id.nav_host_fragment, mf, MenuProfileDataFragment.class.getSimpleName())
+                        .addToBackStack(null);
+                ft.commit();
+
+                return true;
+            }
+            return false;
+        });
     }
 
 

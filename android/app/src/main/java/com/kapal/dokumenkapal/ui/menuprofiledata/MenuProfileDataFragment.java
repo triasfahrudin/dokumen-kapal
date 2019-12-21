@@ -1,4 +1,4 @@
-package com.kapal.dokumenkapal.ui.profiledata;
+package com.kapal.dokumenkapal.ui.menuprofiledata;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -6,12 +6,15 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.kapal.dokumenkapal.MainActivity;
 import com.kapal.dokumenkapal.R;
 import com.kapal.dokumenkapal.ui.bukupelaut.BukuPelautFragment;
 import com.kapal.dokumenkapal.ui.home.HomeFragment;
@@ -25,6 +28,7 @@ import java.util.Objects;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import es.dmoral.toasty.Toasty;
 
 public class MenuProfileDataFragment extends Fragment {
 
@@ -56,6 +60,21 @@ public class MenuProfileDataFragment extends Fragment {
 
         View root = inflater.inflate(R.layout.fragment_menu_profile_data, container, false);
         ButterKnife.bind(this, root);
+
+        androidx.appcompat.widget.Toolbar toolbar = (androidx.appcompat.widget.Toolbar) getActivity().findViewById(R.id.toolbar);
+        toolbar.setTitle("Profile Dan Data");
+
+        FloatingActionButton floatingActionButton = ((MainActivity) Objects.requireNonNull(getActivity())).getFloatingActionButton();
+        if (floatingActionButton != null) {
+            floatingActionButton.hide();
+
+            floatingActionButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toasty.error(mContext, "Ada kesalahan!", Toast.LENGTH_LONG, true).show();
+                }
+            });
+        }
 
         return root;
     }

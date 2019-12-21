@@ -1,4 +1,6 @@
 package com.kapal.dokumenkapal.ui.sertifikatpelaut;
 
-public class SertifikatPelautFormFragment {
+import androidx.fragment.app.Fragment;
+
+public class SertifikatPelautFormFragment extends Fragment {
 }
