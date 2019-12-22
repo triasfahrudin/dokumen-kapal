@@ -71,6 +71,19 @@ public interface BaseApiService {
             @Field("kapasitas_roda_empat") int kapasitasRodaEmpat
     );
 
+    @FormUrlEncoded
+    @POST("insertupdate_riwayatpelayaran")
+    Call<ResponseBody> insertUpdateRiwayatPelayaranRequest(
+            @Field("id") int id,
+            @Field("pemohon_id") int pemohon_id,
+            @Field("nama_kapal") String namaKapal,
+            @Field("tenaga_mesin") String tenagaMesin,
+            @Field("jabatan") String jabatan,
+            @Field("tgl_naik") String tgl_naik,
+            @Field("tgl_turun") String tgl_turun
+
+    );
+
     @GET("get_bukupelaut/{pemohon_id}")
     Call<ResponseBody> getBukuPelautRequest(@Path("pemohon_id") int pemohon_id);
 
@@ -84,15 +97,11 @@ public interface BaseApiService {
     @GET("get_profile/{id}")
     Call<ResponseBody> getProfileRequest(@Path("id") int id);
 
+    @GET("delete_kapal/{id}")
+    Call<ResponseBody> delKapalRequest(@Path("id") int id);
 
-//    @POST("update_profile/{id}")
-//    Call<ResponseBody> updateProfileRequest(
-//            @Path("id") int id,
-//            @Field("nama") String nama,
-//            @Field("email") String email,
-//            @Field("no_telp") String no_telp,
-//            @Field("alamat") String alamat
-//    );
+    @GET("delete_riwayatpelayaran/{id}")
+    Call<ResponseBody> delRiwayatPelayaranRequest(@Path("id") int id);
 
 
     @Multipart

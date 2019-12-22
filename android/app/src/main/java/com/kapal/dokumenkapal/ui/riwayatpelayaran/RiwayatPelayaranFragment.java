@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -18,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.kapal.dokumenkapal.MainActivity;
 import com.kapal.dokumenkapal.R;
+import com.kapal.dokumenkapal.ui.kapal.KapalFormFragment;
 import com.kapal.dokumenkapal.ui.menuprofiledata.MenuProfileDataFragment;
 import com.kapal.dokumenkapal.util.SharedPrefManager;
 import com.kapal.dokumenkapal.util.api.BaseApiService;
@@ -54,11 +57,9 @@ public class RiwayatPelayaranFragment extends Fragment {
 
         View root = inflater.inflate(R.layout.fragment_listview_riwayat_pelayaran, container, false);
 
-        mBaseApiService = UtilsApi.getAPIService();
-        sharedPrefManager = new SharedPrefManager(mContext);
 
 
-        androidx.appcompat.widget.Toolbar toolbar = (androidx.appcompat.widget.Toolbar) getActivity().findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
         toolbar.setTitle("Data Riwayat Pelayaran");
         FloatingActionButton floatingActionButton = ((MainActivity) Objects.requireNonNull(getActivity())).getFloatingActionButton();
         if (floatingActionButton != null) {
@@ -67,10 +68,32 @@ public class RiwayatPelayaranFragment extends Fragment {
             floatingActionButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toasty.error(mContext, "Ada kesalahan!", Toast.LENGTH_LONG, true).show();
+
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("id", 0);
+                    bundle.putString("nama_kapal", "");
+                    bundle.putString("tenaga_mesin", "");
+                    bundle.putString("jabatan", "");
+                    bundle.putString("tgl_naik", "");
+                    bundle.putString("tgl_turun", "");
+
+                    RiwayatPelayaranFormFragment fragment = new RiwayatPelayaranFormFragment();
+                    fragment.setArguments(bundle);
+                    AppCompatActivity activity = (AppCompatActivity) view.getContext();
+
+                    activity.getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.nav_host_fragment, fragment, RiwayatPelayaranFormFragment.class.getSimpleName())
+                            .addToBackStack(null)
+                            .commit();
+
+                   // Toasty.error(mContext, "Ada kesalahan!", Toast.LENGTH_LONG, true).show();
                 }
             });
         }
+
+        mBaseApiService = UtilsApi.getAPIService();
+        sharedPrefManager = new SharedPrefManager(mContext);
 
         loading = ProgressDialog.show(mContext, null, "Mengambil data ...", true, false);
 
@@ -91,6 +114,7 @@ public class RiwayatPelayaranFragment extends Fragment {
                     @Override
                     public void onFailure(Call<RiwayatPelayaranModelList> call, Throwable t) {
                         Toasty.error(mContext, "Ada kesalahan!", Toast.LENGTH_LONG, true).show();
+                        loading.dismiss();
                     }
                 });
 
@@ -100,9 +124,7 @@ public class RiwayatPelayaranFragment extends Fragment {
     private void generateRiwayatPelayaranList(ArrayList<RiwayatPelayaranModelRecycler> riwayatPelayaranArrayList) {
 
         recyclerView = (RecyclerView) getView().findViewById(R.id.recycler_view_riwayat_pelayaran_list);
-
         riwayatPelayaranAdapter = new RiwayatPelayaranAdapter(riwayatPelayaranArrayList);
-
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
 
         recyclerView.setLayoutManager(layoutManager);

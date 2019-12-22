@@ -73,7 +73,12 @@ class Restapi extends CI_Controller
 
         $pemohon_id = $this->input->get('pemohon_id');
 
-        $this->db->select("CONCAT('Kapal :',nama_kapal) AS namaKapal,CONCAT('Jabatan :',jabatan) AS jabatan,CONCAT('Dari ',' : ',DATE_FORMAT(tgl_naik, '%d/%m/%Y'),' s/d ',DATE_FORMAT(tgl_turun, '%d/%m/%Y')) AS tanggal");
+        $this->db->select("id,
+                           nama_kapal,
+                           tenaga_mesin,
+                           jabatan,
+                           DATE_FORMAT(tgl_naik, '%d/%m/%Y') AS tgl_naik,
+                           DATE_FORMAT(tgl_turun, '%d/%m/%Y') AS tgl_turun");
         $qry = $this->db->get_where('riwayat_pelayaran', array('pemohon_id' => $pemohon_id));
 
         echo json_encode(
@@ -157,17 +162,6 @@ class Restapi extends CI_Controller
 
     public function insertupdate_kapal()
     {
-        /*
-        @Field("id") int id,
-        @Field("pemohon_id") int pemohon_id,
-        @Field("nama_kapal") String namaKapal,
-        @Field("jenis_kapal") String jenisKapal,
-        @Field("imo_number") String imoNumber,
-        @Field("grt") int grt,
-        @Field("kapasitas_penumpang") int kapasitasPenumpang,
-        @Field("kapasitas_roda_dua") int kapasitasRodaDua,
-        @Field("kapasitas_roda_empat") int kapasitasRodaEmpat
-         */
 
         header('content-type: application/json');
 
@@ -208,8 +202,7 @@ class Restapi extends CI_Controller
 
         } else {
 
-
-            $this->db->where('id',$id);
+            $this->db->where('id', $id);
             $this->db->update('kapal',
                 array(
                     'nama_kapal'           => $nama_kapal,
@@ -225,6 +218,78 @@ class Restapi extends CI_Controller
             echo json_encode(
                 array(
                     'status'    => "Upload berhasil",
+                    'error_msg' => $this->db->error()['code'],
+                    'error'     => false,
+                    'last_id'   => $id,
+
+                )
+            );
+        }
+
+    }
+
+    public function insertupdate_riwayatpelayaran()
+    {
+
+        /*
+
+        @Field("id") int id,
+        @Field("pemohon_id") int pemohon_id,
+        @Field("nama_kapal") String namaKapal,
+        @Field("tenaga_mesin") String tenagaMesin,
+        @Field("jabatan") String jabatan,
+        @Field("tgl_naik") String tgl_naik,
+        @Field("tgl_turun") String tgl_turun
+         */
+        header('content-type: application/json');
+
+        $id           = $this->input->post('id');
+        $pemohon_id   = $this->input->post('pemohon_id');
+        $nama_kapal   = $this->input->post('nama_kapal');
+        $tenaga_mesin = $this->input->post('tenaga_mesin');
+        $jabatan      = $this->input->post('jabatan');
+        $tgl_naik     = $this->input->post('tgl_naik');
+        $tgl_turun    = $this->input->post('tgl_turun');
+
+        if ($id == 0) {
+
+            $this->db->insert('riwayat_pelayaran',
+                array(
+                    'pemohon_id'   => $pemohon_id,
+                    'nama_kapal'   => $nama_kapal,
+                    'tenaga_mesin' => $tenaga_mesin,
+                    'jabatan'      => $jabatan,
+                    'tgl_naik'     => convert_date_to_sql_date($tgl_naik, 'd/m/Y'),
+                    'tgl_turun'    => convert_date_to_sql_date($tgl_turun, 'd/m/Y'),
+                )
+            );
+
+            echo json_encode(
+                array(
+                    'status'    => "Data berhasil simpan",
+                    'error_msg' => $this->db->error()['code'],
+                    'error'     => false,
+                    'last_id'   => $this->db->insert_id(),
+
+                )
+            );
+
+        } else {
+
+            $this->db->where('id', $id);
+            $this->db->update('riwayat_pelayaran',
+                array(
+                    'nama_kapal'   => $nama_kapal,
+                    'tenaga_mesin' => $tenaga_mesin,
+                    'jabatan'      => $jabatan,
+                    'tgl_naik'     => convert_date_to_sql_date($tgl_naik, 'd/m/Y'),
+                    'tgl_turun'    => convert_date_to_sql_date($tgl_turun, 'd/m/Y'),
+                )
+            );
+
+            echo json_encode(
+                array(
+                    'status'    => "Data berhasil simpan",
                     'error_msg' => $this->db->error()['code'],
                     'error'     => false,
                     'last_id'   => $id,
@@ -582,6 +647,50 @@ class Restapi extends CI_Controller
             }
 
         }
+    }
+
+    public function delete_kapal($id)
+    {
+
+        header("content-type: application/json");
+
+        // $id = $this->input->get('id');
+
+        $this->db->where('id', $id);
+        $this->db->delete('kapal');
+
+        echo json_encode(
+            array(
+                'status'    => "Hapus data berhasil",
+                'error_msg' => $this->db->error()['code'],
+                'error'     => false,
+                'last_id'   => $id,
+
+            )
+        );
+
+    }
+
+    public function delete_riwayatpelayaran($id)
+    {
+
+        header("content-type: application/json");
+
+        // $id = $this->input->get('id');
+
+        $this->db->where('id', $id);
+        $this->db->delete('riwayat_pelayaran');
+
+        echo json_encode(
+            array(
+                'status'    => "Hapus data berhasil",
+                'error_msg' => $this->db->error()['code'],
+                'error'     => false,
+                'last_id'   => $id,
+
+            )
+        );
+
     }
 
     /*

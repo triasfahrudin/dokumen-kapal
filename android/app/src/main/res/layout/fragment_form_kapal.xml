@@ -382,6 +382,15 @@
             android:text="SIMPAN"
             android:textColor="#F0E8E8" />
 
+        <Button
+            android:id="@+id/kapal_btnDelete"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="#D50000"
+            android:text="HAPUS"
+            android:textColor="#F0E8E8" />
+
 
     </LinearLayout>
 

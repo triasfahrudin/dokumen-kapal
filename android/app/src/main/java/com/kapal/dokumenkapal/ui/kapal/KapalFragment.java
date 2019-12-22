@@ -11,10 +11,12 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.kapal.dokumenkapal.MainActivity;
@@ -27,6 +29,7 @@ import com.kapal.dokumenkapal.util.api.UtilsApi;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import butterknife.BindView;
 import es.dmoral.toasty.Toasty;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -37,11 +40,11 @@ public class KapalFragment extends Fragment {
     private KapalAdapter kapalAdapter;
     private RecyclerView recyclerView;
 
-    Context mContext;
-    BaseApiService mBaseApiService;
-    SharedPrefManager sharedPrefManager;
+    private Context mContext;
+    private BaseApiService mBaseApiService;
+    private SharedPrefManager sharedPrefManager;
 
-    ProgressDialog loading;
+    private ProgressDialog loading;
 
     @Override
     public void onAttach(Context context) {
@@ -55,7 +58,7 @@ public class KapalFragment extends Fragment {
 
         View root = inflater.inflate(R.layout.fragment_listview_kapal, container, false);
 
-        androidx.appcompat.widget.Toolbar toolbar = (androidx.appcompat.widget.Toolbar) getActivity().findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
         toolbar.setTitle("Data Kapal");
         FloatingActionButton floatingActionButton = ((MainActivity) Objects.requireNonNull(getActivity())).getFloatingActionButton();
         if (floatingActionButton != null) {
@@ -64,7 +67,6 @@ public class KapalFragment extends Fragment {
             floatingActionButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-//                    Toasty.error(mContext, "Ada kesalahan!", Toast.LENGTH_LONG, true).show();
 
                     Bundle bundle = new Bundle();
                     bundle.putInt("id", 0);
@@ -82,7 +84,7 @@ public class KapalFragment extends Fragment {
 
                     activity.getSupportFragmentManager()
                             .beginTransaction()
-                            .replace(R.id.nav_host_fragment,fragment,KapalFormFragment.class.getSimpleName())
+                            .replace(R.id.nav_host_fragment, fragment, KapalFormFragment.class.getSimpleName())
                             .addToBackStack(null)
                             .commit();
                 }
@@ -110,7 +112,7 @@ public class KapalFragment extends Fragment {
 
                     @Override
                     public void onFailure(Call<KapalModelList> call, Throwable t) {
-                        Toasty.error(mContext, String.format("Ada kesalahan! %s",t.getMessage()), Toast.LENGTH_LONG, true).show();
+                        Toasty.error(mContext, String.format("Ada kesalahan! %s", t.getMessage()), Toast.LENGTH_LONG, true).show();
                         loading.dismiss();
                     }
                 });
@@ -132,16 +134,16 @@ public class KapalFragment extends Fragment {
     //Pressed return button
     public void onResume() {
         super.onResume();
-        getView().setFocusableInTouchMode(true);
+        Objects.requireNonNull(getView()).setFocusableInTouchMode(true);
         getView().requestFocus();
         getView().setOnKeyListener((v, keyCode, event) -> {
 
-            if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK){
+            if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK) {
 
                 MenuProfileDataFragment mf = new MenuProfileDataFragment();
                 FragmentTransaction ft = Objects.requireNonNull(getActivity()).getSupportFragmentManager()
                         .beginTransaction()
-                        .add(R.id.nav_host_fragment, mf,MenuProfileDataFragment.class.getSimpleName())
+                        .add(R.id.nav_host_fragment, mf, MenuProfileDataFragment.class.getSimpleName())
                         .addToBackStack(null);
                 ft.commit();
 
