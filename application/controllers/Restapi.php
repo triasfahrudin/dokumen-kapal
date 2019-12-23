@@ -89,22 +89,6 @@ class Restapi extends CI_Controller
 
     }
 
-    /*
-
-    @SerializedName("id")
-    private int id;
-    @SerializedName("nama_sertifikat")
-    private String namaSertifikat;
-    @SerializedName("nomor")
-    private String nomor;
-    @SerializedName("penerbit")
-    private String penerbit;
-    @SerializedName("tglTerbit")
-    private String tglTerbit;
-    @SerializedName("tglBerakhir")
-    private String tglBerakhir;
-
-     */
     public function get_sertifikatpelaut()
     {
 
@@ -231,16 +215,6 @@ class Restapi extends CI_Controller
     public function insertupdate_riwayatpelayaran()
     {
 
-        /*
-
-        @Field("id") int id,
-        @Field("pemohon_id") int pemohon_id,
-        @Field("nama_kapal") String namaKapal,
-        @Field("tenaga_mesin") String tenagaMesin,
-        @Field("jabatan") String jabatan,
-        @Field("tgl_naik") String tgl_naik,
-        @Field("tgl_turun") String tgl_turun
-         */
         header('content-type: application/json');
 
         $id           = $this->input->post('id');
@@ -284,6 +258,66 @@ class Restapi extends CI_Controller
                     'jabatan'      => $jabatan,
                     'tgl_naik'     => convert_date_to_sql_date($tgl_naik, 'd/m/Y'),
                     'tgl_turun'    => convert_date_to_sql_date($tgl_turun, 'd/m/Y'),
+                )
+            );
+
+            echo json_encode(
+                array(
+                    'status'    => "Data berhasil simpan",
+                    'error_msg' => $this->db->error()['code'],
+                    'error'     => false,
+                    'last_id'   => $id,
+
+                )
+            );
+        }
+
+    }
+
+    public function insertupdate_sertifikatpelaut()
+    {
+
+        header('content-type: application/json');
+
+        $id              = $this->input->post('id');
+        $pemohon_id      = $this->input->post('pemohon_id');
+        $nama_sertifikat = $this->input->post('nama_sertifikat');
+        $nomor           = $this->input->post('nomor');
+        $penerbit        = $this->input->post('penerbit');
+        $tgl_terbit      = $this->input->post('tgl_terbit');
+
+        if ($id == 0) {
+
+            $this->db->insert('sertifikat_pelaut',
+                array(
+                    'pemohon_id'      => $pemohon_id,
+                    'nama_sertifikat' => $nama_sertifikat,
+                    'nomor'           => $nomor,
+                    'penerbit'        => $penerbit,
+                    'tgl_terbit'      => convert_date_to_sql_date($tgl_terbit, 'd/m/Y'),
+
+                )
+            );
+
+            echo json_encode(
+                array(
+                    'status'    => "Data berhasil simpan",
+                    'error_msg' => $this->db->error()['code'],
+                    'error'     => false,
+                    'last_id'   => $this->db->insert_id(),
+
+                )
+            );
+
+        } else {
+
+            $this->db->where('id', $id);
+            $this->db->update('sertifikat_pelaut',
+                array(
+                    'nama_sertifikat' => $nama_sertifikat,
+                    'nomor'           => $nomor,
+                    'penerbit'        => $penerbit,
+                    'tgl_terbit'      => convert_date_to_sql_date($tgl_terbit, 'd/m/Y'),
                 )
             );
 
@@ -412,6 +446,49 @@ class Restapi extends CI_Controller
 
                         $this->db->where('id', $id);
                         $this->db->update('kapal', array('file_surat_ukur' => $file_name));
+
+                        echo json_encode(
+                            array(
+                                'status'    => "Upload berhasil",
+                                'error_msg' => $this->db->error()['code'],
+                                'error'     => false,
+                                'last_id'   => $id,
+
+                            )
+                        );
+                    }
+
+                    break;
+
+                case '"sertifikat_pelaut"':
+
+                    $id = $this->input->post('id');
+
+                    if ($id == 0) {
+
+                        $pemohon_id = $this->input->post('pemohon_id');
+
+                        $this->db->insert('sertifikat_pelaut',
+                            array(
+                                'pemohon_id' => $pemohon_id,
+                                'file'       => $file_name,
+                            )
+                        );
+
+                        echo json_encode(
+                            array(
+                                'status'    => "Upload berhasil",
+                                'error_msg' => $this->db->error()['code'],
+                                'error'     => false,
+                                'last_id'   => $this->db->insert_id(),
+
+                            )
+                        );
+
+                    } else {
+
+                        $this->db->where('id', $id);
+                        $this->db->update('sertifikat_pelaut', array('file' => $file_name));
 
                         echo json_encode(
                             array(
@@ -693,13 +770,27 @@ class Restapi extends CI_Controller
 
     }
 
-    /*
-    @Field("id") int pemohon_id,
-    @Field("nama") String nama,
-    @Field("email") String email,
-    @Field("no_telp") String no_telp,
-    @Field("alamat") String alamat
-     */
+    public function delete_sertifikatpelaut($id)
+    {
+
+        header("content-type: application/json");
+
+        // $id = $this->input->get('id');
+
+        $this->db->where('id', $id);
+        $this->db->delete('sertifikat_pelaut');
+
+        echo json_encode(
+            array(
+                'status'    => "Hapus data berhasil",
+                'error_msg' => $this->db->error()['code'],
+                'error'     => false,
+                'last_id'   => $id,
+
+            )
+        );
+
+    }
 
     public function update_profile()
     {

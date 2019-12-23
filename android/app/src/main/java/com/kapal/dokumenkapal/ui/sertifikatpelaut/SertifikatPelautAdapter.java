@@ -11,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.kapal.dokumenkapal.R;
-import com.kapal.dokumenkapal.ui.profile.ProfileFragment;
 
 import java.util.ArrayList;
 
@@ -33,9 +32,9 @@ public class SertifikatPelautAdapter extends RecyclerView.Adapter<SertifikatPela
 
     @Override
     public void onBindViewHolder(@NonNull SertifikatPelautAdapter.SertifikatPelautViewHolder holder, int position) {
-        holder.tvNamaSertifikat.setText(dataList.get(position).getNamaSertifikat());
+        holder.tvNamaSertifikat.setText(dataList.get(position).getNama_sertifikat());
         holder.tvPenerbit.setText(String.format("Penerbit : %s", dataList.get(position).getPenerbit()));
-        holder.tvTanggal.setText(String.format("Masa Berlaku : %s s/d %s", dataList.get(position).getTglTerbit(), dataList.get(position).getTglBerakhir()));
+        holder.tvTanggal.setText(String.format("Tanggal terbit : %s ", dataList.get(position).getTgl_terbit()));
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,11 +42,10 @@ public class SertifikatPelautAdapter extends RecyclerView.Adapter<SertifikatPela
 
                 Bundle bundle = new Bundle();
                 bundle.putInt("id", dataList.get(position).getId());
-                bundle.putString("nama_sertifikat", dataList.get(position).getNamaSertifikat());
+                bundle.putString("nama_sertifikat", dataList.get(position).getNama_sertifikat());
                 bundle.putString("nomor", dataList.get(position).getNomor());
                 bundle.putString("penerbit", dataList.get(position).getPenerbit());
-                bundle.putString("tgl_terbit", dataList.get(position).getTglTerbit());
-                bundle.putString("tgl_berakhir", dataList.get(position).getTglBerakhir());
+                bundle.putString("tgl_terbit", dataList.get(position).getTgl_terbit());
 
                 SertifikatPelautFormFragment fragment = new SertifikatPelautFormFragment();
                 fragment.setArguments(bundle);

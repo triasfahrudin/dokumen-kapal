@@ -11,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.kapal.dokumenkapal.R;
-import com.kapal.dokumenkapal.ui.sertifikatpelaut.SertifikatPelautFormFragment;
 
 import java.util.ArrayList;
 

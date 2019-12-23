@@ -373,7 +373,7 @@ public class KapalFormFragment extends Fragment {
     }
 
     @OnClick(R.id.kapal_btnDelete)
-    public void onBtnDeleteClicked() {
+    void onBtnDeleteClicked() {
         loading = ProgressDialog.show(mContext, null, "Menghapus data, Mohon tunggu...", true, false);
         mBaseApiService.delKapalRequest(
                 this.recyclerID

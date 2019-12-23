@@ -81,7 +81,6 @@ public interface BaseApiService {
             @Field("jabatan") String jabatan,
             @Field("tgl_naik") String tgl_naik,
             @Field("tgl_turun") String tgl_turun
-
     );
 
     @GET("get_bukupelaut/{pemohon_id}")
@@ -125,4 +124,18 @@ public interface BaseApiService {
 
     @GET("get_sertifikatpelaut")
     Call<SertifikatPelautModelList> getSertifikatPelaut(@Query("pemohon_id") int pemohon_id);
+
+    @FormUrlEncoded
+    @POST("insertupdate_sertifikatpelaut")
+    Call<ResponseBody> insertUpdateSertifikatPelautRequest(
+            @Field("id") int id,
+            @Field("pemohon_id") int pemohon_id,
+            @Field("nama_sertifikat") String nama_sertifikat,
+            @Field("nomor") String nomor,
+            @Field("penerbit") String penerbit,
+            @Field("tgl_terbit") String tgl_terbit
+    );
+
+    @GET("delete_sertifikatpelaut/{id}")
+    Call<ResponseBody> delSertifikatPelautRequest(@Path("id") int id);
 }

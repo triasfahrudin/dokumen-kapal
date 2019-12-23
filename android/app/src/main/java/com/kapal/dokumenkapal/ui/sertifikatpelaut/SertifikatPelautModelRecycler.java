@@ -7,24 +7,22 @@ public class SertifikatPelautModelRecycler {
     @SerializedName("id")
     private int id;
     @SerializedName("nama_sertifikat")
-    private String namaSertifikat;
+    private String nama_sertifikat;
     @SerializedName("nomor")
     private String nomor;
     @SerializedName("penerbit")
     private String penerbit;
     @SerializedName("tgl_terbit")
-    private String tglTerbit;
-    @SerializedName("tgl_berakhir")
-    private String tglBerakhir;
+    private String tgl_terbit;
 
-    public SertifikatPelautModelRecycler(int id, String namaSertifikat, String nomor,
-                                         String penerbit, String tglTerbit, String tglBerakhir) {
+    public SertifikatPelautModelRecycler(int id, String nama_sertifikat, String nomor,
+                                         String penerbit, String tgl_terbit) {
         this.id = id;
-        this.namaSertifikat = namaSertifikat;
+        this.nama_sertifikat = nama_sertifikat;
         this.nomor = nomor;
         this.penerbit = penerbit;
-        this.tglTerbit = tglTerbit;
-        this.tglBerakhir = tglBerakhir;
+        this.tgl_terbit = tgl_terbit;
+
     }
 
     public String getNomor() {
@@ -35,20 +33,12 @@ public class SertifikatPelautModelRecycler {
         this.nomor = nomor;
     }
 
-    public String getTglBerakhir() {
-        return tglBerakhir;
+    public String getNama_sertifikat() {
+        return nama_sertifikat;
     }
 
-    public void setTglBerakhir(String tglBerakhir) {
-        this.tglBerakhir = tglBerakhir;
-    }
-
-    public String getNamaSertifikat() {
-        return namaSertifikat;
-    }
-
-    public void setNamaSertifikat(String namaSertifikat) {
-        this.namaSertifikat = namaSertifikat;
+    public void setNama_sertifikat(String nama_sertifikat) {
+        this.nama_sertifikat = nama_sertifikat;
     }
 
     public String getPenerbit() {
@@ -59,12 +49,12 @@ public class SertifikatPelautModelRecycler {
         this.penerbit = penerbit;
     }
 
-    public String getTglTerbit() {
-        return tglTerbit;
+    public String getTgl_terbit() {
+        return tgl_terbit;
     }
 
-    public void setTglTerbit(String tglTerbit) {
-        this.tglTerbit = tglTerbit;
+    public void setTgl_terbit(String tgl_terbit) {
+        this.tgl_terbit = tgl_terbit;
     }
 
 

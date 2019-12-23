@@ -87,9 +87,6 @@ public class RiwayatPelayaranFormFragment extends Fragment {
         rpEtTglNaik.setText(getArguments().getString("tgl_naik"));
         rpEtTglTurun.setText(getArguments().getString("tgl_turun"));
 
-//        EditText editTextFromDate = (EditText) findViewById(R.id.editTextFromDate);
-//        setDate fromDate = new setDate(editTextFromDate, this);
-
         SetDate tglNaik = new SetDate(rpEtTglNaik,mContext);
         SetDate tglTurun = new SetDate(rpEtTglTurun,mContext);
 

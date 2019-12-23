@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -18,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.kapal.dokumenkapal.MainActivity;
 import com.kapal.dokumenkapal.R;
+import com.kapal.dokumenkapal.ui.kapal.KapalFormFragment;
 import com.kapal.dokumenkapal.ui.menuprofiledata.MenuProfileDataFragment;
 import com.kapal.dokumenkapal.util.SharedPrefManager;
 import com.kapal.dokumenkapal.util.api.BaseApiService;
@@ -36,11 +39,11 @@ public class SertifikatPelautFragment extends Fragment {
     private SertifikatPelautAdapter sertifikatPelautAdapter;
     private RecyclerView recyclerView;
 
-    Context mContext;
-    BaseApiService mBaseApiService;
-    SharedPrefManager sharedPrefManager;
+    private Context mContext;
+    private BaseApiService mBaseApiService;
+    private SharedPrefManager sharedPrefManager;
 
-    ProgressDialog loading;
+    private ProgressDialog loading;
 
     @Override
     public void onAttach(Context context) {
@@ -52,12 +55,9 @@ public class SertifikatPelautFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        View root = inflater.inflate(R.layout.fragment_listview_riwayat_pelayaran, container, false);
+        View root = inflater.inflate(R.layout.fragment_listview_sertifikat_pelaut, container, false);
 
-        mBaseApiService = UtilsApi.getAPIService();
-        sharedPrefManager = new SharedPrefManager(mContext);
-
-        androidx.appcompat.widget.Toolbar toolbar = (androidx.appcompat.widget.Toolbar) getActivity().findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
         toolbar.setTitle("Data Sertifikat Pelaut");
         FloatingActionButton floatingActionButton = ((MainActivity) Objects.requireNonNull(getActivity())).getFloatingActionButton();
         if (floatingActionButton != null) {
@@ -66,10 +66,31 @@ public class SertifikatPelautFragment extends Fragment {
             floatingActionButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toasty.error(mContext, "Ada kesalahan!", Toast.LENGTH_LONG, true).show();
+
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("id", 0);
+                    bundle.putString("nama_sertifikat", "");
+                    bundle.putString("nomor", "");
+                    bundle.putString("penerbit", "");
+                    bundle.putString("tgl_terbit", "");
+
+                    SertifikatPelautFormFragment fragment = new SertifikatPelautFormFragment();
+                    fragment.setArguments(bundle);
+                    AppCompatActivity activity = (AppCompatActivity) view.getContext();
+
+                    activity.getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.nav_host_fragment, fragment, SertifikatPelautFormFragment.class.getSimpleName())
+                            .addToBackStack(null)
+                            .commit();
+
+
                 }
             });
         }
+
+        mBaseApiService = UtilsApi.getAPIService();
+        sharedPrefManager = new SharedPrefManager(mContext);
 
         loading = ProgressDialog.show(mContext, null, "Mengambil data ...", true, false);
 
@@ -98,7 +119,7 @@ public class SertifikatPelautFragment extends Fragment {
 
     private void generateSertifikatPelautList(ArrayList<SertifikatPelautModelRecycler> sertifikatPelautArrayList) {
 
-        recyclerView = (RecyclerView) getView().findViewById(R.id.recycler_view_riwayat_pelayaran_list);
+        recyclerView = (RecyclerView) getView().findViewById(R.id.recycler_view_sertifikat_pelaut_list);
         sertifikatPelautAdapter = new SertifikatPelautAdapter(sertifikatPelautArrayList);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
 
