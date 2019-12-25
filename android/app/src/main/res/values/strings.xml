@@ -26,4 +26,17 @@
     <string name="menu_tools">Tools</string>
     <string name="menu_share">Share</string>
     <string name="menu_signout">Keluar</string>
+    <string name="syarat_masalayar">
+        Syarat Pembuatan Masa layar\n
+        1.Isi dan upload data buku Pelaut\n
+        2.Isi dan upload data sertifikat pelaut anda** \n
+        3.Isi data riwayat pelayaran anda**\n\n
+        Alur Pembuatan Masa Layar\n
+        1.Pastikan ada mengisi syarat pembuatan masa layar diatas\n
+        2.Klik Tombol kirim permohonan dibawah ini\n
+        3.Anda akan menerima notifikasi jumlah biaya dan nomor rekening untuk pembayaran\n
+        4.Setelah melakukan pembayaran, mohon untuk upload bukti bayar di menu \"permohonan => masa layar\"\n
+
+        ** Anda dapat mengisi data diatas pada menu Profil dan Data
+    </string>
 </resources>

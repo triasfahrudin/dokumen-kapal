@@ -3,6 +3,7 @@ package com.kapal.dokumenkapal.ui.masalayar;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -27,6 +28,7 @@ import com.kapal.dokumenkapal.ui.menupermohonan.MenuPermohonanFragment;
 import com.kapal.dokumenkapal.ui.sertifikatpelaut.SertifikatPelautAdapter;
 import com.kapal.dokumenkapal.ui.sertifikatpelaut.SertifikatPelautFormFragment;
 import com.kapal.dokumenkapal.ui.sertifikatpelaut.SertifikatPelautModelList;
+import com.kapal.dokumenkapal.util.FileUtils;
 import com.kapal.dokumenkapal.util.SharedPrefManager;
 import com.kapal.dokumenkapal.util.api.BaseApiService;
 import com.kapal.dokumenkapal.util.api.UtilsApi;
@@ -133,9 +135,11 @@ public class MasaLayarFragment extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
         if (resultCode == RESULT_OK) {
-            String filepath = data.getData().getPath();
-            uploadFile("masa_layar",requestCode,filepath);
+            Uri uri = data.getData();
+            uploadFile("masa_layar",requestCode,FileUtils.getPath(mContext,uri));
+            //Toasty.error(mContext, FileUtils.getPath(mContext,uri) , Toast.LENGTH_LONG, true).show();
         }
         super.onActivityResult(requestCode, resultCode, data);
 
@@ -145,7 +149,7 @@ public class MasaLayarFragment extends Fragment {
         String fileName = String.valueOf(Calendar.getInstance().getTimeInMillis());
 
         File file = new File(path);
-        RequestBody requestBody = RequestBody.create(MediaType.parse("*/*"), file);
+        RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), file);
         MultipartBody.Part fileToUpload = MultipartBody.Part.createFormData("filename", file.getName(), requestBody);
         RequestBody filename = RequestBody.create(MediaType.parse("text/plain"), fileName);
 
@@ -173,6 +177,7 @@ public class MasaLayarFragment extends Fragment {
 
                         } else {
                             loading.dismiss();
+
                         }
                     }
 
@@ -191,13 +196,12 @@ public class MasaLayarFragment extends Fragment {
 
         masaLayarAdapter.onBindCallBack = (viewHolder, position) -> {
 
-        //Toasty.error(mContext, String.valueOf(viewHolder.rowId), Toast.LENGTH_LONG, true).show();
 
             Intent intent = new Intent();
-            intent.setType("application/pdf");
+            intent.setType("image/*");
             intent.setAction(Intent.ACTION_GET_CONTENT);
-            //intent.putExtra("rowId",String.valueOf(viewHolder.rowId));
-            startActivityForResult(Intent.createChooser(intent, "Pilih file PDF"), viewHolder.rowId);
+
+            startActivityForResult(Intent.createChooser(intent, "Pilih Image"), viewHolder.rowId);
 
             viewHolder.itemView.setOnClickListener(new View.OnClickListener(){
                 @Override

@@ -1,44 +1,25 @@
 package com.kapal.dokumenkapal.ui.masalayar;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.kapal.dokumenkapal.R;
-import com.kapal.dokumenkapal.ui.sertifikatpelaut.SertifikatPelautFormFragment;
 import com.kapal.dokumenkapal.util.SharedPrefManager;
 import com.kapal.dokumenkapal.util.api.BaseApiService;
 import com.kapal.dokumenkapal.util.api.UtilsApi;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Calendar;
-
-import es.dmoral.toasty.Toasty;
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class MasaLayarAdapter extends RecyclerView.Adapter<MasaLayarAdapter.MasaLayarViewHolder> {
 
@@ -90,7 +71,7 @@ public class MasaLayarAdapter extends RecyclerView.Adapter<MasaLayarAdapter.Masa
         }
 
         if("ditolak".equals(dataList.get(position).getStatus())){
-            holder.tvStatus.setText("Status: Berkas ditolak (klik        untuk detail)");
+            holder.tvStatus.setText("Status: Berkas ditolak (klik untuk detail)");
             holder.tvStatus.setTextColor(Color.RED);
         }
 
@@ -109,10 +90,11 @@ public class MasaLayarAdapter extends RecyclerView.Adapter<MasaLayarAdapter.Masa
             @Override
             public void onClick(View v) {
 
+
+
             }
         });
     }
-
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 

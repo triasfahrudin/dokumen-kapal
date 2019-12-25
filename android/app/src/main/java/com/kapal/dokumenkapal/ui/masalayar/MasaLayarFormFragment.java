@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -22,10 +21,6 @@ import butterknife.OnClick;
 public class MasaLayarFormFragment extends Fragment {
 
     private final static String TAG_FRAGMENT = "TAG_FORM_MASALAYAR_FRAGMENT";
-    @BindView(R.id.masalayar_etFormName)
-    EditText masalayarEtFormName;
-    @BindView(R.id.masalayar_etFormNomorBukuPelaut)
-    EditText masalayarEtFormNomorBukuPelaut;
     @BindView(R.id.masalayar_btnKirim)
     Button masalayarBtnKirim;
 
@@ -41,13 +36,21 @@ public class MasaLayarFormFragment extends Fragment {
         mContext = context;
     }
 
+    private static final String[][] DATA_TO_SHOW = { { "This", "is", "a", "test" },
+            { "and", "a", "second", "test" } };
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-
+        /*
+        * nama, tgl_mohon,nomor_buku,kode_pelaut
+        * ==> nama_sertifikat,nomor,penerbit
+        *
+        * */
         View root = inflater.inflate(R.layout.fragment_form_masalayar, container, false);
 
         ButterKnife.bind(this, root);
+
 
         return root;
     }

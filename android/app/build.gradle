@@ -50,6 +50,7 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'com.github.GrenderG:Toasty:1.4.2'
+    //implementation 'de.codecrafters.tableview:tableview:2.8.0'
 //    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.0.0'
 //    implementation 'com.rengwuxian.materialedittext:library:2.1.4'
     testImplementation 'junit:junit:4.12'

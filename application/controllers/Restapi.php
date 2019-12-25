@@ -374,7 +374,7 @@ class Restapi extends CI_Controller
         $jenis = $this->input->post('jenis');
 
         $upload['upload_path']   = './uploads/dokumen';
-        $upload['allowed_types'] = 'pdf';
+        $upload['allowed_types'] = 'pdf|jpg|jpeg|png|bmp';
         $upload['encrypt_name']  = true;
         $upload['overwrite']     = true;
         $upload['max_size']      = 1024;
@@ -383,13 +383,23 @@ class Restapi extends CI_Controller
 
         if (!$this->upload->do_upload('filename')) {
 
-            echo json_encode(
-                array(
-                    'message' => $this->upload->display_errors(),
-                    'status'  => 'FAILED',
+            // echo json_encode(
+            //     array(
+            //         'message' => $this->upload->display_errors(),
+            //         'status'  => 'FAILED',
 
-                )
-            );
+            //     )
+            // );
+
+            echo json_encode(
+                        array(
+                            'status'    => "Upload GAGAL",
+                            'error_msg' => $this->upload->display_errors(),
+                            'error'     => true,
+                            'last_id'   => $id,
+
+                        )
+                    );
 
         } else {
 

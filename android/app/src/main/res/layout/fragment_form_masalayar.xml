@@ -19,35 +19,12 @@
         <TextView
             android:id="@+id/textView"
             android:layout_width="match_parent"
-            android:layout_height="129dp"
+            android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:background="#f8d7da"
             android:padding="10dp"
-            android:text="Syarat Pembuatan Masa layar\n1.Isi dan upload data buku Pelaut\n2.Isi dan upload data sertifikat BTS (Basic Safety Training)\n** Anda dapat mengisi data diatas pada menu Profil dan Data"
+            android:text="@string/syarat_masalayar"
             android:textColor="#721c24" />
-
-        <EditText
-            android:id="@+id/masalayar_etFormName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/edit_text_top"
-            android:hint="Nama"
-            android:inputType="none"
-            android:padding="15dp"
-            android:textIsSelectable="false" />
-
-        <EditText
-            android:id="@+id/masalayar_etFormNomorBukuPelaut"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/edit_text_middle"
-
-            android:hint="Nomor Buku Pelaut"
-            android:inputType="text"
-            android:padding="15dp"
-            android:autofillHints="" />
 
 
         <Button
