@@ -2,6 +2,7 @@ package com.kapal.dokumenkapal.ui.riwayatpelayaran;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -13,6 +14,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -87,8 +89,8 @@ public class RiwayatPelayaranFormFragment extends Fragment {
         rpEtTglNaik.setText(getArguments().getString("tgl_naik"));
         rpEtTglTurun.setText(getArguments().getString("tgl_turun"));
 
-        SetDate tglNaik = new SetDate(rpEtTglNaik,mContext);
-        SetDate tglTurun = new SetDate(rpEtTglTurun,mContext);
+        SetDate tglNaik = new SetDate(rpEtTglNaik, mContext);
+        SetDate tglTurun = new SetDate(rpEtTglTurun, mContext);
 
         if (recyclerID == 0) {
             rpBtnDelete.setVisibility(View.INVISIBLE);
@@ -175,50 +177,60 @@ public class RiwayatPelayaranFormFragment extends Fragment {
     @OnClick(R.id.rp_btnDelete)
     public void onRpBtnDeleteClicked() {
 
-        loading = ProgressDialog.show(mContext, null, "Menghapus data, Mohon tunggu...", true, false);
-        mBaseApiService.delRiwayatPelayaranRequest(
-                this.recyclerID
-        ).enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                if (response.isSuccessful()) {
-                    loading.dismiss();
-                    try {
-                        JSONObject jsonObject = new JSONObject(response.body().string());
-                        if (jsonObject.getString("error").equals("false")) {
+        new AlertDialog.Builder(mContext)
+                .setTitle("Menghapus data")
+                .setMessage("Apakah anda yakin ingin menghapus data ini ?")
+                .setPositiveButton("HAPUS !", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        loading = ProgressDialog.show(mContext, null, "Menghapus data, Mohon tunggu...", true, false);
+                        mBaseApiService.delRiwayatPelayaranRequest(
+                                RiwayatPelayaranFormFragment.this.recyclerID
+                        ).enqueue(new Callback<ResponseBody>() {
+                            @Override
+                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                if (response.isSuccessful()) {
+                                    loading.dismiss();
+                                    try {
+                                        JSONObject jsonObject = new JSONObject(response.body().string());
+                                        if (jsonObject.getString("error").equals("false")) {
 
-                            Toast.makeText(mContext, "data riwayat pelayaran berhasil dihapus", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(mContext, "data riwayat pelayaran berhasil dihapus", Toast.LENGTH_SHORT).show();
 
-                            RiwayatPelayaranFragment mf = new RiwayatPelayaranFragment();
-                            FragmentTransaction ft = Objects.requireNonNull(getActivity()).getSupportFragmentManager()
-                                    .beginTransaction()
-                                    .add(R.id.nav_host_fragment, mf, RiwayatPelayaranFragment.class.getSimpleName())
-                                    .addToBackStack(null);
-                            ft.commit();
+                                            RiwayatPelayaranFragment mf = new RiwayatPelayaranFragment();
+                                            FragmentTransaction ft = Objects.requireNonNull(getActivity()).getSupportFragmentManager()
+                                                    .beginTransaction()
+                                                    .add(R.id.nav_host_fragment, mf, RiwayatPelayaranFragment.class.getSimpleName())
+                                                    .addToBackStack(null);
+                                            ft.commit();
 
-                        } else {
-                            String error_message = jsonObject.getString("error_msg");
-                            Toast.makeText(mContext, error_message, Toast.LENGTH_SHORT).show();
-                        }
+                                        } else {
+                                            String error_message = jsonObject.getString("error_msg");
+                                            Toast.makeText(mContext, error_message, Toast.LENGTH_SHORT).show();
+                                        }
 
 
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+
+                                } else {
+                                    loading.dismiss();
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                Log.e("debug", "onFailure: ERROR > " + t.toString());
+                                loading.dismiss();
+                            }
+                        });
                     }
+                }).setNegativeButton("Batal", null).show();
 
-                } else {
-                    loading.dismiss();
-                }
-            }
 
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Log.e("debug", "onFailure: ERROR > " + t.toString());
-                loading.dismiss();
-            }
-        });
     }
 
     @Override

@@ -3,22 +3,31 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg">
+    android:background="@drawable/bg_white">
 
     <LinearLayout
-        android:id="@+id/form_masalayar_group"
+        android:id="@+id/input_group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp"
         android:layout_marginBottom="50dp"
         android:gravity="center"
         android:orientation="vertical"
-        android:paddingTop="50dp">
+        android:paddingTop="10dp">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="129dp"
+            android:layout_margin="5dp"
+            android:background="#f8d7da"
+            android:padding="10dp"
+            android:text="Syarat Pembuatan Masa layar\n1.Isi dan upload data buku Pelaut\n2.Isi dan upload data sertifikat BTS (Basic Safety Training)\n** Anda dapat mengisi data diatas pada menu Profil dan Data"
+            android:textColor="#721c24" />
 
         <EditText
-            android:id="@+id/etFormName"
+            android:id="@+id/masalayar_etFormName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
@@ -29,7 +38,7 @@
             android:textIsSelectable="false" />
 
         <EditText
-            android:id="@+id/etFormNomorBukuPelaut"
+            android:id="@+id/masalayar_etFormNomorBukuPelaut"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
@@ -37,88 +46,19 @@
 
             android:hint="Nomor Buku Pelaut"
             android:inputType="text"
-            android:padding="15dp" />
+            android:padding="15dp"
+            android:autofillHints="" />
 
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:orientation="horizontal">
-
-            <EditText
-                android:id="@+id/etFormUploadBukuPelaut"
-                android:layout_width="fill_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/edit_text_middle"
-                android:hint="File Buku Pelaut"
-                android:inputType="text"
-                android:padding="15dp"></EditText>
-
-            <Button
-                android:id="@+id/btnFormUploadBukuPelaut"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-
-                android:gravity="center_horizontal|center_vertical"
-                android:text="Cari"
-                android:textAlignment="center"
-                android:textColor="#FE5295"
-                android:textStyle="bold"></Button>
-
-        </LinearLayout>
-
-
-        <EditText
-            android:id="@+id/etFormNomorIjazah"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/edit_text_middle"
-
-            android:hint="Nomor Ijazah Laut"
-            android:inputType="text"
-            android:padding="15dp" />
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:orientation="horizontal">
-
-            <EditText
-                android:id="@+id/etFormUploadIjazah"
-                android:layout_width="fill_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/edit_text_middle"
-                android:hint="File Ijazah Laut"
-                android:inputType="text"
-                android:padding="15dp"
-                android:text=""></EditText>
-
-            <Button
-                android:id="@+id/btnFormUploadIjazah"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-
-                android:text="Cari"
-                android:textAlignment="center"
-                android:textColor="#FE5295"
-                android:textStyle="bold"></Button>
-
-        </LinearLayout>
 
         <Button
-            android:id="@+id/btnSignUp"
+            android:id="@+id/masalayar_btnKirim"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:background="#EFF0F1"
-            android:foreground="?android:attr/selectableItemBackground"
+            android:background="#304FFE"
             android:text="KIRIM PERMOHONAN"
             android:textAllCaps="false"
-            android:textColor="#FE5295"
+            android:textColor="#F0E8E8"
             android:textSize="17sp" />
 
 

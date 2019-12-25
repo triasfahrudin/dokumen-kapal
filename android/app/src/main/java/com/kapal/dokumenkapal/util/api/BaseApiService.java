@@ -1,6 +1,7 @@
 package com.kapal.dokumenkapal.util.api;
 
 import com.kapal.dokumenkapal.ui.kapal.KapalModelList;
+import com.kapal.dokumenkapal.ui.masalayar.MasaLayarModelList;
 import com.kapal.dokumenkapal.ui.riwayatpelayaran.RiwayatPelayaranModelList;
 import com.kapal.dokumenkapal.ui.sertifikatpelaut.SertifikatPelautModelList;
 
@@ -138,4 +139,8 @@ public interface BaseApiService {
 
     @GET("delete_sertifikatpelaut/{id}")
     Call<ResponseBody> delSertifikatPelautRequest(@Path("id") int id);
+
+
+    @GET("get_masalayar")
+    Call<MasaLayarModelList> getMasaLayar(@Query("pemohon_id") int pemohon_id );
 }

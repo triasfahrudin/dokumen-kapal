@@ -2,6 +2,7 @@ package com.kapal.dokumenkapal.ui.kapal;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,6 +15,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -48,6 +50,12 @@ import static android.app.Activity.RESULT_OK;
 
 public class KapalFormFragment extends Fragment {
 
+    private static final int PILIH_SURAT_UKUR = 1;
+    private static final int PILIH_SURAT_LAUT = 2;
+    private static final int PILIH_SERTIFIKAT_KESELAMATAN = 3;
+    private static final int PILIH_SERTIFIKAT_KLASIFIKASI = 4;
+    private static final int PILIH_SERTIFIKAT_PMK = 5;
+    private static final int PILIH_SERTIFIKAT_LIFERAFT = 6;
     ProgressDialog loading;
     @BindView(R.id.kapal_etNamaKapal)
     EditText kapalEtNamaKapal;
@@ -91,11 +99,9 @@ public class KapalFormFragment extends Fragment {
     EditText kapalEtUploadSertifikatLiferaft;
     @BindView(R.id.kapal_btnDelete)
     Button kapalBtnDelete;
-
     private Context mContext;
     private BaseApiService mBaseApiService;
     private SharedPrefManager sharedPrefManager;
-
     private int recyclerID;
 
     @Override
@@ -141,13 +147,6 @@ public class KapalFormFragment extends Fragment {
 
         return root;
     }
-
-    private static final int PILIH_SURAT_UKUR = 1;
-    private static final int PILIH_SURAT_LAUT = 2;
-    private static final int PILIH_SERTIFIKAT_KESELAMATAN = 3;
-    private static final int PILIH_SERTIFIKAT_KLASIFIKASI = 4;
-    private static final int PILIH_SERTIFIKAT_PMK = 5;
-    private static final int PILIH_SERTIFIKAT_LIFERAFT = 6;
 
     @OnClick(R.id.kapal_btnUploadSuratUkur)
     public void onKapalBtnUploadSuratUkurClicked() {
@@ -374,50 +373,61 @@ public class KapalFormFragment extends Fragment {
 
     @OnClick(R.id.kapal_btnDelete)
     void onBtnDeleteClicked() {
-        loading = ProgressDialog.show(mContext, null, "Menghapus data, Mohon tunggu...", true, false);
-        mBaseApiService.delKapalRequest(
-                this.recyclerID
-        ).enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                if (response.isSuccessful()) {
-                    loading.dismiss();
-                    try {
-                        JSONObject jsonObject = new JSONObject(response.body().string());
-                        if (jsonObject.getString("error").equals("false")) {
 
-                            Toast.makeText(mContext, "data kapal berhasil dihapus", Toast.LENGTH_SHORT).show();
+        new AlertDialog.Builder(mContext)
+                .setTitle("Menghapus data")
+                .setMessage("Apakah anda yakin ingin menghapus data ini?")
+                .setPositiveButton("HAPUS !", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        loading = ProgressDialog.show(mContext, null, "Menghapus data, Mohon tunggu...", true, false);
+                        mBaseApiService.delKapalRequest(
+                                KapalFormFragment.this.recyclerID
+                        ).enqueue(new Callback<ResponseBody>() {
+                            @Override
+                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                if (response.isSuccessful()) {
+                                    loading.dismiss();
+                                    try {
+                                        JSONObject jsonObject = new JSONObject(response.body().string());
+                                        if (jsonObject.getString("error").equals("false")) {
 
-                            KapalFragment mf = new KapalFragment();
-                            FragmentTransaction ft = Objects.requireNonNull(getActivity()).getSupportFragmentManager()
-                                    .beginTransaction()
-                                    .add(R.id.nav_host_fragment, mf, KapalFragment.class.getSimpleName())
-                                    .addToBackStack(null);
-                            ft.commit();
+                                            Toast.makeText(mContext, "data kapal berhasil dihapus", Toast.LENGTH_SHORT).show();
 
-                        } else {
-                            String error_message = jsonObject.getString("error_msg");
-                            Toast.makeText(mContext, error_message, Toast.LENGTH_SHORT).show();
-                        }
+                                            KapalFragment mf = new KapalFragment();
+                                            FragmentTransaction ft = Objects.requireNonNull(getActivity()).getSupportFragmentManager()
+                                                    .beginTransaction()
+                                                    .add(R.id.nav_host_fragment, mf, KapalFragment.class.getSimpleName())
+                                                    .addToBackStack(null);
+                                            ft.commit();
+
+                                        } else {
+                                            String error_message = jsonObject.getString("error_msg");
+                                            Toast.makeText(mContext, error_message, Toast.LENGTH_SHORT).show();
+                                        }
 
 
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+
+                                } else {
+                                    loading.dismiss();
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                Log.e("debug", "onFailure: ERROR > " + t.toString());
+                                loading.dismiss();
+                            }
+                        });
+
                     }
+                }).setNegativeButton("Batal", null).show();
 
-                } else {
-                    loading.dismiss();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Log.e("debug", "onFailure: ERROR > " + t.toString());
-                loading.dismiss();
-            }
-        });
 
     }
 }

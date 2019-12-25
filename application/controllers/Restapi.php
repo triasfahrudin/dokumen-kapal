@@ -718,6 +718,29 @@ class Restapi extends CI_Controller
 
                     break;
 
+                case '"masa_layar"':
+                    $id = $this->input->post('id');
+
+                    $this->db->where('id', $id);
+
+                    $this->db->update('masa_layar',
+                        array(
+                            'bukti_bayar'            => $file_name,
+                            'tgl_upload_bukti_bayar' => date("Y-m-d H:i:s"),
+                            'status'                 => 'baru',
+                        )
+                    );
+
+                    echo json_encode(
+                        array(
+                            'status'    => "Upload berhasil",
+                            'error_msg' => $this->db->error()['code'],
+                            'error'     => false,
+                            'last_id'   => $id,
+
+                        )
+                    );
+
                 default:
                     # code...
                     break;
@@ -941,14 +964,33 @@ class Restapi extends CI_Controller
     public function get_masalayar()
     {
 
-        header('content-type: application/json');
+        // header('content-type: application/json');
 
-        $pemohon_id = $this->input->post('pemohon_id');
-        $qry        = $this->db->get_where('permohonan_masa_layar', array('pelaut_id' => $pemohon_id));
+        // $pemohon_id = $this->input->post('pemohon_id');
+        // $qry        = $this->db->get_where('permohonan_masa_layar', array('pelaut_id' => $pemohon_id));
+        // echo json_encode(
+        //     array(
+        //         'message' => $qry->row(),
+        //         'status'  => 'OK',
+        //     )
+        // );
+
+        //return 'PML-' . str_pad($row->id, 6, '0', STR_PAD_LEFT);
+
+        header("content-type: application/json");
+
+        $pemohon_id = $this->input->get('pemohon_id');
+
+        $this->db->select("id,
+                           LPAD(id,6,'0') AS kode,
+                           DATE_FORMAT(tgl_mohon, '%d/%m/%Y') AS tgl_mohon,
+                           DATE_FORMAT(tgl_update,'%d/%m/%Y') AS tgl_update,
+                           status");
+        $qry = $this->db->get_where('masa_layar', array('pemohon_id' => $pemohon_id));
+
         echo json_encode(
             array(
-                'message' => $qry->row(),
-                'status'  => 'OK',
+                'masaLayarList' => $qry->result(),
             )
         );
 

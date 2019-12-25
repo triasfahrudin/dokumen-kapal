@@ -59,13 +59,9 @@ public class MenuPermohonanFragment extends Fragment {
 
         ButterKnife.bind(this, root);
 
-
-//        final TextView textView = root.findViewById(R.id.text_permohonan);
         menuPermohonanViewModel.getText().observe(this, new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
-
-//                textView.setText(s);
             }
         });
         return root;
@@ -83,12 +79,6 @@ public class MenuPermohonanFragment extends Fragment {
                 .replace(R.id.nav_host_fragment, mf,"TAG_MASALAYAR_FRAGMENT")
                 .addToBackStack(null);
         ft.commit();
-
-//        ProfileFragment profileFragment = new ProfileFragment();
-//        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-//        fragmentTransaction.replace(R.id.nav_host_fragment,profileFragment);
-//        fragmentTransaction.addToBackStack(null);
-//        fragmentTransaction.commit();
     }
 
     @OnClick(R.id.cvSertifikatKeselamatan)
