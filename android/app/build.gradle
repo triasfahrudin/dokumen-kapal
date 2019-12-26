@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.jakewharton.butterknife'
 
+
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
@@ -44,19 +45,17 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.6.2'
     implementation 'com.squareup.okhttp3:logging-interceptor:3.4.1'
     implementation 'com.google.code.gson:gson:2.8.5'
-    implementation 'com.jakewharton:butterknife:10.1.0'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:10.1.0'
+    implementation 'com.jakewharton:butterknife:10.2.1'
+    implementation 'com.google.firebase:firebase-messaging:20.1.0'
+    implementation 'com.google.firebase:firebase-analytics:17.2.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.1'
     implementation('com.karumi:dexter:5.0.0') { exclude group: 'com.android.support' }
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'com.github.GrenderG:Toasty:1.4.2'
-    //implementation 'de.codecrafters.tableview:tableview:2.8.0'
-//    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.0.0'
-//    implementation 'com.rengwuxian.materialedittext:library:2.1.4'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-    // implementation 'org.jetbrains:annotations-java5:15.0'
-
-
 }
+
+apply plugin: 'com.google.gms.google-services'

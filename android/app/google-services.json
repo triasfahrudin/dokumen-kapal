@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "713775264879",
+    "firebase_url": "https://dokumenkapal-bwi.firebaseio.com",
+    "project_id": "dokumenkapal-bwi",
+    "storage_bucket": "dokumenkapal-bwi.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:713775264879:android:505096855c45751d67499a",
+        "android_client_info": {
+          "package_name": "com.kapal.dokumenkapal"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "713775264879-l2o9fh79bcd5n4j45a07ud560t186leh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kapal.dokumenkapal",
+            "certificate_hash": "9304eab773f93cfa46395141877226a48e409532"
+          }
+        },
+        {
+          "client_id": "713775264879-o7pcdf9aa7u1jbripdc3jiufr0dfu2s5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCvjvENIogeKNuXwvzAoKPH3ZDZvIp7yBQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "713775264879-o7pcdf9aa7u1jbripdc3jiufr0dfu2s5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

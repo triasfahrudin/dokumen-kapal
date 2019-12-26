@@ -17,7 +17,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -25,9 +24,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.kapal.dokumenkapal.MainActivity;
 import com.kapal.dokumenkapal.R;
 import com.kapal.dokumenkapal.ui.menupermohonan.MenuPermohonanFragment;
-import com.kapal.dokumenkapal.ui.sertifikatpelaut.SertifikatPelautAdapter;
-import com.kapal.dokumenkapal.ui.sertifikatpelaut.SertifikatPelautFormFragment;
-import com.kapal.dokumenkapal.ui.sertifikatpelaut.SertifikatPelautModelList;
 import com.kapal.dokumenkapal.util.FileUtils;
 import com.kapal.dokumenkapal.util.SharedPrefManager;
 import com.kapal.dokumenkapal.util.api.BaseApiService;
@@ -42,7 +38,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Objects;
 
-import butterknife.ButterKnife;
 import es.dmoral.toasty.Toasty;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -126,6 +121,7 @@ public class MasaLayarFragment extends Fragment {
                     @Override
                     public void onFailure(Call<MasaLayarModelList> call, Throwable t) {
                         Toasty.error(mContext, "Ada kesalahan!", Toast.LENGTH_LONG, true).show();
+                        loading.dismiss();
                     }
                 });
 
@@ -139,7 +135,6 @@ public class MasaLayarFragment extends Fragment {
         if (resultCode == RESULT_OK) {
             Uri uri = data.getData();
             uploadFile("masa_layar",requestCode,FileUtils.getPath(mContext,uri));
-            //Toasty.error(mContext, FileUtils.getPath(mContext,uri) , Toast.LENGTH_LONG, true).show();
         }
         super.onActivityResult(requestCode, resultCode, data);
 
@@ -195,7 +190,6 @@ public class MasaLayarFragment extends Fragment {
         masaLayarAdapter = new MasaLayarAdapter(masaLayarArrayList);
 
         masaLayarAdapter.onBindCallBack = (viewHolder, position) -> {
-
 
             Intent intent = new Intent();
             intent.setType("image/*");

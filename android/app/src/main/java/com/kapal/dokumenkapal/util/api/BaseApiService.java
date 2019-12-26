@@ -1,8 +1,11 @@
 package com.kapal.dokumenkapal.util.api;
 
+import com.google.android.gms.common.internal.safeparcel.SafeParcelable;
+import com.kapal.dokumenkapal.ui.bongkarmuat.BongkarMuatModelList;
 import com.kapal.dokumenkapal.ui.kapal.KapalModelList;
 import com.kapal.dokumenkapal.ui.masalayar.MasaLayarModelList;
 import com.kapal.dokumenkapal.ui.riwayatpelayaran.RiwayatPelayaranModelList;
+import com.kapal.dokumenkapal.ui.sertifikatkeselamatan.SertifikatKeselamatanModelList;
 import com.kapal.dokumenkapal.ui.sertifikatpelaut.SertifikatPelautModelList;
 
 import okhttp3.RequestBody;
@@ -27,6 +30,11 @@ public interface BaseApiService {
     Call<ResponseBody> loginRequest(@Field("email") String email,
                                     @Field("password") String password);
 
+
+    @FormUrlEncoded
+    @POST("send_tokenid")
+    Call<ResponseBody> sendRegistrationToServer(@Field("pemohon_id") int pemohon_id,
+                                                @Field("token_id") String token_id);
 
     // Fungsi ini untuk memanggil API http://{PATH}/restapi/register
     @FormUrlEncoded
@@ -143,4 +151,10 @@ public interface BaseApiService {
 
     @GET("get_masalayar")
     Call<MasaLayarModelList> getMasaLayar(@Query("pemohon_id") int pemohon_id );
+
+    @GET("get_bongkarmuat")
+    Call<BongkarMuatModelList> getBongkarMuat(@Query("pemohon_id") int pemohon_id );
+
+    @GET("get_sertifikatkeselamatan")
+    Call<SertifikatKeselamatanModelList> getSertifikatKeselamatan(@Query("pemohon_id") int pemohon_id );
 }

@@ -383,23 +383,15 @@ class Restapi extends CI_Controller
 
         if (!$this->upload->do_upload('filename')) {
 
-            // echo json_encode(
-            //     array(
-            //         'message' => $this->upload->display_errors(),
-            //         'status'  => 'FAILED',
-
-            //     )
-            // );
-
             echo json_encode(
-                        array(
-                            'status'    => "Upload GAGAL",
-                            'error_msg' => $this->upload->display_errors(),
-                            'error'     => true,
-                            'last_id'   => $id,
+                array(
+                    'status'    => "Upload GAGAL",
+                    'error_msg' => $this->upload->display_errors(),
+                    'error'     => true,
+                    'last_id'   => $id,
 
-                        )
-                    );
+                )
+            );
 
         } else {
 
@@ -751,6 +743,28 @@ class Restapi extends CI_Controller
                         )
                     );
 
+                    case '"sertifikat_keselamatan"':
+                    $id = $this->input->post('id');
+
+                    $this->db->where('id', $id);
+                    $this->db->update('sertifikat_keselamatan',
+                        array(
+                            'bukti_bayar'            => $file_name,
+                            'tgl_upload_bukti_bayar' => date("Y-m-d H:i:s"),
+                            'status'                 => 'baru',
+                        )
+                    );
+
+                    echo json_encode(
+                        array(
+                            'status'    => "Upload berhasil",
+                            'error_msg' => $this->db->error()['code'],
+                            'error'     => false,
+                            'last_id'   => $id,
+
+                        )
+                    );
+
                 default:
                     # code...
                     break;
@@ -920,6 +934,32 @@ class Restapi extends CI_Controller
         }
     }
 
+    public function send_tokenid()
+    {
+        header('content-type: application/json');
+
+        if (isset($_POST['pemohon_id']) && isset($_POST['token_id'])) {
+
+            $pemohon_id = $_POST['pemohon_id'];
+            $token_id   = $_POST['token_id'];
+
+            $this->db->where('id', $pemohon_id);
+            $this->db->update('pemohon', array('token_id' => $token_id));
+
+            $response["error"]     = false;
+            $response["error_msg"] = "Send Token BERHASIL";
+
+            echo json_encode($response);
+
+        } else {
+
+            $response["error"]     = true;
+            $response["error_msg"] = "Send Token ID GAGAL!";
+            echo json_encode($response);
+        }
+
+    }
+
     public function login()
     {
         header('content-type: application/json');
@@ -967,25 +1007,64 @@ class Restapi extends CI_Controller
         }
     }
 
+    //
+
+    public function get_sertifikatkeselamatan()
+    {
+
+        header("content-type: application/json");
+
+        $pemohon_id = $this->input->get('pemohon_id');
+
+        $this->db->select("a.id,
+                           LPAD(a.id,6,'0') AS kode,
+                           b.nama_kapal,
+                           DATE_FORMAT(a.tgl_mohon, '%d/%m/%Y') AS tgl_mohon,
+                           DATE_FORMAT(a.tgl_update,'%d/%m/%Y') AS tgl_update,
+                           status");
+        $this->db->join('kapal b','a.kapal_id = b.id','left');
+        $this->db->join('pemohon c','b.pemohon_id = c.id','left');
+
+        $qry = $this->db->get_where('sertifikat_keselamatan a', array('c.id' => $pemohon_id));
+
+        echo json_encode(
+            array(
+                'sertifikatKeselamatanList' => $qry->result(),
+            )
+        );
+
+    }
+
     //===========================================================================bongkar muat
+
+    public function get_bongkarmuat()
+    {
+
+        header("content-type: application/json");
+
+        $pemohon_id = $this->input->get('pemohon_id');
+
+        $this->db->select("id,
+                           LPAD(id,6,'0') AS kode,
+                           DATE_FORMAT(tgl_mohon, '%d/%m/%Y') AS tgl_mohon,
+                           DATE_FORMAT(tgl_update,'%d/%m/%Y') AS tgl_update,
+                           status");
+        $qry = $this->db->get_where('bongkar_muat', array('pemohon_id' => $pemohon_id));
+
+        echo json_encode(
+            array(
+                'bongkarMuatList' => $qry->result(),
+            )
+        );
+
+    }
+
 
     //===========================================================================masa layar
 
+
     public function get_masalayar()
     {
-
-        // header('content-type: application/json');
-
-        // $pemohon_id = $this->input->post('pemohon_id');
-        // $qry        = $this->db->get_where('permohonan_masa_layar', array('pelaut_id' => $pemohon_id));
-        // echo json_encode(
-        //     array(
-        //         'message' => $qry->row(),
-        //         'status'  => 'OK',
-        //     )
-        // );
-
-        //return 'PML-' . str_pad($row->id, 6, '0', STR_PAD_LEFT);
 
         header("content-type: application/json");
 

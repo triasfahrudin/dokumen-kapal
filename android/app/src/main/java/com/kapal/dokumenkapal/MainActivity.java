@@ -1,16 +1,19 @@
 package com.kapal.dokumenkapal;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -20,18 +23,32 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 import com.kapal.dokumenkapal.util.SharedPrefManager;
+import com.kapal.dokumenkapal.util.api.BaseApiService;
+import com.kapal.dokumenkapal.util.api.UtilsApi;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
-import com.karumi.dexter.listener.DexterError;
 import com.karumi.dexter.listener.PermissionRequest;
-import com.karumi.dexter.listener.PermissionRequestErrorListener;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -39,6 +56,8 @@ public class MainActivity extends AppCompatActivity {
     public FloatingActionButton fab;
 
     SharedPrefManager sharedPrefManager;
+    BaseApiService mBaseApiService;
+    Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,29 +70,23 @@ public class MainActivity extends AppCompatActivity {
         sharedPrefManager = new SharedPrefManager(this);
 
         requestMultiplePermissions();
-//      ButterKnife.bind(this);
-//      NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
 
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//                MasaLayarFragment masalayarFragment = (MasaLayarFragment) getSupportFragmentManager().findFragmentByTag("TAG_MASALAYAR_FRAGMENT");
-//
-//                if (masalayarFragment != null && masalayarFragment.isVisible()) {
-//                    MasaLayarFormFragment mf = new MasaLayarFormFragment();
-//                    FragmentTransaction ft = getSupportFragmentManager()
-//                            .beginTransaction()
-//                            .add(R.id.nav_host_fragment, mf, "TAG_FORM_MASALAYAR_FRAGMENT")
-//                            .addToBackStack(null);
-//                    ft.commit();
-//                }
-//
-//
-//                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                //        .setAction("Action", null).show();
-//            }
-//        });
+        mContext = this;
+        mBaseApiService = UtilsApi.getAPIService();
+
+        // [START retrieve_current_token]
+        FirebaseInstanceId.getInstance().getInstanceId()
+                .addOnCompleteListener(task -> {
+                    if (!task.isSuccessful()) {
+                        Log.w(MainActivity.class.getSimpleName(), "getInstanceId failed", task.getException());
+                        return;
+                    }
+                    String token = Objects.requireNonNull(task.getResult()).getToken();
+                    Log.d(MainActivity.class.getSimpleName(), token);
+
+                    sendRegistrationToServer(token);
+                });
+        // [END retrieve_current_token]
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -97,6 +110,38 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navigationView, navController);
     }
 
+    private void sendRegistrationToServer(String token_id){
+        mBaseApiService.sendRegistrationToServer(sharedPrefManager.getSPID(),token_id)
+                .enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        if (response.isSuccessful()) {
+                            try {
+                                JSONObject jsonObject = new JSONObject(response.body().string());
+                                if (jsonObject.getString("error").equals("false")) {
+
+                                } else {
+                                    String error_message = jsonObject.getString("error_msg");
+                                    Toast.makeText(mContext, error_message, Toast.LENGTH_SHORT).show();
+                                }
+
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+
+                        } else {
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        Log.e("debug", "onFailure: ERROR > " + t.toString());
+                    }
+                });
+    }
     private void requestMultiplePermissions() {
         Dexter.withActivity(this)
                 .withPermissions(

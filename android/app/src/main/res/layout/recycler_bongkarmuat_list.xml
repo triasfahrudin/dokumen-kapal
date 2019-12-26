@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:ndroid="http://schemas.android.com/tools"
+    card_view:cardCornerRadius="6dp"
+    card_view:cardElevation="3dp"
+    card_view:cardUseCompatPadding="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:orientation="vertical"
+        android:padding="5dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/rowBongkarmuat_tvKode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"/>
+            <TextView
+                android:id="@+id/rowBongkarmuat_tvTglMohon"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                />
+
+            <!-- TextView Employee Phone -->
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/rowBongkarmuat_tvStatus"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="Status"
+                android:importantForAutofill="no"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:textAlignment="textStart" />
+
+            <Button
+                android:id="@+id/rowBongkarmuat_btnUpload"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#304FFE"
+                android:gravity="center|clip_vertical|center_horizontal|center_vertical"
+                android:text="Upload Bukti Bayar"
+                android:textAlignment="center"
+                android:textColor="#F0E8E8" />
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

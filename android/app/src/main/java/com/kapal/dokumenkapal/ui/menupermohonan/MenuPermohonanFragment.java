@@ -16,8 +16,12 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.kapal.dokumenkapal.R;
+import com.kapal.dokumenkapal.ui.bongkarmuat.BongkarMuatFragment;
 import com.kapal.dokumenkapal.ui.sertifikatkeselamatan.SertifikatKeselamatanFragment;
 import com.kapal.dokumenkapal.ui.masalayar.MasaLayarFragment;
+import com.kapal.dokumenkapal.ui.sertifikatpelaut.SertifikatPelautFragment;
+
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -32,19 +36,15 @@ public class MenuPermohonanFragment extends Fragment {
 
     @BindView(R.id.cvMasaLayar)
     CardView cvMasaLayar;
-
-
     @BindView(R.id.cvSertifikatKeselamatan)
     CardView cvSertifikat;
-
     @BindView(R.id.cvBongkarMuat)
     CardView cvBongkarMuat;
-
 
     private Context mContext;
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
 
         super.onAttach(context);
         mContext = context;
@@ -68,26 +68,22 @@ public class MenuPermohonanFragment extends Fragment {
     }
 
 
-
     @OnClick(R.id.cvMasaLayar)
-    public void cvMasaLayarClicked() {
-        //Toast.makeText(mContext, "cvMasaLayar Clicked", Toast.LENGTH_SHORT).show();
-
+    void cvMasaLayarClicked() {
         MasaLayarFragment mf = new MasaLayarFragment();
-        FragmentTransaction ft = getActivity().getSupportFragmentManager()
+        FragmentTransaction ft = Objects.requireNonNull(getActivity()).getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.nav_host_fragment, mf,"TAG_MASALAYAR_FRAGMENT")
+                .replace(R.id.nav_host_fragment, mf, MasaLayarFragment.class.getSimpleName())
                 .addToBackStack(null);
         ft.commit();
     }
 
     @OnClick(R.id.cvSertifikatKeselamatan)
-    public void cvSertifikatClicked() {
-//        Toast.makeText(mContext, "cvSertifikat Clicked", Toast.LENGTH_SHORT).show();
+    void cvSertifikatClicked() {
         SertifikatKeselamatanFragment kk = new SertifikatKeselamatanFragment();
-        FragmentTransaction ft = getActivity().getSupportFragmentManager()
+        FragmentTransaction ft = Objects.requireNonNull(getActivity()).getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.nav_host_fragment, kk,TAG_FRAGMENT)
+                .replace(R.id.nav_host_fragment, kk, SertifikatPelautFragment.class.getSimpleName())
                 .addToBackStack(null);
         ft.commit();
 
@@ -95,7 +91,12 @@ public class MenuPermohonanFragment extends Fragment {
 
 
     @OnClick(R.id.cvBongkarMuat)
-    public void cvBongkarMuatClicked() {
-        Toasty.info(mContext, "cvBongkarMuat Clicked", Toast.LENGTH_LONG, true).show();
+    void cvBongkarMuatClicked() {
+        BongkarMuatFragment mf = new BongkarMuatFragment();
+        FragmentTransaction ft = Objects.requireNonNull(getActivity()).getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.nav_host_fragment, mf, BongkarMuatFragment.class.getSimpleName())
+                .addToBackStack(null);
+        ft.commit();
     }
 }

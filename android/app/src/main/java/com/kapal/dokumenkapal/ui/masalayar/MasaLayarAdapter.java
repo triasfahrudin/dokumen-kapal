@@ -23,18 +23,11 @@ import java.util.ArrayList;
 
 public class MasaLayarAdapter extends RecyclerView.Adapter<MasaLayarAdapter.MasaLayarViewHolder> {
 
-    ProgressDialog loading;
-
-    private Context mContext;
-    private BaseApiService mBaseApiService;
-    private SharedPrefManager sharedPrefManager;
-
     private ArrayList<MasaLayarModelRecycler> dataList;
 
     MasaLayarAdapter(ArrayList<MasaLayarModelRecycler> dataList) {
         this.dataList = dataList;
     }
-
 
     @NonNull
     @Override
@@ -58,10 +51,10 @@ public class MasaLayarAdapter extends RecyclerView.Adapter<MasaLayarAdapter.Masa
         holder.tvStatus.setText(String.format("Status: %s", dataList.get(position).getStatus().toUpperCase()));
         holder.rowId = dataList.get(position).getId();
 
-        this.mContext = holder.itemView.getContext();
+        Context mContext = holder.itemView.getContext();
 
-        mBaseApiService = UtilsApi.getAPIService();
-        sharedPrefManager = new SharedPrefManager(mContext);
+        BaseApiService mBaseApiService = UtilsApi.getAPIService();
+        SharedPrefManager sharedPrefManager = new SharedPrefManager(mContext);
 
         if("diambil".equals(dataList.get(position).getStatus())){
             holder.tvStatus.setText("Status: Berkas sudah diambil");
@@ -94,10 +87,6 @@ public class MasaLayarAdapter extends RecyclerView.Adapter<MasaLayarAdapter.Masa
 
             }
         });
-    }
-
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
     }
 
 
