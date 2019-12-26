@@ -1,10 +1,12 @@
 package com.kapal.dokumenkapal;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
@@ -59,6 +61,8 @@ public class MainActivity extends AppCompatActivity {
     BaseApiService mBaseApiService;
     Context mContext;
 
+//    private ProgressDialog loading;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,19 +78,16 @@ public class MainActivity extends AppCompatActivity {
         mContext = this;
         mBaseApiService = UtilsApi.getAPIService();
 
-        // [START retrieve_current_token]
-        FirebaseInstanceId.getInstance().getInstanceId()
-                .addOnCompleteListener(task -> {
-                    if (!task.isSuccessful()) {
-                        Log.w(MainActivity.class.getSimpleName(), "getInstanceId failed", task.getException());
-                        return;
-                    }
-                    String token = Objects.requireNonNull(task.getResult()).getToken();
-                    Log.d(MainActivity.class.getSimpleName(), token);
+        CheckTypesTask loading = new CheckTypesTask();
 
-                    sendRegistrationToServer(token);
-                });
+        loading.execute();
+
+//        loading = ProgressDialog.show(mContext, null, getString(R.string.mengambil_data), true, false);
+        // [START retrieve_current_token]
+
         // [END retrieve_current_token]
+//        loading.dismiss();
+
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -110,8 +111,8 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navigationView, navController);
     }
 
-    private void sendRegistrationToServer(String token_id){
-        mBaseApiService.sendRegistrationToServer(sharedPrefManager.getSPID(),token_id)
+    private void sendRegistrationToServer(String token_id) {
+        mBaseApiService.sendRegistrationToServer(sharedPrefManager.getSPID(), token_id)
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -142,6 +143,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
     }
+
     private void requestMultiplePermissions() {
         Dexter.withActivity(this)
                 .withPermissions(
@@ -231,4 +233,48 @@ public class MainActivity extends AppCompatActivity {
             super.onBackPressed();
         }
     }
+
+    public class CheckTypesTask extends AsyncTask<Void, Void, Void> {
+        ProgressDialog asyncDialog = new ProgressDialog(MainActivity.this);
+        String typeStatus;
+
+        @Override
+        protected void onPreExecute() {
+            //set message of the dialog
+            asyncDialog.setMessage(getString(R.string.mengambil_data));
+            //show dialog
+            asyncDialog.show();
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Void doInBackground(Void... arg0) {
+
+            //don't touch dialog here it'll break the application
+            //do some lengthy stuff like calling login webservice
+
+            FirebaseInstanceId.getInstance().getInstanceId()
+                    .addOnCompleteListener(task -> {
+                        if (!task.isSuccessful()) {
+                            Log.w(MainActivity.class.getSimpleName(), "getInstanceId failed", task.getException());
+                            return;
+                        }
+                        String token = Objects.requireNonNull(task.getResult()).getToken();
+                        Log.d(MainActivity.class.getSimpleName(), token);
+
+                        sendRegistrationToServer(token);
+                    });
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            //hide the dialog
+            asyncDialog.dismiss();
+
+            super.onPostExecute(result);
+        }
+    }
+
 }

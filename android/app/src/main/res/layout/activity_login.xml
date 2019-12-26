@@ -65,7 +65,7 @@
             android:layout_marginTop="3dp"
             android:fontFamily="sans-serif"
             android:padding="10dp"
-            android:text="Don't Have an Account?  Sign Up"
+            android:text="Belum punya akun? Daftar disini"
             android:textAllCaps="true"
             android:textColor="#FAD0E1"
             android:textSize="13dp"
