@@ -14,13 +14,36 @@ public class BongkarMuatModelRecycler {
     private String tgl_update;
     @SerializedName("status")
     private String status;
+    @SerializedName("rating_kepuasan")
+    private int rating_kepuasan;
+    @SerializedName("komentar")
+    private String komentar;
 
-    public BongkarMuatModelRecycler(int id, String kode, String tgl_mohon, String tgl_update, String status) {
+    public BongkarMuatModelRecycler(int id, String kode, String tgl_mohon, String tgl_update,
+                                    String status, int rating_kepuasan, String komentar) {
         this.id = id;
         this.kode = kode;
         this.tgl_mohon = tgl_mohon;
         this.tgl_update = tgl_update;
         this.status = status;
+        this.rating_kepuasan = rating_kepuasan;
+        this.komentar = komentar;
+    }
+
+    public String getKomentar() {
+        return komentar;
+    }
+
+    public void setKomentar(String komentar) {
+        this.komentar = komentar;
+    }
+
+    public int getRating_kepuasan() {
+        return rating_kepuasan;
+    }
+
+    public void setRating_kepuasan(int rating_kepuasan) {
+        this.rating_kepuasan = rating_kepuasan;
     }
 
     public int getId() {

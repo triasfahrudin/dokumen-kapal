@@ -189,13 +189,30 @@ public class MasaLayarFragment extends Fragment {
         recyclerView = (RecyclerView) getView().findViewById(R.id.recycler_view_masalayar_list);
         masaLayarAdapter = new MasaLayarAdapter(masaLayarArrayList);
 
-        masaLayarAdapter.onBindCallBack = (viewHolder, position) -> {
+        masaLayarAdapter.onBindCallBack = (jenis, viewHolder, position) -> {
 
-            Intent intent = new Intent();
-            intent.setType("image/*");
-            intent.setAction(Intent.ACTION_GET_CONTENT);
+            if("upload_file".equals(jenis)) {
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
 
-            startActivityForResult(Intent.createChooser(intent, "Pilih Image"), viewHolder.rowId);
+                startActivityForResult(Intent.createChooser(intent, "Pilih Image"), viewHolder.rowId);
+            }else if("give_rating".equals(jenis)){
+                Bundle bundle = new Bundle();
+                bundle.putInt("id", viewHolder.rowId);
+                bundle.putFloat("rating_kepuasan",viewHolder.rating_kepuasan);
+                bundle.putString("komentar",viewHolder.komentar);
+
+                MasaLayarRatingFragment fragment = new MasaLayarRatingFragment();
+                fragment.setArguments(bundle);
+                AppCompatActivity activity = (AppCompatActivity) getView().getContext();
+
+                activity.getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.nav_host_fragment, fragment, MasaLayarRatingFragment.class.getSimpleName())
+                        .addToBackStack(null)
+                        .commit();
+            }
 
             viewHolder.itemView.setOnClickListener(new View.OnClickListener(){
                 @Override

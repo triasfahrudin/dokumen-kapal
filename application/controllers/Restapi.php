@@ -743,11 +743,33 @@ class Restapi extends CI_Controller
                         )
                     );
 
-                    case '"sertifikat_keselamatan"':
+                case '"sertifikat_keselamatan"':
                     $id = $this->input->post('id');
 
                     $this->db->where('id', $id);
                     $this->db->update('sertifikat_keselamatan',
+                        array(
+                            'bukti_bayar'            => $file_name,
+                            'tgl_upload_bukti_bayar' => date("Y-m-d H:i:s"),
+                            'status'                 => 'baru',
+                        )
+                    );
+
+                    echo json_encode(
+                        array(
+                            'status'    => "Upload berhasil",
+                            'error_msg' => $this->db->error()['code'],
+                            'error'     => false,
+                            'last_id'   => $id,
+
+                        )
+                    );
+
+                case '"bongkar_muat"':
+                    $id = $this->input->post('id');
+
+                    $this->db->where('id', $id);
+                    $this->db->update('bongkar_muat',
                         array(
                             'bukti_bayar'            => $file_name,
                             'tgl_upload_bukti_bayar' => date("Y-m-d H:i:s"),
@@ -1021,9 +1043,11 @@ class Restapi extends CI_Controller
                            b.nama_kapal,
                            DATE_FORMAT(a.tgl_mohon, '%d/%m/%Y') AS tgl_mohon,
                            DATE_FORMAT(a.tgl_update,'%d/%m/%Y') AS tgl_update,
-                           status");
-        $this->db->join('kapal b','a.kapal_id = b.id','left');
-        $this->db->join('pemohon c','b.pemohon_id = c.id','left');
+                           a.status,
+                           a.rating_kepuasan,
+                           a.komentar");
+        $this->db->join('kapal b', 'a.kapal_id = b.id', 'left');
+        $this->db->join('pemohon c', 'b.pemohon_id = c.id', 'left');
 
         $qry = $this->db->get_where('sertifikat_keselamatan a', array('c.id' => $pemohon_id));
 
@@ -1037,6 +1061,46 @@ class Restapi extends CI_Controller
 
     //===========================================================================bongkar muat
 
+    public function update_rating()
+    {
+
+        header('content-type: application/json');
+
+        $jenis           = $this->input->post('jenis');
+        $id              = $this->input->post('id');
+        $rating_kepuasan = $this->input->post('rating_kepuasan');
+        $komentar        = $this->input->post('komentar');
+
+        $table = "bongkar_muat";
+
+        if ($jenis === "bongkar_muat") {
+            $table = "bongkar_muat";
+        } elseif ($jenis === "masa_layar") {
+            $table = "masa_layar";
+        } elseif ($jenis === "sertifikat_keselamatan") {
+            $table = "sertifikat_keselamatan";
+        }
+
+        $this->db->where('id', $id);
+        $this->db->update($table,
+            array(
+                'rating_kepuasan' => $rating_kepuasan,
+                'komentar'        => $komentar,
+            )
+        );
+
+        echo json_encode(
+            array(
+                'status'    => "Upload berhasil",
+                'error_msg' => $this->db->error()['code'],
+                'error'     => false,
+                'last_id'   => $id,
+
+            )
+        );
+
+    }
+
     public function get_bongkarmuat()
     {
 
@@ -1044,12 +1108,14 @@ class Restapi extends CI_Controller
 
         $pemohon_id = $this->input->get('pemohon_id');
 
-        $this->db->select("id,
-                           LPAD(id,6,'0') AS kode,
-                           DATE_FORMAT(tgl_mohon, '%d/%m/%Y') AS tgl_mohon,
-                           DATE_FORMAT(tgl_update,'%d/%m/%Y') AS tgl_update,
-                           status");
-        $qry = $this->db->get_where('bongkar_muat', array('pemohon_id' => $pemohon_id));
+        $this->db->select("a.id,
+                           LPAD(a.id,6,'0') AS kode,
+                           DATE_FORMAT(a.tgl_mohon, '%d/%m/%Y') AS tgl_mohon,
+                           DATE_FORMAT(a.tgl_update,'%d/%m/%Y') AS tgl_update,
+                           a.status,
+                           a.rating_kepuasan,
+                           a.komentar");
+        $qry = $this->db->get_where('bongkar_muat a', array('pemohon_id' => $pemohon_id));
 
         echo json_encode(
             array(
@@ -1059,9 +1125,7 @@ class Restapi extends CI_Controller
 
     }
 
-
     //===========================================================================masa layar
-
 
     public function get_masalayar()
     {
@@ -1070,12 +1134,14 @@ class Restapi extends CI_Controller
 
         $pemohon_id = $this->input->get('pemohon_id');
 
-        $this->db->select("id,
-                           LPAD(id,6,'0') AS kode,
-                           DATE_FORMAT(tgl_mohon, '%d/%m/%Y') AS tgl_mohon,
-                           DATE_FORMAT(tgl_update,'%d/%m/%Y') AS tgl_update,
-                           status");
-        $qry = $this->db->get_where('masa_layar', array('pemohon_id' => $pemohon_id));
+        $this->db->select("a.id,
+                           LPAD(a.id,6,'0') AS kode,
+                           DATE_FORMAT(a.tgl_mohon, '%d/%m/%Y') AS tgl_mohon,
+                           DATE_FORMAT(a.tgl_update,'%d/%m/%Y') AS tgl_update,
+                           a.status,
+                           a.rating_kepuasan,
+                           a.komentar");
+        $qry = $this->db->get_where('masa_layar a', array('pemohon_id' => $pemohon_id));
 
         echo json_encode(
             array(

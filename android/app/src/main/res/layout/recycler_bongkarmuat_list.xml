@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:ndroid="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:ndroid="http://schemas.android.com/tools"
     card_view:cardCornerRadius="6dp"
     card_view:cardElevation="3dp"
     card_view:cardUseCompatPadding="true">
@@ -19,19 +19,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
             <TextView
                 android:id="@+id/rowBongkarmuat_tvKode"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
-                android:paddingBottom="5dp"/>
+                android:paddingBottom="5dp" />
+
             <TextView
                 android:id="@+id/rowBongkarmuat_tvTglMohon"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
-                android:paddingBottom="5dp"
-                />
+                android:paddingBottom="5dp" />
 
             <!-- TextView Employee Phone -->
 
@@ -62,6 +63,16 @@
                 android:text="Upload Bukti Bayar"
                 android:textAlignment="center"
                 android:textColor="#F0E8E8" />
+
+            <Button
+                android:id="@+id/rowBongkarmuat_btnRating"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:background="#F5DEB3"
+                android:gravity="center|clip_vertical|center_horizontal|center_vertical"
+                android:text="Berikan penilaian anda"
+                android:textAlignment="center" />
 
 
         </LinearLayout>

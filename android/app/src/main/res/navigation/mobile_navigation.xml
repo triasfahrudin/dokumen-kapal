@@ -24,7 +24,7 @@
         tools:layout="@layout/fragment_menu_permohonan" />
 
     <fragment
-        android:id="@+id/nav_tools"
+        android:id="@+id/nav_notifikasi"
         android:name="com.kapal.dokumenkapal.ui.tools.ToolsFragment"
         android:label="@string/menu_tools"
         tools:layout="@layout/fragment_tools" />

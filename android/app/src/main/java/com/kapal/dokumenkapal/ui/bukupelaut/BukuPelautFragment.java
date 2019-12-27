@@ -58,8 +58,6 @@ import static android.app.Activity.RESULT_OK;
 
 public class BukuPelautFragment extends Fragment {
 
-    private static final String TAG = BukuPelautFragment.class.getSimpleName();
-
     @BindView(R.id.pbp_etNomorBuku)
     EditText etNomorBuku;
 
@@ -90,45 +88,11 @@ public class BukuPelautFragment extends Fragment {
         mContext = context;
     }
 
-//    private void requestMultiplePermissions() {
-//        Dexter.withActivity(getActivity())
-//                .withPermissions(
-//                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-//                        Manifest.permission.READ_EXTERNAL_STORAGE)
-//                .withListener(new MultiplePermissionsListener() {
-//                    @Override
-//                    public void onPermissionsChecked(MultiplePermissionsReport report) {
-//                        if (report.areAllPermissionsGranted()) {
-////                            Toast.makeText(mContext, "All permissions are granted by user!", Toast.LENGTH_SHORT).show();
-//                        }
-//
-//                        if (report.isAnyPermissionPermanentlyDenied()) {
-//
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
-//                        token.continuePermissionRequest();
-//                    }
-//                }).
-//                withErrorListener(new PermissionRequestErrorListener() {
-//                    @Override
-//                    public void onError(DexterError error) {
-//                        Toast.makeText(mContext, "Some Error! ", Toast.LENGTH_SHORT).show();
-//                    }
-//                })
-//                .onSameThread()
-//                .check();
-//    }
-
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        //Objects.requireNonNull(getActivity()).setTitle("Form Buku Pelaut");
 
         View root = inflater.inflate(R.layout.fragment_form_bukupelaut, container, false);
-//        requestMultiplePermissions();
         ButterKnife.bind(this, root);
 
         androidx.appcompat.widget.Toolbar toolbar = (androidx.appcompat.widget.Toolbar) getActivity().findViewById(R.id.toolbar);

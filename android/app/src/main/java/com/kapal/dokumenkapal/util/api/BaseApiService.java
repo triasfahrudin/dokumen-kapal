@@ -157,4 +157,21 @@ public interface BaseApiService {
 
     @GET("get_sertifikatkeselamatan")
     Call<SertifikatKeselamatanModelList> getSertifikatKeselamatan(@Query("pemohon_id") int pemohon_id );
+
+    @FormUrlEncoded
+    @POST("get_rating")
+    Call<ResponseBody> getRating(
+            @Field("jenis") String jenis,
+            @Field("int") int id
+    );
+
+    @FormUrlEncoded
+    @POST("update_rating")
+    Call<ResponseBody> updateRating(
+            @Field("jenis") String jenis,
+            @Field("id") int id,
+            @Field("rating_kepuasan") float rating_kepuasan,
+            @Field("komentar") String komentar
+    );
+
 }

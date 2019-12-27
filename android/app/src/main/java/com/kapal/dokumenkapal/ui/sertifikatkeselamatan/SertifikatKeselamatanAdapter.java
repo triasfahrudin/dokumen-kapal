@@ -51,6 +51,7 @@ public class SertifikatKeselamatanAdapter extends RecyclerView.Adapter<Sertifika
         holder.tvStatus.setText(String.format("Status: %s", dataList.get(position).getStatus().toUpperCase()));
         holder.tvKapal.setText(String.format("Kapal: %s",dataList.get(position).getNama_kapal().toUpperCase()));
         holder.rowId = dataList.get(position).getId();
+        holder.komentar = dataList.get(position).getKomentar();
 
         Context mContext = holder.itemView.getContext();
 
@@ -60,8 +61,9 @@ public class SertifikatKeselamatanAdapter extends RecyclerView.Adapter<Sertifika
         if("diambil".equals(dataList.get(position).getStatus())){
             holder.tvStatus.setText("Status: Berkas sudah diambil");
             holder.tvStatus.setTextColor(Color.GRAY);
-            holder.btnUpload.setEnabled(false);
-            holder.btnUpload.setBackground(ContextCompat.getDrawable(mContext,R.drawable.navigation_item_background_default));
+            holder.btnUpload.setVisibility(View.GONE);
+            //holder.btnUpload.setEnabled(false);
+            //holder.btnUpload.setBackground(ContextCompat.getDrawable(mContext,R.drawable.navigation_item_background_default));
         }
 
         if("ditolak".equals(dataList.get(position).getStatus())){
@@ -73,9 +75,16 @@ public class SertifikatKeselamatanAdapter extends RecyclerView.Adapter<Sertifika
 
         holder.btnUpload.setOnClickListener(v -> {
             if (onBindCallBack != null) {
-                onBindCallBack.OnViewBind(holder, position);
+                onBindCallBack.OnViewBind("upload_file", holder, position);
             }
         });
+
+        holder.btnRating.setOnClickListener(v -> {
+            if (onBindCallBack != null) {
+                onBindCallBack.OnViewBind("give_rating", holder, position);
+            }
+        });
+
 
         holder.itemView.setOnClickListener(v -> {
 
@@ -92,8 +101,10 @@ public class SertifikatKeselamatanAdapter extends RecyclerView.Adapter<Sertifika
     public class SertifikatKeselamatanViewHolder extends RecyclerView.ViewHolder {
 
         TextView tvKode, tvTglMohon, tvStatus,tvKapal;
-        Button btnUpload;
+        Button btnUpload, btnRating;
         int rowId;
+        float rating_kepuasan;
+        String komentar;
 
         SertifikatKeselamatanViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -102,7 +113,8 @@ public class SertifikatKeselamatanAdapter extends RecyclerView.Adapter<Sertifika
             tvStatus = (TextView) itemView.findViewById(R.id.rowSertifikatkeselamatan_tvStatus);
             tvKapal = (TextView) itemView.findViewById(R.id.rowSertifikatkeselamatan_tvKapal);
             btnUpload = (Button) itemView.findViewById(R.id.rowSertifikatkeselamatan_btnUpload);
-            rowId = 0;
+            btnRating = (Button) itemView.findViewById(R.id.rowSertifikatkeselamatan_btnRating);
+//            rowId = 0;
         }
     }
 }

@@ -1,8 +1,6 @@
 package com.kapal.dokumenkapal.ui.masalayar;
 
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,6 +48,8 @@ public class MasaLayarAdapter extends RecyclerView.Adapter<MasaLayarAdapter.Masa
 
         holder.tvStatus.setText(String.format("Status: %s", dataList.get(position).getStatus().toUpperCase()));
         holder.rowId = dataList.get(position).getId();
+        holder.rating_kepuasan = (float) dataList.get(position).getRating_kepuasan();
+        holder.komentar = dataList.get(position).getKomentar();
 
         Context mContext = holder.itemView.getContext();
 
@@ -59,8 +59,9 @@ public class MasaLayarAdapter extends RecyclerView.Adapter<MasaLayarAdapter.Masa
         if("diambil".equals(dataList.get(position).getStatus())){
             holder.tvStatus.setText("Status: Berkas sudah diambil");
             holder.tvStatus.setTextColor(Color.GRAY);
-            holder.btnUpload.setEnabled(false);
-            holder.btnUpload.setBackground(ContextCompat.getDrawable(mContext,R.drawable.navigation_item_background_default));
+            holder.btnUpload.setVisibility(View.GONE);
+//            holder.btnUpload.setEnabled(false);
+//            holder.btnUpload.setBackground(ContextCompat.getDrawable(mContext,R.drawable.navigation_item_background_default));
         }
 
         if("ditolak".equals(dataList.get(position).getStatus())){
@@ -70,12 +71,15 @@ public class MasaLayarAdapter extends RecyclerView.Adapter<MasaLayarAdapter.Masa
 
 
 
-        holder.btnUpload.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (onBindCallBack != null) {
-                    onBindCallBack.OnViewBind(holder, position);
-                }
+        holder.btnUpload.setOnClickListener(v -> {
+            if (onBindCallBack != null) {
+                onBindCallBack.OnViewBind("upload_file", holder, position);
+            }
+        });
+
+        holder.btnRating.setOnClickListener(v -> {
+            if (onBindCallBack != null) {
+                onBindCallBack.OnViewBind("give_rating", holder, position);
             }
         });
 
@@ -98,8 +102,10 @@ public class MasaLayarAdapter extends RecyclerView.Adapter<MasaLayarAdapter.Masa
     class MasaLayarViewHolder extends RecyclerView.ViewHolder {
 
         TextView tvKode, tvTglMohon, tvStatus;
-        Button btnUpload;
+        Button btnUpload, btnRating;
         int rowId;
+        float rating_kepuasan;
+        String komentar;
 
         public MasaLayarViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -107,7 +113,8 @@ public class MasaLayarAdapter extends RecyclerView.Adapter<MasaLayarAdapter.Masa
             tvTglMohon = (TextView) itemView.findViewById(R.id.rowMasalayar_tvTglMohon);
             tvStatus = (TextView) itemView.findViewById(R.id.rowMasalayar_tvStatus);
             btnUpload = (Button) itemView.findViewById(R.id.rowMasalayar_btnUpload);
-            rowId = 0;
+            btnRating = (Button) itemView.findViewById(R.id.rowMasalayar_btnRating);
+//            rowId = 0;
         }
     }
 }
