@@ -11,7 +11,7 @@ public class SplashActivity  extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        int SPLASH_TIME_OUT = 800;
+        int SPLASH_TIME_OUT = 500;
         new Handler().postDelayed (new Runnable() {
             @Override
             public void run() {

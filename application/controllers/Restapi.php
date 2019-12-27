@@ -1092,7 +1092,7 @@ class Restapi extends CI_Controller
         echo json_encode(
             array(
                 'status'    => "Upload berhasil",
-                'error_msg' => $this->db->error()['code'],
+                'error_msg' => $this->db->last_query(),
                 'error'     => false,
                 'last_id'   => $id,
 

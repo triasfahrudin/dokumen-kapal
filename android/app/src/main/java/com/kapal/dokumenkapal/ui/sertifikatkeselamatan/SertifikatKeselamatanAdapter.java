@@ -51,6 +51,7 @@ public class SertifikatKeselamatanAdapter extends RecyclerView.Adapter<Sertifika
         holder.tvStatus.setText(String.format("Status: %s", dataList.get(position).getStatus().toUpperCase()));
         holder.tvKapal.setText(String.format("Kapal: %s",dataList.get(position).getNama_kapal().toUpperCase()));
         holder.rowId = dataList.get(position).getId();
+        holder.rating_kepuasan = (float) dataList.get(position).getRating_kepuasan();
         holder.komentar = dataList.get(position).getKomentar();
 
         Context mContext = holder.itemView.getContext();
