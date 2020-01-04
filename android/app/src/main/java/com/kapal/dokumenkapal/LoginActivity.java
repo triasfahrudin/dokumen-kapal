@@ -50,12 +50,10 @@ public class LoginActivity extends AppCompatActivity {
 
     SharedPrefManager sharedPrefManager;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
 
         ButterKnife.bind(this);
         mContext = this;
@@ -63,19 +61,16 @@ public class LoginActivity extends AppCompatActivity {
 
         sharedPrefManager = new SharedPrefManager(this);
 
-        if (sharedPrefManager.getSPSudahLogin()) {
+        if (Boolean.TRUE.equals(sharedPrefManager.getSPSudahLogin())) {
             startActivity(new Intent(LoginActivity.this, MainActivity.class)
                     .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
             finish();
         }
 
         TextView signUp_text = findViewById(R.id.signUp_text);
-        signUp_text.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(LoginActivity.this, com.kapal.dokumenkapal.RegistrationActivity.class));
-                finish();
-            }
+        signUp_text.setOnClickListener(v -> {
+            startActivity(new Intent(LoginActivity.this, RegistrationActivity.class));
+            finish();
         });
     }
 

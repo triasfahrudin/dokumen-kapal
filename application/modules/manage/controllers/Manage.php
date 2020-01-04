@@ -1,5 +1,28 @@
 <?php
 
+/*
+
+pemohon                             petugas
+100                              menunggu pembayaran                 -
+
+200 (upload bayar)               menunggu verifikasi pembayaran      [BAYAR TERIMA]  | [BAYAR TOLAK]
+
+210 (verifikasi bayar berhasil)  menunggu verifikasi berkas          [BERKAS TERIMA] | [BERKAS TOLAK]
+
+310 (verifikasi berkas berhasil) silahkan mengambil dokumen          [DOKUMEN DIAMBIL]
+
+399 (verifikasi berkas gagal)    verifikasi berkas gagal             verifikasi berkas gagal
+[UPLOAD ULANG]                      MENUNGGU UPLOAD ULANG
+=> 210
+
+299 (verifikasi bayar gagal)     verifikasi bayar gagal              verifikasi bayar gagal
+[UPLOAD ULANG]                      MENUNGGU UPLOAD ULANG
+=> 200
+
+400                              selesai (diambil pada ...)          [SELESAI]
+
+ */
+
 defined('BASEPATH') or exit('No direct script access allowed');
 
 class Manage extends MX_Controller
@@ -50,7 +73,6 @@ class Manage extends MX_Controller
         $this->_page_output($data);
     }
 
-
     public function index()
     {
 
@@ -61,9 +83,54 @@ class Manage extends MX_Controller
 
     public function permohonan()
     {
-        
+
         $data['page_name']  = 'permohonan';
         $data['page_title'] = 'Permohonan';
+        $this->_page_output($data);
+    }
+
+    public function settings($act = null, $param = null)
+    {
+        // $this->load->model(array('Basecrud_m'));
+        $this->breadcrumbs->push('Setting', '/settings');
+
+        $data['breadcrumbs'] = $this->breadcrumbs->show();
+
+        if ($act === 'upload') {
+            if (!empty($_FILES['img']['name'])) {
+                $upload                  = array();
+                $upload['upload_path']   = './uploads';
+                $upload['allowed_types'] = 'jpeg|jpg|png';
+                $upload['encrypt_name']  = true;
+
+                $this->load->library('upload', $upload);
+
+                if (!$this->upload->do_upload('img')) {
+                    $data['msg'] = $this->upload->display_errors();
+                } else {
+                    $success  = $this->upload->data();
+                    $value    = $success['file_name'];
+                    $file_ext = $success['file_ext'];
+
+                    $this->db->where('title', $param);
+                    $this->db->update('settings', array('value' => $value, 'tipe' => 'image'));
+
+                    redirect('manage/settings');
+                }
+            }
+        } elseif ($act === 'edt') {
+            $value = $this->input->post('value');
+
+            $this->db->where('title', $param);
+            $this->db->update('settings', array('value' => $value));
+
+            exit(0);
+        }
+
+        $data['setting']    = $this->db->get('settings');
+        $data['page_name']  = 'settings';
+        $data['page_title'] = 'Data Settings';
+
         $this->_page_output($data);
     }
 
@@ -75,16 +142,16 @@ class Manage extends MX_Controller
         $permohonan_id = $this->input->post('permohonan_id');
         $status        = $this->input->post('status');
 
-        if ($status === 'ditolak') {
+        if ($status === '399' || $status == '299') {
 
             $alasan = $this->input->post('alasan');
 
             $this->db->where('id', $permohonan_id);
-            $this->db->update($jenis, array('status' => 'ditolak', 'alasan_status' => $alasan));
+            $this->db->update($jenis, array('status' => $status, 'alasan_status' => $alasan));
 
             echo json_encode('OK @' . date("YmdHis"));
 
-        } elseif ($status === 'diterima' || $status === 'diambil') {
+        } else {
 
             $this->db->where('id', $permohonan_id);
             $this->db->update($jenis, array('status' => $status));
@@ -92,6 +159,23 @@ class Manage extends MX_Controller
             echo json_encode('OK @' . date("YmdHis"));
         }
 
+    }
+
+    public function ajax_riwayat_permohonan()
+    {
+        header('content-type: application/json');
+
+        $permohonan_id = $this->input->get('permohonan_id');
+        $jenis         = $this->input->get('jenis');
+
+        $this->db->select('a.status,a.keterangan,a.tgl,b.arti');
+        $this->db->order_by('tgl', 'ASC');
+        $this->db->join('kode_status b', 'a.status = b.kode_angka', 'left');
+        $riwayat = $this->db->get_where('riwayat_permohonan a', array('a.permohonan_id' => $permohonan_id, 'jenis' => $jenis));
+
+        echo json_encode(
+            $this->load->view('riwayat_permohonan', array('riwayat' => $riwayat), true)
+        );
     }
 
     public function ajax_biodata()
@@ -206,10 +290,9 @@ class Manage extends MX_Controller
 
             $this->breadcrumbs->push('Dashboard', '/manage');
             $this->breadcrumbs->push('Data Berita', '/manage/berita');
-            
 
             $extra = array(
-                'page_title'  => 'Data Berita'
+                'page_title' => 'Data Berita',
             );
             $output = $crud->render();
 
@@ -232,19 +315,17 @@ class Manage extends MX_Controller
             $masa_layar = $this->db->get_where('masa_layar', array('id' => $permohonan_id))->row_array();
 
             echo json_encode($masa_layar['alasan_status']);
-        }elseif ($jenis === 'bongkar_muat') {
+        } elseif ($jenis === 'bongkar_muat') {
             $bongkar_muat = $this->db->get_where('bongkar_muat', array('id' => $permohonan_id))->row_array();
 
             echo json_encode($bongkar_muat['alasan_status']);
-        }else{
+        } else {
             $sertifikat_keselamatan = $this->db->get_where('sertifikat_keselamatan', array('id' => $permohonan_id))->row_array();
 
             echo json_encode($sertifikat_keselamatan['alasan_status']);
         }
 
     }
-
-
 
     public function ajax_komentar_rating()
     {
@@ -257,11 +338,11 @@ class Manage extends MX_Controller
             $masa_layar = $this->db->get_where('masa_layar', array('id' => $permohonan_id))->row_array();
 
             echo json_encode($masa_layar['komentar']);
-        }elseif ($jenis === 'bongkar_muat') {
+        } elseif ($jenis === 'bongkar_muat') {
             $bongkar_muat = $this->db->get_where('bongkar_muat', array('id' => $permohonan_id))->row_array();
 
             echo json_encode($bongkar_muat['komentar']);
-        }else{
+        } else {
             $sertifikat_keselamatan = $this->db->get_where('sertifikat_keselamatan', array('id' => $permohonan_id))->row_array();
 
             echo json_encode($sertifikat_keselamatan['komentar']);
@@ -269,29 +350,31 @@ class Manage extends MX_Controller
 
     }
 
-    public function masa_layar($filter_status = 'proses')
+    public function masa_layar($filter_status = '200.210.310')
     {
         try {
 
             $this->load->library('grocery_CRUD');
             $crud = new Grocery_CRUD();
 
-            if ($filter_status === 'selesai') {
-                $crud->where('status', 'diambil');
-            } elseif ($filter_status === 'ditolak') {
-                $crud->where('status', 'ditolak');
-            } elseif ($filter_status === 'proses') {
-                $crud->in_where('status', "('baru','diterima')");
-            }
+            // if ($filter_status === 'selesai') {
+            //     $crud->where('status', 'diambil');
+            // } elseif ($filter_status === 'ditolak') {
+            //     $crud->where('status', 'ditolak');
+            // } elseif ($filter_status === 'proses') {
+            //     $crud->in_where('status', "('baru','diterima')");
+            // }
+
+            $ex = explode('.', $filter_status);
+            $crud->in_where("status", "('" . implode("','", $ex) . "')");
 
             $crud->set_table('masa_layar');
             $crud->set_subject('Data Permohonan Masa Layar');
 
-            $crud->columns('kode', 'nama', 'buku_pelaut', 'sertifikat_laut', 'tgl_mohon', 'bukti_bayar', 'status');
+            $crud->columns('kode', 'nama', 'buku_pelaut', 'sertifikat_laut', 'tgl_mohon', 'bukti_bayar', 'aksi');
 
             $crud->callback_column('kode', function ($value, $row) {
-
-                return 'PML-' . str_pad($row->id, 6, '0', STR_PAD_LEFT);
+                return '<a href="#!" onClick="ajax_riwayat_permohonan(\'masa_layar\',' . $row->id . ')">PML-' . str_pad($row->id, 6, '0', STR_PAD_LEFT) . '</a>';
             });
 
             $crud->callback_column('nama', function ($value, $row) {
@@ -339,17 +422,19 @@ class Manage extends MX_Controller
 
             });
 
-            $crud->callback_column('status', function ($value, $row) {
+            $crud->callback_column('aksi', function ($value, $row) {
                 $loading_div = '<img src="' . site_url('assets/manage/img/loading.gif') . '" id="p_loading_' . $row->id . '" style="display:none">';
 
-                if ($row->status === 'baru') {
-                    return $loading_div . '&nbsp;<span id="p_' . $row->id . '"><a class="text-primary" href="#!" onclick="ajax_status_permohonan(\'masa_layar\',\'diterima\',' . $row->id . ')">DISETUJUI</a>&nbsp;|&nbsp;<a class="text-danger" href="#!" onclick="ajax_status_permohonan(\'masa_layar\',\'ditolak\',' . $row->id . ')">DITOLAK</a></span>';
-                } elseif ($row->status === 'diterima') {
-                    return $loading_div . '&nbsp;<span class="text-primary" id="p_' . $row->id . '"><a href="#!" onclick="ajax_status_permohonan(\'masa_layar\',\'diambil\',' . $row->id . ')">AMBIL BERKAS</a></span>';
-                } elseif ($row->status === 'ditolak') {
-                    return '<span id="p_' . $row->id . '"><a class="text-danger" href="#!" onclick="ajax_alasan(\'masa_layar\',' . $row->id . ')">DITOLAK</a></span>';
-                } elseif ($row->status === 'diambil') {
-                    return '<a style="color:orange" href="#!" onclick="ajax_komentar_rating(\'masa_layar\',' . $row->id . ')"' .  make_ratings($row->rating_kepuasan) . '</a><br/><span class="text-secondary" id="p_' . $row->id . '">SELESAI (' . $row->tgl_update . ')</span>';
+                if ($row->status === '200') {
+                    return $loading_div . '&nbsp;<span id="p_' . $row->id . '"><a class="text-primary" href="#!" onclick="ajax_status_permohonan(\'masa_layar\',210,' . $row->id . ')">[BAYAR DITERIMA]</a>&nbsp;|&nbsp;<a class="text-danger" href="#!" onclick="ajax_status_permohonan(\'masa_layar\',299,' . $row->id . ')">[BAYAR DITOLAK]</a></span>';
+                } elseif ($row->status === '210') {
+                    return $loading_div . '&nbsp;<span id="p_' . $row->id . '"><a class="text-primary" href="#!" onclick="ajax_status_permohonan(\'masa_layar\',310,' . $row->id . ')">[BERKAS DITERIMA]</a>&nbsp;|&nbsp;<a class="text-danger" href="#!" onclick="ajax_status_permohonan(\'masa_layar\',399,' . $row->id . ')">[BERKAS DITOLAK]</a></span>';
+                } elseif ($row->status === '310') {
+                    return '<span id="p_' . $row->id . '"><a class="text-success" href="#!" onclick="ajax_status_permohonan(\'masa_layar\',400,' . $row->id . ')">[DOKUMEN DIAMBIL]</a></span>';
+                } elseif ($row->status === '400') {
+                    return '<a style="color:orange" href="#!" onclick="ajax_komentar_rating(\'masa_layar\',' . $row->id . ')"' . make_ratings($row->rating_kepuasan) . '</a><br/><span class="text-secondary" id="p_' . $row->id . '">SELESAI (' . $row->tgl_update . ')</span>';
+                } elseif ($row->status === '299' || $row->status === '399') {
+                    return $row->alasan_status;
                 }
 
             });
@@ -371,14 +456,15 @@ class Manage extends MX_Controller
 
             $this->breadcrumbs->push('Dashboard', '/manage');
             $this->breadcrumbs->push('Permohonan', '/manage/permohonan');
+            $this->breadcrumbs->push('Masa Layar', '/manage/masa-layar');
 
-            if ($filter_status === 'selesai') {
-                $this->breadcrumbs->push('Masa layar&nbsp;-&nbsp<span class="text-secondary">[SELESAI]</span>', '/manage/masa-layar-selesai');
-            } elseif ($filter_status === 'ditolak') {
-                $this->breadcrumbs->push('Masa layar&nbsp;-&nbsp<span class="text-danger">[DITOLAK]</span>', '/manage/masa-layar-ditolak');
-            } elseif ($filter_status === 'proses') {
-                $this->breadcrumbs->push('Masa layar&nbsp;-&nbsp<span class="text-success">[DALAM PROSES]</span>', '/manage/masa-layar-proses');
-            }
+            // if ($filter_status === 'selesai') {
+            //     $this->breadcrumbs->push('Masa layar&nbsp;-&nbsp<span class="text-secondary">[SELESAI]</span>', '/manage/masa-layar-selesai');
+            // } elseif ($filter_status === 'ditolak') {
+            //     $this->breadcrumbs->push('Masa layar&nbsp;-&nbsp<span class="text-danger">[DITOLAK]</span>', '/manage/masa-layar-ditolak');
+            // } elseif ($filter_status === 'proses') {
+            //     $this->breadcrumbs->push('Masa layar&nbsp;-&nbsp<span class="text-success">[DALAM PROSES]</span>', '/manage/masa-layar-proses');
+            // }
 
             $extra = array(
                 'page_title' => 'Permohonan Masa Layar',
@@ -403,22 +489,25 @@ class Manage extends MX_Controller
             $this->load->library('grocery_CRUD');
             $crud = new Grocery_CRUD();
 
-            if ($filter_status === 'selesai') {
-                $crud->where('status', 'diambil');
-            } elseif ($filter_status === 'ditolak') {
-                $crud->where('status', 'ditolak');
-            } elseif ($filter_status === 'proses') {
-                $crud->in_where('status', "('baru','diterima')");
-            }
+            // if ($filter_status === 'selesai') {
+            //     $crud->where('status', 'diambil');
+            // } elseif ($filter_status === 'ditolak') {
+            //     $crud->where('status', 'ditolak');
+            // } elseif ($filter_status === 'proses') {
+            //     $crud->in_where('status', "('baru','diterima')");
+            // }
+
+            $ex = explode('.', $filter_status);
+            $crud->in_where("status", "('" . implode("','", $ex) . "')");
 
             $crud->set_table('sertifikat_keselamatan');
             $crud->set_subject('Data Permohonan Sertifikat Keselamatan');
 
-            $crud->columns('kode', 'identitas_kapal', 'dokumen_kelengkapan', 'tgl_mohon', 'bukti_bayar', 'status');
+            $crud->columns('kode', 'identitas_kapal', 'dokumen_kelengkapan', 'tgl_mohon', 'bukti_bayar', 'aksi');
 
             $crud->callback_column('kode', function ($value, $row) {
 
-                return 'PS-' . str_pad($row->id, 6, '0', STR_PAD_LEFT);
+                return '<a href="#!" onClick="ajax_riwayat_permohonan(\'sertifikat_keselamatan\',' . $row->id . ')">PS-' . str_pad($row->id, 6, '0', STR_PAD_LEFT) . '</a>';
             });
 
             $crud->callback_column('identitas_kapal', function ($value, $row) {
@@ -461,17 +550,34 @@ class Manage extends MX_Controller
                         </table>';
             });
 
-            $crud->callback_column('status', function ($value, $row) {
+            // $crud->callback_column('status', function ($value, $row) {
+            //     $loading_div = '<img src="' . site_url('assets/manage/img/loading.gif') . '" id="p_loading_' . $row->id . '" style="display:none">';
+
+            //     if ($row->status === 'baru') {
+            //         return $loading_div . '&nbsp;<span id="p_' . $row->id . '"><a class="text-primary" href="#!" onclick="ajax_status_permohonan(\'sertifikat_keselamatan\',\'diterima\',' . $row->id . ')">DISETUJUI</a>&nbsp;|&nbsp;<a class="text-danger" href="#!" onclick="ajax_status_permohonan(\'sertifikat_keselamatan\',\'ditolak\',' . $row->id . ')">DITOLAK</a></span>';
+            //     } elseif ($row->status === 'diterima') {
+            //         return $loading_div . '&nbsp;<span class="text-primary" id="p_' . $row->id . '"><a href="#!" onclick="ajax_status_permohonan(\'sertifikat_keselamatan\',\'diambil\',' . $row->id . ')">AMBIL BERKAS</a></span>';
+            //     } elseif ($row->status === 'ditolak') {
+            //         return '<span id="p_' . $row->id . '"><a class="text-danger" href="#!" onclick="ajax_alasan(\'sertifikat_keselamatan\',' . $row->id . ')">DITOLAK</a></span>';
+            //     } elseif ($row->status === 'diambil') {
+            //         return '<a style="color:orange" href="#!" onclick="ajax_komentar_rating(\'sertifikat_keselamatan\',' . $row->id . ')"' . make_ratings($row->rating_kepuasan) . '</a><br/><span class="text-secondary" id="p_' . $row->id . '">SELESAI (' . $row->tgl_update . ')</span>';
+            //     }
+
+            // });
+
+            $crud->callback_column('aksi', function ($value, $row) {
                 $loading_div = '<img src="' . site_url('assets/manage/img/loading.gif') . '" id="p_loading_' . $row->id . '" style="display:none">';
 
-                if ($row->status === 'baru') {
-                    return $loading_div . '&nbsp;<span id="p_' . $row->id . '"><a class="text-primary" href="#!" onclick="ajax_status_permohonan(\'sertifikat_keselamatan\',\'diterima\',' . $row->id . ')">DISETUJUI</a>&nbsp;|&nbsp;<a class="text-danger" href="#!" onclick="ajax_status_permohonan(\'sertifikat_keselamatan\',\'ditolak\',' . $row->id . ')">DITOLAK</a></span>';
-                } elseif ($row->status === 'diterima') {
-                    return $loading_div . '&nbsp;<span class="text-primary" id="p_' . $row->id . '"><a href="#!" onclick="ajax_status_permohonan(\'sertifikat_keselamatan\',\'diambil\',' . $row->id . ')">AMBIL BERKAS</a></span>';
-                } elseif ($row->status === 'ditolak') {
-                    return '<span id="p_' . $row->id . '"><a class="text-danger" href="#!" onclick="ajax_alasan(\'sertifikat_keselamatan\',' . $row->id . ')">DITOLAK</a></span>';
-                } elseif ($row->status === 'diambil') {
-                    return '<a style="color:orange" href="#!" onclick="ajax_komentar_rating(\'sertifikat_keselamatan\',' . $row->id . ')"' .  make_ratings($row->rating_kepuasan) . '</a><br/><span class="text-secondary" id="p_' . $row->id . '">SELESAI (' . $row->tgl_update . ')</span>';
+                if ($row->status === '200') {
+                    return $loading_div . '&nbsp;<span id="p_' . $row->id . '"><a class="text-primary" href="#!" onclick="ajax_status_permohonan(\'sertifikat_keselamatan\',210,' . $row->id . ')">[BAYAR DITERIMA]</a>&nbsp;|&nbsp;<a class="text-danger" href="#!" onclick="ajax_status_permohonan(\'sertifikat_keselamatan\',299,' . $row->id . ')">[BAYAR DITOLAK]</a></span>';
+                } elseif ($row->status === '210') {
+                    return $loading_div . '&nbsp;<span id="p_' . $row->id . '"><a class="text-primary" href="#!" onclick="ajax_status_permohonan(\'sertifikat_keselamatan\',310,' . $row->id . ')">[BERKAS DITERIMA]</a>&nbsp;|&nbsp;<a class="text-danger" href="#!" onclick="ajax_status_permohonan(\'sertifikat_keselamatan\',399,' . $row->id . ')">[BERKAS DITOLAK]</a></span>';
+                } elseif ($row->status === '310') {
+                    return '<span id="p_' . $row->id . '"><a class="text-success" href="#!" onclick="ajax_status_permohonan(\'sertifikat_keselamatan\',400,' . $row->id . ')">[DOKUMEN DIAMBIL]</a></span>';
+                } elseif ($row->status === '400') {
+                    return '<a style="color:orange" href="#!" onclick="ajax_komentar_rating(\'masa_layar\',' . $row->id . ')"' . make_ratings($row->rating_kepuasan) . '</a><br/><span class="text-secondary" id="p_' . $row->id . '">SELESAI (' . $row->tgl_update . ')</span>';
+                } elseif ($row->status === '299' || $row->status === '399') {
+                    return $row->alasan_status;
                 }
 
             });
@@ -499,7 +605,7 @@ class Manage extends MX_Controller
                             <td>' . $sl . '</td>
                           </tr>
                           <tr>
-                            <td>Srtifikat keselamatan</td>
+                            <td>Sertifikat keselamatan</td>
                             <td>:</td>
                             <td>' . $sks . '</td>
                           </tr>
@@ -539,14 +645,15 @@ class Manage extends MX_Controller
 
             $this->breadcrumbs->push('Dashboard', '/manage');
             $this->breadcrumbs->push('Permohonan', '/manage/permohonan');
+            $this->breadcrumbs->push('Sertifikat Keselamatan', '/manage/sertifikat-keselamatan');
 
-            if ($filter_status === 'selesai') {
-                $this->breadcrumbs->push('Sertifikat Keselamatan&nbsp;-&nbsp<span class="text-secondary">[SELESAI]</span>', '/manage/sertifikat-keselamatan/selesai');
-            } elseif ($filter_status === 'ditolak') {
-                $this->breadcrumbs->push('Sertifikat Keselamatan&nbsp;-&nbsp<span class="text-danger">[DITOLAK]</span>', '/manage/sertifikat-keselamatan/ditolak');
-            } elseif ($filter_status === 'proses') {
-                $this->breadcrumbs->push('Sertifikat Keselamatan&nbsp;-&nbsp<span class="text-success">[DALAM PROSES]</span>', '/manage/sertifikat-keselamatan/proses');
-            }
+            // if ($filter_status === 'selesai') {
+            //     $this->breadcrumbs->push('Sertifikat Keselamatan&nbsp;-&nbsp<span class="text-secondary">[SELESAI]</span>', '/manage/sertifikat-keselamatan/selesai');
+            // } elseif ($filter_status === 'ditolak') {
+            //     $this->breadcrumbs->push('Sertifikat Keselamatan&nbsp;-&nbsp<span class="text-danger">[DITOLAK]</span>', '/manage/sertifikat-keselamatan/ditolak');
+            // } elseif ($filter_status === 'proses') {
+            //     $this->breadcrumbs->push('Sertifikat Keselamatan&nbsp;-&nbsp<span class="text-success">[DALAM PROSES]</span>', '/manage/sertifikat-keselamatan/proses');
+            // }
 
             $extra = array(
                 'page_title' => 'Permohonan Sertifikat Keselamatan Kapal',
@@ -562,20 +669,23 @@ class Manage extends MX_Controller
         }
     }
 
-    public function bongkar_muat($filter_status = 'proses')
+    public function bongkar_muat($filter_status = '200.210.310')
     {
         try {
 
             $this->load->library('grocery_CRUD');
             $crud = new Grocery_CRUD();
 
-            if ($filter_status === 'selesai') {
-                $crud->where('status', 'diambil');
-            } elseif ($filter_status === 'ditolak') {
-                $crud->where('status', 'ditolak');
-            } elseif ($filter_status === 'proses') {
-                $crud->in_where('status', "('baru','diterima')");
-            }
+            // if ($filter_status === 'selesai') {
+            //     $crud->where('status', 'diambil');
+            // } elseif ($filter_status === 'ditolak') {
+            //     $crud->where('status', 'ditolak');
+            // } elseif ($filter_status === 'proses') {
+            //     $crud->in_where('status', "('baru','diterima')");
+            // }
+
+            $ex = explode('.', $filter_status);
+            $crud->in_where("status", "('" . implode("','", $ex) . "')");
 
             $crud->set_table('bongkar_muat');
             $crud->set_subject('Data Permohonan Bongkar Muat');
@@ -588,12 +698,11 @@ class Manage extends MX_Controller
                 'file_surat_permohonan',
                 'tgl_mohon',
                 'bukti_bayar',
-                'status'
+                'aksi'
             );
 
             $crud->callback_column('kode', function ($value, $row) {
-
-                return 'PBM-' . str_pad($row->id, 6, '0', STR_PAD_LEFT);
+                return '<a href="#!" onClick="ajax_riwayat_permohonan(\'bongkar_muat\',' . $row->id . ')">PBM-' . str_pad($row->id, 6, '0', STR_PAD_LEFT) . '</a>';
             });
 
             $crud->callback_column('nama_perusahaan', function ($value, $row) {
@@ -638,17 +747,29 @@ class Manage extends MX_Controller
 
             });
 
-            $crud->callback_column('status', function ($value, $row) {
+            $crud->callback_column('aksi', function ($value, $row) {
                 $loading_div = '<img src="' . site_url('assets/manage/img/loading.gif') . '" id="p_loading_' . $row->id . '" style="display:none">';
 
-                if ($row->status === 'baru') {
-                    return $loading_div . '&nbsp;<span id="p_' . $row->id . '"><a class="text-primary" href="#!" onclick="ajax_status_permohonan(\'bongkar_muat\',\'diterima\',' . $row->id . ')">DISETUJUI</a>&nbsp;|&nbsp;<a class="text-danger" href="#!" onclick="set_status_permohonan(\'bongkar_muat\',\'ditolak\',' . $row->id . ')">DITOLAK</a></span>';
-                } elseif ($row->status === 'diterima') {
-                    return $loading_div . '&nbsp;<span class="text-primary" id="p_' . $row->id . '"><a href="#!" onclick="ajax_status_permohonan(\'bongkar_muat\',\'diambil\',' . $row->id . ')">AMBIL BERKAS</a></span>';
-                } elseif ($row->status === 'ditolak') {
-                    return '<span id="p_' . $row->id . '"><a class="text-danger" href="#!" onclick="ajax_alasan(\'bongkar_muat\',' . $row->id . ')">DITOLAK</a></span>';
-                } elseif ($row->status === 'diambil') {
-                    return '<a style="color:orange" href="#!" onclick="ajax_komentar_rating(\'bongkar_muat\',' . $row->id . ')"' .  make_ratings($row->rating_kepuasan) . '</a><br/><span class="text-secondary" id="p_' . $row->id . '">SELESAI (' . $row->tgl_update . ')</span>';
+                // if ($row->status === 'baru') {
+                //     return $loading_div . '&nbsp;<span id="p_' . $row->id . '"><a class="text-primary" href="#!" onclick="ajax_status_permohonan(\'bongkar_muat\',\'diterima\',' . $row->id . ')">DISETUJUI</a>&nbsp;|&nbsp;<a class="text-danger" href="#!" onclick="set_status_permohonan(\'bongkar_muat\',\'ditolak\',' . $row->id . ')">DITOLAK</a></span>';
+                // } elseif ($row->status === 'diterima') {
+                //     return $loading_div . '&nbsp;<span class="text-primary" id="p_' . $row->id . '"><a href="#!" onclick="ajax_status_permohonan(\'bongkar_muat\',\'diambil\',' . $row->id . ')">AMBIL BERKAS</a></span>';
+                // } elseif ($row->status === 'ditolak') {
+                //     return '<span id="p_' . $row->id . '"><a class="text-danger" href="#!" onclick="ajax_alasan(\'bongkar_muat\',' . $row->id . ')">DITOLAK</a></span>';
+                // } elseif ($row->status === 'diambil') {
+                //     return '<a style="color:orange" href="#!" onclick="ajax_komentar_rating(\'bongkar_muat\',' . $row->id . ')"' .  make_ratings($row->rating_kepuasan) . '</a><br/><span class="text-secondary" id="p_' . $row->id . '">SELESAI (' . $row->tgl_update . ')</span>';
+                // }
+
+                if ($row->status === '200') {
+                    return $loading_div . '&nbsp;<span id="p_' . $row->id . '"><a class="text-primary" href="#!" onclick="ajax_status_permohonan(\'bongkar_muat\',210,' . $row->id . ')">[BAYAR DITERIMA]</a>&nbsp;|&nbsp;<a class="text-danger" href="#!" onclick="ajax_status_permohonan(\'bongkar_muat\',299,' . $row->id . ')">[BAYAR DITOLAK]</a></span>';
+                } elseif ($row->status === '210') {
+                    return $loading_div . '&nbsp;<span id="p_' . $row->id . '"><a class="text-primary" href="#!" onclick="ajax_status_permohonan(\'bongkar_muat\',310,' . $row->id . ')">[BERKAS DITERIMA]</a>&nbsp;|&nbsp;<a class="text-danger" href="#!" onclick="ajax_status_permohonan(\'bongkar_muat\',399,' . $row->id . ')">[BERKAS DITOLAK]</a></span>';
+                } elseif ($row->status === '310') {
+                    return '<span id="p_' . $row->id . '"><a class="text-success" href="#!" onclick="ajax_status_permohonan(\'bongkar_muat\',400,' . $row->id . ')">[DOKUMEN DIAMBIL]</a></span>';
+                } elseif ($row->status === '400') {
+                    return '<a style="color:orange" href="#!" onclick="ajax_komentar_rating(\'bongkar_muat\',' . $row->id . ')"' . make_ratings($row->rating_kepuasan) . '</a><br/><span class="text-secondary" id="p_' . $row->id . '">SELESAI (' . $row->tgl_update . ')</span>';
+                } elseif ($row->status === '299' || $row->status === '399') {
+                    return $row->alasan_status;
                 }
 
             });
@@ -675,14 +796,15 @@ class Manage extends MX_Controller
 
             $this->breadcrumbs->push('Dashboard', '/manage');
             $this->breadcrumbs->push('Permohonan', '/manage/permohonan');
+            $this->breadcrumbs->push('Bongkar Muat', '/manage/bongkar-muat');
 
-            if ($filter_status === 'selesai') {
-                $this->breadcrumbs->push('Bongkar Muat&nbsp;-&nbsp<span class="text-secondary">[SELESAI]</span>', '/manage/bongkar-muat/selesai');
-            } elseif ($filter_status === 'ditolak') {
-                $this->breadcrumbs->push('Bongkar Muat&nbsp;-&nbsp<span class="text-danger">[DITOLAK]</span>', '/manage/bongkar-muat/ditolak');
-            } elseif ($filter_status === 'proses') {
-                $this->breadcrumbs->push('Bongkar Muat&nbsp;-&nbsp<span class="text-success">[DALAM PROSES]</span>', '/manage/bongkar-muat/proses');
-            }
+            // if ($filter_status === 'selesai') {
+            //     $this->breadcrumbs->push('Bongkar Muat&nbsp;-&nbsp<span class="text-secondary">[SELESAI]</span>', '/manage/bongkar-muat/selesai');
+            // } elseif ($filter_status === 'ditolak') {
+            //     $this->breadcrumbs->push('Bongkar Muat&nbsp;-&nbsp<span class="text-danger">[DITOLAK]</span>', '/manage/bongkar-muat/ditolak');
+            // } elseif ($filter_status === 'proses') {
+            //     $this->breadcrumbs->push('Bongkar Muat&nbsp;-&nbsp<span class="text-success">[DALAM PROSES]</span>', '/manage/bongkar-muat/proses');
+            // }
 
             $extra = array(
                 'page_title' => 'Permohonan Bongkar Muat',

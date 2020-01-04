@@ -17,7 +17,9 @@ import com.kapal.dokumenkapal.util.SharedPrefManager;
 import com.kapal.dokumenkapal.util.api.BaseApiService;
 import com.kapal.dokumenkapal.util.api.UtilsApi;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class MasaLayarAdapter extends RecyclerView.Adapter<MasaLayarAdapter.MasaLayarViewHolder> {
 
@@ -46,29 +48,40 @@ public class MasaLayarAdapter extends RecyclerView.Adapter<MasaLayarAdapter.Masa
                         dataList.get(position).getTgl_update())
         );
 
-        holder.tvStatus.setText(String.format("Status: %s", dataList.get(position).getStatus().toUpperCase()));
+
+        if ("299".equals(dataList.get(position).getStatus()) || "399".equals(dataList.get(position).getStatus())) {
+            //jika ada kegagalan dalam validasi
+            holder.tvStatus.setText(String.format("Status: %s [ %s ] %n%s",
+                    dataList.get(position).getArti_status(),
+                    dataList.get(position).getStatus().toUpperCase(),
+                    dataList.get(position).getAlasan_status()
+            ));
+            holder.tvStatus.setTextColor(Color.RED);
+        } else {
+            holder.tvStatus.setText(String.format("Status: %s [ %s ]",
+                    dataList.get(position).getArti_status(),
+                    dataList.get(position).getStatus().toUpperCase()
+            ));
+        }
+
         holder.rowId = dataList.get(position).getId();
         holder.rating_kepuasan = (float) dataList.get(position).getRating_kepuasan();
         holder.komentar = dataList.get(position).getKomentar();
+        holder.biaya = dataList.get(position).getBiaya();
 
         Context mContext = holder.itemView.getContext();
 
         BaseApiService mBaseApiService = UtilsApi.getAPIService();
         SharedPrefManager sharedPrefManager = new SharedPrefManager(mContext);
 
-        if("diambil".equals(dataList.get(position).getStatus())){
-            holder.tvStatus.setText("Status: Berkas sudah diambil");
-            holder.tvStatus.setTextColor(Color.GRAY);
+        if (Arrays.asList("310", "399", "400").contains(dataList.get(position).getStatus())) {
             holder.btnUpload.setVisibility(View.GONE);
-//            holder.btnUpload.setEnabled(false);
-//            holder.btnUpload.setBackground(ContextCompat.getDrawable(mContext,R.drawable.navigation_item_background_default));
         }
 
-        if("ditolak".equals(dataList.get(position).getStatus())){
-            holder.tvStatus.setText("Status: Berkas ditolak (klik untuk detail)");
-            holder.tvStatus.setTextColor(Color.RED);
+        if ("400".equals(dataList.get(position).getStatus())) {
+            holder.tvStatus.setTextColor(Color.GRAY);
+            holder.btnRating.setVisibility(View.VISIBLE);
         }
-
 
 
         holder.btnUpload.setOnClickListener(v -> {
@@ -88,7 +101,6 @@ public class MasaLayarAdapter extends RecyclerView.Adapter<MasaLayarAdapter.Masa
             public void onClick(View v) {
 
 
-
             }
         });
     }
@@ -106,8 +118,9 @@ public class MasaLayarAdapter extends RecyclerView.Adapter<MasaLayarAdapter.Masa
         int rowId;
         float rating_kepuasan;
         String komentar;
+        Double biaya;
 
-        public MasaLayarViewHolder(@NonNull View itemView) {
+        MasaLayarViewHolder(@NonNull View itemView) {
             super(itemView);
             tvKode = (TextView) itemView.findViewById(R.id.rowMasalayar_tvKode);
             tvTglMohon = (TextView) itemView.findViewById(R.id.rowMasalayar_tvTglMohon);

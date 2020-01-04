@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.kapal.dokumenkapal.MainActivity;
 import com.kapal.dokumenkapal.R;
 
+import com.kapal.dokumenkapal.ui.menupermohonan.MenuPermohonanFragment;
 import com.kapal.dokumenkapal.util.api.BaseApiService;
 import com.kapal.dokumenkapal.util.api.UtilsApi;
 
@@ -51,12 +53,11 @@ public class MasaLayarRatingFragment extends Fragment {
 
     private Context mContext;
     private BaseApiService mBaseApiService;
-    //    private SharedPrefManager sharedPrefManager;
     private ProgressDialog loading;
     private float rating;
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         mContext = context;
     }
@@ -90,10 +91,10 @@ public class MasaLayarRatingFragment extends Fragment {
         return root;
     }
 
-    public void updateRating() {
+    private void updateRating() {
         loading = ProgressDialog.show(mContext, null, "Merubah data, Mohon tunggu...", true, false);
         mBaseApiService.updateRating(
-                "sertifikat_keselamatan",
+                "masa_layar",
                 getArguments().getInt("id"),
                 penilaian.getRating(),
                 taKomentarRating.getText().toString()
@@ -155,4 +156,28 @@ public class MasaLayarRatingFragment extends Fragment {
             updateRating();
         }
     }
+
+    @Override
+    //Pressed return button
+    public void onResume() {
+        super.onResume();
+        Objects.requireNonNull(getView()).setFocusableInTouchMode(true);
+        getView().requestFocus();
+        getView().setOnKeyListener((v, keyCode, event) -> {
+
+            if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK) {
+
+                MasaLayarFragment mf = new MasaLayarFragment();
+                FragmentTransaction ft = getActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .add(R.id.nav_host_fragment, mf, MasaLayarFragment.class.getSimpleName())
+                        .addToBackStack(null);
+                ft.commit();
+
+                return true;
+            }
+            return false;
+        });
+    }
+
 }

@@ -1,0 +1,24 @@
+			  	 pemohon					petugas
+100				 menunggu pembayaran			-
+
+200 (upload bayar)		 menunggu verifikasi pembayaran		[BAYAR TERIMA]  | [BAYAR TOLAK]
+
+210 (verifikasi bayar berhasil)  menunggu verifikasi berkas		[BERKAS TERIMA] | [BERKAS TOLAK]					
+
+310 (verifikasi berkas berhasil) silahkan mengambil dokumen             [DOKUMEN DIAMBIL]                              
+
+399 (verifikasi berkas gagal)    verifikasi berkas gagal                verifikasi berkas gagal                
+                                 [UPLOAD ULANG]                         MENUNGGU UPLOAD ULANG 
+                                 => 210 
+
+299 (verifikasi bayar gagal)     verifikasi bayar gagal                 verifikasi bayar gagal   
+                                 [UPLOAD ULANG]                         MENUNGGU UPLOAD ULANG
+                                 => 200 
+
+400                              selesai (diambil pada ...)             [SELESAI]
+
+
+100 -> 200 -> 210 -> 310 -> 400
+100 -> 200 -> 210 -> 399
+100 -> 200 -> 299
+ 

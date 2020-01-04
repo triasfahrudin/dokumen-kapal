@@ -71,48 +71,85 @@ public class MasaLayarFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_listview_masalayar, container, false);
+        mBaseApiService = UtilsApi.getAPIService();
+        sharedPrefManager = new SharedPrefManager(mContext);
 
-        Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
+        Toolbar toolbar = Objects.requireNonNull(getActivity()).findViewById(R.id.toolbar);
         toolbar.setTitle("Data Permohonan Masa Layar");
         FloatingActionButton floatingActionButton = ((MainActivity) Objects.requireNonNull(getActivity())).getFloatingActionButton();
         if (floatingActionButton != null) {
             floatingActionButton.show();
 
-            floatingActionButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
+            floatingActionButton.setOnClickListener(view -> {
 
-                    Bundle bundle = new Bundle();
-                    bundle.putInt("id", 0);
-                    bundle.putString("kode", "");
-                    bundle.putString("tgl_mohon", "");
-                    bundle.putString("status", "");
+                //Cek apakah ada permohonan masa layar yang belum selesai ?
+                //karena permohonan masa layar hanya boleh ada satu yang aktif
 
-                    MasaLayarFormFragment fragment = new MasaLayarFormFragment();
-                    fragment.setArguments(bundle);
-                    AppCompatActivity activity = (AppCompatActivity) view.getContext();
+                mBaseApiService.getMasaLayarActiveCountRequest(sharedPrefManager.getSPID())
+                        .enqueue(new Callback<ResponseBody>() {
+                            @Override
+                            public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
+                                if (response.isSuccessful()) {
 
-                    activity.getSupportFragmentManager()
-                            .beginTransaction()
-                            .replace(R.id.nav_host_fragment, fragment, MasaLayarFormFragment.class.getSimpleName())
-                            .addToBackStack(null)
-                            .commit();
-                }
+                                    try {
+                                        JSONObject jsonObject = new JSONObject(response.body().string());
+                                        if (jsonObject.getString("error").equals("false")) {
+                                              int req_act_count = jsonObject.getJSONObject("masa_layar").getInt("active_req");
+                                              if(req_act_count == 0){
+                                                  Bundle bundle = new Bundle();
+                                                  bundle.putInt("id", 0);
+                                                  bundle.putString("kode", "");
+                                                  bundle.putString("tgl_mohon", "");
+                                                  bundle.putString("status", "");
+
+                                                  MasaLayarFormFragment fragment = new MasaLayarFormFragment();
+                                                  fragment.setArguments(bundle);
+                                                  AppCompatActivity activity = (AppCompatActivity) view.getContext();
+
+                                                  activity.getSupportFragmentManager()
+                                                          .beginTransaction()
+                                                          .replace(R.id.nav_host_fragment, fragment, MasaLayarFormFragment.class.getSimpleName())
+                                                          .addToBackStack(null)
+                                                          .commit();
+                                              }else{
+                                                  Toasty.error(mContext, "Ada permohonan pembuatan Masa Layar yang belum selesai!\nPermohonan baru tidak diperkenankan", Toast.LENGTH_SHORT).show();
+                                              }
+
+                                        } else {
+                                            String error_message = jsonObject.getString("error_msg");
+                                            Toasty.error(mContext, error_message, Toast.LENGTH_LONG).show();
+                                        }
+                                    } catch (JSONException | IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                } else {
+
+                                }
+
+                            }
+
+                            @Override
+                            public void onFailure(@NonNull Call<ResponseBody> call, Throwable t) {
+
+                            }
+                        });
+
+
+
             });
         }
 
-        mBaseApiService = UtilsApi.getAPIService();
-        sharedPrefManager = new SharedPrefManager(mContext);
+
 
         loading = ProgressDialog.show(mContext, null, "Mengambil data ...", true, false);
 
         mBaseApiService.getMasaLayar(sharedPrefManager.getSPID())
                 .enqueue(new Callback<MasaLayarModelList>() {
                     @Override
-                    public void onResponse(Call<MasaLayarModelList> call, Response<MasaLayarModelList> response) {
+                    public void onResponse(@NonNull Call<MasaLayarModelList> call, @NonNull Response<MasaLayarModelList> response) {
                         if (response.isSuccessful()) {
                             loading.dismiss();
-                            generateMasaLayarList(response.body().getMasaLayarArrayList());
+                            generateMasaLayarList(Objects.requireNonNull(response.body()).getMasaLayarArrayList());
                         } else {
                             loading.dismiss();
                         }
@@ -132,71 +169,88 @@ public class MasaLayarFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if (resultCode == RESULT_OK) {
-            Uri uri = data.getData();
-            uploadFile("masa_layar",requestCode,FileUtils.getPath(mContext,uri));
-        }
-        super.onActivityResult(requestCode, resultCode, data);
+//        if (resultCode == RESULT_OK) {
+//            Uri uri = data.getData();
+//            uploadFile("masa_layar",requestCode,FileUtils.getPath(mContext,uri));
+//        }
+//        super.onActivityResult(requestCode, resultCode, data);
 
     }
 
-    private void uploadFile(String jenis, int recyclerID, String path) {
-        String fileName = String.valueOf(Calendar.getInstance().getTimeInMillis());
-
-        File file = new File(path);
-        RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), file);
-        MultipartBody.Part fileToUpload = MultipartBody.Part.createFormData("filename", file.getName(), requestBody);
-        RequestBody filename = RequestBody.create(MediaType.parse("text/plain"), fileName);
-
-        loading = ProgressDialog.show(mContext, null, "Proses upload file, Mohon tunggu ...", true, false);
-
-        mBaseApiService.uploadFile(jenis, recyclerID, sharedPrefManager.getSPID(), fileToUpload, filename)
-                .enqueue(new Callback<ResponseBody>() {
-                    @Override
-                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                        if (response.isSuccessful()) {
-                            loading.dismiss();
-                            try {
-                                JSONObject jsonObject = new JSONObject(response.body().string());
-                                if (jsonObject.getString("error").equals("false")) {
-                                    Toast.makeText(mContext, "Upload file berhasil", Toast.LENGTH_SHORT).show();
-                                } else {
-                                    String error_message = jsonObject.getString("error_msg");
-                                    Toast.makeText(mContext, error_message, Toast.LENGTH_SHORT).show();
-                                }
-
-
-                            } catch (JSONException | IOException e) {
-                                e.printStackTrace();
-                            }
-
-                        } else {
-                            loading.dismiss();
-
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<ResponseBody> call, Throwable t) {
-                        loading.dismiss();
-                        Log.e("", "Response returned by website is : " + t.getMessage());
-                    }
-                });
-    }
+//    private void uploadFile(String jenis, int recyclerID, String path) {
+//        String fileName = String.valueOf(Calendar.getInstance().getTimeInMillis());
+//
+//        File file = new File(path);
+//        RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), file);
+//        MultipartBody.Part fileToUpload = MultipartBody.Part.createFormData("filename", file.getName(), requestBody);
+//        RequestBody filename = RequestBody.create(MediaType.parse("text/plain"), fileName);
+//
+//        loading = ProgressDialog.show(mContext, null, "Proses upload file, Mohon tunggu ...", true, false);
+//
+//        mBaseApiService.uploadFile(jenis, recyclerID, sharedPrefManager.getSPID(), fileToUpload, filename)
+//                .enqueue(new Callback<ResponseBody>() {
+//                    @Override
+//                    public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
+//                        if (response.isSuccessful()) {
+//                            loading.dismiss();
+//                            try {
+//                                JSONObject jsonObject = new JSONObject(response.body().string());
+//                                if (jsonObject.getString("error").equals("false")) {
+//                                    Toast.makeText(mContext, "Upload file berhasil", Toast.LENGTH_SHORT).show();
+//                                } else {
+//                                    String error_message = jsonObject.getString("error_msg");
+//                                    Toast.makeText(mContext, error_message, Toast.LENGTH_SHORT).show();
+//                                }
+//
+//
+//                            } catch (JSONException | IOException e) {
+//                                e.printStackTrace();
+//                            }
+//
+//                        } else {
+//                            loading.dismiss();
+//
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+//                        loading.dismiss();
+//                        Log.e("", "Response returned by website is : " + t.getMessage());
+//                    }
+//                });
+//    }
 
     private void generateMasaLayarList(ArrayList<MasaLayarModelRecycler> masaLayarArrayList) {
 
-        recyclerView = (RecyclerView) getView().findViewById(R.id.recycler_view_masalayar_list);
+        recyclerView = Objects.requireNonNull(getView()).findViewById(R.id.recycler_view_masalayar_list);
         masaLayarAdapter = new MasaLayarAdapter(masaLayarArrayList);
 
         masaLayarAdapter.onBindCallBack = (jenis, viewHolder, position) -> {
 
             if("upload_file".equals(jenis)) {
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
 
-                startActivityForResult(Intent.createChooser(intent, "Pilih Image"), viewHolder.rowId);
+//                Intent intent = new Intent();
+//                intent.setType("image/*");
+//                intent.setAction(Intent.ACTION_GET_CONTENT);
+//
+//                startActivityForResult(Intent.createChooser(intent, "Pilih Image"), viewHolder.rowId);
+
+                Bundle bundle = new Bundle();
+                bundle.putInt("recyclerId",viewHolder.rowId);
+                bundle.putDouble("biaya",viewHolder.biaya);
+
+                MasaLayarFormBayarFragment fragment = new MasaLayarFormBayarFragment();
+                fragment.setArguments(bundle);
+                AppCompatActivity activity = (AppCompatActivity) getView().getContext();
+
+                activity.getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.nav_host_fragment, fragment, MasaLayarFormBayarFragment.class.getSimpleName())
+                        .addToBackStack(null)
+                        .commit();
+
+
             }else if("give_rating".equals(jenis)){
                 Bundle bundle = new Bundle();
                 bundle.putInt("id", viewHolder.rowId);
@@ -233,14 +287,12 @@ public class MasaLayarFragment extends Fragment {
     //Pressed return button
     public void onResume() {
         super.onResume();
-        getView().setFocusableInTouchMode(true);
+        Objects.requireNonNull(getView()).setFocusableInTouchMode(true);
         getView().requestFocus();
         getView().setOnKeyListener((v, keyCode, event) -> {
-
             if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK) {
-
                 MenuPermohonanFragment mf = new MenuPermohonanFragment();
-                FragmentTransaction ft = getActivity().getSupportFragmentManager()
+                FragmentTransaction ft = Objects.requireNonNull(getActivity()).getSupportFragmentManager()
                         .beginTransaction()
                         .add(R.id.nav_host_fragment, mf, MenuPermohonanFragment.class.getSimpleName())
                         .addToBackStack(null);

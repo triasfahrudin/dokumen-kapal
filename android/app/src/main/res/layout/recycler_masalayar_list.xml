@@ -71,7 +71,8 @@
                 android:background="#F5DEB3"
                 android:gravity="center|clip_vertical|center_horizontal|center_vertical"
                 android:text="Berikan penilaian anda"
-                android:textAlignment="center" />
+                android:textAlignment="center"
+                android:visibility="gone" />
 
 
         </LinearLayout>

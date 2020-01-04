@@ -11,21 +11,41 @@ public class MasaLayarModelRecycler {
     private String tgl_mohon;
     @SerializedName("tgl_update")
     private String tgl_update;
+    @SerializedName("biaya")
+    private Double biaya;
     @SerializedName("status")
     private String status;
+    @SerializedName("alasan_status")
+    private String alasan_status;
+    @SerializedName("arti_status")
+    private String arti_status;
     @SerializedName("rating_kepuasan")
     private int rating_kepuasan;
     @SerializedName("komentar")
     private String komentar;
 
-    public MasaLayarModelRecycler(int id, String kode, String tgl_mohon, String tgl_update, String status, int rating_kepuasan, String komentar) {
-        this.id = id;
-        this.kode = kode;
-        this.tgl_mohon = tgl_mohon;
-        this.tgl_update = tgl_update;
-        this.status = status;
-        this.rating_kepuasan = rating_kepuasan;
-        this.komentar = komentar;
+    public Double getBiaya() {
+        return biaya;
+    }
+
+    public void setBiaya(Double biaya) {
+        this.biaya = biaya;
+    }
+
+    public String getAlasan_status() {
+        return alasan_status;
+    }
+
+    public void setAlasan_status(String alasan_status) {
+        this.alasan_status = alasan_status;
+    }
+
+    public String getArti_status() {
+        return arti_status;
+    }
+
+    public void setArti_status(String arti_status) {
+        this.arti_status = arti_status;
     }
 
     public int getId() {
@@ -83,7 +103,6 @@ public class MasaLayarModelRecycler {
     public void setKomentar(String komentar) {
         this.komentar = komentar;
     }
-
 
 
 }

@@ -40,4 +40,6 @@
         ** Anda dapat mengisi data diatas pada menu Profil dan Data
     </string>
     <string name="mengambil_data">Mengambil data ...</string>
+    <string name="template_form_bayar">{TEMPLATE TEXT FORM BAYAR}</string>
+    <string name="text_kirim_bukti_bayar">KIRIM BUKTI PEMBAYARAN</string>
 </resources>

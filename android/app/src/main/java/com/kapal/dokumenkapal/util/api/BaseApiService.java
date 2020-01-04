@@ -174,4 +174,9 @@ public interface BaseApiService {
             @Field("komentar") String komentar
     );
 
+    @GET("get_masalayar_active_req")
+    Call<ResponseBody> getMasaLayarActiveCountRequest(@Query("pemohon_id") int pemohon_id );
+
+    @GET("get_settings")
+    Call<ResponseBody> getSettings();
 }

@@ -16,19 +16,13 @@ function make_ratings($rating)
     return $rating_span;
 }
 
-function get_settings($collumn, $title)
+function get_settings($title)
 {
     $CI = &get_instance();
 
     $result  = "";
     $setting = $CI->db->get_where('settings', array('title' => $title))->row();
-
-    if ($collumn === 'show') {
-        $result_array = explode(';', $setting->show);
-        $result       = $result_array[1];
-    } else {
-        $result = $setting->value;
-    }
+    $result = $setting->value;    
 
     return $result;
 }

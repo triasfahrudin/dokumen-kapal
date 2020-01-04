@@ -23,6 +23,21 @@
         $('#modalAlasanStatus').modal('show');
       })
   }
+
+  function ajax_riwayat_permohonan(jenis,permohonan_id){
+     $.get(base_path + "/ajax_riwayat_permohonan",
+        { 
+          jenis:jenis,
+          permohonan_id : permohonan_id 
+        }
+      ).done( function( data ){
+        $('#contentRiwayatPermohonan').html(data);
+        $('#modalRiwayatPermohonan').modal('show');
+      })
+  }
+
+
+
   
   function detail_pemohon(pemohon_id){
     $.get(base_path + "/ajax_detail_pemohon",{ pemohon_id:pemohon_id })
@@ -52,7 +67,7 @@
   function ajax_status_permohonan(jenis,status,permohonan_id) {
      
 
-      if(status == 'diterima'){
+      if(status == '210' || status == '310'){
          
          var return_confirm = confirm('Apakah anda yakin ?');          
          
@@ -76,14 +91,15 @@
                },
                success: function(data)
                {                               
-                 $('#p_' + permohonan_id).addClass('text-primary');   
-                 $('#p_' + permohonan_id).html('<a href="#!" onclick="ajax_status_permohonan(\'' + jenis + '\',\'diambil\',' + permohonan_id + ')">AMBIL BERKAS</a>');          
-                 $('#p_loading_' + permohonan_id).hide();
+                 //$('#p_' + permohonan_id).addClass('text-primary');   
+                 //$('#p_' + permohonan_id).html('<a href="#!" onclick="ajax_status_permohonan(\'' + jenis + '\',\'diambil\',' + permohonan_id + ')">AMBIL BERKAS</a>');          
+                 //$('#p_loading_' + permohonan_id).hide();
+                 location.reload();
                }
              }).done(function( msg ) { });
          }
 
-      }else if(status == 'diambil'){
+      }else if(status == '400'){
 
          var return_confirm = confirm('Apakah anda yakin ?');          
          
@@ -107,14 +123,15 @@
                },
                success: function(data)
                {                               
-                 $('#p_' + permohonan_id).removeClass('text-primary').addClass('text-secondary');   
-                 $('#p_' + permohonan_id).html('SELESAI');          
-                 $('#p_loading_' + permohonan_id).hide();
+                 //$('#p_' + permohonan_id).removeClass('text-primary').addClass('text-secondary');   
+                 //$('#p_' + permohonan_id).html('SELESAI');          
+                 //$('#p_loading_' + permohonan_id).hide();
+                 location.reload();
                }
              }).done(function( msg ) { });
          }
           
-      }else if(status == 'ditolak'){
+      }else if(status == '299' || status == '399'){
          
          $.confirm({
               title: 'Form penolakan permohonan',
@@ -138,7 +155,7 @@
                            var fd = new FormData();
                            fd.append('jenis', jenis);
                            fd.append('permohonan_id', permohonan_id);
-                           fd.append('status','ditolak');
+                           fd.append('status',status);
                            fd.append('alasan',alasan);
 
                            $.ajax({
@@ -154,9 +171,10 @@
                              },
                              success: function(data)
                              {                               
-                               $('#p_' + permohonan_id).addClass('text-danger');   
-                               $('#p_' + permohonan_id).html('DITOLAK');  
-                               $('#p_loading_' + permohonan_id).hide();        
+                               //$('#p_' + permohonan_id).addClass('text-danger');   
+                               //$('#p_' + permohonan_id).html('DITOLAK');  
+                               //$('#p_loading_' + permohonan_id).hide();        
+                               location.reload();
                              }
                            }).done(function( msg ) {
                              

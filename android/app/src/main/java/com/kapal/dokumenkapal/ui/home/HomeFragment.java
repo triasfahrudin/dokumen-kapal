@@ -1,9 +1,13 @@
 package com.kapal.dokumenkapal.ui.home;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -16,30 +20,28 @@ import com.kapal.dokumenkapal.R;
 import java.util.Objects;
 
 public class HomeFragment extends Fragment {
-
-    private final static String TAG_FRAGMENT = "TAG_HOME_FRAGMENT";
-
-
-    private HomeViewModel homeViewModel;
-
+    @SuppressLint("SetJavaScriptEnabled")
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        homeViewModel =
-                ViewModelProviders.of(this).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_menu_home, container, false);
 
         FloatingActionButton floatingActionButton = ((MainActivity) Objects.requireNonNull(getActivity())).getFloatingActionButton();
-
         if (floatingActionButton != null) {
             floatingActionButton.hide();
         }
-//        final TextView textView = root.findViewById(R.id.text_home);
-//        homeViewModel.getText().observe(this, new Observer<String>() {
-//            @Override
-//            public void onChanged(@Nullable String s) {
-//                textView.setText(s);
-//            }
-//        });
+
+        WebView mWebView = root.findViewById(R.id.webview_home);
+        mWebView.loadUrl("https://kirana-web.000webhostapp.com/webview");
+
+        WebSettings webSettings = mWebView.getSettings();
+        webSettings.setJavaScriptEnabled(true);
+        mWebView.setWebViewClient(new WebViewClient());
+
+        mWebView.getSettings().setDomStorageEnabled(true);
+        mWebView.getSettings().setAppCacheEnabled(true);
+        mWebView.getSettings().setLoadsImagesAutomatically(true);
+        mWebView.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+
         return root;
     }
 }

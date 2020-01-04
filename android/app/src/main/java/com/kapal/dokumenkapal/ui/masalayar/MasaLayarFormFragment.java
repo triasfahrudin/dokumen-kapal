@@ -14,30 +14,24 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.kapal.dokumenkapal.R;
 
+import java.util.Objects;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class MasaLayarFormFragment extends Fragment {
 
-    private final static String TAG_FRAGMENT = "TAG_FORM_MASALAYAR_FRAGMENT";
     @BindView(R.id.masalayar_btnKirim)
     Button masalayarBtnKirim;
 
-
     private Context mContext;
-
-    private String browseFor = "bukupelaut";
 
     @Override
     public void onAttach(Context context) {
-
         super.onAttach(context);
         mContext = context;
     }
-
-    private static final String[][] DATA_TO_SHOW = { { "This", "is", "a", "test" },
-            { "and", "a", "second", "test" } };
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -48,10 +42,7 @@ public class MasaLayarFormFragment extends Fragment {
         *
         * */
         View root = inflater.inflate(R.layout.fragment_form_masalayar, container, false);
-
         ButterKnife.bind(this, root);
-
-
         return root;
     }
 
@@ -60,16 +51,16 @@ public class MasaLayarFormFragment extends Fragment {
     //Pressed return button - returns to the results menu
     public void onResume() {
         super.onResume();
-        getView().setFocusableInTouchMode(true);
+        Objects.requireNonNull(getView()).setFocusableInTouchMode(true);
         getView().requestFocus();
         getView().setOnKeyListener((v, keyCode, event) -> {
 
             if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK) {
 
                 MasaLayarFragment mf = new MasaLayarFragment();
-                FragmentTransaction ft = getActivity().getSupportFragmentManager()
+                FragmentTransaction ft = Objects.requireNonNull(getActivity()).getSupportFragmentManager()
                         .beginTransaction()
-                        .add(R.id.nav_host_fragment, mf, TAG_FRAGMENT)
+                        .add(R.id.nav_host_fragment, mf, MasaLayarFragment.class.getSimpleName())
                         .addToBackStack(null);
                 ft.commit();
 

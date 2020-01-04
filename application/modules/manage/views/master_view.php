@@ -42,6 +42,13 @@
       <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
       <script type="text/javascript">var base_path = "<?php echo site_url('manage')?>";</script>
       <script src="<?php echo site_url('assets/manage/js/admin.js')?>?timestamps=<?php echo date("YmdHis")?>"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/Cookies.js/0.3.1/cookies.js"></script>
+      
+      <style type="text/css">
+         body{color:black;} 
+         .table {color: black}
+         .form-control {color: black}
+      </style>
    </head>
    <body id="page-top">
       <!-- Page Wrapper -->
@@ -67,7 +74,7 @@
             <hr class="sidebar-divider">
             <!-- Heading -->
             <div class="sidebar-heading">
-               Menu
+               Permohonan
             </div>
             <!-- Nav Item - Pages Collapse Menu -->
 
@@ -83,6 +90,11 @@
                <span>Permohonan</span>
                </a>                
             </li>
+            <hr class="sidebar-divider">
+            <!-- Heading -->
+            <div class="sidebar-heading">
+               Master Data
+            </div>
             <li class="nav-item">
                <a class="nav-link" href="<?php echo site_url('manage/data-pengguna')?>">
                <i class="fas fa-fw fa-table"></i>
@@ -103,10 +115,23 @@
                <i class="fas fa-fw fa-newspaper"></i>
                <span>Data Berita</span></a>
             </li>
+            <hr class="sidebar-divider">
+            <!-- Heading -->
+            <div class="sidebar-heading">
+               Report
+            </div>
             <li class="nav-item">
                <a class="nav-link" href="<?php echo site_url('manage/laporan')?>">
                <i class="fas fa-fw fa-chart-bar"></i>
                <span>Laporan</span></a>
+            </li>
+             <div class="sidebar-heading">
+               Settings
+            </div>
+            <li class="nav-item">
+               <a class="nav-link" href="<?php echo site_url('manage/settings')?>">
+               <i class="fas fa-fw fa-chart-bar"></i>
+               <span>Setting Aplikasi</span></a>
             </li>
             <?php  } ?>
 
@@ -186,7 +211,7 @@
                      </div>
                      <div class="col-sm">
                         <?php if(isset($filter)){ ?>
-                        <div class="dropdown float-right">
+                        <!-- <div class="dropdown float-right">
                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                            Data Filter
                            </button>
@@ -195,10 +220,34 @@
                               <a class="dropdown-item" href="<?php echo site_url('manage/' . $filter . '/selesai')?>">Selesai</a>
                               <a class="dropdown-item" href="<?php echo site_url('manage/' . $filter . '/ditolak')?>">Ditolak</a>
                            </div>
-                        </div>
+                        </div> -->
                         <?php } ?>                        
                      </div>
                   </div>
+                  <?php 
+
+                     $permohonan = array('masa-layar','sertifikat-keselamatan','bongkar-muat');
+                     $uri2 = $this->uri->segment(2,'-');
+                     $uri3 = $this->uri->segment(3,'');
+
+                     if(in_array($uri2, $permohonan)){ ?>
+
+                     <div class="row" style="padding-bottom: 10px">
+                        <ul class="nav nav-pills nav-fill">
+                          <li class="nav-item">
+                            <a class="nav-link <?php echo ($uri3 === '200.210.310') ? 'active' : '';?>" href="<?php echo site_url('manage/' . $uri2 . '/200.210.310')?>">Dalam Proses</a>
+                          </li>                      
+                          <li class="nav-item">
+                            <a class="nav-link <?php echo ($uri3 === '400') ? 'active' : '';?>" href="<?php echo site_url('manage/' . $uri2 . '/400')?>">Selesai</a>
+                          </li>
+                           <li class="nav-item">
+                            <a class="nav-link <?php echo ($uri3 === '299.399') ? 'active' : '';?>" href="<?php echo site_url('manage/' . $uri2 . '/299.399')?>">Revisi Berkas</a>
+                          </li>                       
+                        </ul>
+                     </div>
+
+                  <?php } ?>
+                  
                   <div class="row">
                      <?php if(isset($output)){ echo $output; }else{ include $page_name . ".php";} ?>
                   </div>
@@ -310,6 +359,24 @@
                <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
                   <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+               </div>
+            </div>
+         </div>
+      </div>
+
+      <div class="modal fade" id="modalRiwayatPermohonan" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+         <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+               <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Riwayat Permohonan</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                  </button>
+               </div>
+               <div class="modal-body" id="contentRiwayatPermohonan">
+               </div>
+               <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>                  
                </div>
             </div>
          </div>

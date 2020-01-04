@@ -724,12 +724,11 @@ class Restapi extends CI_Controller
                     $id = $this->input->post('id');
 
                     $this->db->where('id', $id);
-
                     $this->db->update('masa_layar',
                         array(
                             'bukti_bayar'            => $file_name,
                             'tgl_upload_bukti_bayar' => date("Y-m-d H:i:s"),
-                            'status'                 => 'baru',
+                            'status'                 => '200',
                         )
                     );
 
@@ -742,6 +741,8 @@ class Restapi extends CI_Controller
 
                         )
                     );
+
+                    break;
 
                 case '"sertifikat_keselamatan"':
                     $id = $this->input->post('id');
@@ -751,7 +752,7 @@ class Restapi extends CI_Controller
                         array(
                             'bukti_bayar'            => $file_name,
                             'tgl_upload_bukti_bayar' => date("Y-m-d H:i:s"),
-                            'status'                 => 'baru',
+                            'status'                 => '200',
                         )
                     );
 
@@ -764,6 +765,8 @@ class Restapi extends CI_Controller
 
                         )
                     );
+
+                    break;
 
                 case '"bongkar_muat"':
                     $id = $this->input->post('id');
@@ -773,7 +776,7 @@ class Restapi extends CI_Controller
                         array(
                             'bukti_bayar'            => $file_name,
                             'tgl_upload_bukti_bayar' => date("Y-m-d H:i:s"),
-                            'status'                 => 'baru',
+                            'status'                 => '200',
                         )
                     );
 
@@ -786,6 +789,7 @@ class Restapi extends CI_Controller
 
                         )
                     );
+                    break;
 
                 default:
                     # code...
@@ -1127,6 +1131,45 @@ class Restapi extends CI_Controller
 
     //===========================================================================masa layar
 
+    public function get_masalayar_active_req()
+    {
+        header("content-type: application/json");
+        $pemohon_id = $this->input->get('pemohon_id');
+
+        $this->db->where_in('status', array('100', '200', '210', '299', '310', '399'));
+        $this->db->where('pemohon_id', $pemohon_id);
+        $num = $this->db->count_all_results('masa_layar');
+
+        $response["error"]                    = false;
+        $response["masa_layar"]["active_req"] = $num;
+
+        echo json_encode($response);
+
+    }
+
+    public function get_settings()
+    {
+
+        header('content-type: application/json');
+        $setting = $this->db->get('settings');
+
+        $response["error"] = false;
+
+        foreach ($setting->result_array() as $key) {
+            if ($key['title'] === "nomor_rekening_bank") {
+                $response["setting"]["nomor_rekening_bank"] = $key["value"];
+            }
+
+            if ($key['title'] === "nama_rekening_bank") {
+                $response["setting"]["nama_rekening_bank"] = $key["value"];
+            }
+
+        }
+
+        echo json_encode($response);
+
+    }
+
     public function get_masalayar()
     {
 
@@ -1138,9 +1181,13 @@ class Restapi extends CI_Controller
                            LPAD(a.id,6,'0') AS kode,
                            DATE_FORMAT(a.tgl_mohon, '%d/%m/%Y') AS tgl_mohon,
                            DATE_FORMAT(a.tgl_update,'%d/%m/%Y') AS tgl_update,
+                           a.biaya,
                            a.status,
+                           a.alasan_status,
+                           b.arti AS arti_status,
                            a.rating_kepuasan,
                            a.komentar");
+        $this->db->join('kode_status b', 'a.status = b.kode_angka', 'left');
         $qry = $this->db->get_where('masa_layar a', array('pemohon_id' => $pemohon_id));
 
         echo json_encode(
