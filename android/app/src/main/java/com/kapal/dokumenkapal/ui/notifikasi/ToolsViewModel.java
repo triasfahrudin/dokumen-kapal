@@ -1,4 +1,4 @@
-package com.kapal.dokumenkapal.ui.tools;
+package com.kapal.dokumenkapal.ui.notifikasi;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

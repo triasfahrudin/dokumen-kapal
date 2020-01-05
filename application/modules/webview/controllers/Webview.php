@@ -29,4 +29,12 @@ class Webview extends CI_Controller
         );
         $this->_page_output($data);
     }
+
+    public function notifikasi($pemohon_id){
+        $data = array(
+            'notif_list'   => $this->db->get_where('notifikasi',array('pemohon_id' => $pemohon_id)),
+            'page_name' => 'notifikasi'
+        );
+        $this->_page_output($data);
+    }
 }

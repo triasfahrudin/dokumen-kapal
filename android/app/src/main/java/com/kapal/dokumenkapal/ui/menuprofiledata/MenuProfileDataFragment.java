@@ -65,13 +65,13 @@ public class MenuProfileDataFragment extends Fragment {
 
         String jenisPemohon = sharedPrefManager.getSPJenis();
 
-        if("perorangan".equals(jenisPemohon)){
-            cvKapal.setEnabled(false);
-        }else{
-            cvBukuPelaut.setEnabled(false);
-            cvRiwayatPelayaran.setEnabled(false);
-            cvSertifikatPelaut.setEnabled(false);
-        }
+//        if("perorangan".equals(jenisPemohon)){
+//            cvKapal.setEnabled(false);
+//        }else{
+//            cvBukuPelaut.setEnabled(false);
+//            cvRiwayatPelayaran.setEnabled(false);
+//            cvSertifikatPelaut.setEnabled(false);
+//        }
 
 
         androidx.appcompat.widget.Toolbar toolbar = (androidx.appcompat.widget.Toolbar) getActivity().findViewById(R.id.toolbar);

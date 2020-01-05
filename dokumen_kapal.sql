@@ -288,9 +288,9 @@ CREATE TABLE IF NOT EXISTS `riwayat_permohonan` (
   `keterangan` varchar(50) DEFAULT NULL,
   `tgl` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=latin1;
 
--- Dumping data for table dokumen_kapal.riwayat_permohonan: ~21 rows (approximately)
+-- Dumping data for table dokumen_kapal.riwayat_permohonan: ~32 rows (approximately)
 DELETE FROM `riwayat_permohonan`;
 /*!40000 ALTER TABLE `riwayat_permohonan` DISABLE KEYS */;
 INSERT INTO `riwayat_permohonan` (`id`, `jenis`, `permohonan_id`, `status`, `keterangan`, `tgl`) VALUES
@@ -314,7 +314,18 @@ INSERT INTO `riwayat_permohonan` (`id`, `jenis`, `permohonan_id`, `status`, `ket
 	(18, 'sertifikat_keselamatan', 1, '200', '', '2020-01-02 16:00:09'),
 	(19, 'sertifikat_keselamatan', 1, '210', '', '2020-01-02 16:03:37'),
 	(20, 'sertifikat_keselamatan', 1, '310', '', '2020-01-02 16:04:50'),
-	(21, 'sertifikat_keselamatan', 1, '400', '', '2020-01-02 16:05:07');
+	(21, 'sertifikat_keselamatan', 1, '400', '', '2020-01-02 16:05:07'),
+	(22, 'sertifikat_keselamatan', 1, '200', '', '2020-01-05 07:43:00'),
+	(23, 'sertifikat_keselamatan', 1, '100', '', '2020-01-05 07:46:24'),
+	(24, 'sertifikat_keselamatan', 1, '200', '', '2020-01-05 07:46:26'),
+	(25, 'sertifikat_keselamatan', 1, '100', '', '2020-01-05 07:46:55'),
+	(26, 'sertifikat_keselamatan', 1, '200', '', '2020-01-05 07:46:57'),
+	(27, 'sertifikat_keselamatan', 1, '100', '', '2020-01-05 07:50:05'),
+	(28, 'sertifikat_keselamatan', 1, '200', '', '2020-01-05 07:50:07'),
+	(29, 'sertifikat_keselamatan', 1, '100', '', '2020-01-05 07:50:55'),
+	(30, 'sertifikat_keselamatan', 1, '200', '', '2020-01-05 07:50:57'),
+	(31, 'sertifikat_keselamatan', 1, '100', '', '2020-01-05 07:54:13'),
+	(32, 'sertifikat_keselamatan', 1, '200', '', '2020-01-05 07:54:15');
 /*!40000 ALTER TABLE `riwayat_permohonan` ENABLE KEYS */;
 
 -- Dumping structure for table dokumen_kapal.sertifikat_keselamatan
@@ -338,7 +349,7 @@ CREATE TABLE IF NOT EXISTS `sertifikat_keselamatan` (
 DELETE FROM `sertifikat_keselamatan`;
 /*!40000 ALTER TABLE `sertifikat_keselamatan` DISABLE KEYS */;
 INSERT INTO `sertifikat_keselamatan` (`id`, `kapal_id`, `biaya`, `bukti_bayar`, `tgl_upload_bukti_bayar`, `tgl_mohon`, `tgl_update`, `status`, `alasan_status`, `rating_kepuasan`, `komentar`) VALUES
-	(1, 1, NULL, '', '0000-00-00', '2019-12-08 18:40:37', '2020-01-02 16:05:07', '400', '', 0, '');
+	(1, 1, NULL, '', '0000-00-00', '2019-12-08 18:40:37', '2020-01-05 07:54:15', '200', '', 0, '');
 /*!40000 ALTER TABLE `sertifikat_keselamatan` ENABLE KEYS */;
 
 -- Dumping structure for table dokumen_kapal.sertifikat_pelaut
@@ -519,6 +530,26 @@ DELIMITER //
 CREATE TRIGGER `bongkar_muat_after_update` AFTER UPDATE ON `bongkar_muat` FOR EACH ROW BEGIN
 	INSERT INTO riwayat_permohonan(jenis,permohonan_id,status,keterangan) 
 	VALUES ('bongkar_muat', new.id, new.status , new.alasan_status );
+	
+	IF(NEW.status = '200') THEN
+		INSERT INTO notifikasi(pemohon_id,jenis_permohonan,permohonan_id,isi_notifikasi) 
+		VALUES(NEW.pemohon_id, 'bongkar_muat', NEW.id, CONCAT('Bukti bayar untuk PBM-', LPAD(NEW.id,6,'0'), ' telah berhasil diunggah. Mohon menunggu untuk validasi'));
+	ELSEIF(NEW.status = '210') THEN
+		INSERT INTO notifikasi(pemohon_id,jenis_permohonan,permohonan_id,isi_notifikasi) 
+		VALUES(NEW.pemohon_id, 'bongkar_muat', NEW.id, CONCAT('Bukti bayar untuk PBM-', LPAD(NEW.id,6,'0'), ' SUKSES divalidasi. Mohon menunggu untuk validasi berkas'));
+	ELSEIF(NEW.status = '299') THEN
+		INSERT INTO notifikasi(pemohon_id,jenis_permohonan,permohonan_id,isi_notifikasi) 
+		VALUES(NEW.pemohon_id, 'bongkar_muat', NEW.id, CONCAT('Bukti bayar untuk PBM-', LPAD(NEW.id,6,'0'), ' GAGAL untuk divalidasi!. Mohon untuk melakukan upload ulang'));
+	ELSEIF(NEW.status = '310') THEN
+		INSERT INTO notifikasi(pemohon_id,jenis_permohonan,permohonan_id,isi_notifikasi) 
+		VALUES(NEW.pemohon_id, 'bongkar_muat', NEW.id, CONCAT('Bukti bayar untuk PBM-', LPAD(NEW.id,6,'0'), ' SELESAI untuk divalidasi!. Mohon untuk mengambil Dokumen Bongkar Muat ke ... pada hari dan jam kerja. Mohon untuk membawa berkas persyaratan Asli'));		
+	ELSEIF(NEW.status = '399') THEN
+		INSERT INTO notifikasi(pemohon_id,jenis_permohonan,permohonan_id,isi_notifikasi) 
+		VALUES(NEW.pemohon_id, 'bongkar_muat', NEW.id, CONCAT('Bukti bayar untuk PBM-', LPAD(NEW.id,6,'0'), ' GAGAL untuk divalidasi dengan alasan : ', NEW.alasan_status ,' Dimohon untuk memperbaiki kelengkapan berkas persyaratan'));		
+	ELSEIF(NEW.status = '400') THEN
+		INSERT INTO notifikasi(pemohon_id,jenis_permohonan,permohonan_id,isi_notifikasi) 
+		VALUES(NEW.pemohon_id, 'bongkar_muat', NEW.id, CONCAT('Dokumen Bongkar Muat dengan Kode permohonan PBM-', LPAD(NEW.id,6,'0'), ' telah diambil. Mohon untuk memberikan penilaian terhadap proses permohonan ini demi perbaikan pelayanan yang kami lakukan'));			
+	END IF;
 END//
 DELIMITER ;
 SET SQL_MODE=@OLDTMP_SQL_MODE;
@@ -567,6 +598,27 @@ DELIMITER //
 CREATE TRIGGER `masa_layar_after_update` AFTER UPDATE ON `masa_layar` FOR EACH ROW BEGIN
 	INSERT INTO riwayat_permohonan(jenis,permohonan_id,status,keterangan) 
 	VALUES ('masa_layar', new.id, new.status, new.alasan_status );
+	
+	
+	IF(NEW.status = '200') THEN
+		INSERT INTO notifikasi(pemohon_id,jenis_permohonan,permohonan_id,isi_notifikasi) 
+		VALUES(NEW.pemohon_id, 'masa_layar', NEW.id, CONCAT('Bukti bayar untuk PML-', LPAD(NEW.id,6,'0'), ' telah berhasil diunggah. Mohon menunggu untuk validasi'));
+	ELSEIF(NEW.status = '210') THEN
+		INSERT INTO notifikasi(pemohon_id,jenis_permohonan,permohonan_id,isi_notifikasi) 
+			VALUES(NEW.pemohon_id, 'masa_layar', NEW.id, CONCAT('Bukti bayar untuk PML-', LPAD(NEW.id,6,'0'), ' SUKSES divalidasi. Mohon menunggu untuk validasi berkas'));
+	ELSEIF(NEW.status = '299') THEN
+		INSERT INTO notifikasi(pemohon_id,jenis_permohonan,permohonan_id,isi_notifikasi) 
+			VALUES(NEW.pemohon_id, 'masa_layar', NEW.id, CONCAT('Bukti bayar untuk PML-', LPAD(NEW.id,6,'0'), ' GAGAL untuk divalidasi!. Mohon untuk melakukan upload ulang'));
+	ELSEIF(NEW.status = '310') THEN
+		INSERT INTO notifikasi(pemohon_id,jenis_permohonan,permohonan_id,isi_notifikasi) 
+		VALUES(NEW.pemohon_id, 'masa_layar', NEW.id, CONCAT('Bukti bayar untuk PML-', LPAD(NEW.id,6,'0'), ' SELESAI untuk divalidasi!. Mohon untuk mengambil Dokumen Masa Layar ke ... pada hari dan jam kerja. Mohon untuk membawa berkas persyaratan Asli'));		
+	ELSEIF(NEW.status = '399') THEN
+		INSERT INTO notifikasi(pemohon_id,jenis_permohonan,permohonan_id,isi_notifikasi) 
+		VALUES(NEW.pemohon_id, 'masa_layar', NEW.id, CONCAT('Bukti bayar untuk PML-', LPAD(NEW.id,6,'0'), ' GAGAL untuk divalidasi dengan alasan : ', NEW.alasan_status ,' Dimohon untuk memperbaiki kelengkapan berkas persyaratan'));		
+	ELSEIF(NEW.status = '400') THEN
+		INSERT INTO notifikasi(pemohon_id,jenis_permohonan,permohonan_id,isi_notifikasi) 
+		VALUES(NEW.pemohon_id, 'masa_layar', NEW.id, CONCAT('Dokumen Masa Layar dengan Kode permohonan PML-', LPAD(NEW.id,6,'0'), ' telah diambil. Mohon untuk memberikan penilaian terhadap proses permohonan ini demi perbaikan pelayanan yang kami lakukan'));			
+	END IF;
 END//
 DELIMITER ;
 SET SQL_MODE=@OLDTMP_SQL_MODE;
@@ -615,8 +667,34 @@ DROP TRIGGER IF EXISTS `sertifikat_keselamatan_after_update`;
 SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_ENGINE_SUBSTITUTION';
 DELIMITER //
 CREATE TRIGGER `sertifikat_keselamatan_after_update` AFTER UPDATE ON `sertifikat_keselamatan` FOR EACH ROW BEGIN
+
+	DECLARE var_pemohon_id INT;
+	DECLARE var_nama_kapal VARCHAR(100);
+	SELECT pemohon_id,nama_kapal INTO var_pemohon_id,var_nama_kapal FROM kapal WHERE kapal.id = OLD.kapal_id;
+	
 	INSERT INTO riwayat_permohonan(jenis,permohonan_id,status,keterangan) 
 	VALUES ('sertifikat_keselamatan', new.id, new.status, new.alasan_status );
+	
+	IF(NEW.status = '200') THEN
+		INSERT INTO notifikasi(pemohon_id,jenis_permohonan,permohonan_id,isi_notifikasi) 
+		VALUES(var_pemohon_id, 'sertifikat_keselamatan', NEW.id, CONCAT('Bukti bayar untuk PS-', LPAD(NEW.id,6,'0'), ' telah berhasil diunggah. Mohon menunggu untuk validasi'));
+	ELSEIF(NEW.status = '210') THEN
+		INSERT INTO notifikasi(pemohon_id,jenis_permohonan,permohonan_id,isi_notifikasi) 
+		VALUES(var_pemohon_id, 'sertifikat_keselamatan', NEW.id, CONCAT('Bukti bayar untuk PS-', LPAD(NEW.id,6,'0'), ' SUKSES divalidasi. Mohon menunggu untuk validasi berkas'));
+	ELSEIF(NEW.status = '299') THEN
+		INSERT INTO notifikasi(pemohon_id,jenis_permohonan,permohonan_id,isi_notifikasi) 
+		VALUES(var_pemohon_id, 'sertifikat_keselamatan', NEW.id, CONCAT('Bukti bayar untuk PS-', LPAD(NEW.id,6,'0'), ' GAGAL untuk divalidasi!. Mohon untuk melakukan upload ulang'));
+	ELSEIF(NEW.status = '310') THEN
+		INSERT INTO notifikasi(pemohon_id,jenis_permohonan,permohonan_id,isi_notifikasi) 
+		VALUES(var_pemohon_id, 'sertifikat_keselamatan', NEW.id, CONCAT('Persyaratan Berkas untuk PS-', LPAD(NEW.id,6,'0'), ' SELESAI untuk divalidasi!. Mohon untuk mengambil Sertifikat Keselamatan ke ... pada hari dan jam kerja. Mohon untuk membawa berkas persyaratan Asli'));		
+	ELSEIF(NEW.status = '399') THEN
+		INSERT INTO notifikasi(pemohon_id,jenis_permohonan,permohonan_id,isi_notifikasi) 
+		VALUES(var_pemohon_id, 'sertifikat_keselamatan', NEW.id, CONCAT('Persyaratan Berkas untuk PS-', LPAD(NEW.id,6,'0'), ' GAGAL untuk divalidasi dengan alasan : ', NEW.alasan_status ,' Dimohon untuk memperbaiki kelengkapan berkas persyaratan'));		
+	ELSEIF(NEW.status = '400') THEN
+		INSERT INTO notifikasi(pemohon_id,jenis_permohonan,permohonan_id,isi_notifikasi) 
+		VALUES(var_pemohon_id, 'sertifikat_keselamatan', NEW.id, CONCAT('Sertifikat Keselamatan dengan Kode permohonan PS-', LPAD(NEW.id,6,'0'), ' telah diambil. Mohon untuk memberikan penilaian terhadap proses permohonan ini demi perbaikan pelayanan yang kami lakukan'));			
+	END IF;
+	
 END//
 DELIMITER ;
 SET SQL_MODE=@OLDTMP_SQL_MODE;
@@ -641,8 +719,10 @@ CREATE TRIGGER `sertifikat_keselamatan_before_update` BEFORE UPDATE ON `sertifik
 	
 	IF(NEW.bukti_bayar <> OLD.bukti_bayar) THEN
 		INSERT INTO notifikasi(pemohon_id,jenis_permohonan,permohonan_id,isi_notifikasi) 
-		VALUES(pemohon_id, 'sertifikat_keselamatan', NEW.id, 'Bukti pembayaran telah berhasil diunggah. Mohon menunggu untuk pengecekan');
+		VALUES(pemohon_id, 'sertifikat_keselamatan', NEW.id, 'Bukti pembayaran telah berhasil diunggah. Mohon menunggu untuk validasi');
 	END IF;	
+
+
 END//
 DELIMITER ;
 SET SQL_MODE=@OLDTMP_SQL_MODE;
