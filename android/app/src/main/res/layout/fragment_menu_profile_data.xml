@@ -15,6 +15,7 @@
         android:gravity="center"
         android:id="@+id/ll">
         <LinearLayout
+            android:id="@+id/profile_linierlayout1"
             android:clipToPadding="false"
             android:gravity="center"
             android:orientation="horizontal"
@@ -108,6 +109,7 @@
 
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/profile_linierlayout2"
             android:clipToPadding="false"
             android:gravity="center"
             android:orientation="horizontal"
@@ -208,12 +210,53 @@
 
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/profile_linierlayout3"
             android:clipToPadding="false"
             android:gravity="center"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+            <androidx.cardview.widget.CardView
+                android:foreground="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:id="@+id/profile_cvProfilePerusahaan"
+                android:layout_width="160dp"
+                android:layout_height="190dp"
+                android:layout_margin="10dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="center">
+                    <ImageView
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:background="@drawable/circlebackgroundpurple"
+                        android:src="@drawable/ic_menu_profile"
+                        android:padding="10dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:layout_marginTop="10dp"
+                        android:text="Profil"/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/lightgray"
+                        android:layout_margin="10dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:text="Profil singkat pengguna"
+                        android:textColor="@android:color/darker_gray" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
             <androidx.cardview.widget.CardView
                 android:id="@+id/profile_cvKapal"
                 android:layout_width="160dp"
@@ -259,13 +302,7 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cvBlank"
-                android:layout_width="160dp"
-                android:layout_height="190dp"
-                android:layout_margin="10dp"
-                android:clickable="true"
-                android:foreground="?android:attr/selectableItemBackground"/>
+
         </LinearLayout>
     </LinearLayout>
 

@@ -257,7 +257,57 @@
                         <?php echo $key['isi_notifikasi']?>
                     </div>
                 </a>
-            </li>                
+
+                <!-- Collapse buttons -->
+                <div>                 
+                  <button class="btn btn-primary btn-sm" type="button" data-toggle="collapse" data-target="#collapseExample"
+                    aria-expanded="false" aria-controls="collapseExample">
+                    Riwayat Permohonan
+                  </button>
+                </div>
+                <!-- / Collapse buttons -->
+
+                <!-- Collapsible element -->
+                <div class="collapse" id="collapseExample">
+                  <div class="mt-3">
+
+                    <?php 
+                        $this->db->select('a.status,a.keterangan,a.tgl,b.arti');
+                        $this->db->order_by('tgl', 'ASC');
+                        $this->db->join('kode_status b', 'a.status = b.kode_angka', 'left');
+                        $riwayat = $this->db->get_where('riwayat_permohonan a', array('a.permohonan_id' => $key['permohonan_id'], 'jenis' => $key['jenis_permohonan']));
+                    ?>
+                        <style type="text/css">
+                            table tr td { font-size: 13px; }
+                        </style>
+                        <div class="table-responsive text-nowrap">
+                            <table class="table table-striped w-auto" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <th>Tanggal</th>
+                                        <!-- <th>Kode</th> -->
+                                        <th>Status</th>
+                                        <th>Keterangan</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php foreach ($riwayat->result_array() as $row) { ?>
+                                    <tr>
+                                        <td><?php echo tgl_panjang($row['tgl'],"sm",true,false)?></td>
+                                        <!-- <td><?php echo $row['status']?></td> -->
+                                        <td><?php echo $row['arti']?></td>
+                                        <td><?php echo $row['keterangan']?></td>
+                                    </tr>
+                                    <?php } ?>                
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                  </div>
+                </div>
+            </li>   
+
+
             <?php } ?>
             
             

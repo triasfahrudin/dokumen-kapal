@@ -6,9 +6,11 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -45,8 +47,15 @@ public class MenuProfileDataFragment extends Fragment {
     CardView cvRiwayatPelayaran;
     @BindView(R.id.profile_cvSertifikatPelaut)
     CardView cvSertifikatPelaut;
+    @BindView(R.id.profile_linierlayout1)
+    LinearLayout profileLinierlayout1;
+    @BindView(R.id.profile_linierlayout2)
+    LinearLayout profileLinierlayout2;
+    @BindView(R.id.profile_cvProfilePerusahaan)
+    CardView profileCvProfilePerusahaan;
+    @BindView(R.id.profile_linierlayout3)
+    LinearLayout profileLinierlayout3;
 
-    private SharedPrefManager sharedPrefManager;
     private Context mContext;
 
     @Override
@@ -61,20 +70,19 @@ public class MenuProfileDataFragment extends Fragment {
 
         View root = inflater.inflate(R.layout.fragment_menu_profile_data, container, false);
         ButterKnife.bind(this, root);
-        sharedPrefManager = new SharedPrefManager(mContext);
 
+        SharedPrefManager sharedPrefManager = new SharedPrefManager(mContext);
         String jenisPemohon = sharedPrefManager.getSPJenis();
 
-//        if("perorangan".equals(jenisPemohon)){
-//            cvKapal.setEnabled(false);
-//        }else{
-//            cvBukuPelaut.setEnabled(false);
-//            cvRiwayatPelayaran.setEnabled(false);
-//            cvSertifikatPelaut.setEnabled(false);
-//        }
+        if ("perorangan".equals(jenisPemohon)) {
+            profileLinierlayout3.setVisibility(View.GONE);
+        } else {
+            profileLinierlayout1.setVisibility(View.GONE);
+            profileLinierlayout2.setVisibility(View.GONE);
+        }
 
 
-        androidx.appcompat.widget.Toolbar toolbar = (androidx.appcompat.widget.Toolbar) getActivity().findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
         toolbar.setTitle("Profile Dan Data");
 
         FloatingActionButton floatingActionButton = ((MainActivity) Objects.requireNonNull(getActivity())).getFloatingActionButton();
@@ -93,7 +101,7 @@ public class MenuProfileDataFragment extends Fragment {
     }
 
     @OnClick(R.id.profile_cvKapal)
-    public void cvKapalClicked() {
+    void cvKapalClicked() {
 
         KapalFragment fragment = new KapalFragment();
         FragmentTransaction ft = getActivity().getSupportFragmentManager()
@@ -104,7 +112,7 @@ public class MenuProfileDataFragment extends Fragment {
     }
 
     @OnClick(R.id.profile_cvBukuPelaut)
-    public void cvBukupelautClicked() {
+    void cvBukupelautClicked() {
 
         BukuPelautFragment fragment = new BukuPelautFragment();
         FragmentTransaction ft = getActivity().getSupportFragmentManager()
@@ -116,6 +124,7 @@ public class MenuProfileDataFragment extends Fragment {
 
 
     //Pressed return button
+    @Override
     public void onResume() {
         super.onResume();
         getView().setFocusableInTouchMode(true);
@@ -171,5 +180,17 @@ public class MenuProfileDataFragment extends Fragment {
                 .addToBackStack(null);
         ft.commit();
 
+    }
+
+
+    @OnClick(R.id.profile_cvProfilePerusahaan)
+    public void onCvProfilePerusahaanClicked() {
+
+        ProfileFragment fragment = new ProfileFragment();
+        FragmentTransaction ft = Objects.requireNonNull(getActivity()).getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.nav_host_fragment, fragment, ProfileFragment.class.getSimpleName())
+                .addToBackStack(null);
+        ft.commit();
     }
 }

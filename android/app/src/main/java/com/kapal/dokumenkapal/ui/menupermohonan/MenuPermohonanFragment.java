@@ -5,10 +5,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
+import android.widget.LinearLayout;
 
-import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -17,20 +17,24 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.kapal.dokumenkapal.R;
 import com.kapal.dokumenkapal.ui.bongkarmuat.BongkarMuatFragment;
-import com.kapal.dokumenkapal.ui.sertifikatkeselamatan.SertifikatKeselamatanFragment;
 import com.kapal.dokumenkapal.ui.masalayar.MasaLayarFragment;
+import com.kapal.dokumenkapal.ui.sertifikatkeselamatan.SertifikatKeselamatanFragment;
 import com.kapal.dokumenkapal.ui.sertifikatpelaut.SertifikatPelautFragment;
+import com.kapal.dokumenkapal.util.SharedPrefManager;
 
 import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import es.dmoral.toasty.Toasty;
 
 public class MenuPermohonanFragment extends Fragment {
 
     private final static String TAG_FRAGMENT = "TAG_PERMOHONAN_FRAGMENT";
+    @BindView(R.id.permohonan_linierlayout1)
+    LinearLayout permohonanLinierlayout1;
+    @BindView(R.id.permohonan_linierlayout2)
+    LinearLayout permohonanLinierlayout2;
 
     private MenuPermohonanViewModel menuPermohonanViewModel;
 
@@ -58,6 +62,15 @@ public class MenuPermohonanFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_menu_permohonan, container, false);
 
         ButterKnife.bind(this, root);
+
+        SharedPrefManager sharedPrefManager = new SharedPrefManager(mContext);
+        String jenisPemohon = sharedPrefManager.getSPJenis();
+
+        if ("perorangan".equals(jenisPemohon)) {
+            permohonanLinierlayout2.setVisibility(View.GONE);
+        } else {
+            permohonanLinierlayout1.setVisibility(View.GONE);
+        }
 
         menuPermohonanViewModel.getText().observe(this, new Observer<String>() {
             @Override

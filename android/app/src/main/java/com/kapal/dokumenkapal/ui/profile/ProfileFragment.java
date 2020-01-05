@@ -193,9 +193,7 @@ public class ProfileFragment extends Fragment {
                         }
 
 
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
+                    } catch (JSONException | IOException e) {
                         e.printStackTrace();
                     }
 
