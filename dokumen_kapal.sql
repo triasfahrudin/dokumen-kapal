@@ -123,23 +123,32 @@ CREATE TABLE IF NOT EXISTS `ci_session` (
   KEY `ci_sessions_timestamp` (`timestamp`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table dokumen_kapal.ci_session: ~12 rows (approximately)
+-- Dumping data for table dokumen_kapal.ci_session: ~22 rows (approximately)
 DELETE FROM `ci_session`;
 /*!40000 ALTER TABLE `ci_session` DISABLE KEYS */;
 INSERT INTO `ci_session` (`id`, `ip_address`, `timestamp`, `data`) VALUES
+	('06lhqh5h85liu1oq739c08ahah9bgurh', '::1', 1578190969, _binary 0x5F5F63695F6C6173745F726567656E65726174657C693A313537383139303638363B),
 	('1o18anklhh53avm7elmtfbvgfe4bhkpq', '::1', 1578142554, _binary 0x5F5F63695F6C6173745F726567656E65726174657C693A313537383134323330383B757365725F69647C733A313A2231223B757365725F656D61696C7C733A31383A2261646D696E40646F6B6B6170616C2E636F6D223B757365725F6C6576656C7C733A353A2261646D696E223B),
 	('1pd7i7lnq4692a4dn5n1ak31ej2nif5d', '::1', 1578101569, _binary 0x5F5F63695F6C6173745F726567656E65726174657C693A313537383130313336353B757365725F69647C733A313A2231223B757365725F656D61696C7C733A31383A2261646D696E40646F6B6B6170616C2E636F6D223B757365725F6C6576656C7C733A353A2261646D696E223B),
+	('1plljp7j826umcavfs8h64l81dbe4asc', '::1', 1578192142, _binary 0x5F5F63695F6C6173745F726567656E65726174657C693A313537383139313931343B),
 	('32augigb2pcusgueqi6qti73hs99fscr', '::1', 1578142698, _binary 0x5F5F63695F6C6173745F726567656E65726174657C693A313537383134323632373B757365725F69647C733A313A2231223B757365725F656D61696C7C733A31383A2261646D696E40646F6B6B6170616C2E636F6D223B757365725F6C6576656C7C733A353A2261646D696E223B),
+	('47bd4t08emkvmt9b0cgc65akff6823sj', '::1', 1578195712, _binary 0x5F5F63695F6C6173745F726567656E65726174657C693A313537383139353431373B),
+	('4g071frslkaq8jgrfppaar4oa4erpfcv', '::1', 1578207739, _binary 0x5F5F63695F6C6173745F726567656E65726174657C693A313537383230373733343B757365725F69647C733A313A2231223B757365725F656D61696C7C733A31383A2261646D696E40646F6B6B6170616C2E636F6D223B757365725F6C6576656C7C733A353A2261646D696E223B),
 	('4us4pnesubp9aarmv20j24804aft9chm', '::1', 1578119019, _binary 0x5F5F63695F6C6173745F726567656E65726174657C693A313537383131383738393B757365725F69647C733A313A2231223B757365725F656D61696C7C733A31383A2261646D696E40646F6B6B6170616C2E636F6D223B757365725F6C6576656C7C733A353A2261646D696E223B),
 	('73egquramh4h76gb3su4b9gv04cgcbse', '::1', 1578102051, _binary 0x5F5F63695F6C6173745F726567656E65726174657C693A313537383130313735353B757365725F69647C733A313A2231223B757365725F656D61696C7C733A31383A2261646D696E40646F6B6B6170616C2E636F6D223B757365725F6C6576656C7C733A353A2261646D696E223B),
 	('8f30pkqeut1hd6cjtmkajlf9n7gmvcnm', '::1', 1578143304, _binary 0x5F5F63695F6C6173745F726567656E65726174657C693A313537383134333035363B757365725F69647C733A313A2231223B757365725F656D61696C7C733A31383A2261646D696E40646F6B6B6170616C2E636F6D223B757365725F6C6576656C7C733A353A2261646D696E223B),
 	('a9mrc4pkla7nqierqpfqrhc340b2jki1', '::1', 1578120889, _binary 0x5F5F63695F6C6173745F726567656E65726174657C693A313537383132303838393B757365725F69647C733A313A2231223B757365725F656D61696C7C733A31383A2261646D696E40646F6B6B6170616C2E636F6D223B757365725F6C6576656C7C733A353A2261646D696E223B),
 	('cceopc2f72abpmo57dvndgj9rifi3pvg', '::1', 1578120748, _binary 0x5F5F63695F6C6173745F726567656E65726174657C693A313537383132303531313B757365725F69647C733A313A2231223B757365725F656D61696C7C733A31383A2261646D696E40646F6B6B6170616C2E636F6D223B757365725F6C6576656C7C733A353A2261646D696E223B),
+	('dekiutsrrnbq11r4u6ipgctfm04m53ph', '::1', 1578195287, _binary 0x5F5F63695F6C6173745F726567656E65726174657C693A313537383139353036363B),
 	('e3vejv3ihiav76tgnti8mk66fcnuknd8', '::1', 1578144280, _binary 0x5F5F63695F6C6173745F726567656E65726174657C693A313537383134333339303B757365725F69647C733A313A2231223B757365725F656D61696C7C733A31383A2261646D696E40646F6B6B6170616C2E636F6D223B757365725F6C6576656C7C733A353A2261646D696E223B),
 	('eenjad2eb066fvd2pubjqihq7hmciloi', '::1', 1578098483, _binary 0x5F5F63695F6C6173745F726567656E65726174657C693A313537383039383332323B757365725F69647C733A313A2231223B757365725F656D61696C7C733A31383A2261646D696E40646F6B6B6170616C2E636F6D223B757365725F6C6576656C7C733A353A2261646D696E223B),
+	('k84vg67h59j4c7aulbtup6m8h6mfk4dl', '::1', 1578189862, _binary 0x5F5F63695F6C6173745F726567656E65726174657C693A313537383138393730353B),
+	('l77m5vfcgmgulbh6h6jkv5gl526rrbct', '::1', 1578191486, _binary 0x5F5F63695F6C6173745F726567656E65726174657C693A313537383139313230363B),
 	('lr00qc5jk6todusf8m96mbldej1i4j4p', '::1', 1578144283, _binary 0x5F5F63695F6C6173745F726567656E65726174657C693A313537383134343238333B757365725F69647C733A313A2231223B757365725F656D61696C7C733A31383A2261646D696E40646F6B6B6170616C2E636F6D223B757365725F6C6576656C7C733A353A2261646D696E223B),
 	('mirri8njjm8vljdtlnmv7ai77ii5mrsm', '::1', 1578102089, _binary 0x5F5F63695F6C6173745F726567656E65726174657C693A313537383130323036303B757365725F69647C733A313A2231223B757365725F656D61696C7C733A31383A2261646D696E40646F6B6B6170616C2E636F6D223B757365725F6C6576656C7C733A353A2261646D696E223B),
-	('o8cpmjpp3fc7njl6a6uo7ojjn0vpqmj5', '::1', 1578120296, _binary 0x5F5F63695F6C6173745F726567656E65726174657C693A313537383131393230363B757365725F69647C733A313A2231223B757365725F656D61696C7C733A31383A2261646D696E40646F6B6B6170616C2E636F6D223B757365725F6C6576656C7C733A353A2261646D696E223B);
+	('o8cpmjpp3fc7njl6a6uo7ojjn0vpqmj5', '::1', 1578120296, _binary 0x5F5F63695F6C6173745F726567656E65726174657C693A313537383131393230363B757365725F69647C733A313A2231223B757365725F656D61696C7C733A31383A2261646D696E40646F6B6B6170616C2E636F6D223B757365725F6C6576656C7C733A353A2261646D696E223B),
+	('osbppef8sr89h0vcrbbr0gopgalkarca', '::1', 1578195962, _binary 0x5F5F63695F6C6173745F726567656E65726174657C693A313537383139353732363B),
+	('tule38qa2m570din3vfmanfpo9jcppqm', '::1', 1578190229, _binary 0x5F5F63695F6C6173745F726567656E65726174657C693A313537383139303031373B);
 /*!40000 ALTER TABLE `ci_session` ENABLE KEYS */;
 
 -- Dumping structure for table dokumen_kapal.kapal
@@ -214,24 +223,27 @@ CREATE TABLE IF NOT EXISTS `masa_layar` (
 DELETE FROM `masa_layar`;
 /*!40000 ALTER TABLE `masa_layar` DISABLE KEYS */;
 INSERT INTO `masa_layar` (`id`, `pemohon_id`, `biaya`, `tgl_upload_bukti_bayar`, `bukti_bayar`, `tgl_mohon`, `tgl_update`, `status`, `alasan_status`, `rating_kepuasan`, `komentar`) VALUES
-	(3, 1, 10000, '0000-00-00 00:00:00', 'ddd', '2019-12-09 10:56:28', '2020-01-02 13:11:39', '299', 'xxxxxxx', 4, '');
+	(3, 1, 10000, '0000-00-00 00:00:00', 'ddd', '2019-12-09 10:56:28', '2020-01-05 09:16:37', '200', 'xxxxxxx', 4, '');
 /*!40000 ALTER TABLE `masa_layar` ENABLE KEYS */;
 
 -- Dumping structure for table dokumen_kapal.notifikasi
 DROP TABLE IF EXISTS `notifikasi`;
 CREATE TABLE IF NOT EXISTS `notifikasi` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `jenis_notifikasi` enum('success','error') DEFAULT NULL,
   `pemohon_id` int(11) DEFAULT NULL,
   `jenis_permohonan` varchar(50) DEFAULT NULL,
   `permohonan_id` int(11) DEFAULT NULL,
   `isi_notifikasi` varchar(150) DEFAULT NULL,
   `tgl` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 -- Dumping data for table dokumen_kapal.notifikasi: ~0 rows (approximately)
 DELETE FROM `notifikasi`;
 /*!40000 ALTER TABLE `notifikasi` DISABLE KEYS */;
+INSERT INTO `notifikasi` (`id`, `jenis_notifikasi`, `pemohon_id`, `jenis_permohonan`, `permohonan_id`, `isi_notifikasi`, `tgl`) VALUES
+	(1, 'success', 1, 'masa_layar', 3, 'Bukti bayar untuk PML-000003 telah berhasil diunggah. Mohon menunggu untuk validasi', '2020-01-05 09:16:37');
 /*!40000 ALTER TABLE `notifikasi` ENABLE KEYS */;
 
 -- Dumping structure for table dokumen_kapal.pemohon
@@ -288,9 +300,9 @@ CREATE TABLE IF NOT EXISTS `riwayat_permohonan` (
   `keterangan` varchar(50) DEFAULT NULL,
   `tgl` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=latin1;
 
--- Dumping data for table dokumen_kapal.riwayat_permohonan: ~32 rows (approximately)
+-- Dumping data for table dokumen_kapal.riwayat_permohonan: ~29 rows (approximately)
 DELETE FROM `riwayat_permohonan`;
 /*!40000 ALTER TABLE `riwayat_permohonan` DISABLE KEYS */;
 INSERT INTO `riwayat_permohonan` (`id`, `jenis`, `permohonan_id`, `status`, `keterangan`, `tgl`) VALUES
@@ -325,7 +337,8 @@ INSERT INTO `riwayat_permohonan` (`id`, `jenis`, `permohonan_id`, `status`, `ket
 	(29, 'sertifikat_keselamatan', 1, '100', '', '2020-01-05 07:50:55'),
 	(30, 'sertifikat_keselamatan', 1, '200', '', '2020-01-05 07:50:57'),
 	(31, 'sertifikat_keselamatan', 1, '100', '', '2020-01-05 07:54:13'),
-	(32, 'sertifikat_keselamatan', 1, '200', '', '2020-01-05 07:54:15');
+	(32, 'sertifikat_keselamatan', 1, '200', '', '2020-01-05 07:54:15'),
+	(33, 'masa_layar', 3, '200', 'xxxxxxx', '2020-01-05 09:16:37');
 /*!40000 ALTER TABLE `riwayat_permohonan` ENABLE KEYS */;
 
 -- Dumping structure for table dokumen_kapal.sertifikat_keselamatan
@@ -532,23 +545,23 @@ CREATE TRIGGER `bongkar_muat_after_update` AFTER UPDATE ON `bongkar_muat` FOR EA
 	VALUES ('bongkar_muat', new.id, new.status , new.alasan_status );
 	
 	IF(NEW.status = '200') THEN
-		INSERT INTO notifikasi(pemohon_id,jenis_permohonan,permohonan_id,isi_notifikasi) 
-		VALUES(NEW.pemohon_id, 'bongkar_muat', NEW.id, CONCAT('Bukti bayar untuk PBM-', LPAD(NEW.id,6,'0'), ' telah berhasil diunggah. Mohon menunggu untuk validasi'));
+		INSERT INTO notifikasi(pemohon_id,jenis_notifikasi,jenis_permohonan,permohonan_id,isi_notifikasi) 
+		VALUES(NEW.pemohon_id,'success','bongkar_muat', NEW.id, CONCAT('Bukti bayar untuk PBM-', LPAD(NEW.id,6,'0'), ' telah berhasil diunggah. Mohon menunggu untuk validasi'));
 	ELSEIF(NEW.status = '210') THEN
-		INSERT INTO notifikasi(pemohon_id,jenis_permohonan,permohonan_id,isi_notifikasi) 
-		VALUES(NEW.pemohon_id, 'bongkar_muat', NEW.id, CONCAT('Bukti bayar untuk PBM-', LPAD(NEW.id,6,'0'), ' SUKSES divalidasi. Mohon menunggu untuk validasi berkas'));
+		INSERT INTO notifikasi(pemohon_id,jenis_notifikasi,jenis_permohonan,permohonan_id,isi_notifikasi) 
+		VALUES(NEW.pemohon_id,'success', 'bongkar_muat', NEW.id, CONCAT('Bukti bayar untuk PBM-', LPAD(NEW.id,6,'0'), ' SUKSES divalidasi. Mohon menunggu untuk validasi berkas'));
 	ELSEIF(NEW.status = '299') THEN
-		INSERT INTO notifikasi(pemohon_id,jenis_permohonan,permohonan_id,isi_notifikasi) 
-		VALUES(NEW.pemohon_id, 'bongkar_muat', NEW.id, CONCAT('Bukti bayar untuk PBM-', LPAD(NEW.id,6,'0'), ' GAGAL untuk divalidasi!. Mohon untuk melakukan upload ulang'));
+		INSERT INTO notifikasi(pemohon_id,jenis_notifikasi,jenis_permohonan,permohonan_id,isi_notifikasi) 
+		VALUES(NEW.pemohon_id,'error', 'bongkar_muat', NEW.id, CONCAT('Bukti bayar untuk PBM-', LPAD(NEW.id,6,'0'), ' GAGAL untuk divalidasi!. Mohon untuk melakukan upload ulang'));
 	ELSEIF(NEW.status = '310') THEN
-		INSERT INTO notifikasi(pemohon_id,jenis_permohonan,permohonan_id,isi_notifikasi) 
-		VALUES(NEW.pemohon_id, 'bongkar_muat', NEW.id, CONCAT('Bukti bayar untuk PBM-', LPAD(NEW.id,6,'0'), ' SELESAI untuk divalidasi!. Mohon untuk mengambil Dokumen Bongkar Muat ke ... pada hari dan jam kerja. Mohon untuk membawa berkas persyaratan Asli'));		
+		INSERT INTO notifikasi(pemohon_id,jenis_notifikasi,jenis_permohonan,permohonan_id,isi_notifikasi) 
+		VALUES(NEW.pemohon_id,'success', 'bongkar_muat', NEW.id, CONCAT('Bukti bayar untuk PBM-', LPAD(NEW.id,6,'0'), ' SELESAI untuk divalidasi!. Mohon untuk mengambil Dokumen Bongkar Muat ke ... pada hari dan jam kerja. Mohon untuk membawa berkas persyaratan Asli'));		
 	ELSEIF(NEW.status = '399') THEN
-		INSERT INTO notifikasi(pemohon_id,jenis_permohonan,permohonan_id,isi_notifikasi) 
-		VALUES(NEW.pemohon_id, 'bongkar_muat', NEW.id, CONCAT('Bukti bayar untuk PBM-', LPAD(NEW.id,6,'0'), ' GAGAL untuk divalidasi dengan alasan : ', NEW.alasan_status ,' Dimohon untuk memperbaiki kelengkapan berkas persyaratan'));		
+		INSERT INTO notifikasi(pemohon_id,jenis_notifikasi,jenis_permohonan,permohonan_id,isi_notifikasi) 
+		VALUES(NEW.pemohon_id,'error', 'bongkar_muat', NEW.id, CONCAT('Bukti bayar untuk PBM-', LPAD(NEW.id,6,'0'), ' GAGAL untuk divalidasi dengan alasan : ', NEW.alasan_status ,' Dimohon untuk memperbaiki kelengkapan berkas persyaratan'));		
 	ELSEIF(NEW.status = '400') THEN
-		INSERT INTO notifikasi(pemohon_id,jenis_permohonan,permohonan_id,isi_notifikasi) 
-		VALUES(NEW.pemohon_id, 'bongkar_muat', NEW.id, CONCAT('Dokumen Bongkar Muat dengan Kode permohonan PBM-', LPAD(NEW.id,6,'0'), ' telah diambil. Mohon untuk memberikan penilaian terhadap proses permohonan ini demi perbaikan pelayanan yang kami lakukan'));			
+		INSERT INTO notifikasi(pemohon_id,jenis_notifikasi,jenis_permohonan,permohonan_id,isi_notifikasi) 
+		VALUES(NEW.pemohon_id,'success', 'bongkar_muat', NEW.id, CONCAT('Dokumen Bongkar Muat dengan Kode permohonan PBM-', LPAD(NEW.id,6,'0'), ' telah diambil. Mohon untuk memberikan penilaian terhadap proses permohonan ini demi perbaikan pelayanan yang kami lakukan'));			
 	END IF;
 END//
 DELIMITER ;
@@ -601,23 +614,23 @@ CREATE TRIGGER `masa_layar_after_update` AFTER UPDATE ON `masa_layar` FOR EACH R
 	
 	
 	IF(NEW.status = '200') THEN
-		INSERT INTO notifikasi(pemohon_id,jenis_permohonan,permohonan_id,isi_notifikasi) 
-		VALUES(NEW.pemohon_id, 'masa_layar', NEW.id, CONCAT('Bukti bayar untuk PML-', LPAD(NEW.id,6,'0'), ' telah berhasil diunggah. Mohon menunggu untuk validasi'));
+		INSERT INTO notifikasi(pemohon_id,jenis_notifikasi,jenis_permohonan,permohonan_id,isi_notifikasi) 
+		VALUES(NEW.pemohon_id,'success', 'masa_layar', NEW.id, CONCAT('Bukti bayar untuk PML-', LPAD(NEW.id,6,'0'), ' telah berhasil diunggah. Mohon menunggu untuk validasi'));
 	ELSEIF(NEW.status = '210') THEN
-		INSERT INTO notifikasi(pemohon_id,jenis_permohonan,permohonan_id,isi_notifikasi) 
-			VALUES(NEW.pemohon_id, 'masa_layar', NEW.id, CONCAT('Bukti bayar untuk PML-', LPAD(NEW.id,6,'0'), ' SUKSES divalidasi. Mohon menunggu untuk validasi berkas'));
+		INSERT INTO notifikasi(pemohon_id,jenis_notifikasi,jenis_permohonan,permohonan_id,isi_notifikasi) 
+			VALUES(NEW.pemohon_id,'success', 'masa_layar', NEW.id, CONCAT('Bukti bayar untuk PML-', LPAD(NEW.id,6,'0'), ' SUKSES divalidasi. Mohon menunggu untuk validasi berkas'));
 	ELSEIF(NEW.status = '299') THEN
-		INSERT INTO notifikasi(pemohon_id,jenis_permohonan,permohonan_id,isi_notifikasi) 
-			VALUES(NEW.pemohon_id, 'masa_layar', NEW.id, CONCAT('Bukti bayar untuk PML-', LPAD(NEW.id,6,'0'), ' GAGAL untuk divalidasi!. Mohon untuk melakukan upload ulang'));
+		INSERT INTO notifikasi(pemohon_id,jenis_notifikasi,jenis_permohonan,permohonan_id,isi_notifikasi) 
+			VALUES(NEW.pemohon_id,'error', 'masa_layar', NEW.id, CONCAT('Bukti bayar untuk PML-', LPAD(NEW.id,6,'0'), ' GAGAL untuk divalidasi!. Mohon untuk melakukan upload ulang'));
 	ELSEIF(NEW.status = '310') THEN
-		INSERT INTO notifikasi(pemohon_id,jenis_permohonan,permohonan_id,isi_notifikasi) 
-		VALUES(NEW.pemohon_id, 'masa_layar', NEW.id, CONCAT('Bukti bayar untuk PML-', LPAD(NEW.id,6,'0'), ' SELESAI untuk divalidasi!. Mohon untuk mengambil Dokumen Masa Layar ke ... pada hari dan jam kerja. Mohon untuk membawa berkas persyaratan Asli'));		
+		INSERT INTO notifikasi(pemohon_id,jenis_notifikasi,jenis_permohonan,permohonan_id,isi_notifikasi) 
+		VALUES(NEW.pemohon_id,'success', 'masa_layar', NEW.id, CONCAT('Bukti bayar untuk PML-', LPAD(NEW.id,6,'0'), ' SELESAI untuk divalidasi!. Mohon untuk mengambil Dokumen Masa Layar ke ... pada hari dan jam kerja. Mohon untuk membawa berkas persyaratan Asli'));		
 	ELSEIF(NEW.status = '399') THEN
-		INSERT INTO notifikasi(pemohon_id,jenis_permohonan,permohonan_id,isi_notifikasi) 
-		VALUES(NEW.pemohon_id, 'masa_layar', NEW.id, CONCAT('Bukti bayar untuk PML-', LPAD(NEW.id,6,'0'), ' GAGAL untuk divalidasi dengan alasan : ', NEW.alasan_status ,' Dimohon untuk memperbaiki kelengkapan berkas persyaratan'));		
+		INSERT INTO notifikasi(pemohon_id,jenis_notifikasi,jenis_permohonan,permohonan_id,isi_notifikasi) 
+		VALUES(NEW.pemohon_id,'error', 'masa_layar', NEW.id, CONCAT('Bukti bayar untuk PML-', LPAD(NEW.id,6,'0'), ' GAGAL untuk divalidasi dengan alasan : ', NEW.alasan_status ,' Dimohon untuk memperbaiki kelengkapan berkas persyaratan'));		
 	ELSEIF(NEW.status = '400') THEN
-		INSERT INTO notifikasi(pemohon_id,jenis_permohonan,permohonan_id,isi_notifikasi) 
-		VALUES(NEW.pemohon_id, 'masa_layar', NEW.id, CONCAT('Dokumen Masa Layar dengan Kode permohonan PML-', LPAD(NEW.id,6,'0'), ' telah diambil. Mohon untuk memberikan penilaian terhadap proses permohonan ini demi perbaikan pelayanan yang kami lakukan'));			
+		INSERT INTO notifikasi(pemohon_id,jenis_notifikasi,jenis_permohonan,permohonan_id,isi_notifikasi) 
+		VALUES(NEW.pemohon_id,'success', 'masa_layar', NEW.id, CONCAT('Dokumen Masa Layar dengan Kode permohonan PML-', LPAD(NEW.id,6,'0'), ' telah diambil. Mohon untuk memberikan penilaian terhadap proses permohonan ini demi perbaikan pelayanan yang kami lakukan'));			
 	END IF;
 END//
 DELIMITER ;
@@ -676,23 +689,23 @@ CREATE TRIGGER `sertifikat_keselamatan_after_update` AFTER UPDATE ON `sertifikat
 	VALUES ('sertifikat_keselamatan', new.id, new.status, new.alasan_status );
 	
 	IF(NEW.status = '200') THEN
-		INSERT INTO notifikasi(pemohon_id,jenis_permohonan,permohonan_id,isi_notifikasi) 
-		VALUES(var_pemohon_id, 'sertifikat_keselamatan', NEW.id, CONCAT('Bukti bayar untuk PS-', LPAD(NEW.id,6,'0'), ' telah berhasil diunggah. Mohon menunggu untuk validasi'));
+		INSERT INTO notifikasi(pemohon_id,jenis_notifikasi,jenis_permohonan,permohonan_id,isi_notifikasi) 
+		VALUES(var_pemohon_id,'success','sertifikat_keselamatan', NEW.id, CONCAT('Bukti bayar untuk PS-', LPAD(NEW.id,6,'0'), ' telah berhasil diunggah. Mohon menunggu untuk validasi'));
 	ELSEIF(NEW.status = '210') THEN
-		INSERT INTO notifikasi(pemohon_id,jenis_permohonan,permohonan_id,isi_notifikasi) 
-		VALUES(var_pemohon_id, 'sertifikat_keselamatan', NEW.id, CONCAT('Bukti bayar untuk PS-', LPAD(NEW.id,6,'0'), ' SUKSES divalidasi. Mohon menunggu untuk validasi berkas'));
+		INSERT INTO notifikasi(pemohon_id,jenis_notifikasi,jenis_permohonan,permohonan_id,isi_notifikasi) 
+		VALUES(var_pemohon_id,'success' 'sertifikat_keselamatan', NEW.id, CONCAT('Bukti bayar untuk PS-', LPAD(NEW.id,6,'0'), ' SUKSES divalidasi. Mohon menunggu untuk validasi berkas'));
 	ELSEIF(NEW.status = '299') THEN
-		INSERT INTO notifikasi(pemohon_id,jenis_permohonan,permohonan_id,isi_notifikasi) 
-		VALUES(var_pemohon_id, 'sertifikat_keselamatan', NEW.id, CONCAT('Bukti bayar untuk PS-', LPAD(NEW.id,6,'0'), ' GAGAL untuk divalidasi!. Mohon untuk melakukan upload ulang'));
+		INSERT INTO notifikasi(pemohon_id,jenis_notifikasi,jenis_permohonan,permohonan_id,isi_notifikasi) 
+		VALUES(var_pemohon_id,'error', 'sertifikat_keselamatan', NEW.id, CONCAT('Bukti bayar untuk PS-', LPAD(NEW.id,6,'0'), ' GAGAL untuk divalidasi!. Mohon untuk melakukan upload ulang'));
 	ELSEIF(NEW.status = '310') THEN
-		INSERT INTO notifikasi(pemohon_id,jenis_permohonan,permohonan_id,isi_notifikasi) 
-		VALUES(var_pemohon_id, 'sertifikat_keselamatan', NEW.id, CONCAT('Persyaratan Berkas untuk PS-', LPAD(NEW.id,6,'0'), ' SELESAI untuk divalidasi!. Mohon untuk mengambil Sertifikat Keselamatan ke ... pada hari dan jam kerja. Mohon untuk membawa berkas persyaratan Asli'));		
+		INSERT INTO notifikasi(pemohon_id,jenis_notifikasi,jenis_permohonan,permohonan_id,isi_notifikasi) 
+		VALUES(var_pemohon_id,'success', 'sertifikat_keselamatan', NEW.id, CONCAT('Persyaratan Berkas untuk PS-', LPAD(NEW.id,6,'0'), ' SELESAI untuk divalidasi!. Mohon untuk mengambil Sertifikat Keselamatan ke ... pada hari dan jam kerja. Mohon untuk membawa berkas persyaratan Asli'));		
 	ELSEIF(NEW.status = '399') THEN
-		INSERT INTO notifikasi(pemohon_id,jenis_permohonan,permohonan_id,isi_notifikasi) 
-		VALUES(var_pemohon_id, 'sertifikat_keselamatan', NEW.id, CONCAT('Persyaratan Berkas untuk PS-', LPAD(NEW.id,6,'0'), ' GAGAL untuk divalidasi dengan alasan : ', NEW.alasan_status ,' Dimohon untuk memperbaiki kelengkapan berkas persyaratan'));		
+		INSERT INTO notifikasi(pemohon_id,jenis_notifikasi,jenis_permohonan,permohonan_id,isi_notifikasi) 
+		VALUES(var_pemohon_id,'error','sertifikat_keselamatan', NEW.id, CONCAT('Persyaratan Berkas untuk PS-', LPAD(NEW.id,6,'0'), ' GAGAL untuk divalidasi dengan alasan : ', NEW.alasan_status ,' Dimohon untuk memperbaiki kelengkapan berkas persyaratan'));		
 	ELSEIF(NEW.status = '400') THEN
-		INSERT INTO notifikasi(pemohon_id,jenis_permohonan,permohonan_id,isi_notifikasi) 
-		VALUES(var_pemohon_id, 'sertifikat_keselamatan', NEW.id, CONCAT('Sertifikat Keselamatan dengan Kode permohonan PS-', LPAD(NEW.id,6,'0'), ' telah diambil. Mohon untuk memberikan penilaian terhadap proses permohonan ini demi perbaikan pelayanan yang kami lakukan'));			
+		INSERT INTO notifikasi(pemohon_id,jenis_notifikasi,jenis_permohonan,permohonan_id,isi_notifikasi) 
+		VALUES(var_pemohon_id,'success','sertifikat_keselamatan', NEW.id, CONCAT('Sertifikat Keselamatan dengan Kode permohonan PS-', LPAD(NEW.id,6,'0'), ' telah diambil. Mohon untuk memberikan penilaian terhadap proses permohonan ini demi perbaikan pelayanan yang kami lakukan'));			
 	END IF;
 	
 END//

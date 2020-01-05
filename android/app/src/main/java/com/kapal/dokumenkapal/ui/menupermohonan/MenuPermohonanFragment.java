@@ -67,9 +67,9 @@ public class MenuPermohonanFragment extends Fragment {
         String jenisPemohon = sharedPrefManager.getSPJenis();
 
         if ("perorangan".equals(jenisPemohon)) {
-            permohonanLinierlayout2.setVisibility(View.GONE);
-        } else {
             permohonanLinierlayout1.setVisibility(View.GONE);
+        } else {
+            permohonanLinierlayout2.setVisibility(View.GONE);
         }
 
         menuPermohonanViewModel.getText().observe(this, new Observer<String>() {

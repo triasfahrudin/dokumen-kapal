@@ -426,11 +426,11 @@ class Manage extends MX_Controller
                 $loading_div = '<img src="' . site_url('assets/manage/img/loading.gif') . '" id="p_loading_' . $row->id . '" style="display:none">';
 
                 if ($row->status === '200') {
-                    return $loading_div . '&nbsp;<span id="p_' . $row->id . '"><a class="text-primary" href="#!" onclick="ajax_status_permohonan(\'masa_layar\',210,' . $row->id . ')">[BAYAR DITERIMA]</a>&nbsp;|&nbsp;<a class="text-danger" href="#!" onclick="ajax_status_permohonan(\'masa_layar\',299,' . $row->id . ')">[BAYAR DITOLAK]</a></span>';
+                    return $loading_div . '&nbsp;<span id="p_' . $row->id . '"><a class="text-primary" href="#!" onclick="ajax_status_permohonan(\'masa_layar\',\'210\',' . $row->id . ')">[BAYAR DITERIMA]</a>&nbsp;|&nbsp;<a class="text-danger" href="#!" onclick="ajax_status_permohonan(\'masa_layar\',299,' . $row->id . ')">[BAYAR DITOLAK]</a></span>';
                 } elseif ($row->status === '210') {
-                    return $loading_div . '&nbsp;<span id="p_' . $row->id . '"><a class="text-primary" href="#!" onclick="ajax_status_permohonan(\'masa_layar\',310,' . $row->id . ')">[BERKAS DITERIMA]</a>&nbsp;|&nbsp;<a class="text-danger" href="#!" onclick="ajax_status_permohonan(\'masa_layar\',399,' . $row->id . ')">[BERKAS DITOLAK]</a></span>';
+                    return $loading_div . '&nbsp;<span id="p_' . $row->id . '"><a class="text-primary" href="#!" onclick="ajax_status_permohonan(\'masa_layar\',\'310\',' . $row->id . ')">[BERKAS DITERIMA]</a>&nbsp;|&nbsp;<a class="text-danger" href="#!" onclick="ajax_status_permohonan(\'masa_layar\',399,' . $row->id . ')">[BERKAS DITOLAK]</a></span>';
                 } elseif ($row->status === '310') {
-                    return '<span id="p_' . $row->id . '"><a class="text-success" href="#!" onclick="ajax_status_permohonan(\'masa_layar\',400,' . $row->id . ')">[DOKUMEN DIAMBIL]</a></span>';
+                    return '<span id="p_' . $row->id . '"><a class="text-success" href="#!" onclick="ajax_status_permohonan(\'masa_layar\',\'400\',' . $row->id . ')">[DOKUMEN DIAMBIL]</a></span>';
                 } elseif ($row->status === '400') {
                     return '<a style="color:orange" href="#!" onclick="ajax_komentar_rating(\'masa_layar\',' . $row->id . ')"' . make_ratings($row->rating_kepuasan) . '</a><br/><span class="text-secondary" id="p_' . $row->id . '">SELESAI (' . $row->tgl_update . ')</span>';
                 } elseif ($row->status === '299' || $row->status === '399') {
@@ -444,7 +444,7 @@ class Manage extends MX_Controller
                 if (empty($row->bukti_bayar)) {
                     return $biaya . 'Belum diunggah';
                 } else {
-                    return $biaya . '<a href="' . site_url('uploads/bukti_bayar/' . $row->bukti_bayar) . '">Download</a>';
+                    return $biaya . '<a href="' . site_url('uploads/dokumen/' . $row->bukti_bayar) . '">Download</a>';
                 }
 
             });
@@ -633,7 +633,7 @@ class Manage extends MX_Controller
                 if (empty($row->bukti_bayar)) {
                     return $biaya . 'Belum diunggah';
                 } else {
-                    return $biaya . '<a href="' . site_url('uploads/bukti_bayar/' . $row->bukti_bayar) . '">Download</a>';
+                    return $biaya . '<a href="' . site_url('uploads/dokumen/' . $row->bukti_bayar) . '">Download</a>';
                 }
 
             });
@@ -780,7 +780,7 @@ class Manage extends MX_Controller
                 if (empty($row->bukti_bayar)) {
                     return $biaya . 'Belum diunggah';
                 } else {
-                    return $biaya . '<a href="' . site_url('uploads/bukti_bayar/' . $row->bukti_bayar) . '">Download</a>';
+                    return $biaya . '<a href="' . site_url('uploads/dokumen/' . $row->bukti_bayar) . '">Download</a>';
                 }
 
             });
