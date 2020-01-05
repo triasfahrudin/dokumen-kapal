@@ -142,6 +142,14 @@ public class MasaLayarFormBayarFragment extends Fragment {
                                 JSONObject jsonObject = new JSONObject(response.body().string());
                                 if (jsonObject.getString("error").equals("false")) {
                                     Toast.makeText(mContext, "Upload file berhasil", Toast.LENGTH_SHORT).show();
+
+                                    MasaLayarFragment mf = new MasaLayarFragment();
+                                    FragmentTransaction ft = Objects.requireNonNull(getActivity()).getSupportFragmentManager()
+                                            .beginTransaction()
+                                            .add(R.id.nav_host_fragment, mf, MasaLayarFragment.class.getSimpleName())
+                                            .addToBackStack(null);
+                                    ft.commit();
+
                                 } else {
                                     String error_message = jsonObject.getString("error_msg");
                                     Toast.makeText(mContext, error_message, Toast.LENGTH_SHORT).show();

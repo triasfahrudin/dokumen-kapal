@@ -179,4 +179,15 @@ public interface BaseApiService {
 
     @GET("get_settings")
     Call<ResponseBody> getSettings();
+
+    @FormUrlEncoded
+    @POST("insert_masalayar")
+    Call<ResponseBody> masaLayarBuatBaruRequest (@Field("pemohon_id") int pemohon_id);
+
+    @FormUrlEncoded
+    @POST("updatestatus_masalayar")
+    Call<ResponseBody> masaLayarUbahStatusRequest(
+            @Field("masalayar_id") int masalayar_id,
+            @Field("status") String status
+    );
 }

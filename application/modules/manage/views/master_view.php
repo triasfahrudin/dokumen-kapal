@@ -21,7 +21,8 @@
       <link type="text/css" rel="stylesheet" href="<?php echo $file; ?>" />
       <?php endforeach;
          }else{ ?>
-      <link href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css" rel="stylesheet" >
+      <link href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css" rel="stylesheet">
+      <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote-lite.css" rel="stylesheet">
       <?php }; ?>
       <?php
          if(isset($js_files)){
@@ -31,6 +32,7 @@
          }else{ ?>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
       <script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+      <script src="<?php echo site_url('assets/summernote/dist/summernote-lite.js')?>"></script> 
       <!-- <script src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap.min.js"></script> -->
       <?php }; ?>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.bundle.min.js" integrity="sha256-fzFFyH01cBVPYzl16KT40wqjhgPtq6FFUB6ckN2+GGw=" crossorigin="anonymous"></script>
@@ -381,6 +383,12 @@
             </div>
          </div>
       </div>
+
+
+      <script type="text/javascript">
+         
+         
+      </script>
 
    </body>
 </html>

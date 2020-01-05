@@ -1170,6 +1170,45 @@ class Restapi extends CI_Controller
 
     }
 
+    public function insert_masalayar()
+    {
+        header("content-type: application/json");
+        $pemohon_id = $this->input->post('pemohon_id');
+
+        $this->db->insert('masa_layar', array('pemohon_id' => $pemohon_id));
+
+        echo json_encode(
+            array(
+                'status'    => "Upload berhasil",
+                'error_msg' => $this->db->error()['code'],
+                'error'     => false,
+                'last_id'   => $this->db->insert_id(),
+
+            )
+        );
+    }
+
+    public function updatestatus_masalayar(){
+
+        header("content-type: application/json");
+        $id = $this->input->post('masalayar_id');
+        $status = $this->input->post('status');
+
+        $this->db->where('id',$id);
+        $this->db->update('masa_layar',array('status' => $status));
+
+        echo json_encode(
+            array(
+                'status'    => "Upload berhasil",
+                'error_msg' => $this->db->error()['code'],
+                'error'     => false,
+                'last_id'   => $this->db->insert_id(),
+
+            )
+        );
+
+    }
+
     public function get_masalayar()
     {
 

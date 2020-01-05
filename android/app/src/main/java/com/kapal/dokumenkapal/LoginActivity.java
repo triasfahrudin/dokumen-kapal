@@ -27,6 +27,7 @@ import java.io.IOException;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import es.dmoral.toasty.Toasty;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -97,8 +98,10 @@ public class LoginActivity extends AppCompatActivity {
                                     String email = jsonObject.getJSONObject("user").getString("email");
                                     sharedPrefManager.saveSPString(SharedPrefManager.SP_EMAIL, email);
 
-                                    sharedPrefManager.saveSPBoolean(SharedPrefManager.SP_SUDAH_LOGIN, true);
+                                    String jenis = jsonObject.getJSONObject("user").getString("jenis");
+                                    sharedPrefManager.saveSPString(SharedPrefManager.SP_JENIS, jenis);
 
+                                    sharedPrefManager.saveSPBoolean(SharedPrefManager.SP_SUDAH_LOGIN, true);
                                     startActivity(new Intent(mContext, MainActivity.class)
                                             .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
                                     finish();
@@ -120,6 +123,7 @@ public class LoginActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
+                        Toasty.error(mContext, "Koneksi internet terputus\nSilahkan ulangi beberapa saat lagi", Toast.LENGTH_LONG).show();
                         Log.e("debug", "onFailure: ERROR > " + t.toString());
                         loading.dismiss();
                     }

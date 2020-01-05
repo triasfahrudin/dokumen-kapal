@@ -22,6 +22,7 @@ import com.kapal.dokumenkapal.ui.kapal.KapalFragment;
 import com.kapal.dokumenkapal.ui.profile.ProfileFragment;
 import com.kapal.dokumenkapal.ui.riwayatpelayaran.RiwayatPelayaranFragment;
 import com.kapal.dokumenkapal.ui.sertifikatpelaut.SertifikatPelautFragment;
+import com.kapal.dokumenkapal.util.SharedPrefManager;
 
 import java.util.Objects;
 
@@ -45,7 +46,7 @@ public class MenuProfileDataFragment extends Fragment {
     @BindView(R.id.profile_cvSertifikatPelaut)
     CardView cvSertifikatPelaut;
 
-
+    private SharedPrefManager sharedPrefManager;
     private Context mContext;
 
     @Override
@@ -60,6 +61,18 @@ public class MenuProfileDataFragment extends Fragment {
 
         View root = inflater.inflate(R.layout.fragment_menu_profile_data, container, false);
         ButterKnife.bind(this, root);
+        sharedPrefManager = new SharedPrefManager(mContext);
+
+        String jenisPemohon = sharedPrefManager.getSPJenis();
+
+        if("perorangan".equals(jenisPemohon)){
+            cvKapal.setEnabled(false);
+        }else{
+            cvBukuPelaut.setEnabled(false);
+            cvRiwayatPelayaran.setEnabled(false);
+            cvSertifikatPelaut.setEnabled(false);
+        }
+
 
         androidx.appcompat.widget.Toolbar toolbar = (androidx.appcompat.widget.Toolbar) getActivity().findViewById(R.id.toolbar);
         toolbar.setTitle("Profile Dan Data");

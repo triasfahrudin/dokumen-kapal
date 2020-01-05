@@ -252,60 +252,54 @@ public class SertifikatPelautFormFragment extends Fragment {
     }
 
     @OnClick(R.id.sp_btnDelete)
-    public void onSpBtnDeleteClicked() {
-
+    void onSpBtnDeleteClicked() {
 
         new AlertDialog.Builder(mContext)
                 .setTitle("Menghapus data")
                 .setMessage("Apakah anda yakin ingin menghapus data ini ?")
-                .setPositiveButton("HAPUS !", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        loading = ProgressDialog.show(mContext, null, "Menghapus data, Mohon tunggu...", true, false);
-                        mBaseApiService.delSertifikatPelautRequest(
-                                SertifikatPelautFormFragment.this.recyclerID
-                        ).enqueue(new Callback<ResponseBody>() {
-                            @Override
-                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                                if (response.isSuccessful()) {
-                                    loading.dismiss();
-                                    try {
-                                        JSONObject jsonObject = new JSONObject(response.body().string());
-                                        if (jsonObject.getString("error").equals("false")) {
+                .setPositiveButton("HAPUS !", (dialog, which) -> {
+                    loading = ProgressDialog.show(mContext, null, "Menghapus data, Mohon tunggu...", true, false);
+                    mBaseApiService.delSertifikatPelautRequest(
+                            SertifikatPelautFormFragment.this.recyclerID
+                    ).enqueue(new Callback<ResponseBody>() {
+                        @Override
+                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                            if (response.isSuccessful()) {
+                                loading.dismiss();
+                                try {
+                                    JSONObject jsonObject = new JSONObject(response.body().string());
+                                    if (jsonObject.getString("error").equals("false")) {
 
-                                            Toast.makeText(mContext, "Data berhasil dihapus", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(mContext, "Data berhasil dihapus", Toast.LENGTH_SHORT).show();
 
-                                            SertifikatPelautFragment mf = new SertifikatPelautFragment();
-                                            FragmentTransaction ft = Objects.requireNonNull(getActivity()).getSupportFragmentManager()
-                                                    .beginTransaction()
-                                                    .add(R.id.nav_host_fragment, mf, SertifikatPelautFragment.class.getSimpleName())
-                                                    .addToBackStack(null);
-                                            ft.commit();
+                                        SertifikatPelautFragment mf = new SertifikatPelautFragment();
+                                        FragmentTransaction ft = Objects.requireNonNull(getActivity()).getSupportFragmentManager()
+                                                .beginTransaction()
+                                                .add(R.id.nav_host_fragment, mf, SertifikatPelautFragment.class.getSimpleName())
+                                                .addToBackStack(null);
+                                        ft.commit();
 
-                                        } else {
-                                            String error_message = jsonObject.getString("error_msg");
-                                            Toast.makeText(mContext, error_message, Toast.LENGTH_SHORT).show();
-                                        }
-
-
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
+                                    } else {
+                                        String error_message = jsonObject.getString("error_msg");
+                                        Toast.makeText(mContext, error_message, Toast.LENGTH_SHORT).show();
                                     }
 
-                                } else {
-                                    loading.dismiss();
-                                }
-                            }
 
-                            @Override
-                            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                                Log.e("debug", "onFailure: ERROR > " + t.toString());
+                                } catch (JSONException | IOException e) {
+                                    e.printStackTrace();
+                                }
+
+                            } else {
                                 loading.dismiss();
                             }
-                        });
-                    }
+                        }
+
+                        @Override
+                        public void onFailure(Call<ResponseBody> call, Throwable t) {
+                            Log.e("debug", "onFailure: ERROR > " + t.toString());
+                            loading.dismiss();
+                        }
+                    });
                 }).setNegativeButton("Batal", null).show();
 
 

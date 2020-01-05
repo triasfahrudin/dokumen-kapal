@@ -2384,6 +2384,13 @@ class grocery_CRUD_Layout extends grocery_CRUD_Model_Driver
 					$this->set_js_lib($this->default_texteditor_path.'/markitup/jquery.markitup.js');
 					$this->set_js_config($this->default_javascript_path.'/jquery_plugins/config/jquery.markitup.config.js');
 				break;
+
+				case 'summernote':
+					$this->set_css($this->default_texteditor_path.'/summernote/dist/summernote-lite.css');
+					$this->set_js_lib($this->default_texteditor_path.'/summernote/dist/summernote-lite.js?uuid=' . uniqid() );
+					$this->set_js_config($this->default_javascript_path.'/jquery_plugins/config/jquery.summernote.config.js');
+				break;	
+
 			}
 
 			$class_name = $this->config->text_editor_type == 'minimal' ? 'mini-texteditor' : 'texteditor';

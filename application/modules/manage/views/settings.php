@@ -1,11 +1,11 @@
-<script src="https://cdn.ckeditor.com/4.6.2/standard/ckeditor.js"></script>
+<!-- <script src="https://cdn.ckeditor.com/4.6.2/standard/ckeditor.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/ckeditor/4.7.0/adapters/jquery.js"></script>
 <script>
   $(function(){
     $( 'textarea.texteditor' ).ckeditor({toolbar:'Full'});
     $( 'textarea.mini-texteditor' ).ckeditor({toolbar:'Basic',width:700});
   });
-</script>
+</script> -->
 
 <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDy5ePPPOnm2Ix6_MU7SGsUX4QzrHfH1t4&sensor=false"></script>
 
@@ -40,20 +40,21 @@
             <td><?php echo $r->tipe;?></td>
             <td>
             <?php if($r->tipe === 'big-text'){?>
-              <textarea id="<?php echo $r->title;?>" class="update_me texteditor" style="width: 100%;height: 100%"><?php echo $r->value;?></textarea>
-                   <script>
-                     CKEDITOR.on('instanceCreated', function (e) {
-                       e.editor.on('change', function (event) {
-                         var this_val = CKEDITOR.instances['<?php echo $r->title;?>'].getData();//Value of Editor
-                         var this_title = '<?php echo $r->title;?>';
+               <textarea id="<?php echo $r->title;?>" class="settings_texteditor update_me" style="width: 100%;height: 100%"><?php echo $r->value;?></textarea>
+              <!-- <textarea id="<?php echo $r->title;?>" class="update_me texteditor" style="width: 100%;height: 100%"><?php echo $r->value;?></textarea>
+               <script>
+                 CKEDITOR.on('instanceCreated', function (e) {
+                   e.editor.on('change', function (event) {
+                     var this_val = CKEDITOR.instances['<?php echo $r->title;?>'].getData();//Value of Editor
+                     var this_title = '<?php echo $r->title;?>';
 
-                         $.post( "<?php echo base_url() . 'manage/settings/edt/';?>" + this_title,
-                           { value: this_val,csrf_test_name: Cookies.get('csrf_cookie_name') }
-                         );
-                       });
-                     });
+                     $.post( "<?php echo base_url() . 'manage/settings/edt/';?>" + this_title,
+                       { value: this_val,csrf_test_name: Cookies.get('csrf_cookie_name') }
+                     );
+                   });
+                 });
 
-                   </script>
+               </script> -->
             <?php }elseif($r->tipe === 'small-text'){ ?>
               <input id="<?php echo $r->title;?>" class="update_me form-control" style="width: 100%;height: 100%" type="text" value="<?php echo $r->value;?>">
             <?php }elseif($r->tipe === 'image'){ ?>
@@ -191,14 +192,55 @@
 
 
 <script>
-$('.update_me').keyup( function() {
-  var this_title = $(this).attr('id');
-  var this_val = $(this).val();
+    $('.update_me').keyup( function() {
+      var this_title = $(this).attr('id');
+      var this_val = $(this).val();
 
-  $.post( "<?php echo base_url() . 'manage/settings/edt/';?>" + this_title,
-    { value: this_val }
-  );
-});
+      $.post( "<?php echo base_url() . 'manage/settings/edt/';?>" + this_title,
+        { value: this_val }
+      );
+    });
+
+
+    $(document).ready(function() {
+        $('.settings_texteditor').summernote({
+          height: 300,
+          maximumImageFileSize: 1048576,
+          callbacks: {
+            onImageUpload: function(files, editor, welEditable) {
+              for (var i = files.length - 1; i >= 0; i--) {
+                sendFile(files[i], this);
+              }
+            },
+            onChange: function(contents, $editable) {
+
+              var this_title = $(this).attr('id');
+              var this_val = contents;
+
+              // console.log('onChange:', contents, $editable);
+              $.post( "<?php echo base_url() . 'manage/settings/edt/';?>" + this_title,
+                { value: this_val }
+              );
+            }
+          }
+        });            
+      });
+
+    function sendFile(file, el) {
+        var form_data = new FormData();
+        form_data.append('file', file);
+        $.ajax({
+          data: form_data,
+          type: "POST",
+          url: '<?php echo site_url('editor/upload')?>',
+          cache: false,
+          contentType: false,
+          processData: false,
+          success: function(url) {
+            $(el).summernote('editor.insertImage', url);
+          }
+        });
+      }
 
 
 </script>
