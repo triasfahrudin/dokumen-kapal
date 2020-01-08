@@ -17,39 +17,23 @@
         android:paddingTop="10dp">
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/sertifikatkeselamatan_tvFormBayarMsg"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:background="#f8d7da"
             android:padding="10dp"
-            android:text="@string/syarat_sertifikat_keselamatan"
+            android:text="@string/template_form_bayar"
             android:textColor="#721c24" />
 
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="Pilih Data Kapal"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-        <Spinner
-            android:id="@+id/sertifikatkeselamatan_spinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:background="@drawable/spinner"
-            android:spinnerMode="dropdown" />
 
         <Button
-            android:id="@+id/sertifikatkeselamatan_btnKirim"
+            android:id="@+id/sertifikatkeselamatan_btnUploadBuktiBayar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:background="#304FFE"
-            android:text="@string/kirim_permohonan"
+            android:text="@string/text_kirim_bukti_bayar"
             android:textAllCaps="false"
             android:textColor="#F0E8E8"
             android:textSize="17sp" />

@@ -19,6 +19,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.kapal.dokumenkapal.MainActivity;
@@ -46,6 +47,7 @@ public class MasaLayarFragment extends Fragment {
 
     private MasaLayarAdapter masaLayarAdapter;
     private RecyclerView recyclerView;
+    private SwipeRefreshLayout swipe;
 
     private Context mContext;
     private BaseApiService mBaseApiService;
@@ -64,6 +66,8 @@ public class MasaLayarFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_listview_masalayar, container, false);
+        swipe = root.findViewById(R.id.masalayar_swipeContainer);
+
         mBaseApiService = UtilsApi.getAPIService();
         sharedPrefManager = new SharedPrefManager(mContext);
 
@@ -123,7 +127,8 @@ public class MasaLayarFragment extends Fragment {
 
                             @Override
                             public void onFailure(@NonNull Call<ResponseBody> call, Throwable t) {
-
+                                Toasty.error(mContext, "Ada kesalahan!\n" + t.toString(), Toast.LENGTH_LONG, true).show();
+                                loading.dismiss();
                             }
                         });
 
@@ -131,6 +136,18 @@ public class MasaLayarFragment extends Fragment {
             });
         }
 
+        swipe.setOnRefreshListener(() -> {
+            swipe.setRefreshing(false);
+            MasaLayarFragment.this.loadData();
+        });
+
+        loadData();
+
+        return root;
+    }
+
+
+    private void loadData(){
 
         loading = ProgressDialog.show(mContext, null, "Mengambil data ...", true, false);
 
@@ -153,7 +170,7 @@ public class MasaLayarFragment extends Fragment {
                     }
                 });
 
-        return root;
+
     }
 
     private void generateMasaLayarList(ArrayList<MasaLayarModelRecycler> masaLayarArrayList) {

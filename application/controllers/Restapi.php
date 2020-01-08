@@ -41,6 +41,27 @@ class Restapi extends CI_Controller
         );
     }
 
+    public function get_kapal_for_spinner()
+    {
+        header("content-type: application/json");
+
+        $pemohon_id = $this->input->get('pemohon_id');
+
+        $this->db->select('id,
+                           nama_kapal,
+                           jenis_kapal,
+                           IFNULL(imo_number,"-") AS imo_number');
+        $qry = $this->db->get_where('kapal', array('pemohon_id' => $pemohon_id));
+
+        echo json_encode(
+            array(
+                'error'   => false,
+                'message' => 'Data berhasil diambil',
+                'data'    => $qry->result(),
+            )
+        );
+    }
+
     public function get_kapal()
     {
 
@@ -100,8 +121,7 @@ class Restapi extends CI_Controller
                            nama_sertifikat,
                            nomor,
                            penerbit,
-                           DATE_FORMAT(tgl_terbit, '%d/%m/%Y') AS tgl_terbit,
-                           DATE_FORMAT(tgl_berakhir, '%d/%m/%Y') AS tgl_berakhir");
+                           DATE_FORMAT(tgl_terbit, '%d/%m/%Y') AS tgl_terbit");
         $qry = $this->db->get_where('sertifikat_pelaut', array('pemohon_id' => $pemohon_id));
 
         echo json_encode(
@@ -139,10 +159,7 @@ class Restapi extends CI_Controller
         echo json_encode($response);
     }
 
-    public function notification()
-    {
-
-    }
+   
 
     public function insertupdate_kapal()
     {
@@ -1042,16 +1059,37 @@ class Restapi extends CI_Controller
 
         $pemohon_id = $this->input->get('pemohon_id');
 
+        /*
+
+ $this->db->select("a.id,
+                           LPAD(a.id,6,'0') AS kode,
+                           DATE_FORMAT(a.tgl_mohon, '%d/%m/%Y') AS tgl_mohon,
+                           DATE_FORMAT(a.tgl_update,'%d/%m/%Y') AS tgl_update,
+                           a.biaya,
+                           a.status,
+                           a.alasan_status,
+                           b.arti AS arti_status,
+                           a.rating_kepuasan,
+                           a.komentar");
+        $this->db->join('kode_status b', 'a.status = b.kode_angka', 'left');
+        $qry = $this->db->get_where('masa_layar a', array('pemohon_id' => $pemohon_id));
+        */
+
         $this->db->select("a.id,
                            LPAD(a.id,6,'0') AS kode,
                            b.nama_kapal,
                            DATE_FORMAT(a.tgl_mohon, '%d/%m/%Y') AS tgl_mohon,
                            DATE_FORMAT(a.tgl_update,'%d/%m/%Y') AS tgl_update,
+                           a.biaya,
                            a.status,
+                           a.alasan_status,
+                           d.arti AS arti_status,
                            a.rating_kepuasan,
                            a.komentar");
         $this->db->join('kapal b', 'a.kapal_id = b.id', 'left');
         $this->db->join('pemohon c', 'b.pemohon_id = c.id', 'left');
+        $this->db->join('kode_status d', 'a.status = d.kode_angka', 'left');
+        $this->db->order_by('a.id','DESC');
 
         $qry = $this->db->get_where('sertifikat_keselamatan a', array('c.id' => $pemohon_id));
 
@@ -1179,6 +1217,24 @@ class Restapi extends CI_Controller
 
         echo json_encode(
             array(
+                'status'    => "Permohonan baru berhasil dibuat",
+                'error_msg' => $this->db->error()['code'],
+                'error'     => false,
+                'last_id'   => $this->db->insert_id(),
+
+            )
+        );
+    }
+
+    public function insert_sertifikat_keselamatan()
+    {
+        header("content-type: application/json");
+        $kapal_id = $this->input->post('kapal_id');
+
+        $this->db->insert('sertifikat_keselamatan', array('kapal_id' => $kapal_id));
+
+        echo json_encode(
+            array(
                 'status'    => "Upload berhasil",
                 'error_msg' => $this->db->error()['code'],
                 'error'     => false,
@@ -1188,14 +1244,15 @@ class Restapi extends CI_Controller
         );
     }
 
-    public function updatestatus_masalayar(){
+    public function updatestatus_masalayar()
+    {
 
         header("content-type: application/json");
-        $id = $this->input->post('masalayar_id');
+        $id     = $this->input->post('masalayar_id');
         $status = $this->input->post('status');
 
-        $this->db->where('id',$id);
-        $this->db->update('masa_layar',array('status' => $status));
+        $this->db->where('id', $id);
+        $this->db->update('masa_layar', array('status' => $status));
 
         echo json_encode(
             array(

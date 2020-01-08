@@ -99,6 +99,9 @@ public interface BaseApiService {
     @GET("get_kapal")
     Call<KapalModelList> getKapal(@Query("pemohon_id") int pemohon_id);
 
+    @GET("get_kapal_for_spinner")
+    Call<ResponseBody> getKapalForSpinner(@Query("pemohon_id") int pemohon_id);
+
     @GET("get_riwayatpelayaran")
     Call<RiwayatPelayaranModelList> getRiwayatPelayaran(@Query("pemohon_id") int pemohon_id);
 
@@ -190,4 +193,8 @@ public interface BaseApiService {
             @Field("masalayar_id") int masalayar_id,
             @Field("status") String status
     );
+
+    @FormUrlEncoded
+    @POST("insert_sertifikat_keselamatan")
+    Call<ResponseBody> sertifikatKeselamatanBuatBaruRequest(@Field("kapal_id") int kapal_id);
 }

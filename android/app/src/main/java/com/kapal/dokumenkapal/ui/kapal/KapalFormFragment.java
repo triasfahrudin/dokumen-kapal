@@ -19,6 +19,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.kapal.dokumenkapal.MainActivity;
@@ -38,6 +39,7 @@ import java.util.Objects;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import es.dmoral.toasty.Toasty;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -114,6 +116,7 @@ public class KapalFormFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_form_kapal, container, false);
+
         ButterKnife.bind(this, root);
 
         mBaseApiService = UtilsApi.getAPIService();
@@ -328,9 +331,7 @@ public class KapalFormFragment extends Fragment {
                         }
 
 
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
+                    } catch (JSONException | IOException e) {
                         e.printStackTrace();
                     }
 
@@ -341,7 +342,7 @@ public class KapalFormFragment extends Fragment {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Log.e("debug", "onFailure: ERROR > " + t.toString());
+                Toasty.error(mContext, "Ada kesalahan!\n" + t.toString(), Toast.LENGTH_LONG, true).show();
                 loading.dismiss();
             }
         });
@@ -377,55 +378,50 @@ public class KapalFormFragment extends Fragment {
         new AlertDialog.Builder(mContext)
                 .setTitle("Menghapus data")
                 .setMessage("Apakah anda yakin ingin menghapus data ini?")
-                .setPositiveButton("HAPUS !", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        loading = ProgressDialog.show(mContext, null, "Menghapus data, Mohon tunggu...", true, false);
-                        mBaseApiService.delKapalRequest(
-                                KapalFormFragment.this.recyclerID
-                        ).enqueue(new Callback<ResponseBody>() {
-                            @Override
-                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                                if (response.isSuccessful()) {
-                                    loading.dismiss();
-                                    try {
-                                        JSONObject jsonObject = new JSONObject(response.body().string());
-                                        if (jsonObject.getString("error").equals("false")) {
+                .setPositiveButton("HAPUS !", (dialog, which) -> {
+                    loading = ProgressDialog.show(mContext, null, "Menghapus data, Mohon tunggu...", true, false);
+                    mBaseApiService.delKapalRequest(
+                            KapalFormFragment.this.recyclerID
+                    ).enqueue(new Callback<ResponseBody>() {
+                        @Override
+                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                            if (response.isSuccessful()) {
+                                loading.dismiss();
+                                try {
+                                    JSONObject jsonObject = new JSONObject(response.body().string());
+                                    if (jsonObject.getString("error").equals("false")) {
 
-                                            Toast.makeText(mContext, "data kapal berhasil dihapus", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(mContext, "data kapal berhasil dihapus", Toast.LENGTH_SHORT).show();
 
-                                            KapalFragment mf = new KapalFragment();
-                                            FragmentTransaction ft = Objects.requireNonNull(getActivity()).getSupportFragmentManager()
-                                                    .beginTransaction()
-                                                    .add(R.id.nav_host_fragment, mf, KapalFragment.class.getSimpleName())
-                                                    .addToBackStack(null);
-                                            ft.commit();
+                                        KapalFragment mf = new KapalFragment();
+                                        FragmentTransaction ft = Objects.requireNonNull(getActivity()).getSupportFragmentManager()
+                                                .beginTransaction()
+                                                .add(R.id.nav_host_fragment, mf, KapalFragment.class.getSimpleName())
+                                                .addToBackStack(null);
+                                        ft.commit();
 
-                                        } else {
-                                            String error_message = jsonObject.getString("error_msg");
-                                            Toast.makeText(mContext, error_message, Toast.LENGTH_SHORT).show();
-                                        }
-
-
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
+                                    } else {
+                                        String error_message = jsonObject.getString("error_msg");
+                                        Toast.makeText(mContext, error_message, Toast.LENGTH_SHORT).show();
                                     }
 
-                                } else {
-                                    loading.dismiss();
-                                }
-                            }
 
-                            @Override
-                            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                                Log.e("debug", "onFailure: ERROR > " + t.toString());
+                                } catch (JSONException | IOException e) {
+                                    e.printStackTrace();
+                                }
+
+                            } else {
                                 loading.dismiss();
                             }
-                        });
+                        }
 
-                    }
+                        @Override
+                        public void onFailure(Call<ResponseBody> call, Throwable t) {
+                            Toasty.error(mContext, "Ada kesalahan!\n" + t.toString(), Toast.LENGTH_LONG, true).show();
+                            loading.dismiss();
+                        }
+                    });
+
                 }).setNegativeButton("Batal", null).show();
 
 

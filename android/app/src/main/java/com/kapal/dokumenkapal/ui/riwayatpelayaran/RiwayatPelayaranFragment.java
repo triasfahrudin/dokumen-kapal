@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.kapal.dokumenkapal.MainActivity;
@@ -36,14 +37,13 @@ import retrofit2.Response;
 
 public class RiwayatPelayaranFragment extends Fragment {
 
-    private RiwayatPelayaranAdapter riwayatPelayaranAdapter;
-    private RecyclerView recyclerView;
-
     Context mContext;
     BaseApiService mBaseApiService;
     SharedPrefManager sharedPrefManager;
-
     ProgressDialog loading;
+    private RiwayatPelayaranAdapter riwayatPelayaranAdapter;
+    private RecyclerView recyclerView;
+    private SwipeRefreshLayout swipe;
 
     @Override
     public void onAttach(Context context) {
@@ -56,7 +56,7 @@ public class RiwayatPelayaranFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_listview_riwayat_pelayaran, container, false);
-
+        swipe = root.findViewById(R.id.riwayatpelayaran_swipeContainer);
 
 
         Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
@@ -87,7 +87,7 @@ public class RiwayatPelayaranFragment extends Fragment {
                             .addToBackStack(null)
                             .commit();
 
-                   // Toasty.error(mContext, "Ada kesalahan!", Toast.LENGTH_LONG, true).show();
+                    // Toasty.error(mContext, "Ada kesalahan!", Toast.LENGTH_LONG, true).show();
                 }
             });
         }
@@ -95,8 +95,23 @@ public class RiwayatPelayaranFragment extends Fragment {
         mBaseApiService = UtilsApi.getAPIService();
         sharedPrefManager = new SharedPrefManager(mContext);
 
-        loading = ProgressDialog.show(mContext, null, "Mengambil data ...", true, false);
+        swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                swipe.setRefreshing(false);
+                //swipe.setEnabled(false);
+                loadData();
+            }
+        });
 
+        loadData();
+
+
+        return root;
+    }
+
+    private void loadData() {
+        loading = ProgressDialog.show(mContext, null, "Mengambil data ...", true, false);
         mBaseApiService.getRiwayatPelayaran(sharedPrefManager.getSPID())
                 .enqueue(new Callback<RiwayatPelayaranModelList>() {
                     @Override
@@ -108,17 +123,15 @@ public class RiwayatPelayaranFragment extends Fragment {
                         } else {
                             loading.dismiss();
                         }
-
                     }
 
                     @Override
                     public void onFailure(Call<RiwayatPelayaranModelList> call, Throwable t) {
-                        Toasty.error(mContext, "Ada kesalahan!", Toast.LENGTH_LONG, true).show();
+                        Toasty.error(mContext, "Ada kesalahan!\n" + t.toString(), Toast.LENGTH_LONG, true).show();
                         loading.dismiss();
                     }
                 });
 
-        return root;
     }
 
     private void generateRiwayatPelayaranList(ArrayList<RiwayatPelayaranModelRecycler> riwayatPelayaranArrayList) {
@@ -139,12 +152,12 @@ public class RiwayatPelayaranFragment extends Fragment {
         getView().requestFocus();
         getView().setOnKeyListener((v, keyCode, event) -> {
 
-            if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK){
+            if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK) {
 
                 MenuProfileDataFragment mf = new MenuProfileDataFragment();
                 FragmentTransaction ft = getActivity().getSupportFragmentManager()
                         .beginTransaction()
-                        .add(R.id.nav_host_fragment, mf,MenuProfileDataFragment.class.getSimpleName())
+                        .add(R.id.nav_host_fragment, mf, MenuProfileDataFragment.class.getSimpleName())
                         .addToBackStack(null);
                 ft.commit();
 

@@ -1,6 +1,5 @@
 <?php
 
-
 class Webview extends CI_Controller
 {
     public function __construct()
@@ -25,15 +24,20 @@ class Webview extends CI_Controller
     {
         $data = array(
             'content'   => get_settings('app_info_beranda'),
-            'page_name' => 'beranda'
+            'page_name' => 'beranda',
         );
         $this->_page_output($data);
     }
 
-    public function notifikasi($pemohon_id){
+    public function notifikasi($pemohon_id)
+    {
+
+        $this->db->order_by('id', 'DESC');
+        $notifikasi = $this->db->get_where('notifikasi', array('pemohon_id' => $pemohon_id));
+
         $data = array(
-            'notif_list'   => $this->db->get_where('notifikasi',array('pemohon_id' => $pemohon_id)),
-            'page_name' => 'notifikasi'
+            'notif_list' => $notifikasi,
+            'page_name'  => 'notifikasi',
         );
         $this->_page_output($data);
     }

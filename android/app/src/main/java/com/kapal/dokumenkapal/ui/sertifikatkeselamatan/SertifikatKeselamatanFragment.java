@@ -19,10 +19,12 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.kapal.dokumenkapal.MainActivity;
 import com.kapal.dokumenkapal.R;
+import com.kapal.dokumenkapal.ui.masalayar.MasaLayarFragment;
 import com.kapal.dokumenkapal.ui.menupermohonan.MenuPermohonanFragment;
 import com.kapal.dokumenkapal.ui.sertifikatpelaut.SertifikatPelautFragment;
 import com.kapal.dokumenkapal.util.FileUtils;
@@ -54,6 +56,7 @@ public class SertifikatKeselamatanFragment extends Fragment {
 
     private SertifikatKeselamatanAdapter sertifikatKeselamatanAdapter;
     private RecyclerView recyclerView;
+    private SwipeRefreshLayout swipe;
 
     private Context mContext;
     private BaseApiService mBaseApiService;
@@ -72,38 +75,49 @@ public class SertifikatKeselamatanFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_listview_sertifikat_keselamatan, container, false);
+        swipe = root.findViewById(R.id.sertifikatkeselamatan_swipeContainer);
 
-        Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) Objects.requireNonNull(getActivity()).findViewById(R.id.toolbar);
         toolbar.setTitle("Data Permohonan Pembuatan Sertifikat Keselamatan");
         FloatingActionButton floatingActionButton = ((MainActivity) Objects.requireNonNull(getActivity())).getFloatingActionButton();
         if (floatingActionButton != null) {
             floatingActionButton.show();
 
-            floatingActionButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
+            floatingActionButton.setOnClickListener(view -> {
 
-                    Bundle bundle = new Bundle();
-                    bundle.putInt("id", 0);
-                    bundle.putString("kode", "");
-                    bundle.putString("tgl_mohon", "");
-                    bundle.putString("status", "");
+                Bundle bundle = new Bundle();
+                bundle.putInt("id", 0);
+                bundle.putString("kode", "");
+                bundle.putString("tgl_mohon", "");
+                bundle.putString("status", "");
 
-                    SertifikatKeselamatanFormFragment fragment = new SertifikatKeselamatanFormFragment();
-                    fragment.setArguments(bundle);
-                    AppCompatActivity activity = (AppCompatActivity) view.getContext();
+                SertifikatKeselamatanFormFragment fragment = new SertifikatKeselamatanFormFragment();
+                fragment.setArguments(bundle);
+                AppCompatActivity activity = (AppCompatActivity) view.getContext();
 
-                    activity.getSupportFragmentManager()
-                            .beginTransaction()
-                            .replace(R.id.nav_host_fragment, fragment, SertifikatKeselamatanFormFragment.class.getSimpleName())
-                            .addToBackStack(null)
-                            .commit();
-                }
+                activity.getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.nav_host_fragment, fragment, SertifikatKeselamatanFormFragment.class.getSimpleName())
+                        .addToBackStack(null)
+                        .commit();
             });
         }
 
         mBaseApiService = UtilsApi.getAPIService();
         sharedPrefManager = new SharedPrefManager(mContext);
+
+        swipe.setOnRefreshListener(() -> {
+            swipe.setRefreshing(false);
+            //swipe.setEnabled(false);
+            loadData();
+        });
+
+        loadData();
+
+        return root;
+    }
+
+    private void loadData() {
 
         loading = ProgressDialog.show(mContext, null, getString(R.string.mengambil_data), true, false);
 
@@ -121,11 +135,10 @@ public class SertifikatKeselamatanFragment extends Fragment {
 
                     @Override
                     public void onFailure(@NonNull Call<SertifikatKeselamatanModelList> call, Throwable t) {
-                        Toasty.error(mContext, "Ada kesalahan!", Toast.LENGTH_LONG, true).show();
+                        Toasty.error(mContext, "Ada kesalahan!\n" + t.toString(), Toast.LENGTH_LONG, true).show();
+                        loading.dismiss();
                     }
                 });
-
-        return root;
     }
 
 
@@ -134,7 +147,7 @@ public class SertifikatKeselamatanFragment extends Fragment {
 
         if (resultCode == RESULT_OK) {
             Uri uri = data.getData();
-            uploadFile("sertifikat_keselamatan",requestCode, FileUtils.getPath(mContext,uri));
+            uploadFile("sertifikat_keselamatan", requestCode, FileUtils.getPath(mContext, uri));
         }
         super.onActivityResult(requestCode, resultCode, data);
 
@@ -160,6 +173,7 @@ public class SertifikatKeselamatanFragment extends Fragment {
                                 JSONObject jsonObject = new JSONObject(response.body().string());
                                 if (jsonObject.getString("error").equals("false")) {
                                     Toast.makeText(mContext, "Upload file berhasil", Toast.LENGTH_SHORT).show();
+                                    loadData();
                                 } else {
                                     String error_message = jsonObject.getString("error_msg");
                                     Toast.makeText(mContext, error_message, Toast.LENGTH_SHORT).show();
@@ -178,8 +192,8 @@ public class SertifikatKeselamatanFragment extends Fragment {
 
                     @Override
                     public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        Toasty.error(mContext, "Ada kesalahan!\n" + t.toString(), Toast.LENGTH_LONG, true).show();
                         loading.dismiss();
-                        Log.e("", "Response returned by website is : " + t.getMessage());
                     }
                 });
     }
@@ -189,19 +203,19 @@ public class SertifikatKeselamatanFragment extends Fragment {
         recyclerView = (RecyclerView) getView().findViewById(R.id.recycler_view_sertifikatkeselamatan_list);
         sertifikatKeselamatanAdapter = new SertifikatKeselamatanAdapter(sertifikatKeselamatanArrayList);
 
-        sertifikatKeselamatanAdapter.onBindCallBack = (jenis,viewHolder, position) -> {
+        sertifikatKeselamatanAdapter.onBindCallBack = (jenis, viewHolder, position) -> {
 
-            if("upload_file".equals(jenis)) {
+            if ("upload_file".equals(jenis)) {
                 Intent intent = new Intent();
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
 
                 startActivityForResult(Intent.createChooser(intent, "Pilih Image"), viewHolder.rowId);
-            }else if("give_rating".equals(jenis)){
+            } else if ("give_rating".equals(jenis)) {
                 Bundle bundle = new Bundle();
                 bundle.putInt("id", viewHolder.rowId);
-                bundle.putFloat("rating_kepuasan",viewHolder.rating_kepuasan);
-                bundle.putString("komentar",viewHolder.komentar);
+                bundle.putFloat("rating_kepuasan", viewHolder.rating_kepuasan);
+                bundle.putString("komentar", viewHolder.komentar);
 
                 SertifikatKeselamatanRatingFragment fragment = new SertifikatKeselamatanRatingFragment();
                 fragment.setArguments(bundle);
@@ -214,7 +228,7 @@ public class SertifikatKeselamatanFragment extends Fragment {
                         .commit();
             }
 
-            viewHolder.itemView.setOnClickListener(new View.OnClickListener(){
+            viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                 }
@@ -251,8 +265,6 @@ public class SertifikatKeselamatanFragment extends Fragment {
             return false;
         });
     }
-
-
 
 
 }

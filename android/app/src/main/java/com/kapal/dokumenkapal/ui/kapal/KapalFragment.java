@@ -21,6 +21,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.kapal.dokumenkapal.MainActivity;
 import com.kapal.dokumenkapal.R;
+import com.kapal.dokumenkapal.ui.masalayar.MasaLayarFragment;
 import com.kapal.dokumenkapal.ui.menuprofiledata.MenuProfileDataFragment;
 import com.kapal.dokumenkapal.util.SharedPrefManager;
 import com.kapal.dokumenkapal.util.api.BaseApiService;
@@ -39,6 +40,7 @@ public class KapalFragment extends Fragment {
 
     private KapalAdapter kapalAdapter;
     private RecyclerView recyclerView;
+    private SwipeRefreshLayout swipe;
 
     private Context mContext;
     private BaseApiService mBaseApiService;
@@ -57,8 +59,9 @@ public class KapalFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_listview_kapal, container, false);
+        swipe = root.findViewById(R.id.kapal_swipeContainer);
 
-        Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) Objects.requireNonNull(getActivity()).findViewById(R.id.toolbar);
         toolbar.setTitle("Data Kapal");
         FloatingActionButton floatingActionButton = ((MainActivity) Objects.requireNonNull(getActivity())).getFloatingActionButton();
         if (floatingActionButton != null) {
@@ -94,15 +97,27 @@ public class KapalFragment extends Fragment {
         mBaseApiService = UtilsApi.getAPIService();
         sharedPrefManager = new SharedPrefManager(mContext);
 
+        swipe.setOnRefreshListener(() -> {
+            swipe.setRefreshing(false);
+            loadData();
+        });
+
+        loadData();
+
+
+        return root;
+    }
+
+    private void loadData() {
         loading = ProgressDialog.show(mContext, null, "Mengambil data ...", true, false);
 
         mBaseApiService.getKapal(sharedPrefManager.getSPID())
                 .enqueue(new Callback<KapalModelList>() {
                     @Override
-                    public void onResponse(Call<KapalModelList> call, Response<KapalModelList> response) {
+                    public void onResponse(@NonNull Call<KapalModelList> call, @NonNull Response<KapalModelList> response) {
                         if (response.isSuccessful()) {
                             loading.dismiss();
-                            generateKapalList(response.body().getKapalArrayList());
+                            generateKapalList(Objects.requireNonNull(response.body()).getKapalArrayList());
 
                         } else {
                             loading.dismiss();
@@ -116,13 +131,11 @@ public class KapalFragment extends Fragment {
                         loading.dismiss();
                     }
                 });
-
-        return root;
     }
 
     private void generateKapalList(ArrayList<KapalModelRecycler> kapalArrayList) {
 
-        recyclerView = (RecyclerView) getView().findViewById(R.id.recycler_view_kapal_list);
+        recyclerView = getView().findViewById(R.id.recycler_view_kapal_list);
         kapalAdapter = new KapalAdapter(kapalArrayList);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
 
