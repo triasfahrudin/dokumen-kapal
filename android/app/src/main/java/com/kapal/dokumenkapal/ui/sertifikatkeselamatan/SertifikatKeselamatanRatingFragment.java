@@ -21,7 +21,6 @@ import androidx.fragment.app.FragmentTransaction;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.kapal.dokumenkapal.MainActivity;
 import com.kapal.dokumenkapal.R;
-import com.kapal.dokumenkapal.ui.masalayar.MasaLayarFragment;
 import com.kapal.dokumenkapal.util.api.BaseApiService;
 import com.kapal.dokumenkapal.util.api.UtilsApi;
 
@@ -69,7 +68,7 @@ public class SertifikatKeselamatanRatingFragment extends Fragment {
 
         mBaseApiService = UtilsApi.getAPIService();
 
-        Toolbar toolbar = (Toolbar) Objects.requireNonNull(getActivity()).findViewById(R.id.toolbar);
+        Toolbar toolbar = Objects.requireNonNull(getActivity()).findViewById(R.id.toolbar);
         toolbar.setTitle("Rating pelayanan");
         FloatingActionButton floatingActionButton = ((MainActivity) Objects.requireNonNull(getActivity())).getFloatingActionButton();
         if (floatingActionButton != null) {
@@ -150,7 +149,7 @@ public class SertifikatKeselamatanRatingFragment extends Fragment {
                     }).setNegativeButton("Batal", null).show();
 
 
-        }else updateRating();
+        } else updateRating();
     }
 }
 

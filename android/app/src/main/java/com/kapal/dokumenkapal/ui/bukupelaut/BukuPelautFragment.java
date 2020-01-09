@@ -1,6 +1,5 @@
 package com.kapal.dokumenkapal.ui.bukupelaut;
 
-import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -25,13 +24,6 @@ import com.kapal.dokumenkapal.ui.menuprofiledata.MenuProfileDataFragment;
 import com.kapal.dokumenkapal.util.SharedPrefManager;
 import com.kapal.dokumenkapal.util.api.BaseApiService;
 import com.kapal.dokumenkapal.util.api.UtilsApi;
-import com.karumi.dexter.Dexter;
-import com.karumi.dexter.MultiplePermissionsReport;
-import com.karumi.dexter.PermissionToken;
-import com.karumi.dexter.listener.DexterError;
-import com.karumi.dexter.listener.PermissionRequest;
-import com.karumi.dexter.listener.PermissionRequestErrorListener;
-import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -39,7 +31,6 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.IOException;
 import java.util.Calendar;
-import java.util.List;
 import java.util.Objects;
 
 import butterknife.BindView;
@@ -58,29 +49,21 @@ import static android.app.Activity.RESULT_OK;
 
 public class BukuPelautFragment extends Fragment {
 
+    private static final int BUFFER_SIZE = 1024 * 2;
     @BindView(R.id.pbp_etNomorBuku)
     EditText etNomorBuku;
-
     @BindView(R.id.pbp_etKodePelaut)
     EditText etKodePelaut;
-
     @BindView(R.id.pbp_etNomorDaftar)
     EditText etNomorDaftar;
-
     @BindView(R.id.pbp_etUpload)
     EditText etUpload;
-
     @BindView(R.id.pbp_btnUpload)
     Button btnUpload;
-
     ProgressDialog loading;
-
     Context mContext;
     BaseApiService mBaseApiService;
     SharedPrefManager sharedPrefManager;
-
-    private static final int BUFFER_SIZE = 1024 * 2;
-
 
     @Override
     public void onAttach(Context context) {
@@ -95,7 +78,7 @@ public class BukuPelautFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_form_bukupelaut, container, false);
         ButterKnife.bind(this, root);
 
-        androidx.appcompat.widget.Toolbar toolbar = (androidx.appcompat.widget.Toolbar) getActivity().findViewById(R.id.toolbar);
+        androidx.appcompat.widget.Toolbar toolbar = getActivity().findViewById(R.id.toolbar);
         toolbar.setTitle("Buku Pelaut");
         FloatingActionButton floatingActionButton = ((MainActivity) Objects.requireNonNull(getActivity())).getFloatingActionButton();
         if (floatingActionButton != null) {

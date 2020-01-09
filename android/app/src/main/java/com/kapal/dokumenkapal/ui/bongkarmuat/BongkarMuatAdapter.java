@@ -8,10 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.kapal.dokumenkapal.R;
@@ -19,21 +17,19 @@ import com.kapal.dokumenkapal.util.SharedPrefManager;
 import com.kapal.dokumenkapal.util.api.BaseApiService;
 import com.kapal.dokumenkapal.util.api.UtilsApi;
 
-
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import es.dmoral.toasty.Toasty;
-
 public class BongkarMuatAdapter extends RecyclerView.Adapter<BongkarMuatAdapter.BongkarMuatViewHolder> {
 
+    OnBindCallBack onBindCallBack;
     private Context context;
     private ArrayList<BongkarMuatModelRecycler> dataList;
+
 
     BongkarMuatAdapter(ArrayList<BongkarMuatModelRecycler> dataList) {
         this.dataList = dataList;
     }
-
 
     @NonNull
     @Override
@@ -42,8 +38,6 @@ public class BongkarMuatAdapter extends RecyclerView.Adapter<BongkarMuatAdapter.
         View view = layoutInflater.inflate(R.layout.recycler_bongkarmuat_list, parent, false);
         return new BongkarMuatAdapter.BongkarMuatViewHolder(view);
     }
-
-    OnBindCallBack onBindCallBack;
 
     @Override
     public void onBindViewHolder(@NonNull BongkarMuatViewHolder holder, int position) {
@@ -81,6 +75,13 @@ public class BongkarMuatAdapter extends RecyclerView.Adapter<BongkarMuatAdapter.
         }
 
         holder.rowId = dataList.get(position).getId();
+        holder.kode_biaya = dataList.get(position).getKode_biaya();
+        holder.jenis_muatan = dataList.get(position).getJenis_muatan();
+        holder.bobot = dataList.get(position).getBobot();
+        holder.nama_kapal = dataList.get(position).getNama_kapal();
+        holder.angkutan_nopol = dataList.get(position).getAngkutan_nopol();
+        holder.angkutan_supir = dataList.get(position).getAngkutan_supir();
+
         holder.rating_kepuasan = (float) dataList.get(position).getRating_kepuasan();
         holder.komentar = dataList.get(position).getKomentar();
         holder.biaya = dataList.get(position).getBiaya();
@@ -102,7 +103,6 @@ public class BongkarMuatAdapter extends RecyclerView.Adapter<BongkarMuatAdapter.
         if ("399".equals(dataList.get(position).getStatus())) {
             holder.btnRevisi.setVisibility(View.VISIBLE);
         }
-
 
 
         holder.btnUpload.setOnClickListener(v -> {
@@ -134,13 +134,19 @@ public class BongkarMuatAdapter extends RecyclerView.Adapter<BongkarMuatAdapter.
         return dataList.size();
     }
 
-    public class BongkarMuatViewHolder extends RecyclerView.ViewHolder {
+    class BongkarMuatViewHolder extends RecyclerView.ViewHolder {
+
+        String kode_biaya;
+        String jenis_muatan;
+        Double bobot;
+        String nama_kapal;
+        String angkutan_nopol;
+        String angkutan_supir;
 
         Double biaya;
         TextView tvKode;
         TextView tvTglMohon;
         TextView tvStatus;
-
 
         Button btnUpload;
         Button btnRating;
@@ -152,11 +158,11 @@ public class BongkarMuatAdapter extends RecyclerView.Adapter<BongkarMuatAdapter.
 
         BongkarMuatViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvKode = (TextView) itemView.findViewById(R.id.rowBongkarmuat_tvKode);
-            tvTglMohon = (TextView) itemView.findViewById(R.id.rowBongkarmuat_tvTglMohon);
-            tvStatus = (TextView) itemView.findViewById(R.id.rowBongkarmuat_tvStatus);
-            btnUpload = (Button) itemView.findViewById(R.id.rowBongkarmuat_btnUpload);
-            btnRating = (Button) itemView.findViewById(R.id.rowBongkarmuat_btnRating);
+            tvKode = itemView.findViewById(R.id.rowBongkarmuat_tvKode);
+            tvTglMohon = itemView.findViewById(R.id.rowBongkarmuat_tvTglMohon);
+            tvStatus = itemView.findViewById(R.id.rowBongkarmuat_tvStatus);
+            btnUpload = itemView.findViewById(R.id.rowBongkarmuat_btnUpload);
+            btnRating = itemView.findViewById(R.id.rowBongkarmuat_btnRating);
             btnRevisi = itemView.findViewById(R.id.rowBongkarmuat_btnRevisiBerkas);
         }
     }

@@ -3,7 +3,6 @@ package com.kapal.dokumenkapal.ui.sertifikatkeselamatan;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -13,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
@@ -24,11 +24,8 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.kapal.dokumenkapal.MainActivity;
 import com.kapal.dokumenkapal.R;
-import com.kapal.dokumenkapal.ui.masalayar.MasaLayarFormBayarFragment;
-import com.kapal.dokumenkapal.ui.masalayar.MasaLayarFragment;
 import com.kapal.dokumenkapal.ui.menupermohonan.MenuPermohonanFragment;
-import com.kapal.dokumenkapal.ui.sertifikatpelaut.SertifikatPelautFragment;
-import com.kapal.dokumenkapal.util.FileUtils;
+import com.kapal.dokumenkapal.ui.menuprofiledata.MenuProfileDataFragment;
 import com.kapal.dokumenkapal.util.SharedPrefManager;
 import com.kapal.dokumenkapal.util.api.BaseApiService;
 import com.kapal.dokumenkapal.util.api.UtilsApi;
@@ -36,22 +33,15 @@ import com.kapal.dokumenkapal.util.api.UtilsApi;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Objects;
 
 import es.dmoral.toasty.Toasty;
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static android.app.Activity.RESULT_OK;
 
 public class SertifikatKeselamatanFragment extends Fragment {
 
@@ -78,7 +68,7 @@ public class SertifikatKeselamatanFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_listview_sertifikat_keselamatan, container, false);
         swipe = root.findViewById(R.id.sertifikatkeselamatan_swipeContainer);
 
-        Toolbar toolbar = (Toolbar) Objects.requireNonNull(getActivity()).findViewById(R.id.toolbar);
+        Toolbar toolbar = Objects.requireNonNull(getActivity()).findViewById(R.id.toolbar);
         toolbar.setTitle("Data Permohonan Pembuatan Sertifikat Keselamatan");
         FloatingActionButton floatingActionButton = ((MainActivity) Objects.requireNonNull(getActivity())).getFloatingActionButton();
         if (floatingActionButton != null) {
@@ -201,18 +191,12 @@ public class SertifikatKeselamatanFragment extends Fragment {
 
     private void generateSertifikatKeselamatanList(ArrayList<SertifikatKeselamatanModelRecycler> sertifikatKeselamatanArrayList) {
 
-        recyclerView = (RecyclerView) Objects.requireNonNull(getView()).findViewById(R.id.recycler_view_sertifikatkeselamatan_list);
+        recyclerView = Objects.requireNonNull(getView()).findViewById(R.id.recycler_view_sertifikatkeselamatan_list);
         sertifikatKeselamatanAdapter = new SertifikatKeselamatanAdapter(sertifikatKeselamatanArrayList);
 
         sertifikatKeselamatanAdapter.onBindCallBack = (jenis, viewHolder, position) -> {
 
             if ("upload_file".equals(jenis)) {
-//                Intent intent = new Intent();
-//                intent.setType("image/*");
-//                intent.setAction(Intent.ACTION_GET_CONTENT);
-//
-//                startActivityForResult(Intent.createChooser(intent, "Pilih Image"), viewHolder.rowId);
-
                 Bundle bundle = new Bundle();
                 bundle.putInt("recyclerId", viewHolder.rowId);
                 bundle.putDouble("biaya", viewHolder.biaya);
@@ -241,6 +225,64 @@ public class SertifikatKeselamatanFragment extends Fragment {
                         .replace(R.id.nav_host_fragment, fragment, SertifikatKeselamatanRatingFragment.class.getSimpleName())
                         .addToBackStack(null)
                         .commit();
+            } else if ("revisi_berkas".equals(jenis)) {
+
+                new AlertDialog.Builder(mContext)
+                        .setTitle("Revisi Berkas")
+                        .setMessage("Apakah anda yakin semua persyaratan dokumen sudah anda perbaiki ?")
+                        .setPositiveButton("YA", (dialog, which) -> {
+                            loading = ProgressDialog.show(mContext, null, "Merubah status permohonan, mohon menunggu...", true, false);
+                            mBaseApiService.sertifikatkeselamatanUbahStatusRequest(viewHolder.rowId, "210")
+                                    .enqueue(new Callback<ResponseBody>() {
+                                        @Override
+                                        public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
+                                            if (response.isSuccessful()) {
+                                                loading.dismiss();
+                                                try {
+                                                    JSONObject jsonObject = new JSONObject(response.body().string());
+                                                    if (jsonObject.getString("error").equals("false")) {
+
+                                                        Toast.makeText(mContext, "Status permohonan berhasil diubah", Toast.LENGTH_SHORT).show();
+
+                                                        SertifikatKeselamatanFragment mf = new SertifikatKeselamatanFragment();
+                                                        FragmentTransaction ft = Objects.requireNonNull(getActivity()).getSupportFragmentManager()
+                                                                .beginTransaction()
+                                                                .add(R.id.nav_host_fragment, mf, SertifikatKeselamatanFragment.class.getSimpleName())
+                                                                .addToBackStack(null);
+                                                        ft.commit();
+
+                                                    } else {
+                                                        String error_message = jsonObject.getString("error_msg");
+                                                        Toast.makeText(mContext, error_message, Toast.LENGTH_SHORT).show();
+                                                    }
+
+
+                                                } catch (JSONException | IOException e) {
+                                                    e.printStackTrace();
+                                                }
+
+                                            } else {
+                                                loading.dismiss();
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                            Toasty.error(mContext, t.toString(), Toast.LENGTH_LONG).show();
+                                            Log.e("debug", "onFailure: ERROR > " + t.toString());
+                                            loading.dismiss();
+                                        }
+                                    });
+                        }).setNegativeButton("Belum", (dialog, which) -> {
+
+                    MenuProfileDataFragment mf = new MenuProfileDataFragment();
+                    FragmentTransaction ft = Objects.requireNonNull(getActivity()).getSupportFragmentManager()
+                            .beginTransaction()
+                            .add(R.id.nav_host_fragment, mf, MenuProfileDataFragment.class.getSimpleName())
+                            .addToBackStack(null);
+                    ft.commit();
+
+                }).show();
             }
 
             viewHolder.itemView.setOnClickListener(new View.OnClickListener() {

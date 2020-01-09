@@ -21,7 +21,6 @@ import androidx.fragment.app.FragmentTransaction;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.kapal.dokumenkapal.MainActivity;
 import com.kapal.dokumenkapal.R;
-import com.kapal.dokumenkapal.ui.sertifikatkeselamatan.SertifikatKeselamatanFragment;
 import com.kapal.dokumenkapal.util.FileUtils;
 import com.kapal.dokumenkapal.util.SharedPrefManager;
 import com.kapal.dokumenkapal.util.api.BaseApiService;
@@ -89,7 +88,7 @@ public class BongkarMuatFormBayarFragment extends Fragment {
         double biaya = Objects.requireNonNull(getArguments()).getDouble("biaya");
 
         textViewMsg.setText(
-                String.format(Locale.US, "Segera lakukan pembayaran ke rekening %s A.n %s sebesar %s", sharedPrefManager.getSpSettingNoRekening(), sharedPrefManager.getSpSettingNamaRekening(), formatRupiah.format((double) biaya)));
+                String.format(Locale.US, "Segera lakukan pembayaran ke rekening %s A.n %s sebesar %s", sharedPrefManager.getSpSettingNoRekening(), sharedPrefManager.getSpSettingNamaRekening(), formatRupiah.format(biaya)));
         return root;
     }
 

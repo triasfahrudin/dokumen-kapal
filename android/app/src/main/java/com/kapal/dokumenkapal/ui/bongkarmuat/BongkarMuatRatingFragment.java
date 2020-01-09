@@ -2,7 +2,6 @@ package com.kapal.dokumenkapal.ui.bongkarmuat;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,9 +21,6 @@ import androidx.fragment.app.FragmentTransaction;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.kapal.dokumenkapal.MainActivity;
 import com.kapal.dokumenkapal.R;
-import com.kapal.dokumenkapal.ui.kapal.KapalFormFragment;
-import com.kapal.dokumenkapal.ui.kapal.KapalFragment;
-import com.kapal.dokumenkapal.util.SharedPrefManager;
 import com.kapal.dokumenkapal.util.api.BaseApiService;
 import com.kapal.dokumenkapal.util.api.UtilsApi;
 
@@ -54,7 +50,7 @@ public class BongkarMuatRatingFragment extends Fragment {
 
     private Context mContext;
     private BaseApiService mBaseApiService;
-//    private SharedPrefManager sharedPrefManager;
+    //    private SharedPrefManager sharedPrefManager;
     private ProgressDialog loading;
     private float rating;
 
@@ -73,7 +69,7 @@ public class BongkarMuatRatingFragment extends Fragment {
 
         mBaseApiService = UtilsApi.getAPIService();
 
-        Toolbar toolbar = (Toolbar) Objects.requireNonNull(getActivity()).findViewById(R.id.toolbar);
+        Toolbar toolbar = Objects.requireNonNull(getActivity()).findViewById(R.id.toolbar);
         toolbar.setTitle("Buku Pelaut");
         FloatingActionButton floatingActionButton = ((MainActivity) Objects.requireNonNull(getActivity())).getFloatingActionButton();
         if (floatingActionButton != null) {
@@ -96,7 +92,7 @@ public class BongkarMuatRatingFragment extends Fragment {
     @OnClick(R.id.submit)
     public void onViewClicked() {
 
-        if(rating > 0.0){
+        if (rating > 0.0) {
 
             new AlertDialog.Builder(mContext)
                     .setTitle("Merubah penilaian")
@@ -107,7 +103,7 @@ public class BongkarMuatRatingFragment extends Fragment {
                     }).setNegativeButton("Batal", null).show();
 
 
-        }else{
+        } else {
             updateRating();
         }
     }

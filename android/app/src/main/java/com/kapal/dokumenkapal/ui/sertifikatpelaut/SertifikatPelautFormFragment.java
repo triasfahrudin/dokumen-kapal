@@ -2,7 +2,6 @@ package com.kapal.dokumenkapal.ui.sertifikatpelaut;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,8 +22,6 @@ import androidx.fragment.app.FragmentTransaction;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.kapal.dokumenkapal.MainActivity;
 import com.kapal.dokumenkapal.R;
-import com.kapal.dokumenkapal.ui.kapal.KapalFormFragment;
-import com.kapal.dokumenkapal.ui.kapal.KapalFragment;
 import com.kapal.dokumenkapal.util.SetDate;
 import com.kapal.dokumenkapal.util.SharedPrefManager;
 import com.kapal.dokumenkapal.util.api.BaseApiService;
@@ -103,7 +100,7 @@ public class SertifikatPelautFormFragment extends Fragment {
             spBtnDelete.setVisibility(View.INVISIBLE);
         }
 
-        Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
+        Toolbar toolbar = getActivity().findViewById(R.id.toolbar);
         toolbar.setTitle("Form Data Kapal");
         FloatingActionButton floatingActionButton = ((MainActivity) Objects.requireNonNull(getActivity())).getFloatingActionButton();
         if (floatingActionButton != null) {
@@ -301,7 +298,6 @@ public class SertifikatPelautFormFragment extends Fragment {
                         }
                     });
                 }).setNegativeButton("Batal", null).show();
-
 
 
     }

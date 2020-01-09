@@ -2,10 +2,7 @@ package com.kapal.dokumenkapal.ui.bongkarmuat;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,33 +21,18 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.kapal.dokumenkapal.MainActivity;
 import com.kapal.dokumenkapal.R;
-
 import com.kapal.dokumenkapal.ui.menupermohonan.MenuPermohonanFragment;
-import com.kapal.dokumenkapal.ui.sertifikatkeselamatan.SertifikatKeselamatanFormBayarFragment;
-import com.kapal.dokumenkapal.util.FileUtils;
 import com.kapal.dokumenkapal.util.SharedPrefManager;
 import com.kapal.dokumenkapal.util.api.BaseApiService;
 import com.kapal.dokumenkapal.util.api.UtilsApi;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Objects;
 
 import es.dmoral.toasty.Toasty;
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static android.app.Activity.RESULT_OK;
 
 public class BongkarMuatFragment extends Fragment {
 
@@ -77,7 +59,7 @@ public class BongkarMuatFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_listview_bongkarmuat, container, false);
         swipe = root.findViewById(R.id.bongkarmuat_swipeContainer);
 
-        Toolbar toolbar = (Toolbar) Objects.requireNonNull(getActivity()).findViewById(R.id.toolbar);
+        Toolbar toolbar = Objects.requireNonNull(getActivity()).findViewById(R.id.toolbar);
         toolbar.setTitle("Data Permohonan Bongkar Muat");
         FloatingActionButton floatingActionButton = ((MainActivity) Objects.requireNonNull(getActivity())).getFloatingActionButton();
         if (floatingActionButton != null) {
@@ -87,9 +69,12 @@ public class BongkarMuatFragment extends Fragment {
 
                 Bundle bundle = new Bundle();
                 bundle.putInt("id", 0);
-                bundle.putString("kode", "");
-                bundle.putString("tgl_mohon", "");
-                bundle.putString("status", "");
+                bundle.putString("kode_biaya", "bm_gas");
+                bundle.putString("jenis_muatan", "");
+                bundle.putDouble("bobot", 0);
+                bundle.putString("nama_kapal", "");
+                bundle.putString("angkutan_nopol", "");
+                bundle.putString("angkutan_supir", "");
 
                 BongkarMuatFormFragment fragment = new BongkarMuatFormFragment();
                 fragment.setArguments(bundle);
@@ -108,12 +93,10 @@ public class BongkarMuatFragment extends Fragment {
 
         swipe.setOnRefreshListener(() -> {
             swipe.setRefreshing(false);
-            //swipe.setEnabled(false);
             loadData();
         });
 
         loadData();
-
 
 
         return root;
@@ -143,75 +126,14 @@ public class BongkarMuatFragment extends Fragment {
     }
 
 
-//    @Override
-//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-//
-//        if (resultCode == RESULT_OK) {
-//            Uri uri = data.getData();
-//            uploadFile("bongkar_muat",requestCode, FileUtils.getPath(mContext,uri));
-//        }
-//        super.onActivityResult(requestCode, resultCode, data);
-//
-//    }
-
-//    private void uploadFile(String jenis, int recyclerID, String path) {
-//        String fileName = String.valueOf(Calendar.getInstance().getTimeInMillis());
-//
-//        File file = new File(path);
-//        RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), file);
-//        MultipartBody.Part fileToUpload = MultipartBody.Part.createFormData("filename", file.getName(), requestBody);
-//        RequestBody filename = RequestBody.create(MediaType.parse("text/plain"), fileName);
-//
-//        loading = ProgressDialog.show(mContext, null, "Proses upload file, Mohon tunggu ...", true, false);
-//
-//        mBaseApiService.uploadFile(jenis, recyclerID, sharedPrefManager.getSPID(), fileToUpload, filename)
-//                .enqueue(new Callback<ResponseBody>() {
-//                    @Override
-//                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-//                        if (response.isSuccessful()) {
-//                            loading.dismiss();
-//                            try {
-//                                JSONObject jsonObject = new JSONObject(response.body().string());
-//                                if (jsonObject.getString("error").equals("false")) {
-//                                    Toast.makeText(mContext, "Upload file berhasil", Toast.LENGTH_SHORT).show();
-//                                } else {
-//                                    String error_message = jsonObject.getString("error_msg");
-//                                    Toast.makeText(mContext, error_message, Toast.LENGTH_SHORT).show();
-//                                }
-//
-//
-//                            } catch (JSONException | IOException e) {
-//                                e.printStackTrace();
-//                            }
-//
-//                        } else {
-//                            loading.dismiss();
-//
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onFailure(Call<ResponseBody> call, Throwable t) {
-//                        loading.dismiss();
-//                        Log.e("", "Response returned by website is : " + t.getMessage());
-//                    }
-//                });
-//    }
-
     private void generateBongkarMuatList(ArrayList<BongkarMuatModelRecycler> bongkarMuatArrayList) {
 
-        recyclerView = (RecyclerView) Objects.requireNonNull(getView()).findViewById(R.id.recycler_view_bongkarmuat_list);
+        recyclerView = Objects.requireNonNull(getView()).findViewById(R.id.recycler_view_bongkarmuat_list);
         bongkarMuatAdapter = new BongkarMuatAdapter(bongkarMuatArrayList);
 
         bongkarMuatAdapter.onBindCallBack = (jenis, viewHolder, position) -> {
 
-            if("upload_file".equals(jenis)){
-//                Intent intent = new Intent();
-//                intent.setType("image/*");
-//                intent.setAction(Intent.ACTION_GET_CONTENT);
-//
-//                startActivityForResult(Intent.createChooser(intent, "Pilih Image"), viewHolder.rowId);
-
+            if ("upload_file".equals(jenis)) {
                 Bundle bundle = new Bundle();
                 bundle.putInt("recyclerId", viewHolder.rowId);
                 bundle.putDouble("biaya", viewHolder.biaya);
@@ -225,12 +147,12 @@ public class BongkarMuatFragment extends Fragment {
                         .replace(R.id.nav_host_fragment, fragment, BongkarMuatFormBayarFragment.class.getSimpleName())
                         .addToBackStack(null)
                         .commit();
-            }else if("give_rating".equals(jenis)){
+            } else if ("give_rating".equals(jenis)) {
 
                 Bundle bundle = new Bundle();
                 bundle.putInt("id", viewHolder.rowId);
-                bundle.putFloat("rating_kepuasan",viewHolder.rating_kepuasan);
-                bundle.putString("komentar",viewHolder.komentar);
+                bundle.putFloat("rating_kepuasan", viewHolder.rating_kepuasan);
+                bundle.putString("komentar", viewHolder.komentar);
 
                 BongkarMuatRatingFragment fragment = new BongkarMuatRatingFragment();
                 fragment.setArguments(bundle);
@@ -241,12 +163,29 @@ public class BongkarMuatFragment extends Fragment {
                         .replace(R.id.nav_host_fragment, fragment, BongkarMuatRatingFragment.class.getSimpleName())
                         .addToBackStack(null)
                         .commit();
+            } else if ("revisi_berkas".equals(jenis)) {
+                Bundle bundle = new Bundle();
+                bundle.putInt("id", viewHolder.rowId);
+                bundle.putString("kode_biaya", viewHolder.kode_biaya);
+                bundle.putString("jenis_muatan", viewHolder.jenis_muatan);
+                bundle.putDouble("bobot", viewHolder.bobot);
+                bundle.putString("nama_kapal", viewHolder.nama_kapal);
+                bundle.putString("angkutan_nopol", viewHolder.angkutan_nopol);
+                bundle.putString("angkutan_supir", viewHolder.angkutan_supir);
+
+                BongkarMuatFormFragment fragment = new BongkarMuatFormFragment();
+                fragment.setArguments(bundle);
+                AppCompatActivity activity = (AppCompatActivity) getView().getContext();
+
+                activity.getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.nav_host_fragment, fragment, BongkarMuatFormFragment.class.getSimpleName())
+                        .addToBackStack(null)
+                        .commit();
             }
 
 
-
-
-            viewHolder.itemView.setOnClickListener(new View.OnClickListener(){
+            viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                 }

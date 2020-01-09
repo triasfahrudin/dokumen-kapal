@@ -82,7 +82,7 @@
                 android:layout_marginTop="10dp"
                 android:background="#F5DEB3"
                 android:gravity="center|clip_vertical|center_horizontal|center_vertical"
-                android:text="Berkas persyaratan sudah diperbaiki"
+                android:text="Ubah Data Permohonan"
                 android:textAlignment="center"
                 android:visibility="gone"/>
 

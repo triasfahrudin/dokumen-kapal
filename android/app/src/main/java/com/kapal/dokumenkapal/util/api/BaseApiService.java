@@ -195,6 +195,13 @@ public interface BaseApiService {
     );
 
     @FormUrlEncoded
+    @POST("updatestatus_sertifikatkeselamatan")
+    Call<ResponseBody> sertifikatkeselamatanUbahStatusRequest(
+            @Field("sertifikatkeselamatan_id") int sertifikatkeselamatan_id,
+            @Field("status") String status
+    );
+
+    @FormUrlEncoded
     @POST("insert_sertifikat_keselamatan")
     Call<ResponseBody> sertifikatKeselamatanBuatBaruRequest(@Field("kapal_id") int kapal_id);
 
@@ -205,6 +212,18 @@ public interface BaseApiService {
     @POST("insert_bongkarmuat")
     Call<ResponseBody> bongkarMuatBuatBaruRequest(
             @Field("pemohon_id") int pemohon_id,
+            @Field("kode_biaya") String kode_biaya,
+            @Field("jenis_muatan") String jenis_muatan,
+            @Field("bobot") int bobot,
+            @Field("nama_kapal") String nama_kapal,
+            @Field("angkutan_nopol") String angkutan_nopol,
+            @Field("angkutan_supir") String angkutan_supir
+    );
+
+    @FormUrlEncoded
+    @POST("edit_bongkarmuat")
+    Call<ResponseBody> bongkarMuatUbahDataRequest(
+            @Field("id") int id,
             @Field("kode_biaya") String kode_biaya,
             @Field("jenis_muatan") String jenis_muatan,
             @Field("bobot") int bobot,

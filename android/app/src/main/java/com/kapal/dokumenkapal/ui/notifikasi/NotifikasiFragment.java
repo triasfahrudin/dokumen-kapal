@@ -1,7 +1,6 @@
 package com.kapal.dokumenkapal.ui.notifikasi;
 
 import android.annotation.SuppressLint;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -20,8 +19,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.kapal.dokumenkapal.MainActivity;
 import com.kapal.dokumenkapal.R;
 import com.kapal.dokumenkapal.util.SharedPrefManager;
-import com.kapal.dokumenkapal.util.api.BaseApiService;
-import com.kapal.dokumenkapal.util.api.UtilsApi;
 
 import java.util.Objects;
 

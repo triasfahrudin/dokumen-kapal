@@ -18,7 +18,7 @@ public class KapalAdapter extends RecyclerView.Adapter<KapalAdapter.KapalViewHol
 
     private ArrayList<KapalModelRecycler> dataList;
 
-    public KapalAdapter(ArrayList<KapalModelRecycler> dataList){
+    public KapalAdapter(ArrayList<KapalModelRecycler> dataList) {
         this.dataList = dataList;
     }
 
@@ -32,7 +32,7 @@ public class KapalAdapter extends RecyclerView.Adapter<KapalAdapter.KapalViewHol
 
     @Override
     public void onBindViewHolder(@NonNull KapalViewHolder holder, int position) {
-        holder.tvNama.setText(String.format("Kapal: %s",dataList.get(position).getNama_kapal()));
+        holder.tvNama.setText(String.format("Kapal: %s", dataList.get(position).getNama_kapal()));
         holder.tvJenis.setText(String.format("Jenis: %s", dataList.get(position).getJenis_kapal()));
         holder.tvImoNumber.setText(String.format("IMO Number: %s", dataList.get(position).getImo_number()));
 
@@ -55,7 +55,7 @@ public class KapalAdapter extends RecyclerView.Adapter<KapalAdapter.KapalViewHol
 
                 activity.getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.nav_host_fragment,fragment,KapalFormFragment.class.getSimpleName())
+                        .replace(R.id.nav_host_fragment, fragment, KapalFormFragment.class.getSimpleName())
                         .addToBackStack(null)
                         .commit();
             }
@@ -67,15 +67,15 @@ public class KapalAdapter extends RecyclerView.Adapter<KapalAdapter.KapalViewHol
         return dataList.size();
     }
 
-    class KapalViewHolder extends RecyclerView.ViewHolder{
+    class KapalViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tvNama,tvJenis,tvImoNumber;
+        TextView tvNama, tvJenis, tvImoNumber;
 
-        KapalViewHolder(View itemView){
+        KapalViewHolder(View itemView) {
             super(itemView);
-            tvNama = (TextView) itemView.findViewById(R.id.rowkapal_tvNama);
-            tvJenis = (TextView) itemView.findViewById(R.id.rowkapal_tvJenis);
-            tvImoNumber = (TextView) itemView.findViewById(R.id.rowkapal_tvImoNumber);
+            tvNama = itemView.findViewById(R.id.rowkapal_tvNama);
+            tvJenis = itemView.findViewById(R.id.rowkapal_tvJenis);
+            tvImoNumber = itemView.findViewById(R.id.rowkapal_tvImoNumber);
         }
     }
 }

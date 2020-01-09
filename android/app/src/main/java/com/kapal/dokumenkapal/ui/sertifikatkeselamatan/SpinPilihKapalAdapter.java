@@ -24,17 +24,17 @@ public class SpinPilihKapalAdapter extends ArrayAdapter<SpinPilihKapalModel> {
     }
 
     @Override
-    public int getCount(){
+    public int getCount() {
         return values.size();
     }
 
     @Override
-    public SpinPilihKapalModel getItem(int position){
+    public SpinPilihKapalModel getItem(int position) {
         return values.get(position);
     }
 
     @Override
-    public long getItemId(int position){
+    public long getItemId(int position) {
         return position;
     }
 

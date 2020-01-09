@@ -21,7 +21,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.kapal.dokumenkapal.MainActivity;
 import com.kapal.dokumenkapal.R;
-import com.kapal.dokumenkapal.ui.masalayar.MasaLayarFragment;
 import com.kapal.dokumenkapal.ui.menuprofiledata.MenuProfileDataFragment;
 import com.kapal.dokumenkapal.util.SharedPrefManager;
 import com.kapal.dokumenkapal.util.api.BaseApiService;
@@ -30,7 +29,6 @@ import com.kapal.dokumenkapal.util.api.UtilsApi;
 import java.util.ArrayList;
 import java.util.Objects;
 
-import butterknife.BindView;
 import es.dmoral.toasty.Toasty;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -61,7 +59,7 @@ public class KapalFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_listview_kapal, container, false);
         swipe = root.findViewById(R.id.kapal_swipeContainer);
 
-        Toolbar toolbar = (Toolbar) Objects.requireNonNull(getActivity()).findViewById(R.id.toolbar);
+        Toolbar toolbar = Objects.requireNonNull(getActivity()).findViewById(R.id.toolbar);
         toolbar.setTitle("Data Kapal");
         FloatingActionButton floatingActionButton = ((MainActivity) Objects.requireNonNull(getActivity())).getFloatingActionButton();
         if (floatingActionButton != null) {

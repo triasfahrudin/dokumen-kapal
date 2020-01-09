@@ -31,8 +31,6 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.util.Calendar;
 import java.util.Locale;
@@ -91,7 +89,7 @@ public class MasaLayarFormBayarFragment extends Fragment {
         double biaya = Objects.requireNonNull(getArguments()).getDouble("biaya");
 
         textViewMsg.setText(
-                String.format(Locale.US, "Segera lakukan pembayaran ke rekening %s A.n %s sebesar %s", sharedPrefManager.getSpSettingNoRekening(),sharedPrefManager.getSpSettingNamaRekening(), formatRupiah.format((double)biaya) ));
+                String.format(Locale.US, "Segera lakukan pembayaran ke rekening %s A.n %s sebesar %s", sharedPrefManager.getSpSettingNoRekening(), sharedPrefManager.getSpSettingNamaRekening(), formatRupiah.format(biaya)));
         return root;
     }
 

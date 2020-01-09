@@ -21,7 +21,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.kapal.dokumenkapal.MainActivity;
 import com.kapal.dokumenkapal.R;
-import com.kapal.dokumenkapal.ui.kapal.KapalFormFragment;
 import com.kapal.dokumenkapal.ui.menuprofiledata.MenuProfileDataFragment;
 import com.kapal.dokumenkapal.util.SharedPrefManager;
 import com.kapal.dokumenkapal.util.api.BaseApiService;
@@ -59,7 +58,7 @@ public class RiwayatPelayaranFragment extends Fragment {
         swipe = root.findViewById(R.id.riwayatpelayaran_swipeContainer);
 
 
-        Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
+        Toolbar toolbar = getActivity().findViewById(R.id.toolbar);
         toolbar.setTitle("Data Riwayat Pelayaran");
         FloatingActionButton floatingActionButton = ((MainActivity) Objects.requireNonNull(getActivity())).getFloatingActionButton();
         if (floatingActionButton != null) {
@@ -136,7 +135,7 @@ public class RiwayatPelayaranFragment extends Fragment {
 
     private void generateRiwayatPelayaranList(ArrayList<RiwayatPelayaranModelRecycler> riwayatPelayaranArrayList) {
 
-        recyclerView = (RecyclerView) getView().findViewById(R.id.recycler_view_riwayat_pelayaran_list);
+        recyclerView = getView().findViewById(R.id.recycler_view_riwayat_pelayaran_list);
         riwayatPelayaranAdapter = new RiwayatPelayaranAdapter(riwayatPelayaranArrayList);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
 

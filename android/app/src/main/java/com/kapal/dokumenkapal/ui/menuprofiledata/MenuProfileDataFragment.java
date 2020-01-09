@@ -82,7 +82,7 @@ public class MenuProfileDataFragment extends Fragment {
         }
 
 
-        Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
+        Toolbar toolbar = getActivity().findViewById(R.id.toolbar);
         toolbar.setTitle("Profile Dan Data");
 
         FloatingActionButton floatingActionButton = ((MainActivity) Objects.requireNonNull(getActivity())).getFloatingActionButton();

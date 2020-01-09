@@ -1170,21 +1170,27 @@ class Restapi extends CI_Controller
         /*
 
         $this->db->select("a.id,
-                           LPAD(a.id,6,'0') AS kode,
-                           DATE_FORMAT(a.tgl_mohon, '%d/%m/%Y') AS tgl_mohon,
-                           DATE_FORMAT(a.tgl_update,'%d/%m/%Y') AS tgl_update,
-                           a.biaya,
-                           a.status,
-                           a.alasan_status,
-                           b.arti AS arti_status,
-                           a.rating_kepuasan,
-                           a.komentar");
+        LPAD(a.id,6,'0') AS kode,
+        DATE_FORMAT(a.tgl_mohon, '%d/%m/%Y') AS tgl_mohon,
+        DATE_FORMAT(a.tgl_update,'%d/%m/%Y') AS tgl_update,
+        a.biaya,
+        a.status,
+        a.alasan_status,
+        b.arti AS arti_status,
+        a.rating_kepuasan,
+        a.komentar");
         $this->db->join('kode_status b', 'a.status = b.kode_angka', 'left');
         $qry = $this->db->get_where('masa_layar a', array('pemohon_id' => $pemohon_id));
-        */
+         */
 
         $this->db->select("a.id,
                            LPAD(a.id,6,'0') AS kode,
+                           a.kode_biaya,
+                           a.jenis_muatan,
+                           a.bobot,
+                           a.nama_kapal,
+                           a.angkutan_nopol,
+                           a.angkutan_supir,
                            DATE_FORMAT(a.tgl_mohon, '%d/%m/%Y') AS tgl_mohon,
                            DATE_FORMAT(a.tgl_update,'%d/%m/%Y') AS tgl_update,
                            a.biaya,
@@ -1281,6 +1287,51 @@ class Restapi extends CI_Controller
         echo json_encode(
             array(
                 'status'    => "Permohonan baru berhasil dibuat",
+                'error_msg' => $this->db->error()['code'],
+                'error'     => false,
+                'last_id'   => $this->db->insert_id(),
+
+            )
+        );
+    }
+
+    public function edit_bongkarmuat()
+    {
+        header("content-type: application/json");
+        $id             = $this->input->post('id');
+        $kode_biaya     = $this->input->post('kode_biaya');
+        $jenis_muatan   = $this->input->post('jenis_muatan');
+        $bobot          = $this->input->post('bobot');
+        $nama_kapal     = $this->input->post('nama_kapal');
+        $angkutan_nopol = $this->input->post('angkutan_nopol');
+        $angkutan_supir = $this->input->post('angkutan_supir');
+
+        $bm = $this->db->get_where('bongkar_muat', array('id' => $id))->row_array();
+
+        $status_baru = "";
+        if ($bm['status'] === "399") {
+            $status_baru = "210";
+        } elseif ($bm['status'] === "299") {
+            $status_baru = "200";
+        }
+
+        $this->db->where('id', $id);
+        $this->db->update('bongkar_muat',
+            array(
+                'kode_biaya'     => $kode_biaya,
+                'jenis_muatan'   => $jenis_muatan,
+                'bobot'          => $bobot,
+                'nama_kapal'     => $nama_kapal,
+                'angkutan_nopol' => $angkutan_nopol,
+                'angkutan_supir' => $angkutan_supir,
+                'status'         => $status_baru,
+
+            )
+        );
+
+        echo json_encode(
+            array(
+                'status'    => "Data permohonan berhasil diubah",
                 'error_msg' => $this->db->error()['code'],
                 'error'     => false,
                 'last_id'   => $this->db->insert_id(),

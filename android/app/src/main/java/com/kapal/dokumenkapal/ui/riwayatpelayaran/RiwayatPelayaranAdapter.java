@@ -19,7 +19,7 @@ public class RiwayatPelayaranAdapter extends RecyclerView.Adapter<RiwayatPelayar
 
     private ArrayList<RiwayatPelayaranModelRecycler> dataList;
 
-    public RiwayatPelayaranAdapter(ArrayList<RiwayatPelayaranModelRecycler> dataList){
+    public RiwayatPelayaranAdapter(ArrayList<RiwayatPelayaranModelRecycler> dataList) {
         this.dataList = dataList;
     }
 
@@ -35,9 +35,9 @@ public class RiwayatPelayaranAdapter extends RecyclerView.Adapter<RiwayatPelayar
     public void onBindViewHolder(@NonNull RiwayatPelayaranAdapter.RiwayatPelayaranViewHolder holder, int position) {
         holder.tvNamaKapal.setText(dataList.get(position).getNama_kapal());
         holder.tvJabatan.setText(dataList.get(position).getJabatan());
-        holder.tvTanggal.setText(String.format("Masa berlayar : %s s/d %s",  dataList.get(position).getTgl_naik(),dataList.get(position).getTgl_turun()));
+        holder.tvTanggal.setText(String.format("Masa berlayar : %s s/d %s", dataList.get(position).getTgl_naik(), dataList.get(position).getTgl_turun()));
 
-        holder.itemView.setOnClickListener(new View.OnClickListener(){
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Bundle bundle = new Bundle();
@@ -54,7 +54,7 @@ public class RiwayatPelayaranAdapter extends RecyclerView.Adapter<RiwayatPelayar
 
                 activity.getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.nav_host_fragment,fragment,KapalFormFragment.class.getSimpleName())
+                        .replace(R.id.nav_host_fragment, fragment, KapalFormFragment.class.getSimpleName())
                         .addToBackStack(null)
                         .commit();
             }
@@ -66,15 +66,15 @@ public class RiwayatPelayaranAdapter extends RecyclerView.Adapter<RiwayatPelayar
         return dataList.size();
     }
 
-    class RiwayatPelayaranViewHolder extends RecyclerView.ViewHolder{
+    class RiwayatPelayaranViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tvNamaKapal,tvJabatan,tvTanggal;
+        TextView tvNamaKapal, tvJabatan, tvTanggal;
 
-        RiwayatPelayaranViewHolder(View itemView){
+        RiwayatPelayaranViewHolder(View itemView) {
             super(itemView);
-            tvNamaKapal = (TextView) itemView.findViewById(R.id.rowRiwayatPelayaran_tvNamaKapal);
-            tvJabatan = (TextView) itemView.findViewById(R.id.rowRiwayatPelayaran_tvJabatan);
-            tvTanggal = (TextView) itemView.findViewById(R.id.rowRiwayatPelayaran_tvTanggal);
+            tvNamaKapal = itemView.findViewById(R.id.rowRiwayatPelayaran_tvNamaKapal);
+            tvJabatan = itemView.findViewById(R.id.rowRiwayatPelayaran_tvJabatan);
+            tvTanggal = itemView.findViewById(R.id.rowRiwayatPelayaran_tvTanggal);
         }
     }
 }

@@ -7,8 +7,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.kapal.dokumenkapal.ui.sertifikatkeselamatan.SpinPilihKapalModel;
-
 import java.util.ArrayList;
 
 class SpinPilihJenisMuatanAdapter extends ArrayAdapter<SpinPilihJenisMuatanModel> {
@@ -19,24 +17,24 @@ class SpinPilihJenisMuatanAdapter extends ArrayAdapter<SpinPilihJenisMuatanModel
     private ArrayList<SpinPilihJenisMuatanModel> values;
 
     public SpinPilihJenisMuatanAdapter(Context context, int textViewResourceId,
-                                 ArrayList<SpinPilihJenisMuatanModel> values) {
+                                       ArrayList<SpinPilihJenisMuatanModel> values) {
         super(context, textViewResourceId, values);
         this.context = context;
         this.values = values;
     }
 
     @Override
-    public int getCount(){
+    public int getCount() {
         return values.size();
     }
 
     @Override
-    public SpinPilihJenisMuatanModel getItem(int position){
+    public SpinPilihJenisMuatanModel getItem(int position) {
         return values.get(position);
     }
 
     @Override
-    public long getItemId(int position){
+    public long getItemId(int position) {
         return position;
     }
 

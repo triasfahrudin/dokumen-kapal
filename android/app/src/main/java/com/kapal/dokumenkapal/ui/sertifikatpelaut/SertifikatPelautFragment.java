@@ -21,8 +21,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.kapal.dokumenkapal.MainActivity;
 import com.kapal.dokumenkapal.R;
-import com.kapal.dokumenkapal.ui.kapal.KapalFormFragment;
-import com.kapal.dokumenkapal.ui.masalayar.MasaLayarFragment;
 import com.kapal.dokumenkapal.ui.menuprofiledata.MenuProfileDataFragment;
 import com.kapal.dokumenkapal.util.SharedPrefManager;
 import com.kapal.dokumenkapal.util.api.BaseApiService;
@@ -61,7 +59,7 @@ public class SertifikatPelautFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_listview_sertifikat_pelaut, container, false);
         swipe = root.findViewById(R.id.sertifikatpelaut_swipeContainer);
 
-        Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
+        Toolbar toolbar = getActivity().findViewById(R.id.toolbar);
         toolbar.setTitle("Data Sertifikat Pelaut");
         FloatingActionButton floatingActionButton = ((MainActivity) Objects.requireNonNull(getActivity())).getFloatingActionButton();
         if (floatingActionButton != null) {
@@ -139,7 +137,7 @@ public class SertifikatPelautFragment extends Fragment {
 
     private void generateSertifikatPelautList(ArrayList<SertifikatPelautModelRecycler> sertifikatPelautArrayList) {
 
-        recyclerView = (RecyclerView) getView().findViewById(R.id.recycler_view_sertifikat_pelaut_list);
+        recyclerView = getView().findViewById(R.id.recycler_view_sertifikat_pelaut_list);
         sertifikatPelautAdapter = new SertifikatPelautAdapter(sertifikatPelautArrayList);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
 

@@ -8,19 +8,23 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.kapal.dokumenkapal.LoginActivity;
 import com.kapal.dokumenkapal.R;
+import com.kapal.dokumenkapal.ui.home.HomeFragment;
 import com.kapal.dokumenkapal.util.SharedPrefManager;
+
+import java.util.Objects;
 
 public class SignOutFragment extends Fragment {
 
-    private SendViewModel sendViewModel;
     Context mContext;
-
     SharedPrefManager sharedPrefManager;
+    private SendViewModel sendViewModel;
 
     @Override
     public void onAttach(Context context) {
@@ -38,18 +42,27 @@ public class SignOutFragment extends Fragment {
 
         sharedPrefManager = new SharedPrefManager(mContext);
 
-        sharedPrefManager.saveSPBoolean(SharedPrefManager.SP_SUDAH_LOGIN, false);
-        Intent intent = new Intent(getActivity(),LoginActivity.class);
-        startActivity(intent);
+        new AlertDialog.Builder(mContext)
+                .setTitle("Keluar applikasi")
+                .setMessage("Apakah anda yakin ingin keluar ?")
+                .setPositiveButton("KELUAR", (dialog, which) -> {
+
+                    sharedPrefManager.saveSPBoolean(SharedPrefManager.SP_SUDAH_LOGIN, false);
+                    Intent intent = new Intent(getActivity(), LoginActivity.class);
+                    startActivity(intent);
+
+                }).setNegativeButton("BATAL", (dialog, which) -> {
+
+            HomeFragment mf = new HomeFragment();
+            FragmentTransaction ft = Objects.requireNonNull(getActivity()).getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.nav_host_fragment, mf, HomeFragment.class.getSimpleName())
+                    .addToBackStack(null);
+            ft.commit();
+
+        }).show();
 
 
-//        final TextView textView = root.findViewById(R.id.text_send);
-//        sendViewModel.getText().observe(this, new Observer<String>() {
-//            @Override
-//            public void onChanged(@Nullable String s) {
-//                textView.setText(s);
-//            }
-//        });
         return root;
     }
 }

@@ -3,7 +3,6 @@ package com.kapal.dokumenkapal.ui.masalayar;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +22,7 @@ import java.util.Arrays;
 
 public class MasaLayarAdapter extends RecyclerView.Adapter<MasaLayarAdapter.MasaLayarViewHolder> {
 
+    OnBindCallBack onBindCallBack;
     private ArrayList<MasaLayarModelRecycler> dataList;
 
     MasaLayarAdapter(ArrayList<MasaLayarModelRecycler> dataList) {
@@ -36,8 +36,6 @@ public class MasaLayarAdapter extends RecyclerView.Adapter<MasaLayarAdapter.Masa
         View view = layoutInflater.inflate(R.layout.recycler_masalayar_list, parent, false);
         return new MasaLayarAdapter.MasaLayarViewHolder(view);
     }
-
-    OnBindCallBack onBindCallBack;
 
     @Override
     public void onBindViewHolder(@NonNull MasaLayarAdapter.MasaLayarViewHolder holder, int position) {

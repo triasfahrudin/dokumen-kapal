@@ -88,7 +88,7 @@ public class SertifikatKeselamatanFormBayarFragment extends Fragment {
         double biaya = Objects.requireNonNull(getArguments()).getDouble("biaya");
 
         textViewMsg.setText(
-                String.format(Locale.US, "Segera lakukan pembayaran ke rekening %s A.n %s sebesar %s", sharedPrefManager.getSpSettingNoRekening(),sharedPrefManager.getSpSettingNamaRekening(), formatRupiah.format((double)biaya) ));
+                String.format(Locale.US, "Segera lakukan pembayaran ke rekening %s A.n %s sebesar %s", sharedPrefManager.getSpSettingNoRekening(), sharedPrefManager.getSpSettingNamaRekening(), formatRupiah.format(biaya)));
         return root;
     }
 

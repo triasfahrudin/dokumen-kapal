@@ -8,6 +8,18 @@ public class BongkarMuatModelRecycler {
     private int id;
     @SerializedName("kode")
     private String kode;
+    @SerializedName("kode_biaya")
+    private String kode_biaya;
+    @SerializedName("jenis_muatan")
+    private String jenis_muatan;
+    @SerializedName("bobot")
+    private Double bobot;
+    @SerializedName("nama_kapal")
+    private String nama_kapal;
+    @SerializedName("angkutan_nopol")
+    private String angkutan_nopol;
+    @SerializedName("angkutan_supir")
+    private String angkutan_supir;
     @SerializedName("tgl_mohon")
     private String tgl_mohon;
     @SerializedName("tgl_update")
@@ -24,6 +36,54 @@ public class BongkarMuatModelRecycler {
     private int rating_kepuasan;
     @SerializedName("komentar")
     private String komentar;
+
+    public String getKode_biaya() {
+        return kode_biaya;
+    }
+
+    public void setKode_biaya(String kode_biaya) {
+        this.kode_biaya = kode_biaya;
+    }
+
+    public String getJenis_muatan() {
+        return jenis_muatan;
+    }
+
+    public void setJenis_muatan(String jenis_muatan) {
+        this.jenis_muatan = jenis_muatan;
+    }
+
+    public Double getBobot() {
+        return bobot;
+    }
+
+    public void setBobot(Double bobot) {
+        this.bobot = bobot;
+    }
+
+    public String getNama_kapal() {
+        return nama_kapal;
+    }
+
+    public void setNama_kapal(String nama_kapal) {
+        this.nama_kapal = nama_kapal;
+    }
+
+    public String getAngkutan_nopol() {
+        return angkutan_nopol;
+    }
+
+    public void setAngkutan_nopol(String angkutan_nopol) {
+        this.angkutan_nopol = angkutan_nopol;
+    }
+
+    public String getAngkutan_supir() {
+        return angkutan_supir;
+    }
+
+    public void setAngkutan_supir(String angkutan_supir) {
+        this.angkutan_supir = angkutan_supir;
+    }
 
     public Double getBiaya() {
         return biaya;

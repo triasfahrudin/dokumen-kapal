@@ -60,5 +60,6 @@
     <string name="text_pilih_file_pdf">Pilih file PDF</string>
     <string name="pilih_jenis_muatan">Pilih Jenis Muatan</string>
     <string name="berat_total_muatan_dalam_ton">Berat total muatan (dalam Ton)</string>
+    <string name="update_data">UPDATE DATA</string>
 
 </resources>

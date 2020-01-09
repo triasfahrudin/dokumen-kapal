@@ -2,7 +2,6 @@ package com.kapal.dokumenkapal.ui.masalayar;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -18,8 +17,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.kapal.dokumenkapal.R;
-import com.kapal.dokumenkapal.ui.sertifikatpelaut.SertifikatPelautFormFragment;
-import com.kapal.dokumenkapal.ui.sertifikatpelaut.SertifikatPelautFragment;
 import com.kapal.dokumenkapal.util.SharedPrefManager;
 import com.kapal.dokumenkapal.util.api.BaseApiService;
 import com.kapal.dokumenkapal.util.api.UtilsApi;

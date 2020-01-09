@@ -35,16 +35,13 @@ public class MenuPermohonanFragment extends Fragment {
     LinearLayout permohonanLinierlayout1;
     @BindView(R.id.permohonan_linierlayout2)
     LinearLayout permohonanLinierlayout2;
-
-    private MenuPermohonanViewModel menuPermohonanViewModel;
-
     @BindView(R.id.cvMasaLayar)
     CardView cvMasaLayar;
     @BindView(R.id.cvSertifikatKeselamatan)
     CardView cvSertifikat;
     @BindView(R.id.cvBongkarMuat)
     CardView cvBongkarMuat;
-
+    private MenuPermohonanViewModel menuPermohonanViewModel;
     private Context mContext;
 
     @Override

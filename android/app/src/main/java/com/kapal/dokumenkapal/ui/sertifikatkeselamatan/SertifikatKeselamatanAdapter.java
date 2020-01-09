@@ -10,7 +10,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.kapal.dokumenkapal.R;
@@ -23,12 +22,13 @@ import java.util.Arrays;
 
 public class SertifikatKeselamatanAdapter extends RecyclerView.Adapter<SertifikatKeselamatanAdapter.SertifikatKeselamatanViewHolder> {
 
+    OnBindCallBack onBindCallBack;
     private ArrayList<SertifikatKeselamatanModelRecycler> dataList;
 
-    SertifikatKeselamatanAdapter(ArrayList<SertifikatKeselamatanModelRecycler> dataList){
+
+    SertifikatKeselamatanAdapter(ArrayList<SertifikatKeselamatanModelRecycler> dataList) {
         this.dataList = dataList;
     }
-
 
     @NonNull
     @Override
@@ -37,8 +37,6 @@ public class SertifikatKeselamatanAdapter extends RecyclerView.Adapter<Sertifika
         View view = layoutInflater.inflate(R.layout.recycler_sertifikatkeselamatan_list, parent, false);
         return new SertifikatKeselamatanAdapter.SertifikatKeselamatanViewHolder(view);
     }
-
-    OnBindCallBack onBindCallBack;
 
     @Override
     public void onBindViewHolder(@NonNull SertifikatKeselamatanViewHolder holder, int position) {
@@ -76,12 +74,12 @@ public class SertifikatKeselamatanAdapter extends RecyclerView.Adapter<Sertifika
         }
 
 
-        holder.tvKapal.setText(String.format("Kapal: %s",dataList.get(position).getNama_kapal().toUpperCase()));
+        holder.tvKapal.setText(String.format("Kapal: %s", dataList.get(position).getNama_kapal().toUpperCase()));
         holder.rowId = dataList.get(position).getId();
         holder.rating_kepuasan = (float) dataList.get(position).getRating_kepuasan();
         holder.komentar = dataList.get(position).getKomentar();
         holder.biaya = dataList.get(position).getBiaya();
-        
+
         Context mContext = holder.itemView.getContext();
 
         BaseApiService mBaseApiService = UtilsApi.getAPIService();
@@ -99,7 +97,6 @@ public class SertifikatKeselamatanAdapter extends RecyclerView.Adapter<Sertifika
         if ("399".equals(dataList.get(position).getStatus())) {
             holder.btnRevisi.setVisibility(View.VISIBLE);
         }
-
 
 
         holder.btnUpload.setOnClickListener(v -> {
@@ -122,7 +119,6 @@ public class SertifikatKeselamatanAdapter extends RecyclerView.Adapter<Sertifika
 
 
         holder.itemView.setOnClickListener(v -> {
-
 
 
         });

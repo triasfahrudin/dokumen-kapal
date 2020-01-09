@@ -22,8 +22,6 @@ import androidx.fragment.app.FragmentTransaction;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.kapal.dokumenkapal.MainActivity;
 import com.kapal.dokumenkapal.R;
-import com.kapal.dokumenkapal.ui.kapal.KapalFormFragment;
-import com.kapal.dokumenkapal.ui.kapal.KapalFragment;
 import com.kapal.dokumenkapal.util.SetDate;
 import com.kapal.dokumenkapal.util.SharedPrefManager;
 import com.kapal.dokumenkapal.util.api.BaseApiService;
@@ -96,7 +94,7 @@ public class RiwayatPelayaranFormFragment extends Fragment {
             rpBtnDelete.setVisibility(View.INVISIBLE);
         }
 
-        Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
+        Toolbar toolbar = getActivity().findViewById(R.id.toolbar);
         toolbar.setTitle("Form Data Kapal");
         FloatingActionButton floatingActionButton = ((MainActivity) Objects.requireNonNull(getActivity())).getFloatingActionButton();
         if (floatingActionButton != null) {

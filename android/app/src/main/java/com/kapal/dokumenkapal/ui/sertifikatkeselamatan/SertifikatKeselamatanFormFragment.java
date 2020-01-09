@@ -9,14 +9,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -26,7 +24,6 @@ import com.kapal.dokumenkapal.R;
 import com.kapal.dokumenkapal.util.SharedPrefManager;
 import com.kapal.dokumenkapal.util.api.BaseApiService;
 import com.kapal.dokumenkapal.util.api.UtilsApi;
-
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -44,6 +41,7 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
 import static android.R.layout.simple_spinner_item;
 
 public class SertifikatKeselamatanFormFragment extends Fragment {
@@ -94,11 +92,11 @@ public class SertifikatKeselamatanFormFragment extends Fragment {
                     @Override
                     public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
                         if (response.isSuccessful()) {
-                            if(response.body() != null){
+                            if (response.body() != null) {
                                 String jsonResponse;
                                 try {
                                     jsonResponse = response.body().string();
-                                    fillSpinnerPilihKapal(jsonResponse,root);
+                                    fillSpinnerPilihKapal(jsonResponse, root);
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 }
@@ -121,7 +119,6 @@ public class SertifikatKeselamatanFormFragment extends Fragment {
                 });
 
 
-
         spinnerPilihKapal.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -138,13 +135,13 @@ public class SertifikatKeselamatanFormFragment extends Fragment {
         return root;
     }
 
-    private void fillSpinnerPilihKapal(String response,View root) {
+    private void fillSpinnerPilihKapal(String response, View root) {
         try {
 
             JSONObject obj = new JSONObject(response);
-            if(obj.optString("error").equals("false")){
+            if (obj.optString("error").equals("false")) {
 
-                JSONArray dataArray  = obj.getJSONArray("data");
+                JSONArray dataArray = obj.getJSONArray("data");
 
                 for (int i = 0; i < dataArray.length(); i++) {
 
@@ -201,9 +198,9 @@ public class SertifikatKeselamatanFormFragment extends Fragment {
     @OnClick(R.id.sertifikatkeselamatan_btnKirim)
     public void onViewClicked() {
 
-        if(pilihKapalModelArrayList.isEmpty()){
+        if (pilihKapalModelArrayList.isEmpty()) {
             Toasty.error(mContext, "Tidak ada data kapal!", Toast.LENGTH_SHORT).show();
-        }else{
+        } else {
             new AlertDialog.Builder(mContext)
                     .setTitle("Permohonan Pembuatan Sertifikat Keselamatan")
                     .setMessage("Apakah anda yakin semua persyaratan dokumen sudah anda isi ?")
@@ -252,8 +249,6 @@ public class SertifikatKeselamatanFormFragment extends Fragment {
                                 });
                     }).setNegativeButton("Batal", null).show();
         }
-
-
 
 
     }

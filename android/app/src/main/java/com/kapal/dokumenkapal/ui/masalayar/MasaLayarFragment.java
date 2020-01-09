@@ -2,7 +2,6 @@ package com.kapal.dokumenkapal.ui.masalayar;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -147,7 +146,7 @@ public class MasaLayarFragment extends Fragment {
     }
 
 
-    private void loadData(){
+    private void loadData() {
 
         loading = ProgressDialog.show(mContext, null, "Mengambil data ...", true, false);
 

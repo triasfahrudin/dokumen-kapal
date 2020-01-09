@@ -9,11 +9,11 @@ public class RiwayatPelayaranModelList {
     @SerializedName("riwayatPelayaranList")
     private ArrayList<RiwayatPelayaranModelRecycler> riwayatPelayaranList;
 
-    public ArrayList<RiwayatPelayaranModelRecycler> getRiwayatPelayaranArrayList(){
+    public ArrayList<RiwayatPelayaranModelRecycler> getRiwayatPelayaranArrayList() {
         return riwayatPelayaranList;
     }
 
-    public void setRiwayatPelayaranArraylList(ArrayList<RiwayatPelayaranModelRecycler> riwayatPelayaranArrayList){
+    public void setRiwayatPelayaranArraylList(ArrayList<RiwayatPelayaranModelRecycler> riwayatPelayaranArrayList) {
         this.riwayatPelayaranList = riwayatPelayaranArrayList;
     }
 }

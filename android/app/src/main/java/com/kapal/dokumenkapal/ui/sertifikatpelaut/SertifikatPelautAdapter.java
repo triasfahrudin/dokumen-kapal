@@ -53,7 +53,7 @@ public class SertifikatPelautAdapter extends RecyclerView.Adapter<SertifikatPela
 
                 activity.getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.nav_host_fragment,fragment,SertifikatPelautFormFragment.class.getSimpleName())
+                        .replace(R.id.nav_host_fragment, fragment, SertifikatPelautFormFragment.class.getSimpleName())
                         .addToBackStack(null)
                         .commit();
 
@@ -72,9 +72,9 @@ public class SertifikatPelautAdapter extends RecyclerView.Adapter<SertifikatPela
 
         SertifikatPelautViewHolder(View itemView) {
             super(itemView);
-            tvNamaSertifikat = (TextView) itemView.findViewById(R.id.rowSertifikatPelaut_tvNamaSertifikat);
-            tvPenerbit = (TextView) itemView.findViewById(R.id.rowSertifikatPelaut_tvPenerbit);
-            tvTanggal = (TextView) itemView.findViewById(R.id.rowSertifikatPelaut_tvTanggal);
+            tvNamaSertifikat = itemView.findViewById(R.id.rowSertifikatPelaut_tvNamaSertifikat);
+            tvPenerbit = itemView.findViewById(R.id.rowSertifikatPelaut_tvPenerbit);
+            tvTanggal = itemView.findViewById(R.id.rowSertifikatPelaut_tvTanggal);
         }
     }
 }

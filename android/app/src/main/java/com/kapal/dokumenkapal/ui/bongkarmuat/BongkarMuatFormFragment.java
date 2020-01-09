@@ -32,6 +32,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Objects;
 
 import butterknife.BindView;
@@ -70,6 +71,7 @@ public class BongkarMuatFormFragment extends Fragment {
     private SpinPilihJenisMuatanAdapter spinnerArrayAdapter;
 
     private String selectedJenisMuatanKode;
+    private int recyclerID;
 
     @Override
     public void onAttach(Context context) {
@@ -143,6 +145,29 @@ public class BongkarMuatFormFragment extends Fragment {
             }
         });
 
+        /*
+        *  bundle.putInt("id", viewHolder.rowId);
+                bundle.putString("kode_biaya",viewHolder.kode_biaya);
+                bundle.putString("jenis_muatan",viewHolder.jenis_muatan);
+                bundle.putDouble("bobot",viewHolder.bobot);
+                bundle.putString("nama_kapal",viewHolder.nama_kapal);
+                bundle.putString("angkutan_nopol",viewHolder.angkutan_nopol);
+                bundle.putString("angkutan_supir",viewHolder.angkutan_supir);
+        * */
+
+        Locale localeID = new Locale("in", "ID");
+        recyclerID = Objects.requireNonNull(getArguments()).getInt("id");
+        //
+        etJenisMuatan.setText(getArguments().getString("jenis_muatan"));
+        etBobot.setText(String.format(localeID, "%.0f", getArguments().getDouble("bobot")));
+        etNamaKapal.setText(getArguments().getString("nama_kapal"));
+        etAngkutanNopol.setText(getArguments().getString("angkutan_nopol"));
+        etAngkutanSupir.setText(getArguments().getString("angkutan_supir"));
+
+        if (recyclerID != 0) {
+            btnKirim.setText(R.string.update_data);
+        }
+
         return root;
     }
 
@@ -207,60 +232,121 @@ public class BongkarMuatFormFragment extends Fragment {
             Toasty.error(mContext, "Tidak ada data jenis muatan!", Toast.LENGTH_SHORT).show();
         } else {
 
-            new AlertDialog.Builder(mContext)
-                    .setTitle("Permohonan Pembuatan Surat Bongkar Muat")
-                    .setMessage("Apakah anda yakin semua persyaratan dokumen sudah anda isi ?")
-                    .setPositiveButton("YA", (dialog, which) -> {
-                        loading = ProgressDialog.show(mContext, null, "Membuat permohonan baru, Mohon tunggu...", true, false);
-                        mBaseApiService.bongkarMuatBuatBaruRequest(
-                                sharedPrefManager.getSPID(),
-                                selectedJenisMuatanKode,
-                                etJenisMuatan.getText().toString(),
-                                Integer.parseInt(etBobot.getText().toString()),
-                                etNamaKapal.getText().toString(),
-                                etAngkutanNopol.getText().toString(),
-                                etAngkutanSupir.getText().toString())
-                                .enqueue(new Callback<ResponseBody>() {
-                                    @Override
-                                    public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
-                                        if (response.isSuccessful()) {
-                                            loading.dismiss();
-                                            try {
-                                                JSONObject jsonObject = new JSONObject(response.body().string());
-                                                if (jsonObject.getString("error").equals("false")) {
+            if (recyclerID != 0) {
+                //update
+                new AlertDialog.Builder(mContext)
+                        .setTitle("Permohonan Pembuatan Surat Bongkar Muat")
+                        .setMessage("Apakah anda yakin ingin merubah data permohonan ?")
+                        .setPositiveButton("YA", (dialog, which) -> {
+                            loading = ProgressDialog.show(mContext, null, "Merubah data permohonan, Mohon tunggu...", true, false);
+                            mBaseApiService.bongkarMuatUbahDataRequest(
+                                    recyclerID,
+                                    selectedJenisMuatanKode,
+                                    etJenisMuatan.getText().toString(),
+                                    Integer.parseInt(etBobot.getText().toString()),
+                                    etNamaKapal.getText().toString(),
+                                    etAngkutanNopol.getText().toString(),
+                                    etAngkutanSupir.getText().toString())
+                                    .enqueue(new Callback<ResponseBody>() {
+                                        @Override
+                                        public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
+                                            if (response.isSuccessful()) {
+                                                loading.dismiss();
+                                                try {
+                                                    JSONObject jsonObject = new JSONObject(response.body().string());
+                                                    if (jsonObject.getString("error").equals("false")) {
 
-                                                    Toast.makeText(mContext, "Permohonan baru berhasil dibuat", Toast.LENGTH_SHORT).show();
+                                                        Toast.makeText(mContext, "Data telah berhasil diubah", Toast.LENGTH_SHORT).show();
 
-                                                    BongkarMuatFragment mf = new BongkarMuatFragment();
-                                                    FragmentTransaction ft = Objects.requireNonNull(getActivity()).getSupportFragmentManager()
-                                                            .beginTransaction()
-                                                            .add(R.id.nav_host_fragment, mf, BongkarMuatFragment.class.getSimpleName())
-                                                            .addToBackStack(null);
-                                                    ft.commit();
+                                                        BongkarMuatFragment mf = new BongkarMuatFragment();
+                                                        FragmentTransaction ft = Objects.requireNonNull(getActivity()).getSupportFragmentManager()
+                                                                .beginTransaction()
+                                                                .add(R.id.nav_host_fragment, mf, BongkarMuatFragment.class.getSimpleName())
+                                                                .addToBackStack(null);
+                                                        ft.commit();
 
-                                                } else {
-                                                    String error_message = jsonObject.getString("error_msg");
-                                                    Toast.makeText(mContext, error_message, Toast.LENGTH_SHORT).show();
+                                                    } else {
+                                                        String error_message = jsonObject.getString("error_msg");
+                                                        Toast.makeText(mContext, error_message, Toast.LENGTH_SHORT).show();
+                                                    }
+
+
+                                                } catch (JSONException | IOException e) {
+                                                    e.printStackTrace();
                                                 }
 
-
-                                            } catch (JSONException | IOException e) {
-                                                e.printStackTrace();
+                                            } else {
+                                                loading.dismiss();
                                             }
+                                        }
 
-                                        } else {
+                                        @Override
+                                        public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
+                                            Toasty.error(mContext, t.toString(), Toast.LENGTH_LONG).show();
+                                            Log.e("debug", "onFailure: ERROR > " + t.toString());
                                             loading.dismiss();
                                         }
-                                    }
+                                    });
+                        }).setNegativeButton("Batal", null).show();
+            } else {
+                //new data
+                new AlertDialog.Builder(mContext)
+                        .setTitle("Permohonan Pembuatan Surat Bongkar Muat")
+                        .setMessage("Apakah anda yakin semua data sudah anda isi ?")
+                        .setPositiveButton("YA", (dialog, which) -> {
+                            loading = ProgressDialog.show(mContext, null, "Membuat permohonan baru, Mohon tunggu...", true, false);
+                            mBaseApiService.bongkarMuatBuatBaruRequest(
+                                    sharedPrefManager.getSPID(),
+                                    selectedJenisMuatanKode,
+                                    etJenisMuatan.getText().toString(),
+                                    Integer.parseInt(etBobot.getText().toString()),
+                                    etNamaKapal.getText().toString(),
+                                    etAngkutanNopol.getText().toString(),
+                                    etAngkutanSupir.getText().toString())
+                                    .enqueue(new Callback<ResponseBody>() {
+                                        @Override
+                                        public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
+                                            if (response.isSuccessful()) {
+                                                loading.dismiss();
+                                                try {
+                                                    JSONObject jsonObject = new JSONObject(response.body().string());
+                                                    if (jsonObject.getString("error").equals("false")) {
 
-                                    @Override
-                                    public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
-                                        Toasty.error(mContext, t.toString(), Toast.LENGTH_LONG).show();
-                                        Log.e("debug", "onFailure: ERROR > " + t.toString());
-                                        loading.dismiss();
-                                    }
-                                });
-                    }).setNegativeButton("Batal", null).show();
+                                                        Toast.makeText(mContext, "Permohonan baru berhasil dibuat", Toast.LENGTH_SHORT).show();
+
+                                                        BongkarMuatFragment mf = new BongkarMuatFragment();
+                                                        FragmentTransaction ft = Objects.requireNonNull(getActivity()).getSupportFragmentManager()
+                                                                .beginTransaction()
+                                                                .add(R.id.nav_host_fragment, mf, BongkarMuatFragment.class.getSimpleName())
+                                                                .addToBackStack(null);
+                                                        ft.commit();
+
+                                                    } else {
+                                                        String error_message = jsonObject.getString("error_msg");
+                                                        Toast.makeText(mContext, error_message, Toast.LENGTH_SHORT).show();
+                                                    }
+
+
+                                                } catch (JSONException | IOException e) {
+                                                    e.printStackTrace();
+                                                }
+
+                                            } else {
+                                                loading.dismiss();
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
+                                            Toasty.error(mContext, t.toString(), Toast.LENGTH_LONG).show();
+                                            Log.e("debug", "onFailure: ERROR > " + t.toString());
+                                            loading.dismiss();
+                                        }
+                                    });
+                        }).setNegativeButton("Batal", null).show();
+            }
+
+
         }
 
 
