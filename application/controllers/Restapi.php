@@ -62,6 +62,25 @@ class Restapi extends CI_Controller
         );
     }
 
+    public function get_jenis_muatan()
+    {
+
+        header("content-type: application/json");
+
+        $this->db->select('kode,alias');
+        $this->db->like('kode', 'bm_', 'after');
+        $qry = $this->db->get('biaya');
+
+        echo json_encode(
+            array(
+                'error'   => false,
+                'message' => 'Data berhasil diambil',
+                'data'    => $qry->result(),
+            )
+        );
+
+    }
+
     public function get_kapal()
     {
 
@@ -158,8 +177,6 @@ class Restapi extends CI_Controller
 
         echo json_encode($response);
     }
-
-   
 
     public function insertupdate_kapal()
     {
@@ -1061,19 +1078,19 @@ class Restapi extends CI_Controller
 
         /*
 
- $this->db->select("a.id,
-                           LPAD(a.id,6,'0') AS kode,
-                           DATE_FORMAT(a.tgl_mohon, '%d/%m/%Y') AS tgl_mohon,
-                           DATE_FORMAT(a.tgl_update,'%d/%m/%Y') AS tgl_update,
-                           a.biaya,
-                           a.status,
-                           a.alasan_status,
-                           b.arti AS arti_status,
-                           a.rating_kepuasan,
-                           a.komentar");
+        $this->db->select("a.id,
+        LPAD(a.id,6,'0') AS kode,
+        DATE_FORMAT(a.tgl_mohon, '%d/%m/%Y') AS tgl_mohon,
+        DATE_FORMAT(a.tgl_update,'%d/%m/%Y') AS tgl_update,
+        a.biaya,
+        a.status,
+        a.alasan_status,
+        b.arti AS arti_status,
+        a.rating_kepuasan,
+        a.komentar");
         $this->db->join('kode_status b', 'a.status = b.kode_angka', 'left');
         $qry = $this->db->get_where('masa_layar a', array('pemohon_id' => $pemohon_id));
-        */
+         */
 
         $this->db->select("a.id,
                            LPAD(a.id,6,'0') AS kode,
@@ -1089,7 +1106,7 @@ class Restapi extends CI_Controller
         $this->db->join('kapal b', 'a.kapal_id = b.id', 'left');
         $this->db->join('pemohon c', 'b.pemohon_id = c.id', 'left');
         $this->db->join('kode_status d', 'a.status = d.kode_angka', 'left');
-        $this->db->order_by('a.id','DESC');
+        $this->db->order_by('a.id', 'DESC');
 
         $qry = $this->db->get_where('sertifikat_keselamatan a', array('c.id' => $pemohon_id));
 
@@ -1150,13 +1167,33 @@ class Restapi extends CI_Controller
 
         $pemohon_id = $this->input->get('pemohon_id');
 
+        /*
+
         $this->db->select("a.id,
                            LPAD(a.id,6,'0') AS kode,
                            DATE_FORMAT(a.tgl_mohon, '%d/%m/%Y') AS tgl_mohon,
                            DATE_FORMAT(a.tgl_update,'%d/%m/%Y') AS tgl_update,
+                           a.biaya,
                            a.status,
+                           a.alasan_status,
+                           b.arti AS arti_status,
                            a.rating_kepuasan,
                            a.komentar");
+        $this->db->join('kode_status b', 'a.status = b.kode_angka', 'left');
+        $qry = $this->db->get_where('masa_layar a', array('pemohon_id' => $pemohon_id));
+        */
+
+        $this->db->select("a.id,
+                           LPAD(a.id,6,'0') AS kode,
+                           DATE_FORMAT(a.tgl_mohon, '%d/%m/%Y') AS tgl_mohon,
+                           DATE_FORMAT(a.tgl_update,'%d/%m/%Y') AS tgl_update,
+                           a.biaya,
+                           a.status,
+                           a.alasan_status,
+                           b.arti AS arti_status,
+                           a.rating_kepuasan,
+                           a.komentar");
+        $this->db->join('kode_status b', 'a.status = b.kode_angka', 'left');
         $qry = $this->db->get_where('bongkar_muat a', array('pemohon_id' => $pemohon_id));
 
         echo json_encode(
@@ -1206,6 +1243,50 @@ class Restapi extends CI_Controller
 
         echo json_encode($response);
 
+    }
+
+    /*
+    @Field("pemohon_id") int pemohon_id,
+    @Field("kode_biaya") String kode_biaya,
+    @Field("jenis_muatan") String jenis_muatan,
+    @Field("bobot") int bobot,
+    @Field("nama_kapal") String nama_kapal,
+    @Field("angkutan_nopol") String angkutan_nopol,
+    @Field("angkutan_supir") String angkutan_supir
+     */
+    public function insert_bongkarmuat()
+    {
+        header("content-type: application/json");
+        $pemohon_id     = $this->input->post('pemohon_id');
+        $kode_biaya     = $this->input->post('kode_biaya');
+        $jenis_muatan   = $this->input->post('jenis_muatan');
+        $bobot          = $this->input->post('bobot');
+        $nama_kapal     = $this->input->post('nama_kapal');
+        $angkutan_nopol = $this->input->post('angkutan_nopol');
+        $angkutan_supir = $this->input->post('angkutan_supir');
+
+        $this->db->insert('bongkar_muat',
+            array(
+                'pemohon_id'     => $pemohon_id,
+                'kode_biaya'     => $kode_biaya,
+                'jenis_muatan'   => $jenis_muatan,
+                'bobot'          => $bobot,
+                'nama_kapal'     => $nama_kapal,
+                'angkutan_nopol' => $angkutan_nopol,
+                'angkutan_supir' => $angkutan_supir,
+
+            )
+        );
+
+        echo json_encode(
+            array(
+                'status'    => "Permohonan baru berhasil dibuat",
+                'error_msg' => $this->db->error()['code'],
+                'error'     => false,
+                'last_id'   => $this->db->insert_id(),
+
+            )
+        );
     }
 
     public function insert_masalayar()

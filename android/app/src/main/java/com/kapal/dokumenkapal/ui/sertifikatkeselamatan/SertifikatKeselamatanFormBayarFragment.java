@@ -18,6 +18,8 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.kapal.dokumenkapal.MainActivity;
 import com.kapal.dokumenkapal.R;
 import com.kapal.dokumenkapal.util.FileUtils;
 import com.kapal.dokumenkapal.util.SharedPrefManager;
@@ -75,6 +77,11 @@ public class SertifikatKeselamatanFormBayarFragment extends Fragment {
         mBaseApiService = UtilsApi.getAPIService();
         sharedPrefManager = new SharedPrefManager(mContext);
         ButterKnife.bind(this, root);
+
+        FloatingActionButton floatingActionButton = ((MainActivity) Objects.requireNonNull(getActivity())).getFloatingActionButton();
+        if (floatingActionButton != null) {
+            floatingActionButton.hide();
+        }
 
         Locale localeID = new Locale("in", "ID");
         NumberFormat formatRupiah = NumberFormat.getCurrencyInstance(localeID);

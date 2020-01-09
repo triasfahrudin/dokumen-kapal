@@ -19,12 +19,14 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.kapal.dokumenkapal.MainActivity;
 import com.kapal.dokumenkapal.R;
 
 import com.kapal.dokumenkapal.ui.menupermohonan.MenuPermohonanFragment;
+import com.kapal.dokumenkapal.ui.sertifikatkeselamatan.SertifikatKeselamatanFormBayarFragment;
 import com.kapal.dokumenkapal.util.FileUtils;
 import com.kapal.dokumenkapal.util.SharedPrefManager;
 import com.kapal.dokumenkapal.util.api.BaseApiService;
@@ -54,6 +56,7 @@ public class BongkarMuatFragment extends Fragment {
 
     private BongkarMuatAdapter bongkarMuatAdapter;
     private RecyclerView recyclerView;
+    private SwipeRefreshLayout swipe;
 
     private Context mContext;
     private BaseApiService mBaseApiService;
@@ -72,39 +75,51 @@ public class BongkarMuatFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_listview_bongkarmuat, container, false);
+        swipe = root.findViewById(R.id.bongkarmuat_swipeContainer);
 
-        Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) Objects.requireNonNull(getActivity()).findViewById(R.id.toolbar);
         toolbar.setTitle("Data Permohonan Bongkar Muat");
         FloatingActionButton floatingActionButton = ((MainActivity) Objects.requireNonNull(getActivity())).getFloatingActionButton();
         if (floatingActionButton != null) {
             floatingActionButton.show();
 
-            floatingActionButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
+            floatingActionButton.setOnClickListener(view -> {
 
-                    Bundle bundle = new Bundle();
-                    bundle.putInt("id", 0);
-                    bundle.putString("kode", "");
-                    bundle.putString("tgl_mohon", "");
-                    bundle.putString("status", "");
+                Bundle bundle = new Bundle();
+                bundle.putInt("id", 0);
+                bundle.putString("kode", "");
+                bundle.putString("tgl_mohon", "");
+                bundle.putString("status", "");
 
-                    BongkarMuatFormFragment fragment = new BongkarMuatFormFragment();
-                    fragment.setArguments(bundle);
-                    AppCompatActivity activity = (AppCompatActivity) view.getContext();
+                BongkarMuatFormFragment fragment = new BongkarMuatFormFragment();
+                fragment.setArguments(bundle);
+                AppCompatActivity activity = (AppCompatActivity) view.getContext();
 
-                    activity.getSupportFragmentManager()
-                            .beginTransaction()
-                            .replace(R.id.nav_host_fragment, fragment, BongkarMuatFormFragment.class.getSimpleName())
-                            .addToBackStack(null)
-                            .commit();
-                }
+                activity.getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.nav_host_fragment, fragment, BongkarMuatFormFragment.class.getSimpleName())
+                        .addToBackStack(null)
+                        .commit();
             });
         }
 
         mBaseApiService = UtilsApi.getAPIService();
         sharedPrefManager = new SharedPrefManager(mContext);
 
+        swipe.setOnRefreshListener(() -> {
+            swipe.setRefreshing(false);
+            //swipe.setEnabled(false);
+            loadData();
+        });
+
+        loadData();
+
+
+
+        return root;
+    }
+
+    private void loadData() {
         loading = ProgressDialog.show(mContext, null, "Mengambil data ...", true, false);
 
         mBaseApiService.getBongkarMuat(sharedPrefManager.getSPID())
@@ -121,82 +136,95 @@ public class BongkarMuatFragment extends Fragment {
 
                     @Override
                     public void onFailure(Call<BongkarMuatModelList> call, Throwable t) {
-                        Toasty.error(mContext, "Ada kesalahan!", Toast.LENGTH_LONG, true).show();
-                    }
-                });
-
-        return root;
-    }
-
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-        if (resultCode == RESULT_OK) {
-            Uri uri = data.getData();
-            uploadFile("bongkar_muat",requestCode, FileUtils.getPath(mContext,uri));
-        }
-        super.onActivityResult(requestCode, resultCode, data);
-
-    }
-
-    private void uploadFile(String jenis, int recyclerID, String path) {
-        String fileName = String.valueOf(Calendar.getInstance().getTimeInMillis());
-
-        File file = new File(path);
-        RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), file);
-        MultipartBody.Part fileToUpload = MultipartBody.Part.createFormData("filename", file.getName(), requestBody);
-        RequestBody filename = RequestBody.create(MediaType.parse("text/plain"), fileName);
-
-        loading = ProgressDialog.show(mContext, null, "Proses upload file, Mohon tunggu ...", true, false);
-
-        mBaseApiService.uploadFile(jenis, recyclerID, sharedPrefManager.getSPID(), fileToUpload, filename)
-                .enqueue(new Callback<ResponseBody>() {
-                    @Override
-                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                        if (response.isSuccessful()) {
-                            loading.dismiss();
-                            try {
-                                JSONObject jsonObject = new JSONObject(response.body().string());
-                                if (jsonObject.getString("error").equals("false")) {
-                                    Toast.makeText(mContext, "Upload file berhasil", Toast.LENGTH_SHORT).show();
-                                } else {
-                                    String error_message = jsonObject.getString("error_msg");
-                                    Toast.makeText(mContext, error_message, Toast.LENGTH_SHORT).show();
-                                }
-
-
-                            } catch (JSONException | IOException e) {
-                                e.printStackTrace();
-                            }
-
-                        } else {
-                            loading.dismiss();
-
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        Toasty.error(mContext, "Ada kesalahan!\n" + t.toString(), Toast.LENGTH_LONG, true).show();
                         loading.dismiss();
-                        Log.e("", "Response returned by website is : " + t.getMessage());
                     }
                 });
     }
+
+
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//
+//        if (resultCode == RESULT_OK) {
+//            Uri uri = data.getData();
+//            uploadFile("bongkar_muat",requestCode, FileUtils.getPath(mContext,uri));
+//        }
+//        super.onActivityResult(requestCode, resultCode, data);
+//
+//    }
+
+//    private void uploadFile(String jenis, int recyclerID, String path) {
+//        String fileName = String.valueOf(Calendar.getInstance().getTimeInMillis());
+//
+//        File file = new File(path);
+//        RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), file);
+//        MultipartBody.Part fileToUpload = MultipartBody.Part.createFormData("filename", file.getName(), requestBody);
+//        RequestBody filename = RequestBody.create(MediaType.parse("text/plain"), fileName);
+//
+//        loading = ProgressDialog.show(mContext, null, "Proses upload file, Mohon tunggu ...", true, false);
+//
+//        mBaseApiService.uploadFile(jenis, recyclerID, sharedPrefManager.getSPID(), fileToUpload, filename)
+//                .enqueue(new Callback<ResponseBody>() {
+//                    @Override
+//                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+//                        if (response.isSuccessful()) {
+//                            loading.dismiss();
+//                            try {
+//                                JSONObject jsonObject = new JSONObject(response.body().string());
+//                                if (jsonObject.getString("error").equals("false")) {
+//                                    Toast.makeText(mContext, "Upload file berhasil", Toast.LENGTH_SHORT).show();
+//                                } else {
+//                                    String error_message = jsonObject.getString("error_msg");
+//                                    Toast.makeText(mContext, error_message, Toast.LENGTH_SHORT).show();
+//                                }
+//
+//
+//                            } catch (JSONException | IOException e) {
+//                                e.printStackTrace();
+//                            }
+//
+//                        } else {
+//                            loading.dismiss();
+//
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+//                        loading.dismiss();
+//                        Log.e("", "Response returned by website is : " + t.getMessage());
+//                    }
+//                });
+//    }
 
     private void generateBongkarMuatList(ArrayList<BongkarMuatModelRecycler> bongkarMuatArrayList) {
 
-        recyclerView = (RecyclerView) getView().findViewById(R.id.recycler_view_bongkarmuat_list);
+        recyclerView = (RecyclerView) Objects.requireNonNull(getView()).findViewById(R.id.recycler_view_bongkarmuat_list);
         bongkarMuatAdapter = new BongkarMuatAdapter(bongkarMuatArrayList);
 
         bongkarMuatAdapter.onBindCallBack = (jenis, viewHolder, position) -> {
 
             if("upload_file".equals(jenis)){
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
+//                Intent intent = new Intent();
+//                intent.setType("image/*");
+//                intent.setAction(Intent.ACTION_GET_CONTENT);
+//
+//                startActivityForResult(Intent.createChooser(intent, "Pilih Image"), viewHolder.rowId);
 
-                startActivityForResult(Intent.createChooser(intent, "Pilih Image"), viewHolder.rowId);
+                Bundle bundle = new Bundle();
+                bundle.putInt("recyclerId", viewHolder.rowId);
+                bundle.putDouble("biaya", viewHolder.biaya);
+
+                BongkarMuatFormBayarFragment fragment = new BongkarMuatFormBayarFragment();
+                fragment.setArguments(bundle);
+                AppCompatActivity activity = (AppCompatActivity) getView().getContext();
+
+                activity.getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.nav_host_fragment, fragment, BongkarMuatFormBayarFragment.class.getSimpleName())
+                        .addToBackStack(null)
+                        .commit();
             }else if("give_rating".equals(jenis)){
 
                 Bundle bundle = new Bundle();
@@ -244,7 +272,7 @@ public class BongkarMuatFragment extends Fragment {
             if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK) {
 
                 MenuPermohonanFragment mf = new MenuPermohonanFragment();
-                FragmentTransaction ft = getActivity().getSupportFragmentManager()
+                FragmentTransaction ft = Objects.requireNonNull(getActivity()).getSupportFragmentManager()
                         .beginTransaction()
                         .add(R.id.nav_host_fragment, mf, MenuPermohonanFragment.class.getSimpleName())
                         .addToBackStack(null);

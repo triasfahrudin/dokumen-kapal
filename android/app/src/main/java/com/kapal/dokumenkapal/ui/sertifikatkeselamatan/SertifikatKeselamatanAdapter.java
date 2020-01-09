@@ -43,14 +43,14 @@ public class SertifikatKeselamatanAdapter extends RecyclerView.Adapter<Sertifika
     @Override
     public void onBindViewHolder(@NonNull SertifikatKeselamatanViewHolder holder, int position) {
         if ("400".equals(dataList.get(position).getStatus())) {
-            holder.tvKode.setText(String.format("Kode: PBM-%s [SELESAI]", dataList.get(position).getKode()));
+            holder.tvKode.setText(String.format("Kode: PS-%s [SELESAI]", dataList.get(position).getKode()));
             holder.tvKode.setTextColor(Color.GRAY);
             holder.tvKode.setPaintFlags(holder.tvKode.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         } else if (Arrays.asList("299", "399").contains(dataList.get(position).getStatus())) {
-            holder.tvKode.setText(String.format("Kode: PBM-%s [REVISI]", dataList.get(position).getKode()));
+            holder.tvKode.setText(String.format("Kode: PS-%s [REVISI]", dataList.get(position).getKode()));
             holder.tvKode.setTextColor(Color.RED);
         } else {
-            holder.tvKode.setText(String.format("Kode: PBM-%s [PROSES]", dataList.get(position).getKode()));
+            holder.tvKode.setText(String.format("Kode: PS-%s [PROSES]", dataList.get(position).getKode()));
             holder.tvKode.setTextColor(Color.BLUE);
         }
 

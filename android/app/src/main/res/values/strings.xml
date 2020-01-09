@@ -41,7 +41,7 @@
     </string>
     <string name="syarat_sertifikat_keselamatan">
         Syarat Pembuatan Sertifikat Keselamatan\n
-        1.Isi dan upload data kapal\n
+        1.Isi dan upload data kapal\n\n
         Alur Pembuatan Sertifikat Keselamatan\n
         1.Pastikan anda mengisi syarat pembuatan Sertifikat Keselamatan\n
         2.Klik Tombol kirim permohonan dibawah ini\n
@@ -50,8 +50,15 @@
 
         ** Anda dapat mengisi data diatas pada menu Profil dan Data
     </string>
+
+    <string name="syarat_bongkarmuat">...... ........... .......... .........</string>
+
     <string name="mengambil_data">Mengambil data …</string>
     <string name="template_form_bayar">{TEMPLATE TEXT FORM BAYAR}</string>
-    <string name="text_kirim_bukti_bayar">KIRIM BUKTI PEMBAYARAN</string>
+    <string name="text_kirim_bukti_bayar">CARI BUKTI PEMBAYARAN</string>
     <string name="kirim_permohonan">KIRIM PERMOHONAN</string>
+    <string name="text_pilih_file_pdf">Pilih file PDF</string>
+    <string name="pilih_jenis_muatan">Pilih Jenis Muatan</string>
+    <string name="berat_total_muatan_dalam_ton">Berat total muatan (dalam Ton)</string>
+
 </resources>

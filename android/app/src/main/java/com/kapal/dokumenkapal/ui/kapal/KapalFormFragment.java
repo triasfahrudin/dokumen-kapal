@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -140,72 +141,68 @@ public class KapalFormFragment extends Fragment {
         FloatingActionButton floatingActionButton = ((MainActivity) Objects.requireNonNull(getActivity())).getFloatingActionButton();
         if (floatingActionButton != null) {
             floatingActionButton.hide();
-            floatingActionButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    //Toasty.error(mContext, "Ada kesalahan!", Toast.LENGTH_LONG, true).show();
-                }
-            });
         }
 
         return root;
     }
 
+    private void openDialog(int request_code) {
+        String[] mimeTypes = {"application/pdf"};
+
+        Intent intent;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            intent = new Intent(Intent.ACTION_GET_CONTENT);
+            intent.addCategory(Intent.CATEGORY_OPENABLE);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+
+            intent.setType(mimeTypes.length == 1 ? mimeTypes[0] : "*/*");
+            if (mimeTypes.length > 0) {
+                intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes);
+            }
+        } else {
+            intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+            intent.addCategory(Intent.CATEGORY_OPENABLE);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+            String mimeTypesStr = "";
+            for (String mimeType : mimeTypes) {
+                mimeTypesStr += mimeType + "|";
+            }
+            intent.setType(mimeTypesStr.substring(0, mimeTypesStr.length() - 1));
+        }
+        startActivityForResult(Intent.createChooser(intent, getString(R.string.text_pilih_file_pdf)), request_code);
+    }
+
     @OnClick(R.id.kapal_btnUploadSuratUkur)
     public void onKapalBtnUploadSuratUkurClicked() {
-
-        Intent intent = new Intent();
-        intent.setType("application/pdf");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Pilih file PDF"), PILIH_SURAT_UKUR);
-
+        openDialog(PILIH_SURAT_UKUR);
     }
 
     @OnClick(R.id.kapal_btnUploadSuratLaut)
     public void onKapalBtnUploadSuratLautClicked() {
 
-        Intent intent = new Intent();
-        intent.setType("application/pdf");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Pilih file PDF"), PILIH_SURAT_LAUT);
+        openDialog(PILIH_SURAT_LAUT);
     }
 
     @OnClick(R.id.kapal_btnUploadSertifikatKeselamatan)
     public void onKapalBtnUploadSertifikatKeselamatanClicked() {
-        Intent intent = new Intent();
-        intent.setType("application/pdf");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Pilih file PDF"), PILIH_SERTIFIKAT_KESELAMATAN);
+        openDialog(PILIH_SERTIFIKAT_KESELAMATAN);
 
     }
 
     @OnClick(R.id.kapal_btnUploadSertifikatKlasifikasi)
     public void onKapalBtnUploadSertifikatKlasifikasiClicked() {
-
-        Intent intent = new Intent();
-        intent.setType("application/pdf");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Pilih file PDF"), PILIH_SERTIFIKAT_KLASIFIKASI);
-
+        openDialog(PILIH_SERTIFIKAT_KLASIFIKASI);
     }
 
     @OnClick(R.id.kapal_btnUploadSertifikatPmk)
     public void onKapalBtnUploadSertifikatPmkClicked() {
-
-        Intent intent = new Intent();
-        intent.setType("application/pdf");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Pilih file PDF"), PILIH_SERTIFIKAT_PMK);
-
+        openDialog(PILIH_SERTIFIKAT_PMK);
     }
 
     @OnClick(R.id.kapal_btnUploadSertifikatLiferaft)
     public void onKapalBtnUploadSertifikatLiferaftClicked() {
-
-        Intent intent = new Intent();
-        intent.setType("application/pdf");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Pilih file PDF"), PILIH_SERTIFIKAT_LIFERAFT);
+        openDialog(PILIH_SERTIFIKAT_LIFERAFT);
     }
 
     @Override

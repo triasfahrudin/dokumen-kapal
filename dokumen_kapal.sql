@@ -13,12 +13,10 @@
 
 
 -- Dumping database structure for dokumen_kapal
-DROP DATABASE IF EXISTS `dokumen_kapal`;
 CREATE DATABASE IF NOT EXISTS `dokumen_kapal` /*!40100 DEFAULT CHARACTER SET latin1 */;
 USE `dokumen_kapal`;
 
 -- Dumping structure for table dokumen_kapal.berita
-DROP TABLE IF EXISTS `berita`;
 CREATE TABLE IF NOT EXISTS `berita` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `gambar` varchar(50) DEFAULT NULL,
@@ -40,7 +38,6 @@ INSERT INTO `berita` (`id`, `gambar`, `judul`, `slug`, `konten`, `tgl_post`) VAL
 /*!40000 ALTER TABLE `berita` ENABLE KEYS */;
 
 -- Dumping structure for table dokumen_kapal.biaya
-DROP TABLE IF EXISTS `biaya`;
 CREATE TABLE IF NOT EXISTS `biaya` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `kode` varchar(50) DEFAULT NULL,
@@ -58,11 +55,10 @@ INSERT INTO `biaya` (`id`, `kode`, `alias`, `nominal`, `keterangan`) VALUES
 	(2, 'bm_padat', 'Bongkar Muat Muatan Padat', 25000, 'per ton'),
 	(3, 'bm_gas', 'Bongkar Muat Muatan Gas', 35000, 'per ton'),
 	(4, 'masa_layar', 'Masa Layar', 10000, ''),
-	(5, 'sertifikat_kapal', 'Sertifikat Kapal', 25000, '');
+	(5, 'sertifikat_keselamatan', 'Sertifikat Kapal', 25000, '');
 /*!40000 ALTER TABLE `biaya` ENABLE KEYS */;
 
 -- Dumping structure for table dokumen_kapal.bongkar_muat
-DROP TABLE IF EXISTS `bongkar_muat`;
 CREATE TABLE IF NOT EXISTS `bongkar_muat` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `pemohon_id` int(11) DEFAULT NULL,
@@ -85,7 +81,7 @@ CREATE TABLE IF NOT EXISTS `bongkar_muat` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
--- Dumping data for table dokumen_kapal.bongkar_muat: ~1 rows (approximately)
+-- Dumping data for table dokumen_kapal.bongkar_muat: ~0 rows (approximately)
 DELETE FROM `bongkar_muat`;
 /*!40000 ALTER TABLE `bongkar_muat` DISABLE KEYS */;
 INSERT INTO `bongkar_muat` (`id`, `pemohon_id`, `kode_biaya`, `jenis_muatan`, `bobot`, `nama_kapal`, `angkutan_nopol`, `angkutan_supir`, `tgl_mohon`, `file_surat_permohonan`, `biaya`, `bukti_bayar`, `tgl_upload_bukti_bayar`, `tgl_update`, `status`, `alasan_status`, `rating_kepuasan`, `komentar`) VALUES
@@ -93,7 +89,6 @@ INSERT INTO `bongkar_muat` (`id`, `pemohon_id`, `kode_biaya`, `jenis_muatan`, `b
 /*!40000 ALTER TABLE `bongkar_muat` ENABLE KEYS */;
 
 -- Dumping structure for table dokumen_kapal.buku_pelaut
-DROP TABLE IF EXISTS `buku_pelaut`;
 CREATE TABLE IF NOT EXISTS `buku_pelaut` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `pemohon_id` varchar(50) DEFAULT '0',
@@ -113,7 +108,6 @@ INSERT INTO `buku_pelaut` (`id`, `pemohon_id`, `nomor_buku`, `kode_pelaut`, `nom
 /*!40000 ALTER TABLE `buku_pelaut` ENABLE KEYS */;
 
 -- Dumping structure for table dokumen_kapal.ci_session
-DROP TABLE IF EXISTS `ci_session`;
 CREATE TABLE IF NOT EXISTS `ci_session` (
   `id` varchar(40) NOT NULL,
   `ip_address` varchar(45) DEFAULT NULL,
@@ -123,7 +117,7 @@ CREATE TABLE IF NOT EXISTS `ci_session` (
   KEY `ci_sessions_timestamp` (`timestamp`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table dokumen_kapal.ci_session: ~25 rows (approximately)
+-- Dumping data for table dokumen_kapal.ci_session: ~23 rows (approximately)
 DELETE FROM `ci_session`;
 /*!40000 ALTER TABLE `ci_session` DISABLE KEYS */;
 INSERT INTO `ci_session` (`id`, `ip_address`, `timestamp`, `data`) VALUES
@@ -155,7 +149,6 @@ INSERT INTO `ci_session` (`id`, `ip_address`, `timestamp`, `data`) VALUES
 /*!40000 ALTER TABLE `ci_session` ENABLE KEYS */;
 
 -- Dumping structure for table dokumen_kapal.kapal
-DROP TABLE IF EXISTS `kapal`;
 CREATE TABLE IF NOT EXISTS `kapal` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `pemohon_id` int(11) DEFAULT NULL,
@@ -184,7 +177,6 @@ INSERT INTO `kapal` (`id`, `pemohon_id`, `nama_kapal`, `jenis_kapal`, `imo_numbe
 /*!40000 ALTER TABLE `kapal` ENABLE KEYS */;
 
 -- Dumping structure for table dokumen_kapal.kode_status
-DROP TABLE IF EXISTS `kode_status`;
 CREATE TABLE IF NOT EXISTS `kode_status` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `kode_angka` varchar(50) DEFAULT NULL,
@@ -206,7 +198,6 @@ INSERT INTO `kode_status` (`id`, `kode_angka`, `arti`) VALUES
 /*!40000 ALTER TABLE `kode_status` ENABLE KEYS */;
 
 -- Dumping structure for table dokumen_kapal.masa_layar
-DROP TABLE IF EXISTS `masa_layar`;
 CREATE TABLE IF NOT EXISTS `masa_layar` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `pemohon_id` int(11) DEFAULT NULL,
@@ -222,7 +213,7 @@ CREATE TABLE IF NOT EXISTS `masa_layar` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
--- Dumping data for table dokumen_kapal.masa_layar: ~1 rows (approximately)
+-- Dumping data for table dokumen_kapal.masa_layar: ~0 rows (approximately)
 DELETE FROM `masa_layar`;
 /*!40000 ALTER TABLE `masa_layar` DISABLE KEYS */;
 INSERT INTO `masa_layar` (`id`, `pemohon_id`, `biaya`, `tgl_upload_bukti_bayar`, `bukti_bayar`, `tgl_mohon`, `tgl_update`, `status`, `alasan_status`, `rating_kepuasan`, `komentar`) VALUES
@@ -230,7 +221,6 @@ INSERT INTO `masa_layar` (`id`, `pemohon_id`, `biaya`, `tgl_upload_bukti_bayar`,
 /*!40000 ALTER TABLE `masa_layar` ENABLE KEYS */;
 
 -- Dumping structure for table dokumen_kapal.notifikasi
-DROP TABLE IF EXISTS `notifikasi`;
 CREATE TABLE IF NOT EXISTS `notifikasi` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `jenis_notifikasi` enum('success','error') DEFAULT NULL,
@@ -240,17 +230,14 @@ CREATE TABLE IF NOT EXISTS `notifikasi` (
   `isi_notifikasi` varchar(150) DEFAULT NULL,
   `tgl` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table dokumen_kapal.notifikasi: ~1 rows (approximately)
+-- Dumping data for table dokumen_kapal.notifikasi: ~0 rows (approximately)
 DELETE FROM `notifikasi`;
 /*!40000 ALTER TABLE `notifikasi` DISABLE KEYS */;
-INSERT INTO `notifikasi` (`id`, `jenis_notifikasi`, `pemohon_id`, `jenis_permohonan`, `permohonan_id`, `isi_notifikasi`, `tgl`) VALUES
-	(1, 'success', 1, 'sertifikat_keselamatan', 1, 'Permohonan anda telah kami terima dengan kode PS-000001 Mohon selesaikan pembayaran agar permohonan anda segera diproses', '2020-01-08 11:59:31');
 /*!40000 ALTER TABLE `notifikasi` ENABLE KEYS */;
 
 -- Dumping structure for table dokumen_kapal.pemohon
-DROP TABLE IF EXISTS `pemohon`;
 CREATE TABLE IF NOT EXISTS `pemohon` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `jenis` enum('perorangan','perusahaan') DEFAULT NULL,
@@ -266,7 +253,7 @@ CREATE TABLE IF NOT EXISTS `pemohon` (
   UNIQUE KEY `email` (`email`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 COMMENT='pemohon bisa perorangan atau perusahaan\r\nfoto = foto diri atau logo';
 
--- Dumping data for table dokumen_kapal.pemohon: ~1 rows (approximately)
+-- Dumping data for table dokumen_kapal.pemohon: ~0 rows (approximately)
 DELETE FROM `pemohon`;
 /*!40000 ALTER TABLE `pemohon` DISABLE KEYS */;
 INSERT INTO `pemohon` (`id`, `jenis`, `nama`, `email`, `password`, `foto`, `npwp`, `alamat`, `no_telp`, `token_id`) VALUES
@@ -274,7 +261,6 @@ INSERT INTO `pemohon` (`id`, `jenis`, `nama`, `email`, `password`, `foto`, `npwp
 /*!40000 ALTER TABLE `pemohon` ENABLE KEYS */;
 
 -- Dumping structure for table dokumen_kapal.riwayat_pelayaran
-DROP TABLE IF EXISTS `riwayat_pelayaran`;
 CREATE TABLE IF NOT EXISTS `riwayat_pelayaran` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `pemohon_id` int(11) DEFAULT NULL,
@@ -294,7 +280,6 @@ INSERT INTO `riwayat_pelayaran` (`id`, `pemohon_id`, `nama_kapal`, `tenaga_mesin
 /*!40000 ALTER TABLE `riwayat_pelayaran` ENABLE KEYS */;
 
 -- Dumping structure for table dokumen_kapal.riwayat_permohonan
-DROP TABLE IF EXISTS `riwayat_permohonan`;
 CREATE TABLE IF NOT EXISTS `riwayat_permohonan` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `jenis` enum('masa_layar','sertifikat_keselamatan','bongkar_muat') DEFAULT NULL,
@@ -303,18 +288,14 @@ CREATE TABLE IF NOT EXISTS `riwayat_permohonan` (
   `keterangan` varchar(50) DEFAULT NULL,
   `tgl` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table dokumen_kapal.riwayat_permohonan: ~2 rows (approximately)
+-- Dumping data for table dokumen_kapal.riwayat_permohonan: ~0 rows (approximately)
 DELETE FROM `riwayat_permohonan`;
 /*!40000 ALTER TABLE `riwayat_permohonan` DISABLE KEYS */;
-INSERT INTO `riwayat_permohonan` (`id`, `jenis`, `permohonan_id`, `status`, `keterangan`, `tgl`) VALUES
-	(1, 'sertifikat_keselamatan', 2, '100', NULL, '2020-01-08 11:43:19'),
-	(2, 'sertifikat_keselamatan', 1, '100', NULL, '2020-01-08 11:59:31');
 /*!40000 ALTER TABLE `riwayat_permohonan` ENABLE KEYS */;
 
 -- Dumping structure for table dokumen_kapal.sertifikat_keselamatan
-DROP TABLE IF EXISTS `sertifikat_keselamatan`;
 CREATE TABLE IF NOT EXISTS `sertifikat_keselamatan` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `kapal_id` int(11) DEFAULT NULL,
@@ -328,17 +309,14 @@ CREATE TABLE IF NOT EXISTS `sertifikat_keselamatan` (
   `rating_kepuasan` tinyint(4) DEFAULT NULL,
   `komentar` text,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table dokumen_kapal.sertifikat_keselamatan: ~1 rows (approximately)
+-- Dumping data for table dokumen_kapal.sertifikat_keselamatan: ~0 rows (approximately)
 DELETE FROM `sertifikat_keselamatan`;
 /*!40000 ALTER TABLE `sertifikat_keselamatan` DISABLE KEYS */;
-INSERT INTO `sertifikat_keselamatan` (`id`, `kapal_id`, `biaya`, `bukti_bayar`, `tgl_upload_bukti_bayar`, `tgl_mohon`, `tgl_update`, `status`, `alasan_status`, `rating_kepuasan`, `komentar`) VALUES
-	(1, 1, NULL, NULL, NULL, '2020-01-08 11:59:31', '2020-01-08 11:59:31', '100', NULL, NULL, NULL);
 /*!40000 ALTER TABLE `sertifikat_keselamatan` ENABLE KEYS */;
 
 -- Dumping structure for table dokumen_kapal.sertifikat_pelaut
-DROP TABLE IF EXISTS `sertifikat_pelaut`;
 CREATE TABLE IF NOT EXISTS `sertifikat_pelaut` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `pemohon_id` int(11) DEFAULT NULL,
@@ -358,7 +336,6 @@ INSERT INTO `sertifikat_pelaut` (`id`, `pemohon_id`, `nama_sertifikat`, `nomor`,
 /*!40000 ALTER TABLE `sertifikat_pelaut` ENABLE KEYS */;
 
 -- Dumping structure for table dokumen_kapal.settings
-DROP TABLE IF EXISTS `settings`;
 CREATE TABLE IF NOT EXISTS `settings` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(100) DEFAULT NULL,
@@ -368,7 +345,7 @@ CREATE TABLE IF NOT EXISTS `settings` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
--- Dumping data for table dokumen_kapal.settings: ~3 rows (approximately)
+-- Dumping data for table dokumen_kapal.settings: ~2 rows (approximately)
 DELETE FROM `settings`;
 /*!40000 ALTER TABLE `settings` DISABLE KEYS */;
 INSERT INTO `settings` (`id`, `title`, `keterangan`, `tipe`, `value`) VALUES
@@ -378,7 +355,6 @@ INSERT INTO `settings` (`id`, `title`, `keterangan`, `tipe`, `value`) VALUES
 /*!40000 ALTER TABLE `settings` ENABLE KEYS */;
 
 -- Dumping structure for function dokumen_kapal.slugify
-DROP FUNCTION IF EXISTS `slugify`;
 DELIMITER //
 CREATE DEFINER=`root`@`localhost` FUNCTION `slugify`(
 	`dirty_string` varchar(200)
@@ -439,7 +415,6 @@ END//
 DELIMITER ;
 
 -- Dumping structure for table dokumen_kapal.user
-DROP TABLE IF EXISTS `user`;
 CREATE TABLE IF NOT EXISTS `user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `email` varchar(50) DEFAULT NULL,
@@ -461,7 +436,6 @@ INSERT INTO `user` (`id`, `email`, `password`, `nama_lengkap`, `level`, `reset_t
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 
 -- Dumping structure for table dokumen_kapal.web_content
-DROP TABLE IF EXISTS `web_content`;
 CREATE TABLE IF NOT EXISTS `web_content` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `judul` varchar(50) DEFAULT NULL,
@@ -475,7 +449,6 @@ DELETE FROM `web_content`;
 /*!40000 ALTER TABLE `web_content` ENABLE KEYS */;
 
 -- Dumping structure for trigger dokumen_kapal.berita_before_insert
-DROP TRIGGER IF EXISTS `berita_before_insert`;
 SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_ENGINE_SUBSTITUTION';
 DELIMITER //
 CREATE TRIGGER `berita_before_insert` BEFORE INSERT ON `berita` FOR EACH ROW BEGIN
@@ -485,7 +458,6 @@ DELIMITER ;
 SET SQL_MODE=@OLDTMP_SQL_MODE;
 
 -- Dumping structure for trigger dokumen_kapal.berita_before_update
-DROP TRIGGER IF EXISTS `berita_before_update`;
 SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_ENGINE_SUBSTITUTION';
 DELIMITER //
 CREATE TRIGGER `berita_before_update` BEFORE UPDATE ON `berita` FOR EACH ROW BEGIN
@@ -495,7 +467,6 @@ DELIMITER ;
 SET SQL_MODE=@OLDTMP_SQL_MODE;
 
 -- Dumping structure for trigger dokumen_kapal.bongkar_muat_after_insert
-DROP TRIGGER IF EXISTS `bongkar_muat_after_insert`;
 SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_ENGINE_SUBSTITUTION';
 DELIMITER //
 CREATE TRIGGER `bongkar_muat_after_insert` AFTER INSERT ON `bongkar_muat` FOR EACH ROW BEGIN
@@ -509,7 +480,6 @@ DELIMITER ;
 SET SQL_MODE=@OLDTMP_SQL_MODE;
 
 -- Dumping structure for trigger dokumen_kapal.bongkar_muat_after_update
-DROP TRIGGER IF EXISTS `bongkar_muat_after_update`;
 SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_ENGINE_SUBSTITUTION';
 DELIMITER //
 CREATE TRIGGER `bongkar_muat_after_update` AFTER UPDATE ON `bongkar_muat` FOR EACH ROW BEGIN
@@ -540,7 +510,6 @@ DELIMITER ;
 SET SQL_MODE=@OLDTMP_SQL_MODE;
 
 -- Dumping structure for trigger dokumen_kapal.bongkar_muat_before_insert
-DROP TRIGGER IF EXISTS `bongkar_muat_before_insert`;
 SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_ENGINE_SUBSTITUTION';
 DELIMITER //
 CREATE TRIGGER `bongkar_muat_before_insert` BEFORE INSERT ON `bongkar_muat` FOR EACH ROW BEGIN
@@ -550,7 +519,6 @@ DELIMITER ;
 SET SQL_MODE=@OLDTMP_SQL_MODE;
 
 -- Dumping structure for trigger dokumen_kapal.bongkar_muat_before_update
-DROP TRIGGER IF EXISTS `bongkar_muat_before_update`;
 SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_ENGINE_SUBSTITUTION';
 DELIMITER //
 CREATE TRIGGER `bongkar_muat_before_update` BEFORE UPDATE ON `bongkar_muat` FOR EACH ROW BEGIN
@@ -564,7 +532,6 @@ DELIMITER ;
 SET SQL_MODE=@OLDTMP_SQL_MODE;
 
 -- Dumping structure for trigger dokumen_kapal.masa_layar_after_insert
-DROP TRIGGER IF EXISTS `masa_layar_after_insert`;
 SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_ENGINE_SUBSTITUTION';
 DELIMITER //
 CREATE TRIGGER `masa_layar_after_insert` AFTER INSERT ON `masa_layar` FOR EACH ROW BEGIN
@@ -577,7 +544,6 @@ DELIMITER ;
 SET SQL_MODE=@OLDTMP_SQL_MODE;
 
 -- Dumping structure for trigger dokumen_kapal.masa_layar_after_update
-DROP TRIGGER IF EXISTS `masa_layar_after_update`;
 SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_ENGINE_SUBSTITUTION';
 DELIMITER //
 CREATE TRIGGER `masa_layar_after_update` AFTER UPDATE ON `masa_layar` FOR EACH ROW BEGIN
@@ -609,7 +575,6 @@ DELIMITER ;
 SET SQL_MODE=@OLDTMP_SQL_MODE;
 
 -- Dumping structure for trigger dokumen_kapal.masa_layar_before_insert
-DROP TRIGGER IF EXISTS `masa_layar_before_insert`;
 SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_ENGINE_SUBSTITUTION';
 DELIMITER //
 CREATE TRIGGER `masa_layar_before_insert` BEFORE INSERT ON `masa_layar` FOR EACH ROW BEGIN
@@ -619,7 +584,6 @@ DELIMITER ;
 SET SQL_MODE=@OLDTMP_SQL_MODE;
 
 -- Dumping structure for trigger dokumen_kapal.masa_layar_before_update
-DROP TRIGGER IF EXISTS `masa_layar_before_update`;
 SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_ENGINE_SUBSTITUTION';
 DELIMITER //
 CREATE TRIGGER `masa_layar_before_update` BEFORE UPDATE ON `masa_layar` FOR EACH ROW BEGIN
@@ -632,7 +596,6 @@ DELIMITER ;
 SET SQL_MODE=@OLDTMP_SQL_MODE;
 
 -- Dumping structure for trigger dokumen_kapal.sertifikat_keselamatan_after_insert
-DROP TRIGGER IF EXISTS `sertifikat_keselamatan_after_insert`;
 SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_ENGINE_SUBSTITUTION';
 DELIMITER //
 CREATE TRIGGER `sertifikat_keselamatan_after_insert` AFTER INSERT ON `sertifikat_keselamatan` FOR EACH ROW BEGIN
@@ -650,7 +613,6 @@ DELIMITER ;
 SET SQL_MODE=@OLDTMP_SQL_MODE;
 
 -- Dumping structure for trigger dokumen_kapal.sertifikat_keselamatan_after_update
-DROP TRIGGER IF EXISTS `sertifikat_keselamatan_after_update`;
 SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_ENGINE_SUBSTITUTION';
 DELIMITER //
 CREATE TRIGGER `sertifikat_keselamatan_after_update` AFTER UPDATE ON `sertifikat_keselamatan` FOR EACH ROW BEGIN
@@ -687,7 +649,6 @@ DELIMITER ;
 SET SQL_MODE=@OLDTMP_SQL_MODE;
 
 -- Dumping structure for trigger dokumen_kapal.sertifikat_keselamatan_before_insert
-DROP TRIGGER IF EXISTS `sertifikat_keselamatan_before_insert`;
 SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_ENGINE_SUBSTITUTION';
 DELIMITER //
 CREATE TRIGGER `sertifikat_keselamatan_before_insert` BEFORE INSERT ON `sertifikat_keselamatan` FOR EACH ROW BEGIN
@@ -697,7 +658,6 @@ DELIMITER ;
 SET SQL_MODE=@OLDTMP_SQL_MODE;
 
 -- Dumping structure for trigger dokumen_kapal.sertifikat_keselamatan_before_update
-DROP TRIGGER IF EXISTS `sertifikat_keselamatan_before_update`;
 SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_ENGINE_SUBSTITUTION';
 DELIMITER //
 CREATE TRIGGER `sertifikat_keselamatan_before_update` BEFORE UPDATE ON `sertifikat_keselamatan` FOR EACH ROW BEGIN

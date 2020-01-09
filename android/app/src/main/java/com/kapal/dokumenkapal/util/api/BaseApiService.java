@@ -197,4 +197,19 @@ public interface BaseApiService {
     @FormUrlEncoded
     @POST("insert_sertifikat_keselamatan")
     Call<ResponseBody> sertifikatKeselamatanBuatBaruRequest(@Field("kapal_id") int kapal_id);
+
+    @GET("get_jenis_muatan")
+    Call<ResponseBody> getJenisMuatan();
+
+    @FormUrlEncoded
+    @POST("insert_bongkarmuat")
+    Call<ResponseBody> bongkarMuatBuatBaruRequest(
+            @Field("pemohon_id") int pemohon_id,
+            @Field("kode_biaya") String kode_biaya,
+            @Field("jenis_muatan") String jenis_muatan,
+            @Field("bobot") int bobot,
+            @Field("nama_kapal") String nama_kapal,
+            @Field("angkutan_nopol") String angkutan_nopol,
+            @Field("angkutan_supir") String angkutan_supir
+    );
 }

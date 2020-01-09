@@ -1,4 +1,4 @@
-package com.kapal.dokumenkapal.ui.masalayar;
+package com.kapal.dokumenkapal.ui.bongkarmuat;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -21,6 +21,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.kapal.dokumenkapal.MainActivity;
 import com.kapal.dokumenkapal.R;
+import com.kapal.dokumenkapal.ui.sertifikatkeselamatan.SertifikatKeselamatanFragment;
 import com.kapal.dokumenkapal.util.FileUtils;
 import com.kapal.dokumenkapal.util.SharedPrefManager;
 import com.kapal.dokumenkapal.util.api.BaseApiService;
@@ -31,8 +32,6 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.util.Calendar;
 import java.util.Locale;
@@ -49,13 +48,12 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MasaLayarFormBayarFragment extends Fragment {
-
+public class BongkarMuatFormBayarFragment extends Fragment {
     private static final int RESULT_OK = -1;
 
-    @BindView(R.id.masalayar_tvFormBayarMsg)
+    @BindView(R.id.bongkarmuat_tvFormBayarMsg)
     TextView textViewMsg;
-    @BindView(R.id.masalayar_btnUploadBuktiBayar)
+    @BindView(R.id.bongkarmuat_btnUploadBuktiBayar)
     Button btnUploadBuktiBayar;
 
     private Context mContext;
@@ -76,7 +74,7 @@ public class MasaLayarFormBayarFragment extends Fragment {
          * nama, tgl_mohon,nomor_buku,kode_pelaut
          * ==> nama_sertifikat,nomor,penerbit
          * */
-        View root = inflater.inflate(R.layout.fragment_form_bayar_masalayar, container, false);
+        View root = inflater.inflate(R.layout.fragment_form_bayar_bongkarmuat, container, false);
         mBaseApiService = UtilsApi.getAPIService();
         sharedPrefManager = new SharedPrefManager(mContext);
         ButterKnife.bind(this, root);
@@ -91,7 +89,7 @@ public class MasaLayarFormBayarFragment extends Fragment {
         double biaya = Objects.requireNonNull(getArguments()).getDouble("biaya");
 
         textViewMsg.setText(
-                String.format(Locale.US, "Segera lakukan pembayaran ke rekening %s A.n %s sebesar %s", sharedPrefManager.getSpSettingNoRekening(),sharedPrefManager.getSpSettingNamaRekening(), formatRupiah.format((double)biaya) ));
+                String.format(Locale.US, "Segera lakukan pembayaran ke rekening %s A.n %s sebesar %s", sharedPrefManager.getSpSettingNoRekening(), sharedPrefManager.getSpSettingNamaRekening(), formatRupiah.format((double) biaya)));
         return root;
     }
 
@@ -104,10 +102,10 @@ public class MasaLayarFormBayarFragment extends Fragment {
         getView().setOnKeyListener((v, keyCode, event) -> {
 
             if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK) {
-                MasaLayarFragment mf = new MasaLayarFragment();
+                BongkarMuatFragment mf = new BongkarMuatFragment();
                 FragmentTransaction ft = Objects.requireNonNull(getActivity()).getSupportFragmentManager()
                         .beginTransaction()
-                        .add(R.id.nav_host_fragment, mf, MasaLayarFragment.class.getSimpleName())
+                        .add(R.id.nav_host_fragment, mf, BongkarMuatFragment.class.getSimpleName())
                         .addToBackStack(null);
                 ft.commit();
 
@@ -139,7 +137,7 @@ public class MasaLayarFormBayarFragment extends Fragment {
 
         loading = ProgressDialog.show(mContext, null, "Proses upload file, Mohon tunggu ...", true, false);
 
-        mBaseApiService.uploadFile("masa_layar", recyclerID, sharedPrefManager.getSPID(), fileToUpload, filename)
+        mBaseApiService.uploadFile("bongkar_muat", recyclerID, sharedPrefManager.getSPID(), fileToUpload, filename)
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
@@ -150,10 +148,10 @@ public class MasaLayarFormBayarFragment extends Fragment {
                                 if (jsonObject.getString("error").equals("false")) {
                                     Toast.makeText(mContext, "Upload file berhasil", Toast.LENGTH_SHORT).show();
 
-                                    MasaLayarFragment mf = new MasaLayarFragment();
+                                    BongkarMuatFragment mf = new BongkarMuatFragment();
                                     FragmentTransaction ft = Objects.requireNonNull(getActivity()).getSupportFragmentManager()
                                             .beginTransaction()
-                                            .add(R.id.nav_host_fragment, mf, MasaLayarFragment.class.getSimpleName())
+                                            .add(R.id.nav_host_fragment, mf, BongkarMuatFragment.class.getSimpleName())
                                             .addToBackStack(null);
                                     ft.commit();
 
@@ -181,7 +179,7 @@ public class MasaLayarFormBayarFragment extends Fragment {
                 });
     }
 
-    @OnClick(R.id.masalayar_btnUploadBuktiBayar)
+    @OnClick(R.id.bongkarmuat_btnUploadBuktiBayar)
     public void onViewClicked() {
         int recyclerId = Objects.requireNonNull(getArguments()).getInt("recyclerId");
 

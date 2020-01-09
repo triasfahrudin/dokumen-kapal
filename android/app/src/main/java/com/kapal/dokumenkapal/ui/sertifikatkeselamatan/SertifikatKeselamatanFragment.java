@@ -24,6 +24,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.kapal.dokumenkapal.MainActivity;
 import com.kapal.dokumenkapal.R;
+import com.kapal.dokumenkapal.ui.masalayar.MasaLayarFormBayarFragment;
 import com.kapal.dokumenkapal.ui.masalayar.MasaLayarFragment;
 import com.kapal.dokumenkapal.ui.menupermohonan.MenuPermohonanFragment;
 import com.kapal.dokumenkapal.ui.sertifikatpelaut.SertifikatPelautFragment;
@@ -145,72 +146,86 @@ public class SertifikatKeselamatanFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if (resultCode == RESULT_OK) {
-            Uri uri = data.getData();
-            uploadFile("sertifikat_keselamatan", requestCode, FileUtils.getPath(mContext, uri));
-        }
-        super.onActivityResult(requestCode, resultCode, data);
+//        if (resultCode == RESULT_OK) {
+//            Uri uri = data.getData();
+//            uploadFile("sertifikat_keselamatan", requestCode, FileUtils.getPath(mContext, uri));
+//        }
+//        super.onActivityResult(requestCode, resultCode, data);
 
     }
 
-    private void uploadFile(String jenis, int recyclerID, String path) {
-        String fileName = String.valueOf(Calendar.getInstance().getTimeInMillis());
-
-        File file = new File(path);
-        RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), file);
-        MultipartBody.Part fileToUpload = MultipartBody.Part.createFormData("filename", file.getName(), requestBody);
-        RequestBody filename = RequestBody.create(MediaType.parse("text/plain"), fileName);
-
-        loading = ProgressDialog.show(mContext, null, "Proses upload file, Mohon tunggu ...", true, false);
-
-        mBaseApiService.uploadFile(jenis, recyclerID, sharedPrefManager.getSPID(), fileToUpload, filename)
-                .enqueue(new Callback<ResponseBody>() {
-                    @Override
-                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                        if (response.isSuccessful()) {
-                            loading.dismiss();
-                            try {
-                                JSONObject jsonObject = new JSONObject(response.body().string());
-                                if (jsonObject.getString("error").equals("false")) {
-                                    Toast.makeText(mContext, "Upload file berhasil", Toast.LENGTH_SHORT).show();
-                                    loadData();
-                                } else {
-                                    String error_message = jsonObject.getString("error_msg");
-                                    Toast.makeText(mContext, error_message, Toast.LENGTH_SHORT).show();
-                                }
-
-
-                            } catch (JSONException | IOException e) {
-                                e.printStackTrace();
-                            }
-
-                        } else {
-                            loading.dismiss();
-
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<ResponseBody> call, Throwable t) {
-                        Toasty.error(mContext, "Ada kesalahan!\n" + t.toString(), Toast.LENGTH_LONG, true).show();
-                        loading.dismiss();
-                    }
-                });
-    }
+//    private void uploadFile(String jenis, int recyclerID, String path) {
+//        String fileName = String.valueOf(Calendar.getInstance().getTimeInMillis());
+//
+//        File file = new File(path);
+//        RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), file);
+//        MultipartBody.Part fileToUpload = MultipartBody.Part.createFormData("filename", file.getName(), requestBody);
+//        RequestBody filename = RequestBody.create(MediaType.parse("text/plain"), fileName);
+//
+//        loading = ProgressDialog.show(mContext, null, "Proses upload file, Mohon tunggu ...", true, false);
+//
+//        mBaseApiService.uploadFile(jenis, recyclerID, sharedPrefManager.getSPID(), fileToUpload, filename)
+//                .enqueue(new Callback<ResponseBody>() {
+//                    @Override
+//                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+//                        if (response.isSuccessful()) {
+//                            loading.dismiss();
+//                            try {
+//                                JSONObject jsonObject = new JSONObject(response.body().string());
+//                                if (jsonObject.getString("error").equals("false")) {
+//                                    Toast.makeText(mContext, "Upload file berhasil", Toast.LENGTH_SHORT).show();
+//                                    loadData();
+//                                } else {
+//                                    String error_message = jsonObject.getString("error_msg");
+//                                    Toast.makeText(mContext, error_message, Toast.LENGTH_SHORT).show();
+//                                }
+//
+//
+//                            } catch (JSONException | IOException e) {
+//                                e.printStackTrace();
+//                            }
+//
+//                        } else {
+//                            loading.dismiss();
+//
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+//                        Toasty.error(mContext, "Ada kesalahan!\n" + t.toString(), Toast.LENGTH_LONG, true).show();
+//                        loading.dismiss();
+//                    }
+//                });
+//    }
 
     private void generateSertifikatKeselamatanList(ArrayList<SertifikatKeselamatanModelRecycler> sertifikatKeselamatanArrayList) {
 
-        recyclerView = (RecyclerView) getView().findViewById(R.id.recycler_view_sertifikatkeselamatan_list);
+        recyclerView = (RecyclerView) Objects.requireNonNull(getView()).findViewById(R.id.recycler_view_sertifikatkeselamatan_list);
         sertifikatKeselamatanAdapter = new SertifikatKeselamatanAdapter(sertifikatKeselamatanArrayList);
 
         sertifikatKeselamatanAdapter.onBindCallBack = (jenis, viewHolder, position) -> {
 
             if ("upload_file".equals(jenis)) {
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
+//                Intent intent = new Intent();
+//                intent.setType("image/*");
+//                intent.setAction(Intent.ACTION_GET_CONTENT);
+//
+//                startActivityForResult(Intent.createChooser(intent, "Pilih Image"), viewHolder.rowId);
 
-                startActivityForResult(Intent.createChooser(intent, "Pilih Image"), viewHolder.rowId);
+                Bundle bundle = new Bundle();
+                bundle.putInt("recyclerId", viewHolder.rowId);
+                bundle.putDouble("biaya", viewHolder.biaya);
+
+                SertifikatKeselamatanFormBayarFragment fragment = new SertifikatKeselamatanFormBayarFragment();
+                fragment.setArguments(bundle);
+                AppCompatActivity activity = (AppCompatActivity) getView().getContext();
+
+                activity.getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.nav_host_fragment, fragment, SertifikatKeselamatanFormBayarFragment.class.getSimpleName())
+                        .addToBackStack(null)
+                        .commit();
             } else if ("give_rating".equals(jenis)) {
                 Bundle bundle = new Bundle();
                 bundle.putInt("id", viewHolder.rowId);
