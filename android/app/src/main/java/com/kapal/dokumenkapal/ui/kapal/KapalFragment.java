@@ -73,8 +73,16 @@ public class KapalFragment extends Fragment {
                     bundle.putInt("id", 0);
                     bundle.putString("nama_kapal", "");
                     bundle.putString("jenis_kapal", "");
+                    bundle.putString("kode_pengenal","");
+                    bundle.putString("pelabuhan_daftar","");
                     bundle.putString("imo_number", "");
                     bundle.putInt("grt", 0);
+
+                    bundle.putString("tgl_kontrak", "");
+                    bundle.putString("tgl_peletakan_lunas", "");
+                    bundle.putString("tgl_serah_terima", "");
+                    bundle.putString("tgl_perubahan", "");
+
                     bundle.putInt("kapasitas_penumpang", 0);
                     bundle.putInt("kapasitas_roda_dua", 0);
                     bundle.putInt("kapasitas_roda_empat", 0);

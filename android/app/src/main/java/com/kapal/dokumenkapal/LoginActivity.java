@@ -82,7 +82,7 @@ public class LoginActivity extends AppCompatActivity {
         mBaseApiService.loginRequest(etEmail.getText().toString(), etPassword.getText().toString())
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
-                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
                         if (response.isSuccessful()) {
                             loading.dismiss();
                             try {

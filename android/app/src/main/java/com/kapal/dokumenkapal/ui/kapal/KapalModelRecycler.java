@@ -10,10 +10,22 @@ public class KapalModelRecycler {
     private String nama_kapal;
     @SerializedName("jenis_kapal")
     private String jenis_kapal;
+    @SerializedName("kode_pengenal")
+    private String kode_pengenal;
+    @SerializedName("pelabuhan_daftar")
+    private String pelabuhan_daftar;
     @SerializedName("imo_number")
     private String imo_number;
     @SerializedName("grt")
     private int grt;
+    @SerializedName("tgl_kontrak")
+    private String tgl_kontrak;
+    @SerializedName("tgl_peletakan_lunas")
+    private String tgl_peletakan_lunas;
+    @SerializedName("tgl_serah_terima")
+    private String tgl_serah_terima;
+    @SerializedName("tgl_perubahan")
+    private String tgl_perubahan;
     @SerializedName("kapasitas_penumpang")
     private int kapasitas_penumpang;
     @SerializedName("kapasitas_roda_dua")
@@ -21,18 +33,52 @@ public class KapalModelRecycler {
     @SerializedName("kapasitas_roda_empat")
     private int kapasitas_roda_empat;
 
-    public KapalModelRecycler(int id, String nama_kapal,
-                              String jenis_kapal, String imo_number,
-                              int grt, int kapasitas_penumpang, int kapasitas_roda_dua,
-                              int kapasitas_roda_empat) {
-        this.id = id;
-        this.nama_kapal = nama_kapal;
-        this.jenis_kapal = jenis_kapal;
-        this.imo_number = imo_number;
-        this.grt = grt;
-        this.kapasitas_penumpang = kapasitas_penumpang;
-        this.kapasitas_roda_dua = kapasitas_roda_dua;
-        this.kapasitas_roda_empat = kapasitas_roda_empat;
+    public String getTgl_kontrak() {
+        return tgl_kontrak;
+    }
+
+    public void setTgl_kontrak(String tgl_kontrak) {
+        this.tgl_kontrak = tgl_kontrak;
+    }
+
+    public String getTgl_peletakan_lunas() {
+        return tgl_peletakan_lunas;
+    }
+
+    public void setTgl_peletakan_lunas(String tgl_peletakan_lunas) {
+        this.tgl_peletakan_lunas = tgl_peletakan_lunas;
+    }
+
+    public String getTgl_serah_terima() {
+        return tgl_serah_terima;
+    }
+
+    public void setTgl_serah_terima(String tgl_serah_terima) {
+        this.tgl_serah_terima = tgl_serah_terima;
+    }
+
+    public String getTgl_perubahan() {
+        return tgl_perubahan;
+    }
+
+    public void setTgl_perubahan(String tgl_perubahan) {
+        this.tgl_perubahan = tgl_perubahan;
+    }
+
+    public String getPelabuhan_daftar() {
+        return pelabuhan_daftar;
+    }
+
+    public void setPelabuhan_daftar(String pelabuhan_daftar) {
+        this.pelabuhan_daftar = pelabuhan_daftar;
+    }
+
+    public String getKode_pengenal() {
+        return kode_pengenal;
+    }
+
+    public void setKode_pengenal(String kode_pengenal) {
+        this.kode_pengenal = kode_pengenal;
     }
 
     public int getId() {

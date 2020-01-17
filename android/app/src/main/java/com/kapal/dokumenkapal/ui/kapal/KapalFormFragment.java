@@ -23,6 +23,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.kapal.dokumenkapal.MainActivity;
 import com.kapal.dokumenkapal.R;
+import com.kapal.dokumenkapal.util.SetDate;
 import com.kapal.dokumenkapal.util.SharedPrefManager;
 import com.kapal.dokumenkapal.util.api.BaseApiService;
 import com.kapal.dokumenkapal.util.api.UtilsApi;
@@ -100,6 +101,18 @@ public class KapalFormFragment extends Fragment {
     EditText kapalEtUploadSertifikatLiferaft;
     @BindView(R.id.kapal_btnDelete)
     Button kapalBtnDelete;
+    @BindView(R.id.kapal_etKodePengenal)
+    EditText kapalEtKodePengenal;
+    @BindView(R.id.kapal_etPelabuhanDaftar)
+    EditText kapalEtPelabuhanDaftar;
+    @BindView(R.id.kapal_etTglKontrak)
+    EditText kapalEtTglKontrak;
+    @BindView(R.id.kapal_etTglPeletakanLunas)
+    EditText kapalEtTglPeletakanLunas;
+    @BindView(R.id.kapal_etTglSerahTerima)
+    EditText kapalEtTglSerahTerima;
+    @BindView(R.id.kapal_etTglPerubahan)
+    EditText kapalEtTglPerubahan;
     private Context mContext;
     private BaseApiService mBaseApiService;
     private SharedPrefManager sharedPrefManager;
@@ -124,8 +137,21 @@ public class KapalFormFragment extends Fragment {
         recyclerID = getArguments().getInt("id");
         kapalEtNamaKapal.setText(getArguments().getString("nama_kapal"));
         kapalEtJenisKapal.setText(getArguments().getString("jenis_kapal"));
+        kapalEtKodePengenal.setText(getArguments().getString("kode_pengenal"));
+        kapalEtPelabuhanDaftar.setText(getArguments().getString("pelabuhan_daftar"));
         kapalEtIMONumber.setText(getArguments().getString("imo_number"));
         kapalEtGRT.setText(String.valueOf(getArguments().getInt("grt")));
+
+        kapalEtTglKontrak.setText(getArguments().getString("tgl_kontrak"));
+        kapalEtTglPeletakanLunas.setText(getArguments().getString("tgl_peletakan_lunas"));
+        kapalEtTglSerahTerima.setText(getArguments().getString("tgl_serah_terima"));
+        kapalEtTglPerubahan.setText(getArguments().getString("tgl_perubahan"));
+
+        SetDate tglKontrak = new SetDate(kapalEtTglKontrak, mContext);
+        SetDate tglpeletakanLunas = new SetDate(kapalEtTglPeletakanLunas, mContext);
+        SetDate tglSerahTerima = new SetDate(kapalEtTglSerahTerima, mContext);
+        SetDate tglPerubahan = new SetDate(kapalEtTglPerubahan, mContext);
+
         kapalEtKapasitasPenumpang.setText(String.valueOf(getArguments().getInt("kapasitas_penumpang")));
         kapalEtKapasitasRodaDua.setText(String.valueOf(getArguments().getInt("kapasitas_roda_dua")));
         kapalEtKapasitasRodaEmpat.setText(String.valueOf(getArguments().getInt("kapasitas_roda_empat")));
@@ -301,8 +327,14 @@ public class KapalFormFragment extends Fragment {
                 sharedPrefManager.getSPID(),
                 kapalEtNamaKapal.getText().toString(),
                 kapalEtJenisKapal.getText().toString(),
+                kapalEtKodePengenal.getText().toString(),
+                kapalEtPelabuhanDaftar.getText().toString(),
                 kapalEtIMONumber.getText().toString(),
                 Integer.parseInt(kapalEtGRT.getText().toString()),
+                kapalEtTglKontrak.getText().toString(),
+                kapalEtTglPeletakanLunas.getText().toString(),
+                kapalEtTglSerahTerima.getText().toString(),
+                kapalEtTglPerubahan.getText().toString(),
                 Integer.parseInt(kapalEtKapasitasPenumpang.getText().toString()),
                 Integer.parseInt(kapalEtKapasitasRodaDua.getText().toString()),
                 Integer.parseInt(kapalEtKapasitasRodaEmpat.getText().toString())

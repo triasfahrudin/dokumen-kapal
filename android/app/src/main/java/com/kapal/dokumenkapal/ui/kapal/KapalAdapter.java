@@ -43,8 +43,18 @@ public class KapalAdapter extends RecyclerView.Adapter<KapalAdapter.KapalViewHol
                 bundle.putInt("id", dataList.get(position).getId());
                 bundle.putString("nama_kapal", dataList.get(position).getNama_kapal());
                 bundle.putString("jenis_kapal", dataList.get(position).getJenis_kapal());
+
+                bundle.putString("kode_pengenal", dataList.get(position).getKode_pengenal());
+                bundle.putString("pelabuhan_daftar", dataList.get(position).getPelabuhan_daftar());
+
                 bundle.putString("imo_number", dataList.get(position).getImo_number());
                 bundle.putInt("grt", dataList.get(position).getGrt());
+
+                bundle.putString("tgl_kontrak", dataList.get(position).getTgl_kontrak());
+                bundle.putString("tgl_peletakan_lunas", dataList.get(position).getTgl_peletakan_lunas());
+                bundle.putString("tgl_serah_terima", dataList.get(position).getTgl_serah_terima());
+                bundle.putString("tgl_perubahan", dataList.get(position).getTgl_perubahan());
+
                 bundle.putInt("kapasitas_penumpang", dataList.get(position).getKapasitas_penumpang());
                 bundle.putInt("kapasitas_roda_dua", dataList.get(position).getKapasitas_roda_dua());
                 bundle.putInt("kapasitas_roda_empat", dataList.get(position).getKapasitas_roda_empat());

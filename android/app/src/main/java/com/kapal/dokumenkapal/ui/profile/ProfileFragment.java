@@ -14,15 +14,18 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.textfield.TextInputLayout;
 import com.kapal.dokumenkapal.MainActivity;
 import com.kapal.dokumenkapal.R;
 import com.kapal.dokumenkapal.ui.menuprofiledata.MenuProfileDataFragment;
+import com.kapal.dokumenkapal.util.SetDate;
 import com.kapal.dokumenkapal.util.SharedPrefManager;
 import com.kapal.dokumenkapal.util.api.BaseApiService;
 import com.kapal.dokumenkapal.util.api.UtilsApi;
@@ -62,6 +65,21 @@ public class ProfileFragment extends Fragment {
 
     ProgressDialog loading;
 
+    @BindView(R.id.profile_etNamaLengkapWrapper)
+    TextInputLayout profileEtNamaLengkapWrapper;
+
+    @BindView(R.id.profile_etTempatlahir)
+    EditText etTempatlahir;
+
+    @BindView(R.id.profile_etTempatlahirWrapper)
+    TextInputLayout profileEtTempatlahirWrapper;
+
+    @BindView(R.id.profile_etTanggallahir)
+    EditText etTanggallahir;
+
+    @BindView(R.id.profile_etTanggalLahirWrapper)
+    TextInputLayout profileEtTanggalLahirWrapper;
+
     private Context mContext;
     private BaseApiService mBaseApiService;
     private SharedPrefManager sharedPrefManager;
@@ -80,7 +98,7 @@ public class ProfileFragment extends Fragment {
                 ViewModelProviders.of(this).get(ProfileViewModel.class);
         View root = inflater.inflate(R.layout.fragment_form_profile, container, false);
 
-        androidx.appcompat.widget.Toolbar toolbar = Objects.requireNonNull(getActivity()).findViewById(R.id.toolbar);
+        Toolbar toolbar = Objects.requireNonNull(getActivity()).findViewById(R.id.toolbar);
         toolbar.setTitle("Profile ");
 
         FloatingActionButton floatingActionButton = ((MainActivity) Objects.requireNonNull(getActivity())).getFloatingActionButton();
@@ -96,11 +114,20 @@ public class ProfileFragment extends Fragment {
         mBaseApiService = UtilsApi.getAPIService();
         sharedPrefManager = new SharedPrefManager(mContext);
 
+
+        if ("perusahaan".equals(sharedPrefManager.getSPJenis())) {
+            profileEtNamaLengkapWrapper.setHint("Nama Perusahaan");
+            profileEtTempatlahirWrapper.setVisibility(View.GONE);
+            profileEtTanggalLahirWrapper.setVisibility(View.GONE);
+        } else {
+            SetDate tglLahir = new SetDate(etTanggallahir, mContext);
+        }
+
         loading = ProgressDialog.show(mContext, null, "Mengambil data ...", true, false);
         mBaseApiService.getProfileRequest(sharedPrefManager.getSPID())
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
-                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
                         if (response.isSuccessful()) {
                             loading.dismiss();
                             try {
@@ -112,13 +139,16 @@ public class ProfileFragment extends Fragment {
                                     etEmail.setText(jsonObject.getJSONObject("user").getString("email"));
                                     etNoTelp.setText(jsonObject.getJSONObject("user").getString("no_telp"));
 
+                                    if ("perorangan".equals(sharedPrefManager.getSPJenis())) {
+                                        etTempatlahir.setText(jsonObject.getJSONObject("user").getString("tempat_lahir"));
+                                        etTanggallahir.setText(jsonObject.getJSONObject("user").getString("tanggal_lahir"));
+                                    }
+
                                 } else {
                                     String error_message = jsonObject.getString("error_msg");
                                     Toast.makeText(mContext, error_message, Toast.LENGTH_SHORT).show();
                                 }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            } catch (IOException e) {
+                            } catch (JSONException | IOException e) {
                                 e.printStackTrace();
                             }
                         } else {
@@ -170,44 +200,89 @@ public class ProfileFragment extends Fragment {
 
         loading = ProgressDialog.show(mContext, null, "Update Profile, Mohon tunggu...", true, false);
 
-        mBaseApiService.updateProfileRequest(
-                sharedPrefManager.getSPID(),
-                etNamaLengkap.getText().toString(),
-                etEmail.getText().toString(),
-                etNoTelp.getText().toString(),
-                etAlamat.getText().toString()
-        ).enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                if (response.isSuccessful()) {
-                    loading.dismiss();
-                    try {
-                        JSONObject jsonObject = new JSONObject(response.body().string());
-                        if (jsonObject.getString("error").equals("false")) {
+        if("perorangan".equals(sharedPrefManager.getSPJenis())){
+            mBaseApiService.updateProfileRequest(
+                    sharedPrefManager.getSPID(),
+                    etNamaLengkap.getText().toString(),
+                    etEmail.getText().toString(),
+                    etNoTelp.getText().toString(),
+                    etTempatlahir.getText().toString(),
+                    etTanggallahir.getText().toString(),
+                    etAlamat.getText().toString()
+            ).enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    if (response.isSuccessful()) {
+                        loading.dismiss();
+                        try {
+                            JSONObject jsonObject = new JSONObject(response.body().string());
+                            if (jsonObject.getString("error").equals("false")) {
 
-                            Toast.makeText(mContext, "Profile berhasil diupdate", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(mContext, "Profile berhasil diupdate", Toast.LENGTH_SHORT).show();
 
-                        } else {
-                            String error_message = jsonObject.getString("error_msg");
-                            Toast.makeText(mContext, error_message, Toast.LENGTH_SHORT).show();
+                            } else {
+                                String error_message = jsonObject.getString("error_msg");
+                                Toast.makeText(mContext, error_message, Toast.LENGTH_SHORT).show();
+                            }
+
+
+                        } catch (JSONException | IOException e) {
+                            e.printStackTrace();
                         }
 
-
-                    } catch (JSONException | IOException e) {
-                        e.printStackTrace();
+                    } else {
+                        loading.dismiss();
                     }
+                }
 
-                } else {
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    Log.e("debug", "onFailure: ERROR > " + t.toString());
                     loading.dismiss();
                 }
-            }
+            });
+        }else{
+            mBaseApiService.updateProfileRequest(
+                    sharedPrefManager.getSPID(),
+                    etNamaLengkap.getText().toString(),
+                    etEmail.getText().toString(),
+                    etNoTelp.getText().toString(),
+                    etAlamat.getText().toString()
+            ).enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    if (response.isSuccessful()) {
+                        loading.dismiss();
+                        try {
+                            JSONObject jsonObject = new JSONObject(response.body().string());
+                            if (jsonObject.getString("error").equals("false")) {
 
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Log.e("debug", "onFailure: ERROR > " + t.toString());
-                loading.dismiss();
-            }
-        });
+                                Toast.makeText(mContext, "Profile berhasil diupdate", Toast.LENGTH_SHORT).show();
+
+                            } else {
+                                String error_message = jsonObject.getString("error_msg");
+                                Toast.makeText(mContext, error_message, Toast.LENGTH_SHORT).show();
+                            }
+
+
+                        } catch (JSONException | IOException e) {
+                            e.printStackTrace();
+                        }
+
+                    } else {
+                        loading.dismiss();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    Log.e("debug", "onFailure: ERROR > " + t.toString());
+                    loading.dismiss();
+                }
+            });
+        }
+
+
 
     }
 }

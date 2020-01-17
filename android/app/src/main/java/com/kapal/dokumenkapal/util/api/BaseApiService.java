@@ -67,14 +67,33 @@ public interface BaseApiService {
     );
 
     @FormUrlEncoded
+    @POST("update_profile")
+    Call<ResponseBody> updateProfileRequest(
+            @Field("id") int pemohon_id,
+            @Field("nama") String nama,
+            @Field("email") String email,
+            @Field("no_telp") String no_telp,
+            @Field("tempat_lahir") String tempat_lahir,
+            @Field("tanggal_lahir") String tanggal_lahir,
+            @Field("alamat") String alamat
+    );
+
+
+    @FormUrlEncoded
     @POST("insertupdate_kapal")
     Call<ResponseBody> insertUpdateKapalRequest(
             @Field("id") int id,
             @Field("pemohon_id") int pemohon_id,
             @Field("nama_kapal") String namaKapal,
             @Field("jenis_kapal") String jenisKapal,
+            @Field("kode_pengenal") String kodePengenal,
+            @Field("pelabuhan_daftar") String pelabuhanDaftar,
             @Field("imo_number") String imoNumber,
             @Field("grt") int grt,
+            @Field("tgl_kontrak") String tglKontrak,
+            @Field("tgl_peletakan_lunas") String tglPeletakanLunas,
+            @Field("tgl_serah_terima") String tglSerahTerima,
+            @Field("tgl_perubahan") String tglPerubahan,
             @Field("kapasitas_penumpang") int kapasitasPenumpang,
             @Field("kapasitas_roda_dua") int kapasitasRodaDua,
             @Field("kapasitas_roda_empat") int kapasitasRodaEmpat
