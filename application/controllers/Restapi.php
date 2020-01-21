@@ -91,8 +91,14 @@ class Restapi extends CI_Controller
         $this->db->select('id,
                            nama_kapal,
                            jenis_kapal,
+                           kode_pengenal,
+                           pelabuhan_daftar,
                            IFNULL(imo_number,"-") AS imo_number,
                            IFNULL(grt,"0") AS grt,
+                           DATE_FORMAT(tgl_kontrak, "%d/%m/%Y") AS tgl_kontrak,
+                           DATE_FORMAT(tgl_peletakan_lunas, "%d/%m/%Y") AS tgl_peletakan_lunas,
+                           DATE_FORMAT(tgl_serah_terima, "%d/%m/%Y") AS tgl_serah_terima,
+                           DATE_FORMAT(tgl_perubahan, "%d/%m/%Y") AS tgl_perubahan,
                            IFNULL(kapasitas_penumpang,"0") AS kapasitas_penumpang,
                            IFNULL(kapasitas_roda_dua,"0") AS kapasitas_roda_dua,
                            IFNULL(kapasitas_roda_empat,"0") AS kapasitas_roda_empat');
@@ -153,29 +159,54 @@ class Restapi extends CI_Controller
 
     public function get_profile($id)
     {
-        $qry                         = $this->db->get_where('pemohon', array('id' => $id));
-        $user                        = $qry->row_array();
-        $response["error"]           = false;
-        $response["user"]["id"]      = $user["id"];
-        $response["user"]["nama"]    = $user["nama"];
-        $response["user"]["email"]   = $user["email"];
-        $response["user"]["alamat"]  = $user["alamat"];
-        $response["user"]["no_telp"] = $user["no_telp"];
+
+        $this->db->select('id,nama,email,alamat,
+                           no_telp,tempat_lahir,
+                           DATE_FORMAT(tanggal_lahir, "%d/%m/%Y") AS tanggal_lahir');
+        $qry                               = $this->db->get_where('pemohon', array('id' => $id));
+        $user                              = $qry->row_array();
+        $response["error"]                 = false;
+        $response["user"]["id"]            = $user["id"];
+        $response["user"]["nama"]          = $user["nama"];
+        $response["user"]["email"]         = $user["email"];
+        $response["user"]["alamat"]        = $user["alamat"];
+        $response["user"]["no_telp"]       = $user["no_telp"];
+        $response["user"]["tempat_lahir"]  = $user["tempat_lahir"];
+        $response["user"]["tanggal_lahir"] = $user["tanggal_lahir"];
 
         echo json_encode($response);
     }
 
     public function get_bukupelaut($id)
     {
-        $qry                                     = $this->db->get_where('buku_pelaut', array('pemohon_id' => $id));
-        $buku_pelaut                             = $qry->row_array();
-        $response["error"]                       = false;
-        $response["buku_pelaut"]["id"]           = $buku_pelaut["id"];
-        $response["buku_pelaut"]["nomor_buku"]   = $buku_pelaut["nomor_buku"];
-        $response["buku_pelaut"]["kode_pelaut"]  = $buku_pelaut["kode_pelaut"];
-        $response["buku_pelaut"]["nomor_daftar"] = $buku_pelaut["nomor_daftar"];
+        $this->db->select('id,
+                           IFNULL(nomor_buku,"") AS nomor_buku,
+                           IFNULL(kode_pelaut,"") AS kode_pelaut,
+                           IFNULL(nomor_daftar,"") AS nomor_daftar');
+        $qry = $this->db->get_where('buku_pelaut', array('pemohon_id' => $id));
+        if ($qry->num_rows() > 0) {
 
-        echo json_encode($response);
+            $buku_pelaut                             = $qry->row_array();
+            $response["error"]                       = false;
+            $response["buku_pelaut"]["id"]           = $buku_pelaut["id"];
+            $response["buku_pelaut"]["nomor_buku"]   = $buku_pelaut["nomor_buku"];
+            $response["buku_pelaut"]["kode_pelaut"]  = $buku_pelaut["kode_pelaut"];
+            $response["buku_pelaut"]["nomor_daftar"] = $buku_pelaut["nomor_daftar"];
+
+            echo json_encode($response);
+
+        } else {
+
+            $response["error"]                       = false;
+            $response["buku_pelaut"]["id"]           = 0;
+            $response["buku_pelaut"]["nomor_buku"]   = "";
+            $response["buku_pelaut"]["kode_pelaut"]  = "";
+            $response["buku_pelaut"]["nomor_daftar"] = "";
+
+            echo json_encode($response);
+
+        }
+
     }
 
     public function insertupdate_kapal()
@@ -187,8 +218,14 @@ class Restapi extends CI_Controller
         $pemohon_id           = $this->input->post('pemohon_id');
         $nama_kapal           = $this->input->post('nama_kapal');
         $jenis_kapal          = $this->input->post('jenis_kapal');
+        $kode_pengenal        = $this->input->post('kode_pengenal');
+        $pelabuhan_daftar     = $this->input->post('pelabuhan_daftar');
         $imo_number           = $this->input->post('imo_number');
         $grt                  = $this->input->post('grt');
+        $tgl_kontrak          = $this->input->post('tgl_kontrak');
+        $tgl_peletakan_lunas  = $this->input->post('tgl_peletakan_lunas');
+        $tgl_serah_terima     = $this->input->post('tgl_serah_terima');
+        $tgl_perubahan        = $this->input->post('tgl_perubahan');
         $kapasitas_penumpang  = $this->input->post('kapasitas_penumpang');
         $kapasitas_roda_dua   = $this->input->post('kapasitas_roda_dua');
         $kapasitas_roda_empat = $this->input->post('kapasitas_roda_empat');
@@ -200,8 +237,14 @@ class Restapi extends CI_Controller
                     'pemohon_id'           => $pemohon_id,
                     'nama_kapal'           => $nama_kapal,
                     'jenis_kapal'          => $jenis_kapal,
+                    'kode_pengenal'        => $kode_pengenal,
+                    'pelabuhan_daftar'     => $pelabuhan_daftar,
                     'imo_number'           => $imo_number,
                     'grt'                  => $grt,
+                    'tgl_kontrak'          => convert_date_to_sql_date($tgl_kontrak, 'd/m/Y'),
+                    'tgl_peletakan_lunas'  => convert_date_to_sql_date($tgl_peletakan_lunas, 'd/m/Y'),
+                    'tgl_serah_terima'     => convert_date_to_sql_date($tgl_serah_terima, 'd/m/Y'),
+                    'tgl_perubahan'        => convert_date_to_sql_date($tgl_perubahan, 'd/m/Y'),
                     'kapasitas_penumpang'  => $kapasitas_penumpang,
                     'kapasitas_roda_dua'   => $kapasitas_roda_dua,
                     'kapasitas_roda_empat' => $kapasitas_roda_empat,
@@ -225,8 +268,14 @@ class Restapi extends CI_Controller
                 array(
                     'nama_kapal'           => $nama_kapal,
                     'jenis_kapal'          => $jenis_kapal,
+                    'kode_pengenal'        => $kode_pengenal,
+                    'pelabuhan_daftar'     => $pelabuhan_daftar,
                     'imo_number'           => $imo_number,
                     'grt'                  => $grt,
+                    'tgl_kontrak'          => convert_date_to_sql_date($tgl_kontrak, 'd/m/Y'),
+                    'tgl_peletakan_lunas'  => convert_date_to_sql_date($tgl_peletakan_lunas, 'd/m/Y'),
+                    'tgl_serah_terima'     => convert_date_to_sql_date($tgl_serah_terima, 'd/m/Y'),
+                    'tgl_perubahan'        => convert_date_to_sql_date($tgl_perubahan, 'd/m/Y'),
                     'kapasitas_penumpang'  => $kapasitas_penumpang,
                     'kapasitas_roda_dua'   => $kapasitas_roda_dua,
                     'kapasitas_roda_empat' => $kapasitas_roda_empat,
@@ -762,6 +811,7 @@ class Restapi extends CI_Controller
                         array(
                             'bukti_bayar'            => $file_name,
                             'tgl_upload_bukti_bayar' => date("Y-m-d H:i:s"),
+                            'tgl_update'             => date("Y-m-d H:i:s"),
                             'status'                 => '200',
                         )
                     );
@@ -786,6 +836,7 @@ class Restapi extends CI_Controller
                         array(
                             'bukti_bayar'            => $file_name,
                             'tgl_upload_bukti_bayar' => date("Y-m-d H:i:s"),
+                            'tgl_update'             => date("Y-m-d H:i:s"),
                             'status'                 => '200',
                         )
                     );
@@ -810,6 +861,7 @@ class Restapi extends CI_Controller
                         array(
                             'bukti_bayar'            => $file_name,
                             'tgl_upload_bukti_bayar' => date("Y-m-d H:i:s"),
+                            'tgl_update'             => date("Y-m-d H:i:s"),
                             'status'                 => '200',
                         )
                     );
@@ -916,15 +968,33 @@ class Restapi extends CI_Controller
             $no_telp = $this->input->post('no_telp');
             $alamat  = $this->input->post('alamat');
 
-            $this->db->where('id', $id);
-            $this->db->update('pemohon',
-                array(
-                    'nama'    => $nama,
-                    'email'   => $email,
-                    'no_telp' => $no_telp,
-                    'alamat'  => $alamat,
-                )
-            );
+            if (isset($_POST['tempat_lahir'])) {
+
+                $tempat_lahir  = $this->input->post('tempat_lahir');
+                $tanggal_lahir = $this->input->post('tanggal_lahir');
+
+                $this->db->where('id', $id);
+                $this->db->update('pemohon',
+                    array(
+                        'nama'          => $nama,
+                        'email'         => $email,
+                        'no_telp'       => $no_telp,
+                        'tempat_lahir'  => $tempat_lahir,
+                        'tanggal_lahir' => convert_date_to_sql_date($tanggal_lahir, 'd/m/Y'),
+                        'alamat'        => $alamat,
+                    )
+                );
+            } else {
+                $this->db->where('id', $id);
+                $this->db->update('pemohon',
+                    array(
+                        'nama'    => $nama,
+                        'email'   => $email,
+                        'no_telp' => $no_telp,
+                        'alamat'  => $alamat,
+                    )
+                );
+            }
 
             $response["error"] = false;
             echo json_encode($response);
@@ -1280,6 +1350,7 @@ class Restapi extends CI_Controller
                 'nama_kapal'     => $nama_kapal,
                 'angkutan_nopol' => $angkutan_nopol,
                 'angkutan_supir' => $angkutan_supir,
+                'tgl_mohon'      => date('Y-m-d H:i:s'),
 
             )
         );
@@ -1325,6 +1396,7 @@ class Restapi extends CI_Controller
                 'angkutan_nopol' => $angkutan_nopol,
                 'angkutan_supir' => $angkutan_supir,
                 'status'         => $status_baru,
+                'tgl_update'     => date('Y-m-d H:i:s'),
 
             )
         );
@@ -1345,7 +1417,12 @@ class Restapi extends CI_Controller
         header("content-type: application/json");
         $pemohon_id = $this->input->post('pemohon_id');
 
-        $this->db->insert('masa_layar', array('pemohon_id' => $pemohon_id));
+        $this->db->insert('masa_layar',
+            array(
+                'pemohon_id' => $pemohon_id,
+                'tgl_mohon'  => date('Y-m-d H:i:s'),
+            )
+        );
 
         echo json_encode(
             array(
@@ -1363,7 +1440,12 @@ class Restapi extends CI_Controller
         header("content-type: application/json");
         $kapal_id = $this->input->post('kapal_id');
 
-        $this->db->insert('sertifikat_keselamatan', array('kapal_id' => $kapal_id));
+        $this->db->insert('sertifikat_keselamatan',
+            array(
+                'kapal_id'  => $kapal_id,
+                'tgl_mohon' => date('Y-m-d H:i:s'),
+            )
+        );
 
         echo json_encode(
             array(
@@ -1384,7 +1466,12 @@ class Restapi extends CI_Controller
         $status = $this->input->post('status');
 
         $this->db->where('id', $id);
-        $this->db->update('masa_layar', array('status' => $status));
+        $this->db->update('masa_layar',
+            array(
+                'status'     => $status,
+                'tgl_update' => date('Y-m-d H:i:s'),
+            )
+        );
 
         echo json_encode(
             array(

@@ -93,8 +93,16 @@
                {                               
                  //$('#p_' + permohonan_id).addClass('text-primary');   
                  //$('#p_' + permohonan_id).html('<a href="#!" onclick="ajax_status_permohonan(\'' + jenis + '\',\'diambil\',' + permohonan_id + ')">AMBIL BERKAS</a>');          
-                 //$('#p_loading_' + permohonan_id).hide();
-                 location.reload();
+                 $('#p_loading_' + permohonan_id).hide();
+
+                 if(data.error == true){
+                    swal("Error", data.message, "error").then((value => {
+                      location.reload();   
+                    }));
+                 }else{
+                    location.reload(); 
+                 }
+                 
                }
              }).done(function( msg ) { });
          }
@@ -125,8 +133,14 @@
                {                               
                  //$('#p_' + permohonan_id).removeClass('text-primary').addClass('text-secondary');   
                  //$('#p_' + permohonan_id).html('SELESAI');          
-                 //$('#p_loading_' + permohonan_id).hide();
-                 location.reload();
+                 $('#p_loading_' + permohonan_id).hide();
+                 if(data.error == true){
+                    swal("Error", data.message, "error").then((value => {
+                      location.reload();   
+                    }));
+                 }else{
+                    location.reload(); 
+                 }
                }
              }).done(function( msg ) { });
          }
@@ -173,8 +187,13 @@
                              {                               
                                //$('#p_' + permohonan_id).addClass('text-danger');   
                                //$('#p_' + permohonan_id).html('DITOLAK');  
-                               //$('#p_loading_' + permohonan_id).hide();        
-                               location.reload();
+                               $('#p_loading_' + permohonan_id).hide();        
+                               
+                               if(data.error == true){
+                                  swal("Error", data.message, "error");
+                               }else{
+                                  location.reload(); 
+                               }
                              }
                            }).done(function( msg ) {
                              

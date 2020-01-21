@@ -59,8 +59,168 @@ class Manage extends MX_Controller
         $this->load->view('master_view.php', (array) $output);
     }
 
-    public function laporan()
+    private function _count_tab_permohonan($table, $filter_status)
     {
+
+        $ex = explode('.', $filter_status);
+
+        $this->db->where_in('status', $ex);
+        $ret = $this->db->get($table);
+        return $ret->num_rows();
+    }
+
+    public function notifikasi()
+    {
+
+        header("content-type: application/json");
+
+        $param_a = $this->uri->segment(3, '-');
+
+        if ($param_a === "tab_permohonan") {
+
+            $param_b = str_replace('-', '_', $this->uri->segment(4, '-')); //table
+
+            /*
+            $('#tab_proses').html(data.tab_proses);
+            $('#tab_tungguambil').html(data.tab_tungguambil);
+            $('#tab_selesai').html(data.tab_selesai);
+            $('#tab_revisi').html(data.tab_revisi);
+             */
+
+            echo json_encode(
+                array(
+                    'tab_proses'      => $this->_count_tab_permohonan($param_b, '200.210'),
+                    'tab_tungguambil' => $this->_count_tab_permohonan($param_b, '310'),
+                    'tab_selesai'     => $this->_count_tab_permohonan($param_b, '400'),
+                    'tab_revisi'      => $this->_count_tab_permohonan($param_b, '299.399'),
+                )
+            );
+
+        } elseif ($param_a === 'upper_alert') {
+            /*
+            $( $('#dd_alert_total').html(data.alert_total);
+            $('#dd_alert_sertifikat_keselamatan').html(data.alert_sertifikat);
+            $('#dd_alert_bongkar_muat').html(data.alert_bongkar_muat);
+            $('#dd_alert_masa_layar').html(data.alert_masa_layar);
+             */
+
+            $dd_alert_sertifikat_keselamatan = $this->_count_tab_permohonan('sertifikat_keselamatan', '200.210');
+            $dd_alert_bongkar_muat           = $this->_count_tab_permohonan('bongkar_muat', '200.210');
+            $dd_alert_masa_layar             = $this->_count_tab_permohonan('masa_layar', '200.210');
+
+            echo json_encode(
+                array(
+                    'dd_alert_total'                  => ($dd_alert_sertifikat_keselamatan + $dd_alert_bongkar_muat + $dd_alert_masa_layar),
+                    'dd_alert_sertifikat_keselamatan' => $dd_alert_sertifikat_keselamatan,
+                    'dd_alert_bongkar_muat'           => $dd_alert_bongkar_muat,
+                    'dd_alert_masa_layar'             => $dd_alert_masa_layar,
+                )
+            );
+
+        } elseif ($param_a === 'riwayat_permohonan.200') {
+
+            $this->db->limit(1);
+            $rps = $this->db->get_where('riwayat_permohonan', array('status' => '200', 'notified' => 'N'));
+
+            if ($rps->num_rows() > 0) {
+                $rp = $rps->row_array();
+
+                $this->db->where('id',$rp['id']);
+                $this->db->update('riwayat_permohonan',array('notified' => 'Y'));
+                
+                echo json_encode(
+                    array(
+                        'jml_notif'             => $rps->num_rows(),
+                        'pesan'                 => "Ada permohonan " . str_replace("_", " ", $rp['jenis']) . " baru!",
+                        'url'                   => site_url('manage/' . str_replace("_", "-", $rp['jenis']) . '/200.210')
+                    )
+                );
+            } else {
+                echo json_encode(
+                    array(
+                        'jml_notif'             => 0,
+                        'pesan'                 => '-',
+                        'url'                   => '-'
+                    )
+                );
+            }
+
+        }
+    }
+
+    public function download_masalayar($id)
+    {
+        // require APPPATH . '/third_party/phpword/PHPWord.php';
+
+        // $template = FCPATH . "uploads/dok_masa_layar.docx";
+        // $PHPWord  = new PHPWord();
+        // $document = $PHPWord->loadTemplate($template);
+
+        // $this->db->select('b.nama');
+
+        // $document->setValue('NAMA_PEMOHON', );
+        // $document->setValue('TTL', );
+        // $document->setValue('BUKU_PELAUT', );
+        // $document->setValue('IJAZAH', );
+        // $document->setValue('TGL_DIKELUARKAN', );
+
+        // $file_save_path = FCPATH . "uploads/" . $id . '-masa_layar.docx';
+        // $document->save($file_save_path);
+
+        // if ($download) {
+        //     $ci->load->helper('download');
+        //     $data = file_get_contents($file_save_path); // Read the file's contents
+        //     $name = $id . '-masa_layar.docx';
+
+        //     force_download($name, $data);
+        // } else {
+        //     return $file_save_path;
+        // }
+    }
+
+    public function sendNotification($token, $pesan)
+    {
+        //$token   = 'dDgIPQCmgr4:APA91bFg7rsPZZgR1sVr0bDo-7DG94QlBgTEFaywJSKtwBy3-BvQaF_tAwbcI-am1otnVzB_ifQH_6vc7JisD8Lh6acfuTaCjoXH3xdxJyWGaRxGnncJjrxLJSV7bUqhrMDRgR8U3kTe'; // push token
+        //$message = "Test notification message";
+
+        define('API_ACCESS_KEY', 'AAAApjBSNG8:APA91bEPf0di1IgVRo_xmmoNz_KF_tmZPMbJZTFG2SQhK-bnwuDdFsizFvuSCCdBocdIEwCZDBKAnL5SW_vHniRgtTkZDmcKt9YPOwf6_IyiDj494mbD-oKltvgP9jYOaijWmpuMkjK6');
+        $fcmUrl = 'https://fcm.googleapis.com/fcm/send';
+
+        $notification = [
+            'title' => $pesan['title'],
+            'body'  => $pesan['body_of_message'],
+            'icon'  => 'myIcon',
+            'sound' => 'mySound',
+        ];
+
+        $extraNotificationData = ["message" => $notification, "moredata" => 'dd'];
+
+        $fcmNotification = [
+            'to'           => $token, //single token
+            'notification' => $notification,
+            'data'         => $extraNotificationData,
+        ];
+
+        $headers = [
+            'Authorization: key=' . API_ACCESS_KEY,
+            'Content-Type: application/json',
+        ];
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $fcmUrl);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fcmNotification));
+        $result = curl_exec($ch);
+        curl_close($ch);
+    }
+
+    public function laporan($page = "default")
+    {
+
+        $data = array();
 
         $level = array('admin', 'kepala');
 
@@ -68,9 +228,191 @@ class Manage extends MX_Controller
             redirect(site_url('web'), 'reload');
         }
 
-        $data['page_name']  = 'laporan';
-        $data['page_title'] = 'Laporan';
+        $this->breadcrumbs->push('Dashboard', '/manage');
+
+        if ($page === "default") {
+
+            $this->breadcrumbs->push('Laporan', '/manage/laporan/');
+
+            $data['page_name']  = 'laporan';
+            $data['page_title'] = 'Laporan';
+
+        } elseif ($page === "jumlah_permohonan") {
+
+            $this->breadcrumbs->push('Laporan', '/manage/laporan/');
+            $this->breadcrumbs->push('Jumlah Permohonan', '/manage/laporan/jumlah-permohonan');
+
+            $data['page_name']  = 'laporan/jumlah_permohonan/menu';
+            $data['page_title'] = 'Laporan';
+
+        } elseif ($page === "jumlah_permohonan_masa_layar") {
+
+            $this->breadcrumbs->push('Laporan', '/manage/laporan/');
+            $this->breadcrumbs->push('Jumlah Permohonan', '/manage/laporan/jumlah-permohonan');
+            $this->breadcrumbs->push('Masa Layar', '/manage/laporan/jumlah-permohonan-masa-layar');
+
+            $this->db->distinct();
+            $this->db->select('YEAR(tgl_mohon) AS tahun');
+            $data['tahun'] = $this->db->get('masa_layar');
+
+            $post_tahun             = $this->input->post('tahun');
+            $data['selected_tahun'] = $post_tahun;
+
+            $data['page_name']  = 'laporan/jumlah_permohonan/masa_layar';
+            $data['page_title'] = 'Laporan';
+
+        } elseif ($page === "jumlah_permohonan_sertifikat_keselamatan") {
+
+            $this->breadcrumbs->push('Laporan', '/manage/laporan/');
+            $this->breadcrumbs->push('Jumlah Permohonan', '/manage/laporan/jumlah-permohonan');
+            $this->breadcrumbs->push('Sertifikat Keselamatan', '/manage/laporan/jumlah-permohonan-sertifikat-keselamatan');
+
+            $this->db->distinct();
+            $this->db->select('YEAR(tgl_mohon) AS tahun');
+            $data['tahun'] = $this->db->get('sertifikat_keselamatan');
+
+            $post_tahun             = $this->input->post('tahun');
+            $data['selected_tahun'] = $post_tahun;
+
+            $data['page_name']  = 'laporan/jumlah_permohonan/sertifikat_keselamatan';
+            $data['page_title'] = 'Laporan';
+
+        } elseif ($page === "jumlah_permohonan_bongkar_muat") {
+
+            $this->breadcrumbs->push('Laporan', '/manage/laporan/');
+            $this->breadcrumbs->push('Jumlah Permohonan', '/manage/laporan/jumlah-permohonan');
+            $this->breadcrumbs->push('Bongkar Muat', '/manage/laporan/jumlah-permohonan-bongkar-muat');
+
+            $this->db->distinct();
+            $this->db->select('YEAR(tgl_mohon) AS tahun');
+            $data['tahun'] = $this->db->get('bongkar_muat');
+
+            $post_tahun             = $this->input->post('tahun');
+            $data['selected_tahun'] = $post_tahun;
+
+            $data['page_name']  = 'laporan/jumlah_permohonan/bongkar_muat';
+            $data['page_title'] = 'Laporan';
+
+        } elseif ($page === "waktu_proses") {
+
+            $this->breadcrumbs->push('Laporan', '/manage/laporan/');
+            $this->breadcrumbs->push('Waktu Proses', '/manage/laporan/waktu-proses');
+
+            $data['page_name']  = 'laporan/waktu_proses/menu';
+            $data['page_title'] = 'Laporan';
+
+        } elseif ($page === "waktu_proses_masa_layar") {
+
+            $this->breadcrumbs->push('Laporan', '/manage/laporan/');
+            $this->breadcrumbs->push('Waktu Proses', '/manage/laporan/waktu-proses');
+            $this->breadcrumbs->push('Masa Layar', '/manage/laporan/waktu-proses-masa-layar');
+
+            $this->db->distinct();
+            $this->db->select('YEAR(tgl_mohon) AS tahun');
+            $data['tahun'] = $this->db->get('masa_layar');
+
+            $post_tahun             = $this->input->post('tahun');
+            $data['selected_tahun'] = $post_tahun;
+
+            $data['page_name']  = 'laporan/waktu_proses/masa_layar';
+            $data['page_title'] = 'Laporan';
+
+        } elseif ($page === "waktu_proses_sertifikat_keselamatan") {
+
+            $this->breadcrumbs->push('Laporan', '/manage/laporan/');
+            $this->breadcrumbs->push('Waktu Proses', '/manage/laporan/waktu-proses');
+            $this->breadcrumbs->push('Sertifikat Keselamatan', '/manage/laporan/waktu-proses-sertifikat-keselamatan');
+
+            $this->db->distinct();
+            $this->db->select('YEAR(tgl_mohon) AS tahun');
+            $data['tahun'] = $this->db->get('sertifikat_keselamatan');
+
+            $post_tahun             = $this->input->post('tahun');
+            $data['selected_tahun'] = $post_tahun;
+
+            $data['page_name']  = 'laporan/waktu_proses/sertifikat_keselamatan';
+            $data['page_title'] = 'Laporan';
+
+        } elseif ($page === "waktu_proses_bongkar_muat") {
+
+            $this->breadcrumbs->push('Laporan', '/manage/laporan/');
+            $this->breadcrumbs->push('Waktu Proses', '/manage/laporan/waktu-proses');
+            $this->breadcrumbs->push('Bongkar Muat', '/manage/laporan/waktu-proses-bongkar-muat');
+
+            $this->db->distinct();
+            $this->db->select('YEAR(tgl_mohon) AS tahun');
+            $data['tahun'] = $this->db->get('bongkar_muat');
+
+            $post_tahun             = $this->input->post('tahun');
+            $data['selected_tahun'] = $post_tahun;
+
+            $data['page_name']  = 'laporan/waktu_proses/bongkar_muat';
+            $data['page_title'] = 'Laporan';
+
+        } elseif ($page === "rating") {
+
+            $this->breadcrumbs->push('Laporan', '/manage/laporan/');
+            $this->breadcrumbs->push('Rating', '/manage/laporan/rating');
+
+            $data['page_name']  = 'laporan/rating/menu';
+            $data['page_title'] = 'Laporan';
+
+        } elseif ($page === "rating_masa_layar") {
+
+            $this->breadcrumbs->push('Laporan', '/manage/laporan/');
+            $this->breadcrumbs->push('Rating', '/manage/laporan/rating');
+            $this->breadcrumbs->push('Masa Layar', '/manage/laporan/rating-masa-layar');
+
+            $this->db->distinct();
+            $this->db->select('YEAR(tgl_mohon) AS tahun');
+            $data['tahun'] = $this->db->get('masa_layar');
+
+            $post_tahun             = $this->input->post('tahun');
+            $data['selected_tahun'] = $post_tahun;
+
+            $data['page_name']  = 'laporan/rating/masa_layar';
+            $data['page_title'] = 'Laporan';
+
+        } elseif ($page === "rating_sertifikat_keselamatan") {
+
+            $this->breadcrumbs->push('Laporan', '/manage/laporan/');
+            $this->breadcrumbs->push('Rating', '/manage/laporan/rating');
+            $this->breadcrumbs->push('Sertifikat Keselamatan', '/manage/laporan/rating-sertifikat-keselamatan');
+
+            $this->db->distinct();
+            $this->db->select('YEAR(tgl_mohon) AS tahun');
+            $data['tahun'] = $this->db->get('sertifikat_keselamatan');
+
+            $post_tahun             = $this->input->post('tahun');
+            $data['selected_tahun'] = $post_tahun;
+
+            $data['page_name']  = 'laporan/rating/sertifikat_keselamatan';
+            $data['page_title'] = 'Laporan';
+
+        } elseif ($page === "rating_bongkar_muat") {
+
+            $this->breadcrumbs->push('Laporan', '/manage/laporan/');
+            $this->breadcrumbs->push('Rating', '/manage/laporan/rating');
+            $this->breadcrumbs->push('Bongkar Muat', '/manage/laporan/rating-bongkar-muat');
+
+            $this->db->distinct();
+            $this->db->select('YEAR(tgl_mohon) AS tahun');
+            $data['tahun'] = $this->db->get('bongkar_muat');
+
+            $post_tahun             = $this->input->post('tahun');
+            $data['selected_tahun'] = $post_tahun;
+
+            $data['page_name']  = 'laporan/rating/bongkar_muat';
+            $data['page_title'] = 'Laporan';
+
+        } else {
+
+            redirect(site_url('manage'), 'reload');
+
+        }
+
         $this->_page_output($data);
+
     }
 
     public function index()
@@ -138,25 +480,94 @@ class Manage extends MX_Controller
     {
         header('content-type: application/json');
 
-        $jenis         = $this->input->post('jenis');
-        $permohonan_id = $this->input->post('permohonan_id');
-        $status        = $this->input->post('status');
+        if (in_array(date('w'), array('6', '7'))) {
 
-        if ($status === '399' || $status == '299') {
-
-            $alasan = $this->input->post('alasan');
-
-            $this->db->where('id', $permohonan_id);
-            $this->db->update($jenis, array('status' => $status, 'alasan_status' => $alasan));
-
-            echo json_encode('OK @' . date("YmdHis"));
+            echo json_encode(
+                array(
+                    'error'   => true,
+                    'message' => 'Perubahan status hanya dapat dilakukan pada hari kerja!',
+                )
+            );
 
         } else {
 
-            $this->db->where('id', $permohonan_id);
-            $this->db->update($jenis, array('status' => $status));
+            $jenis         = $this->input->post('jenis');
+            $permohonan_id = $this->input->post('permohonan_id');
+            $status        = $this->input->post('status');
 
-            echo json_encode('OK @' . date("YmdHis"));
+            if ($status === '399' || $status == '299') {
+
+                $alasan = $this->input->post('alasan');
+
+                $this->db->where('id', $permohonan_id);
+                $this->db->update($jenis,
+                    array(
+                        'status'        => $status,
+                        'alasan_status' => $alasan,
+                        'tgl_update'    => date('Y-m-d H:i:s'),
+                    )
+                );
+
+                echo json_encode(
+                    array(
+                        'error'   => false,
+                        'message' => 'Status berhasil diubah',
+                    )
+                );
+
+            } else {
+
+                if ($status === "310") {
+
+                    //jika hari sabtu atau minggu, berikan notifikasi kalau bukan hari kerja
+
+                    $res = $this->db->query("SELECT MakeDateList(tgl_upload_bukti_bayar,'" . date('Y-m-d') . "','1,2,3,4,5') + 1 AS hari_proses
+                                             FROM $jenis WHERE id = $permohonan_id")->row_array();
+
+                    $this->db->where('id', $permohonan_id);
+                    $this->db->update($jenis,
+                        array(
+                            'status'                 => $status,
+                            'tgl_update'             => date('Y-m-d H:i:s'),
+                            'total_harikerja_proses' => $res['hari_proses'],
+                        )
+                    );
+
+                    echo json_encode(
+                        array(
+                            'error'   => false,
+                            'message' => 'Status berhasil diubah',
+                        )
+                    );
+
+                } else {
+                    $this->db->where('id', $permohonan_id);
+                    $this->db->update($jenis,
+                        array(
+                            'status'     => $status,
+                            'tgl_update' => date('Y-m-d H:i:s'),
+                        )
+                    );
+
+                    echo json_encode(
+                        array(
+                            'error'   => false,
+                            'message' => 'Status berhasil diubah',
+                        )
+                    );
+                }
+
+            }
+
+            $this->db->select("b.token_id,a.isi_notifikasi");
+            $this->db->join('pemohon b', 'a.pemohon_id = b.id', 'left');
+            $this->db->order_by('a.id', 'DESC');
+            $this->db->limit(1);
+            $pesan = $this->db->get_where('notifikasi a', array('jenis_permohonan' => $jenis, 'a.permohonan_id' => $permohonan_id))->row_array();
+
+            // var_dump($pesan);
+            $this->sendNotification($pesan['token_id'], array('title' => 'Notifikasi', 'body_of_message' => $pesan['isi_notifikasi']));
+
         }
 
     }
@@ -288,6 +699,13 @@ class Manage extends MX_Controller
             $crud->field_type('tgl_post', 'hidden');
             $crud->field_type('slug', 'hidden');
 
+            $crud->callback_after_insert(function ($post_array, $primary_key) {
+
+                $this->db->where('id', $primary_key);
+                $this->db->update('berita', array('tgl_post' => date('Y-m-d H:i:s')));
+
+            });
+
             $this->breadcrumbs->push('Dashboard', '/manage');
             $this->breadcrumbs->push('Data Berita', '/manage/berita');
 
@@ -386,13 +804,21 @@ class Manage extends MX_Controller
 
             $crud->callback_column('buku_pelaut', function ($value, $row) {
 
-                $buku_pelaut = $this->db->get_where('buku_pelaut', array('pemohon_id' => $row->pemohon_id))->row();
+                $buku_pelaut = $this->db->get_where('buku_pelaut', array('pemohon_id' => $row->pemohon_id));
 
                 $ret = '<table>';
-                $ret .= '<tr><td>Nomor</td><td>' . $buku_pelaut->nomor_buku . '</td></tr>';
-                if (!empty($buku_pelaut->file)) {
-                    $ret .= '<tr><td>File</td><td><a href=' . site_url('uploads/dokumen/' . $buku_pelaut->file) . '">Download</a></td></tr>';
+
+                if ($buku_pelaut->num_rows() > 0) {
+                    $bk = $buku_pelaut->row();
+                    $ret .= '<tr><td>Nomor</td><td>' . $bk->nomor_buku . '</td></tr>';
+                    if (!empty($buku_pelaut->file)) {
+                        $ret .= '<tr><td>File</td><td><a href=' . site_url('uploads/dokumen/' . $bk->file) . '">Download</a></td></tr>';
+                    } else {
+                        $ret .= '<tr><td>File</td><td>Belum ada data</td></tr>';
+                    }
+
                 } else {
+                    $ret .= '<tr><td>Nomor</td><td>Belum ada data</td></tr>';
                     $ret .= '<tr><td>File</td><td>Belum ada data</td></tr>';
                 }
 
@@ -406,14 +832,24 @@ class Manage extends MX_Controller
 
                 $this->db->order_by('tgl_terbit DESC');
                 $this->db->limit(1);
-                $sertifikat_pelaut = $this->db->get_where('sertifikat_pelaut', array('pemohon_id' => $row->pemohon_id))->row();
+                $sertifikat_pelaut = $this->db->get_where('sertifikat_pelaut', array('pemohon_id' => $row->pemohon_id));
 
                 $ret = '<table>';
-                $ret .= '<tr><td>Nomor</td><td>' . $sertifikat_pelaut->nomor . '</td></tr>';
-                if (!empty($sertifikat_pelaut->file)) {
-                    $ret .= '<tr><td>File</td><td><a href=' . site_url('uploads/dokumen/' . $sertifikat_pelaut->file) . '">Download</a></td></tr>';
+
+                if ($sertifikat_pelaut->num_rows()) {
+
+                    $ret .= '<tr><td>Nomor</td><td>' . $sertifikat_pelaut->nomor . '</td></tr>';
+                    if (!empty($sertifikat_pelaut->file)) {
+                        $ret .= '<tr><td>File</td><td><a href=' . site_url('uploads/dokumen/' . $sertifikat_pelaut->file) . '">Download</a></td></tr>';
+                    } else {
+                        $ret .= '<tr><td>File</td><td>Belum ada data</td></tr>';
+                    }
+
                 } else {
+
+                    $ret .= '<tr><td>Nomor</td><td>Belum ada data</td></tr>';
                     $ret .= '<tr><td>File</td><td>Belum ada data</td></tr>';
+
                 }
 
                 $ret .= '</table>';
@@ -426,9 +862,9 @@ class Manage extends MX_Controller
                 $loading_div = '<img src="' . site_url('assets/manage/img/loading.gif') . '" id="p_loading_' . $row->id . '" style="display:none">';
 
                 if ($row->status === '200') {
-                    return $loading_div . '&nbsp;<span id="p_' . $row->id . '"><a class="text-primary" href="#!" onclick="ajax_status_permohonan(\'masa_layar\',\'210\',' . $row->id . ')">[BAYAR DITERIMA]</a>&nbsp;|&nbsp;<a class="text-danger" href="#!" onclick="ajax_status_permohonan(\'masa_layar\',299,' . $row->id . ')">[BAYAR DITOLAK]</a></span>';
+                    return $loading_div . '&nbsp;<span id="p_' . $row->id . '">BAYAR: <a class="text-primary" href="#!" onclick="ajax_status_permohonan(\'masa_layar\',\'210\',' . $row->id . ')">[DITERIMA]</a>&nbsp;|&nbsp;<a class="text-danger" href="#!" onclick="ajax_status_permohonan(\'masa_layar\',299,' . $row->id . ')">[DITOLAK]</a></span>';
                 } elseif ($row->status === '210') {
-                    return $loading_div . '&nbsp;<span id="p_' . $row->id . '"><a class="text-primary" href="#!" onclick="ajax_status_permohonan(\'masa_layar\',\'310\',' . $row->id . ')">[BERKAS DITERIMA]</a>&nbsp;|&nbsp;<a class="text-danger" href="#!" onclick="ajax_status_permohonan(\'masa_layar\',399,' . $row->id . ')">[BERKAS DITOLAK]</a></span>';
+                    return $loading_div . '&nbsp;<span id="p_' . $row->id . '">BERKAS: <a class="text-primary" href="#!" onclick="ajax_status_permohonan(\'masa_layar\',\'310\',' . $row->id . ')">[DITERIMA]</a>&nbsp;|&nbsp;<a class="text-danger" href="#!" onclick="ajax_status_permohonan(\'masa_layar\',399,' . $row->id . ')">[DITOLAK]</a></span>';
                 } elseif ($row->status === '310') {
                     return '<span id="p_' . $row->id . '"><a class="text-success" href="#!" onclick="ajax_status_permohonan(\'masa_layar\',\'400\',' . $row->id . ')">[DOKUMEN DIAMBIL]</a></span>';
                 } elseif ($row->status === '400') {
@@ -743,6 +1179,7 @@ class Manage extends MX_Controller
                     return 'Belum diunggah';
                 } else {
                     return '<a href="' . site_url('uploads/dokumen/' . $row->file_surat_permohonan) . '">Download</a>';
+
                 }
 
             });
@@ -767,7 +1204,8 @@ class Manage extends MX_Controller
                 } elseif ($row->status === '310') {
                     return '<span id="p_' . $row->id . '"><a class="text-success" href="#!" onclick="ajax_status_permohonan(\'bongkar_muat\',400,' . $row->id . ')">[DOKUMEN DIAMBIL]</a></span>';
                 } elseif ($row->status === '400') {
-                    return '<a style="color:orange" href="#!" onclick="ajax_komentar_rating(\'bongkar_muat\',' . $row->id . ')"' . make_ratings($row->rating_kepuasan) . '</a><br/><span class="text-secondary" id="p_' . $row->id . '">SELESAI (' . $row->tgl_update . ')</span>';
+                    $div = '<a style="color:orange" href="#!" onclick="ajax_komentar_rating(\'bongkar_muat\',' . $row->id . ')"' . make_ratings($row->rating_kepuasan) . '</a><br/><span class="text-secondary" id="p_' . $row->id . '">SELESAI (' . convert_sql_date_to_date($row->tgl_update) . ')</span>';
+                    return $div . '</br>Hari Proses&nbsp;:&nbsp;' . $row->total_harikerja_proses . '&nbsp;Hari (kerja)';
                 } elseif ($row->status === '299' || $row->status === '399') {
                     return $row->alasan_status;
                 }
@@ -780,7 +1218,8 @@ class Manage extends MX_Controller
                 if (empty($row->bukti_bayar)) {
                     return $biaya . 'Belum diunggah';
                 } else {
-                    return $biaya . '<a href="' . site_url('uploads/dokumen/' . $row->bukti_bayar) . '">Download</a>';
+                    $div = $biaya . '<a href="' . site_url('uploads/dokumen/' . $row->bukti_bayar) . '">Download</a>';
+                    return $div . '</br>Upload bayar&nbsp;:&nbsp;' . convert_sql_date_to_date($row->tgl_upload_bukti_bayar);
                 }
 
             });
