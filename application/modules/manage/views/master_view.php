@@ -344,6 +344,10 @@
                                 url: '<?php echo site_url('manage/notifikasi/upper_alert')?>',
                                 success: function(data) {
                                   $('#dd_alert_total').html(data.dd_alert_total);
+
+                                  if(data.dd_alert_total > 0){
+                                    $('#bell_notification')
+                                  }
                                   $('#dd_alert_sertifikat_keselamatan').html(data.dd_alert_sertifikat_keselamatan);
                                   $('#dd_alert_bongkar_muat').html(data.dd_alert_bongkar_muat);
                                   $('#dd_alert_masa_layar').html(data.dd_alert_masa_layar);
