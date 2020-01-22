@@ -11,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -43,7 +45,7 @@ import retrofit2.Response;
 
 public class RiwayatPelayaranFormFragment extends Fragment {
 
-    ProgressDialog loading;
+    private ProgressDialog loading;
 
     @BindView(R.id.rp_etNamaKapal)
     EditText rpEtNamaKapal;
@@ -59,6 +61,10 @@ public class RiwayatPelayaranFormFragment extends Fragment {
     Button rpBtnUpdate;
     @BindView(R.id.rp_btnDelete)
     Button rpBtnDelete;
+    @BindView(R.id.formriwayat_pelayaran_error_msg)
+    TextView formriwayatPelayaranErrorMsg;
+    @BindView(R.id.form_riwayat_pelayaran)
+    ScrollView formRiwayatPelayaran;
     private Context mContext;
     private BaseApiService mBaseApiService;
     private SharedPrefManager sharedPrefManager;
@@ -66,7 +72,7 @@ public class RiwayatPelayaranFormFragment extends Fragment {
     private int recyclerID;
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         mContext = context;
     }
@@ -80,7 +86,7 @@ public class RiwayatPelayaranFormFragment extends Fragment {
         mBaseApiService = UtilsApi.getAPIService();
         sharedPrefManager = new SharedPrefManager(mContext);
 
-        recyclerID = getArguments().getInt("id");
+        recyclerID = Objects.requireNonNull(getArguments()).getInt("id");
         rpEtNamaKapal.setText(getArguments().getString("nama_kapal"));
         rpEtTenagaMesin.setText(getArguments().getString("tenaga_mesin"));
         rpEtJabatan.setText(getArguments().getString("jabatan"));
@@ -94,7 +100,7 @@ public class RiwayatPelayaranFormFragment extends Fragment {
             rpBtnDelete.setVisibility(View.INVISIBLE);
         }
 
-        Toolbar toolbar = getActivity().findViewById(R.id.toolbar);
+        Toolbar toolbar = Objects.requireNonNull(getActivity()).findViewById(R.id.toolbar);
         toolbar.setTitle("Form Data Kapal");
         FloatingActionButton floatingActionButton = ((MainActivity) Objects.requireNonNull(getActivity())).getFloatingActionButton();
         if (floatingActionButton != null) {
@@ -123,6 +129,8 @@ public class RiwayatPelayaranFormFragment extends Fragment {
     @OnClick(R.id.rp_btnUpdate)
     public void onRpBtnUpdateClicked() {
 
+        formriwayatPelayaranErrorMsg.setVisibility(View.GONE);
+
         loading = ProgressDialog.show(mContext, null, "Menyimpan data, Mohon tunggu...", true, false);
         mBaseApiService.insertUpdateRiwayatPelayaranRequest(
                 this.recyclerID,
@@ -148,13 +156,15 @@ public class RiwayatPelayaranFormFragment extends Fragment {
 
                         } else {
                             String error_message = jsonObject.getString("error_msg");
-                            Toast.makeText(mContext, error_message, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(mContext, "Error!", Toast.LENGTH_SHORT).show();
+                            formriwayatPelayaranErrorMsg.setVisibility(View.VISIBLE);
+                            formriwayatPelayaranErrorMsg.setText(error_message);
+
+                            formRiwayatPelayaran.fullScroll(ScrollView.FOCUS_UP);
                         }
 
 
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
+                    } catch (JSONException | IOException e) {
                         e.printStackTrace();
                     }
 
@@ -164,7 +174,7 @@ public class RiwayatPelayaranFormFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            public void onFailure(@NonNull Call<ResponseBody> call, Throwable t) {
                 Log.e("debug", "onFailure: ERROR > " + t.toString());
                 loading.dismiss();
             }

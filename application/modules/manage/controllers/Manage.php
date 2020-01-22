@@ -125,22 +125,22 @@ class Manage extends MX_Controller
             if ($rps->num_rows() > 0) {
                 $rp = $rps->row_array();
 
-                $this->db->where('id',$rp['id']);
-                $this->db->update('riwayat_permohonan',array('notified' => 'Y'));
-                
+                $this->db->where('id', $rp['id']);
+                $this->db->update('riwayat_permohonan', array('notified' => 'Y'));
+
                 echo json_encode(
                     array(
-                        'jml_notif'             => $rps->num_rows(),
-                        'pesan'                 => "Ada permohonan " . str_replace("_", " ", $rp['jenis']) . " baru!",
-                        'url'                   => site_url('manage/' . str_replace("_", "-", $rp['jenis']) . '/200.210')
+                        'jml_notif' => $rps->num_rows(),
+                        'pesan'     => "Ada permohonan " . str_replace("_", " ", $rp['jenis']) . " baru!",
+                        'url'       => site_url('manage/' . str_replace("_", "-", $rp['jenis']) . '/200.210'),
                     )
                 );
             } else {
                 echo json_encode(
                     array(
-                        'jml_notif'             => 0,
-                        'pesan'                 => '-',
-                        'url'                   => '-'
+                        'jml_notif' => 0,
+                        'pesan'     => '-',
+                        'url'       => '-',
                     )
                 );
             }
@@ -150,32 +150,29 @@ class Manage extends MX_Controller
 
     public function download_masalayar($id)
     {
-        // require APPPATH . '/third_party/phpword/PHPWord.php';
+        require APPPATH . '/third_party/phpword/PHPWord.php';
 
-        // $template = FCPATH . "uploads/dok_masa_layar.docx";
-        // $PHPWord  = new PHPWord();
-        // $document = $PHPWord->loadTemplate($template);
+        $template = FCPATH . "uploads/dok_masa_layar.docx";
+        $PHPWord  = new PHPWord();
+        $document = $PHPWord->loadTemplate($template);
 
-        // $this->db->select('b.nama');
+        $this->db->select('b.nama');
 
-        // $document->setValue('NAMA_PEMOHON', );
-        // $document->setValue('TTL', );
-        // $document->setValue('BUKU_PELAUT', );
-        // $document->setValue('IJAZAH', );
-        // $document->setValue('TGL_DIKELUARKAN', );
+        $document->setValue('NAMA_PEMOHON', 'nama');
+        $document->setValue('TTL', 'ttl');
+        $document->setValue('BUKU_PELAUT', 'buku pelaut');
+        $document->setValue('IJAZAH', 'ijazah');
+        $document->setValue('TGL_DIKELUARKAN', 'tgl');
 
-        // $file_save_path = FCPATH . "uploads/" . $id . '-masa_layar.docx';
-        // $document->save($file_save_path);
+        $file_save_path = FCPATH . "uploads/" . $id . '-masa_layar.docx';
+        $document->save($file_save_path);
 
-        // if ($download) {
-        //     $ci->load->helper('download');
-        //     $data = file_get_contents($file_save_path); // Read the file's contents
-        //     $name = $id . '-masa_layar.docx';
+        $this->load->helper('download');
+        $data = file_get_contents($file_save_path); // Read the file's contents
+        $name = $id . '-masa_layar.docx';
 
-        //     force_download($name, $data);
-        // } else {
-        //     return $file_save_path;
-        // }
+        force_download($name, $data);
+
     }
 
     public function sendNotification($token, $pesan)

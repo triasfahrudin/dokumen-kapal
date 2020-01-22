@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -79,6 +80,8 @@ public class ProfileFragment extends Fragment {
 
     @BindView(R.id.profile_etTanggalLahirWrapper)
     TextInputLayout profileEtTanggalLahirWrapper;
+    @BindView(R.id.profile_error_msg)
+    TextView profileErrorMsg;
 
     private Context mContext;
     private BaseApiService mBaseApiService;
@@ -198,9 +201,10 @@ public class ProfileFragment extends Fragment {
     @OnClick(R.id.profile_btnUpdate)
     public void btnUpdateClicked() {
 
+        profileErrorMsg.setVisibility(View.GONE);
         loading = ProgressDialog.show(mContext, null, "Update Profile, Mohon tunggu...", true, false);
 
-        if("perorangan".equals(sharedPrefManager.getSPJenis())){
+        if ("perorangan".equals(sharedPrefManager.getSPJenis())) {
             mBaseApiService.updateProfileRequest(
                     sharedPrefManager.getSPID(),
                     etNamaLengkap.getText().toString(),
@@ -222,7 +226,9 @@ public class ProfileFragment extends Fragment {
 
                             } else {
                                 String error_message = jsonObject.getString("error_msg");
-                                Toast.makeText(mContext, error_message, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(mContext, "Error!", Toast.LENGTH_SHORT).show();
+                                profileErrorMsg.setVisibility(View.VISIBLE);
+                                profileErrorMsg.setText(error_message);
                             }
 
 
@@ -241,7 +247,7 @@ public class ProfileFragment extends Fragment {
                     loading.dismiss();
                 }
             });
-        }else{
+        } else {
             mBaseApiService.updateProfileRequest(
                     sharedPrefManager.getSPID(),
                     etNamaLengkap.getText().toString(),
@@ -261,7 +267,9 @@ public class ProfileFragment extends Fragment {
 
                             } else {
                                 String error_message = jsonObject.getString("error_msg");
-                                Toast.makeText(mContext, error_message, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(mContext, "Error!", Toast.LENGTH_SHORT).show();
+                                profileErrorMsg.setVisibility(View.VISIBLE);
+                                profileErrorMsg.setText(error_message);
                             }
 
 
@@ -281,7 +289,6 @@ public class ProfileFragment extends Fragment {
                 }
             });
         }
-
 
 
     }

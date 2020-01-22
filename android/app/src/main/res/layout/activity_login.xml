@@ -33,7 +33,7 @@
             android:hint="Email"
             android:inputType="textPersonName"
             android:padding="15dp"
-            android:text="perusahaan@laut.com" />
+            android:text="pelaut@laut.com" />
 
         <EditText
             android:id="@+id/etPassword"
@@ -43,7 +43,7 @@
             android:hint="Password"
             android:inputType="textPassword"
             android:padding="15dp"
-            android:text="perusahaan@laut.com" />
+            android:text="pelaut@laut.com" />
 
 
         <Button

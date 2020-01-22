@@ -160,8 +160,11 @@ class Restapi extends CI_Controller
     public function get_profile($id)
     {
 
-        $this->db->select('id,nama,email,alamat,
-                           no_telp,tempat_lahir,
+        $this->db->select('id,nama,
+                           email,
+                           IFNULL(alamat,"") AS alamat,
+                           IFNULL(no_telp,"") AS no_telp,
+                           tempat_lahir,
                            DATE_FORMAT(tanggal_lahir, "%d/%m/%Y") AS tanggal_lahir');
         $qry                               = $this->db->get_where('pemohon', array('id' => $id));
         $user                              = $qry->row_array();
@@ -209,88 +212,122 @@ class Restapi extends CI_Controller
 
     }
 
+    private function _cek_input_tgl($tgl)
+    {
+
+        $ret = date("d/m/Y");
+        if (isset($tgl) && !empty($tgl)) {
+            $ret = $tgl;
+        }
+
+        return $ret;
+    }
+
     public function insertupdate_kapal()
     {
 
         header('content-type: application/json');
 
-        $id                   = $this->input->post('id');
-        $pemohon_id           = $this->input->post('pemohon_id');
-        $nama_kapal           = $this->input->post('nama_kapal');
-        $jenis_kapal          = $this->input->post('jenis_kapal');
-        $kode_pengenal        = $this->input->post('kode_pengenal');
-        $pelabuhan_daftar     = $this->input->post('pelabuhan_daftar');
-        $imo_number           = $this->input->post('imo_number');
-        $grt                  = $this->input->post('grt');
-        $tgl_kontrak          = $this->input->post('tgl_kontrak');
-        $tgl_peletakan_lunas  = $this->input->post('tgl_peletakan_lunas');
-        $tgl_serah_terima     = $this->input->post('tgl_serah_terima');
-        $tgl_perubahan        = $this->input->post('tgl_perubahan');
-        $kapasitas_penumpang  = $this->input->post('kapasitas_penumpang');
-        $kapasitas_roda_dua   = $this->input->post('kapasitas_roda_dua');
-        $kapasitas_roda_empat = $this->input->post('kapasitas_roda_empat');
+        $this->load->library('form_validation');
 
-        if ($id == 0) {
+        $this->form_validation->set_rules('nama_kapal', 'Nama Kapal', 'required');
+        $this->form_validation->set_rules('jenis_kapal', 'Jenis Kapal', 'required');
+        $this->form_validation->set_rules('kode_pengenal', 'Kode Pengenal', 'required');
+        $this->form_validation->set_rules('imo_number', 'Nomor IMO', 'required');
+        $this->form_validation->set_rules('grt', 'Gross Register Ton (GRT)', 'required');
 
-            $this->db->insert('kapal',
-                array(
-                    'pemohon_id'           => $pemohon_id,
-                    'nama_kapal'           => $nama_kapal,
-                    'jenis_kapal'          => $jenis_kapal,
-                    'kode_pengenal'        => $kode_pengenal,
-                    'pelabuhan_daftar'     => $pelabuhan_daftar,
-                    'imo_number'           => $imo_number,
-                    'grt'                  => $grt,
-                    'tgl_kontrak'          => convert_date_to_sql_date($tgl_kontrak, 'd/m/Y'),
-                    'tgl_peletakan_lunas'  => convert_date_to_sql_date($tgl_peletakan_lunas, 'd/m/Y'),
-                    'tgl_serah_terima'     => convert_date_to_sql_date($tgl_serah_terima, 'd/m/Y'),
-                    'tgl_perubahan'        => convert_date_to_sql_date($tgl_perubahan, 'd/m/Y'),
-                    'kapasitas_penumpang'  => $kapasitas_penumpang,
-                    'kapasitas_roda_dua'   => $kapasitas_roda_dua,
-                    'kapasitas_roda_empat' => $kapasitas_roda_empat,
-                )
-            );
+        if ($this->form_validation->run() == true) {
 
-            echo json_encode(
-                array(
-                    'status'    => "Upload berhasil",
-                    'error_msg' => $this->db->error()['code'],
-                    'error'     => false,
-                    'last_id'   => $this->db->insert_id(),
+            $id         = $this->input->post('id');
+            $pemohon_id = $this->input->post('pemohon_id');
 
-                )
-            );
+            $nama_kapal    = $this->input->post('nama_kapal');
+            $jenis_kapal   = $this->input->post('jenis_kapal');
+            $kode_pengenal = $this->input->post('kode_pengenal');
+            $imo_number    = $this->input->post('imo_number');
+            $grt           = $this->input->post('grt');
+
+            $pelabuhan_daftar = $this->input->post('pelabuhan_daftar');
+
+            $tgl_kontrak         = $this->_cek_input_tgl($this->input->post('tgl_kontrak'));
+            $tgl_peletakan_lunas = $this->_cek_input_tgl($this->input->post('tgl_peletakan_lunas'));
+            $tgl_serah_terima    = $this->_cek_input_tgl($this->input->post('tgl_serah_terima'));
+            $tgl_perubahan       = $this->_cek_input_tgl($this->input->post('tgl_perubahan'));
+
+            $kapasitas_penumpang  = $this->input->post('kapasitas_penumpang');
+            $kapasitas_roda_dua   = $this->input->post('kapasitas_roda_dua');
+            $kapasitas_roda_empat = $this->input->post('kapasitas_roda_empat');
+
+            if ($id == 0) {
+
+                $this->db->insert('kapal',
+                    array(
+                        'pemohon_id'           => $pemohon_id,
+                        'nama_kapal'           => $nama_kapal,
+                        'jenis_kapal'          => $jenis_kapal,
+                        'kode_pengenal'        => $kode_pengenal,
+                        'pelabuhan_daftar'     => $pelabuhan_daftar,
+                        'imo_number'           => $imo_number,
+                        'grt'                  => $grt,
+
+                        'tgl_kontrak'          => convert_date_to_sql_date($tgl_kontrak, 'd/m/Y'),
+                        'tgl_peletakan_lunas'  => convert_date_to_sql_date($tgl_peletakan_lunas, 'd/m/Y'),
+                        'tgl_serah_terima'     => convert_date_to_sql_date($tgl_serah_terima, 'd/m/Y'),
+                        'tgl_perubahan'        => convert_date_to_sql_date($tgl_perubahan, 'd/m/Y'),
+
+                        'kapasitas_penumpang'  => $kapasitas_penumpang,
+                        'kapasitas_roda_dua'   => $kapasitas_roda_dua,
+                        'kapasitas_roda_empat' => $kapasitas_roda_empat,
+                    )
+                );
+
+                echo json_encode(
+                    array(
+                        'status'    => "Upload berhasil",
+                        'error_msg' => $this->db->error()['code'],
+                        'error'     => false,
+                        'last_id'   => $this->db->insert_id(),
+
+                    )
+                );
+
+            } else {
+
+                $this->db->where('id', $id);
+                $this->db->update('kapal',
+                    array(
+                        'nama_kapal'           => $nama_kapal,
+                        'jenis_kapal'          => $jenis_kapal,
+                        'kode_pengenal'        => $kode_pengenal,
+                        'pelabuhan_daftar'     => $pelabuhan_daftar,
+                        'imo_number'           => $imo_number,
+                        'grt'                  => $grt,
+                        'tgl_kontrak'          => convert_date_to_sql_date($tgl_kontrak, 'd/m/Y'),
+                        'tgl_peletakan_lunas'  => convert_date_to_sql_date($tgl_peletakan_lunas, 'd/m/Y'),
+                        'tgl_serah_terima'     => convert_date_to_sql_date($tgl_serah_terima, 'd/m/Y'),
+                        'tgl_perubahan'        => convert_date_to_sql_date($tgl_perubahan, 'd/m/Y'),
+                        'kapasitas_penumpang'  => $kapasitas_penumpang,
+                        'kapasitas_roda_dua'   => $kapasitas_roda_dua,
+                        'kapasitas_roda_empat' => $kapasitas_roda_empat,
+                    )
+                );
+
+                echo json_encode(
+                    array(
+                        'status'    => "Upload berhasil",
+                        'error_msg' => $this->db->error()['code'],
+                        'error'     => false,
+                        'last_id'   => $id,
+
+                    )
+                );
+            }
 
         } else {
 
-            $this->db->where('id', $id);
-            $this->db->update('kapal',
-                array(
-                    'nama_kapal'           => $nama_kapal,
-                    'jenis_kapal'          => $jenis_kapal,
-                    'kode_pengenal'        => $kode_pengenal,
-                    'pelabuhan_daftar'     => $pelabuhan_daftar,
-                    'imo_number'           => $imo_number,
-                    'grt'                  => $grt,
-                    'tgl_kontrak'          => convert_date_to_sql_date($tgl_kontrak, 'd/m/Y'),
-                    'tgl_peletakan_lunas'  => convert_date_to_sql_date($tgl_peletakan_lunas, 'd/m/Y'),
-                    'tgl_serah_terima'     => convert_date_to_sql_date($tgl_serah_terima, 'd/m/Y'),
-                    'tgl_perubahan'        => convert_date_to_sql_date($tgl_perubahan, 'd/m/Y'),
-                    'kapasitas_penumpang'  => $kapasitas_penumpang,
-                    'kapasitas_roda_dua'   => $kapasitas_roda_dua,
-                    'kapasitas_roda_empat' => $kapasitas_roda_empat,
-                )
-            );
-
-            echo json_encode(
-                array(
-                    'status'    => "Upload berhasil",
-                    'error_msg' => $this->db->error()['code'],
-                    'error'     => false,
-                    'last_id'   => $id,
-
-                )
-            );
+            $response["error"]     = true;
+            $response["error_msg"] = validation_errors('*', '*');
+            echo json_encode($response);
         }
 
     }
@@ -300,59 +337,77 @@ class Restapi extends CI_Controller
 
         header('content-type: application/json');
 
-        $id           = $this->input->post('id');
-        $pemohon_id   = $this->input->post('pemohon_id');
-        $nama_kapal   = $this->input->post('nama_kapal');
-        $tenaga_mesin = $this->input->post('tenaga_mesin');
-        $jabatan      = $this->input->post('jabatan');
-        $tgl_naik     = $this->input->post('tgl_naik');
-        $tgl_turun    = $this->input->post('tgl_turun');
+        $this->load->library('form_validation');
 
-        if ($id == 0) {
+        $this->form_validation->set_rules('nama_kapal', 'Nama Kapal', 'required');
+        $this->form_validation->set_rules('tenaga_mesin', 'Tenaga Mesin', 'required');
+        $this->form_validation->set_rules('jabatan', 'Jabatan', 'required');
+        $this->form_validation->set_rules('tgl_naik', 'Tanggal naik', 'required');
+        $this->form_validation->set_rules('tgl_turun', 'Tanggal turun', 'required');
 
-            $this->db->insert('riwayat_pelayaran',
-                array(
-                    'pemohon_id'   => $pemohon_id,
-                    'nama_kapal'   => $nama_kapal,
-                    'tenaga_mesin' => $tenaga_mesin,
-                    'jabatan'      => $jabatan,
-                    'tgl_naik'     => convert_date_to_sql_date($tgl_naik, 'd/m/Y'),
-                    'tgl_turun'    => convert_date_to_sql_date($tgl_turun, 'd/m/Y'),
-                )
-            );
+        if ($this->form_validation->run() == true) {
 
-            echo json_encode(
-                array(
-                    'status'    => "Data berhasil simpan",
-                    'error_msg' => $this->db->error()['code'],
-                    'error'     => false,
-                    'last_id'   => $this->db->insert_id(),
+            $id           = $this->input->post('id');
+            $pemohon_id   = $this->input->post('pemohon_id');
+            $nama_kapal   = $this->input->post('nama_kapal');
+            $tenaga_mesin = $this->input->post('tenaga_mesin');
+            $jabatan      = $this->input->post('jabatan');
+            $tgl_naik     = $this->_cek_input_tgl($this->input->post('tgl_naik'));
+            $tgl_turun    = $this->_cek_input_tgl($this->input->post('tgl_turun'));
 
-                )
-            );
+            if ($id == 0) {
+
+                $this->db->insert('riwayat_pelayaran',
+                    array(
+                        'pemohon_id'   => $pemohon_id,
+                        'nama_kapal'   => $nama_kapal,
+                        'tenaga_mesin' => $tenaga_mesin,
+                        'jabatan'      => $jabatan,
+                        'tgl_naik'     => convert_date_to_sql_date($tgl_naik, 'd/m/Y'),
+                        'tgl_turun'    => convert_date_to_sql_date($tgl_turun, 'd/m/Y'),
+                    )
+                );
+
+                echo json_encode(
+                    array(
+                        'status'    => "Data berhasil simpan",
+                        'error_msg' => $this->db->error()['code'],
+                        'error'     => false,
+                        'last_id'   => $this->db->insert_id(),
+
+                    )
+                );
+
+            } else {
+
+                $this->db->where('id', $id);
+                $this->db->update('riwayat_pelayaran',
+                    array(
+                        'nama_kapal'   => $nama_kapal,
+                        'tenaga_mesin' => $tenaga_mesin,
+                        'jabatan'      => $jabatan,
+                        'tgl_naik'     => convert_date_to_sql_date($tgl_naik, 'd/m/Y'),
+                        'tgl_turun'    => convert_date_to_sql_date($tgl_turun, 'd/m/Y'),
+                    )
+                );
+
+                echo json_encode(
+                    array(
+                        'status'    => "Data berhasil simpan",
+                        'error_msg' => $this->db->error()['code'],
+                        'error'     => false,
+                        'last_id'   => $id,
+
+                    )
+                );
+            }
 
         } else {
 
-            $this->db->where('id', $id);
-            $this->db->update('riwayat_pelayaran',
-                array(
-                    'nama_kapal'   => $nama_kapal,
-                    'tenaga_mesin' => $tenaga_mesin,
-                    'jabatan'      => $jabatan,
-                    'tgl_naik'     => convert_date_to_sql_date($tgl_naik, 'd/m/Y'),
-                    'tgl_turun'    => convert_date_to_sql_date($tgl_turun, 'd/m/Y'),
-                )
-            );
+            $response["error"]     = true;
+            $response["error_msg"] = validation_errors('*', '*');
+            echo json_encode($response);
 
-            echo json_encode(
-                array(
-                    'status'    => "Data berhasil simpan",
-                    'error_msg' => $this->db->error()['code'],
-                    'error'     => false,
-                    'last_id'   => $id,
-
-                )
-            );
         }
 
     }
@@ -362,57 +417,75 @@ class Restapi extends CI_Controller
 
         header('content-type: application/json');
 
-        $id              = $this->input->post('id');
-        $pemohon_id      = $this->input->post('pemohon_id');
-        $nama_sertifikat = $this->input->post('nama_sertifikat');
-        $nomor           = $this->input->post('nomor');
-        $penerbit        = $this->input->post('penerbit');
-        $tgl_terbit      = $this->input->post('tgl_terbit');
+        $this->load->library('form_validation');
 
-        if ($id == 0) {
+        $this->form_validation->set_rules('nama_sertifikat', 'Nama sertifikat', 'required');
+        $this->form_validation->set_rules('nomor', 'Nomor', 'required');
+        $this->form_validation->set_rules('penerbit', 'Penerbit', 'required');
+        $this->form_validation->set_rules('tgl_terbit', 'Tanggal terbit', 'required');
 
-            $this->db->insert('sertifikat_pelaut',
-                array(
-                    'pemohon_id'      => $pemohon_id,
-                    'nama_sertifikat' => $nama_sertifikat,
-                    'nomor'           => $nomor,
-                    'penerbit'        => $penerbit,
-                    'tgl_terbit'      => convert_date_to_sql_date($tgl_terbit, 'd/m/Y'),
+        if ($this->form_validation->run() == true) {
 
-                )
-            );
+            $id         = $this->input->post('id');
+            $pemohon_id = $this->input->post('pemohon_id');
 
-            echo json_encode(
-                array(
-                    'status'    => "Data berhasil simpan",
-                    'error_msg' => $this->db->error()['code'],
-                    'error'     => false,
-                    'last_id'   => $this->db->insert_id(),
+            $nama_sertifikat = $this->input->post('nama_sertifikat');
+            $nomor           = $this->input->post('nomor');
+            $penerbit        = $this->input->post('penerbit');
+            $tgl_terbit      = $this->_cek_input_tgl($this->input->post('tgl_terbit'));
 
-                )
-            );
+            if ($id == 0) {
+
+                $this->db->insert('sertifikat_pelaut',
+                    array(
+                        'pemohon_id'      => $pemohon_id,
+                        'nama_sertifikat' => $nama_sertifikat,
+                        'nomor'           => $nomor,
+                        'penerbit'        => $penerbit,
+                        'tgl_terbit'      => convert_date_to_sql_date($tgl_terbit, 'd/m/Y'),
+
+                    )
+                );
+
+                echo json_encode(
+                    array(
+                        'status'    => "Data berhasil simpan",
+                        'error_msg' => $this->db->error()['code'],
+                        'error'     => false,
+                        'last_id'   => $this->db->insert_id(),
+
+                    )
+                );
+
+            } else {
+
+                $this->db->where('id', $id);
+                $this->db->update('sertifikat_pelaut',
+                    array(
+                        'nama_sertifikat' => $nama_sertifikat,
+                        'nomor'           => $nomor,
+                        'penerbit'        => $penerbit,
+                        'tgl_terbit'      => convert_date_to_sql_date($tgl_terbit, 'd/m/Y'),
+                    )
+                );
+
+                echo json_encode(
+                    array(
+                        'status'    => "Data berhasil simpan",
+                        'error_msg' => $this->db->error()['code'],
+                        'error'     => false,
+                        'last_id'   => $id,
+
+                    )
+                );
+            }
 
         } else {
 
-            $this->db->where('id', $id);
-            $this->db->update('sertifikat_pelaut',
-                array(
-                    'nama_sertifikat' => $nama_sertifikat,
-                    'nomor'           => $nomor,
-                    'penerbit'        => $penerbit,
-                    'tgl_terbit'      => convert_date_to_sql_date($tgl_terbit, 'd/m/Y'),
-                )
-            );
+            $response["error"]     = true;
+            $response["error_msg"] = validation_errors('*', '*');
+            echo json_encode($response);
 
-            echo json_encode(
-                array(
-                    'status'    => "Data berhasil simpan",
-                    'error_msg' => $this->db->error()['code'],
-                    'error'     => false,
-                    'last_id'   => $id,
-
-                )
-            );
         }
 
     }
@@ -955,12 +1028,14 @@ class Restapi extends CI_Controller
     {
         header('content-type: application/json');
 
-        if (isset($_POST['id'])
-            && isset($_POST['nama'])
-            && isset($_POST['email'])
-            && isset($_POST['no_telp'])
-            && isset($_POST['alamat'])
-        ) {
+        $this->load->library('form_validation');
+
+        $this->form_validation->set_rules('nama', 'Nama', 'required');
+        $this->form_validation->set_rules('email', 'Email', 'valid_email|required');
+        $this->form_validation->set_rules('no_telp', 'Nomor telephon', 'required');
+        $this->form_validation->set_rules('alamat', 'Alamat', 'required');
+
+        if ($this->form_validation->run() == true) {
 
             $id      = $this->input->post('id');
             $nama    = $this->input->post('nama');
@@ -999,17 +1074,27 @@ class Restapi extends CI_Controller
             $response["error"] = false;
             echo json_encode($response);
 
+        } else {
+
+            $response["error"]     = true;
+            $response["error_msg"] = validation_errors('*', '*');
+            echo json_encode($response);
+
         }
+
     }
 
     public function update_bukupelaut()
     {
         header('content-type: application/json');
 
-        if (isset($_POST['pemohon_id'])
-            && isset($_POST['nomor_buku'])
-            && isset($_POST['kode_pelaut'])
-            && isset($_POST['nomor_daftar'])) {
+        $this->load->library('form_validation');
+
+        $this->form_validation->set_rules('nomor_buku', 'Nomor buku', 'required');
+        $this->form_validation->set_rules('kode_pelaut', 'Kode pelaut', 'required');
+        $this->form_validation->set_rules('nomor_daftar', 'Nomor daftar', 'required');
+
+        if ($this->form_validation->run() == true) {
 
             $pemohon_id   = $this->input->post('pemohon_id');
             $nomor_buku   = $this->input->post('nomor_buku');
@@ -1027,7 +1112,14 @@ class Restapi extends CI_Controller
             $response["error"] = false;
             echo json_encode($response);
 
+        } else {
+
+            $response["error"]     = true;
+            $response["error_msg"] = validation_errors('*', '*');
+            echo json_encode($response);
+
         }
+        
     }
 
     public function register()
@@ -1137,7 +1229,7 @@ class Restapi extends CI_Controller
         }
     }
 
-    //
+//
 
     public function get_sertifikatkeselamatan()
     {
@@ -1188,7 +1280,7 @@ class Restapi extends CI_Controller
 
     }
 
-    //===========================================================================bongkar muat
+//===========================================================================bongkar muat
 
     public function update_rating()
     {
@@ -1280,7 +1372,7 @@ class Restapi extends CI_Controller
 
     }
 
-    //===========================================================================masa layar
+//===========================================================================masa layar
 
     public function get_masalayar_active_req()
     {
@@ -1321,15 +1413,15 @@ class Restapi extends CI_Controller
 
     }
 
-    /*
-    @Field("pemohon_id") int pemohon_id,
-    @Field("kode_biaya") String kode_biaya,
-    @Field("jenis_muatan") String jenis_muatan,
-    @Field("bobot") int bobot,
-    @Field("nama_kapal") String nama_kapal,
-    @Field("angkutan_nopol") String angkutan_nopol,
-    @Field("angkutan_supir") String angkutan_supir
-     */
+/*
+@Field("pemohon_id") int pemohon_id,
+@Field("kode_biaya") String kode_biaya,
+@Field("jenis_muatan") String jenis_muatan,
+@Field("bobot") int bobot,
+@Field("nama_kapal") String nama_kapal,
+@Field("angkutan_nopol") String angkutan_nopol,
+@Field("angkutan_supir") String angkutan_supir
+ */
     public function insert_bongkarmuat()
     {
         header("content-type: application/json");
@@ -1416,6 +1508,8 @@ class Restapi extends CI_Controller
     {
         header("content-type: application/json");
         $pemohon_id = $this->input->post('pemohon_id');
+
+        //TODO : cek kelengkapan dokumen
 
         $this->db->insert('masa_layar',
             array(
@@ -1555,68 +1649,68 @@ class Restapi extends CI_Controller
         }
     }
 
-    public function post_ijazah_laut($ijazah_laut_id = 0)
-    {
+    // public function post_ijazah_laut($ijazah_laut_id = 0)
+    // {
 
-        header('content-type: application/json');
+    //     header('content-type: application/json');
 
-        $pemohon_id = $this->input->post('pemohon_id');
-        $nama       = $this->input->post('nama');
-        $penerbit   = $this->input->post('penerbit');
-        $tgl_terbit = $this->input->post('tgl_terbit');
+    //     $pemohon_id = $this->input->post('pemohon_id');
+    //     $nama       = $this->input->post('nama');
+    //     $penerbit   = $this->input->post('penerbit');
+    //     $tgl_terbit = $this->input->post('tgl_terbit');
 
-        $data = array(
-            'pelaut_id'  => $pemohon_id,
-            'nama'       => $nama,
-            'penerbit'   => $penerbit,
-            'tgl_terbit' => $tgl_terbit,
-        );
+    //     $data = array(
+    //         'pelaut_id'  => $pemohon_id,
+    //         'nama'       => $nama,
+    //         'penerbit'   => $penerbit,
+    //         'tgl_terbit' => $tgl_terbit,
+    //     );
 
-        if (!empty($_FILES['file']['name'])) {
-            $upload['upload_path']   = './uploads/foto_pemohon';
-            $upload['allowed_types'] = 'jpeg|jpg|png|bmp';
-            $upload['encrypt_name']  = true;
-            $upload['overwrite']     = true;
-            $upload['max_size']      = 1024;
+    //     if (!empty($_FILES['file']['name'])) {
+    //         $upload['upload_path']   = './uploads/foto_pemohon';
+    //         $upload['allowed_types'] = 'jpeg|jpg|png|bmp';
+    //         $upload['encrypt_name']  = true;
+    //         $upload['overwrite']     = true;
+    //         $upload['max_size']      = 1024;
 
-            $this->load->library('upload', $upload);
+    //         $this->load->library('upload', $upload);
 
-            if (!$this->upload->do_upload('file')) {
+    //         if (!$this->upload->do_upload('file')) {
 
-                // echo json_encode(
-                //     array(
-                //         'message' => $this->upload->display_errors(),
-                //         'status'  => 'FAILED',
+    //             // echo json_encode(
+    //             //     array(
+    //             //         'message' => $this->upload->display_errors(),
+    //             //         'status'  => 'FAILED',
 
-                //     )
-                // );
+    //             //     )
+    //             // );
 
-            } else {
+    //         } else {
 
-                $success   = $this->upload->data();
-                $file_name = $success['file_name'];
+    //             $success   = $this->upload->data();
+    //             $file_name = $success['file_name'];
 
-                $data['file'] = $file_name;
+    //             $data['file'] = $file_name;
 
-                // echo json_encode(
-                //     array(
-                //         'message' => $this->db->error()['code'],
-                //         'status'  => 'OK',
+    //             // echo json_encode(
+    //             //     array(
+    //             //         'message' => $this->db->error()['code'],
+    //             //         'status'  => 'OK',
 
-                //     )
-                // );
-            }
-        }
+    //             //     )
+    //             // );
+    //         }
+    //     }
 
-        if ($ijazah_laut_id == 0) {
-            //insert
-        } else {
-            //update
-        }
+    //     if ($ijazah_laut_id == 0) {
+    //         //insert
+    //     } else {
+    //         //update
+    //     }
 
-    }
+    // }
 
-    //===========================================================================sertifikat kapal
+//===========================================================================sertifikat kapal
     public function post_sertifikat()
     {
         header('content-type: application/json');

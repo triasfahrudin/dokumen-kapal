@@ -11,9 +11,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -64,6 +67,10 @@ public class BukuPelautFragment extends Fragment {
     Context mContext;
     BaseApiService mBaseApiService;
     SharedPrefManager sharedPrefManager;
+    @BindView(R.id.formbuku_pelaut_error_msg)
+    TextView formbukuPelautErrorMsg;
+    @BindView(R.id.scroolview_form_bukupelaut)
+    ScrollView scroolviewFormBukupelaut;
 
     @Override
     public void onAttach(Context context) {
@@ -78,7 +85,7 @@ public class BukuPelautFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_form_bukupelaut, container, false);
         ButterKnife.bind(this, root);
 
-        androidx.appcompat.widget.Toolbar toolbar = getActivity().findViewById(R.id.toolbar);
+        Toolbar toolbar = getActivity().findViewById(R.id.toolbar);
         toolbar.setTitle("Buku Pelaut");
         FloatingActionButton floatingActionButton = ((MainActivity) Objects.requireNonNull(getActivity())).getFloatingActionButton();
         if (floatingActionButton != null) {
@@ -156,6 +163,7 @@ public class BukuPelautFragment extends Fragment {
     @OnClick(R.id.pbp_btnSubmit)
     public void btnSubmitClicked() {
 
+        formbukuPelautErrorMsg.setVisibility(View.GONE);
         loading = ProgressDialog.show(mContext, null, "Update Buku Pelaut, Mohon tunggu...", true, false);
 
         mBaseApiService.updateBukuPelautRequest(
@@ -176,13 +184,15 @@ public class BukuPelautFragment extends Fragment {
 
                         } else {
                             String error_message = jsonObject.getString("error_msg");
-                            Toast.makeText(mContext, error_message, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(mContext, "Error!", Toast.LENGTH_SHORT).show();
+                            formbukuPelautErrorMsg.setVisibility(View.VISIBLE);
+                            formbukuPelautErrorMsg.setText(error_message);
+
+                            scroolviewFormBukupelaut.fullScroll(ScrollView.FOCUS_UP);
                         }
 
 
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
+                    } catch (JSONException | IOException e) {
                         e.printStackTrace();
                     }
 

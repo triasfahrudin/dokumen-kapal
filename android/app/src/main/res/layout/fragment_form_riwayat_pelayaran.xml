@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/form_riwayat_pelayaran"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_white">
@@ -15,6 +16,16 @@
         android:gravity="center"
         android:orientation="vertical"
         android:paddingTop="10dp">
+
+        <TextView
+            android:id="@+id/formriwayat_pelayaran_error_msg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#E91E63"
+            android:padding="10dp"
+            android:text="TextView"
+            android:textColor="#EFF3F3"
+            android:visibility="gone" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/rp_etNamaKapalWrapper"
@@ -124,7 +135,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
-            android:hint="Kapasitas Penumpang"
+            android:hint="Tanggal turun"
 
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

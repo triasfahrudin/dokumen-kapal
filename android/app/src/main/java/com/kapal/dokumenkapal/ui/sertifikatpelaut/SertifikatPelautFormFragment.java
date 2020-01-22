@@ -11,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -66,6 +68,10 @@ public class SertifikatPelautFormFragment extends Fragment {
     Button spBtnDelete;
     @BindView(R.id.sp_etUpload)
     EditText spEtUpload;
+    @BindView(R.id.formsertifikat_pelaut_error_msg)
+    TextView formsertifikatPelautErrorMsg;
+    @BindView(R.id.scroolview_sertifikat_pelaut)
+    ScrollView scroolviewSertifikatPelaut;
 
     private Context mContext;
     private BaseApiService mBaseApiService;
@@ -178,6 +184,9 @@ public class SertifikatPelautFormFragment extends Fragment {
 
     @OnClick(R.id.sp_btnUpdate)
     public void onSpBtnUpdateClicked() {
+
+        formsertifikatPelautErrorMsg.setVisibility(View.GONE);
+
         loading = ProgressDialog.show(mContext, null, "Menyimpan data, Mohon tunggu...", true, false);
         mBaseApiService.insertUpdateSertifikatPelautRequest(
                 this.recyclerID,
@@ -195,20 +204,29 @@ public class SertifikatPelautFormFragment extends Fragment {
                         JSONObject jsonObject = new JSONObject(response.body().string());
                         if (jsonObject.getString("error").equals("false")) {
 
-                            SertifikatPelautFormFragment.this.recyclerID = jsonObject.getInt("last_id");
+                            //SertifikatPelautFormFragment.this.recyclerID = jsonObject.getInt("last_id");
+                            SertifikatPelautFragment mf = new SertifikatPelautFragment();
+                            FragmentTransaction ft = Objects.requireNonNull(getActivity()).getSupportFragmentManager()
+                                    .beginTransaction()
+                                    .add(R.id.nav_host_fragment, mf, SertifikatPelautFragment.class.getSimpleName())
+                                    .addToBackStack(null);
+                            ft.commit();
+
                             Toast.makeText(mContext, "Data berhasil disimpan", Toast.LENGTH_SHORT).show();
 
-                            spBtnDelete.setVisibility(View.VISIBLE);
+                            //spBtnDelete.setVisibility(View.VISIBLE);
 
                         } else {
                             String error_message = jsonObject.getString("error_msg");
-                            Toast.makeText(mContext, error_message, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(mContext, "Error!", Toast.LENGTH_SHORT).show();
+                            formsertifikatPelautErrorMsg.setVisibility(View.VISIBLE);
+                            formsertifikatPelautErrorMsg.setText(error_message);
+
+                            scroolviewSertifikatPelaut.fullScroll(ScrollView.FOCUS_UP);
                         }
 
 
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
+                    } catch (JSONException | IOException e) {
                         e.printStackTrace();
                     }
 

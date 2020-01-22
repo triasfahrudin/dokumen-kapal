@@ -12,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -113,6 +115,10 @@ public class KapalFormFragment extends Fragment {
     EditText kapalEtTglSerahTerima;
     @BindView(R.id.kapal_etTglPerubahan)
     EditText kapalEtTglPerubahan;
+    @BindView(R.id.formkapal_error_msg)
+    TextView formkapalErrorMsg;
+    @BindView(R.id.formkapal_scroolview)
+    ScrollView formkapalScroolview;
     private Context mContext;
     private BaseApiService mBaseApiService;
     private SharedPrefManager sharedPrefManager;
@@ -134,7 +140,7 @@ public class KapalFormFragment extends Fragment {
         mBaseApiService = UtilsApi.getAPIService();
         sharedPrefManager = new SharedPrefManager(mContext);
 
-        recyclerID = getArguments().getInt("id");
+        recyclerID = Objects.requireNonNull(getArguments()).getInt("id");
         kapalEtNamaKapal.setText(getArguments().getString("nama_kapal"));
         kapalEtJenisKapal.setText(getArguments().getString("jenis_kapal"));
         kapalEtKodePengenal.setText(getArguments().getString("kode_pengenal"));
@@ -321,6 +327,8 @@ public class KapalFormFragment extends Fragment {
     @OnClick(R.id.kapal_btnUpdate)
     public void onKapalBtnUpdateClicked() {
 
+        formkapalErrorMsg.setVisibility(View.GONE);
+
         loading = ProgressDialog.show(mContext, null, "Menyimpan data, Mohon tunggu...", true, false);
         mBaseApiService.insertUpdateKapalRequest(
                 this.recyclerID,
@@ -354,7 +362,11 @@ public class KapalFormFragment extends Fragment {
 
                         } else {
                             String error_message = jsonObject.getString("error_msg");
-                            Toast.makeText(mContext, error_message, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(mContext, "Error!", Toast.LENGTH_SHORT).show();
+                            formkapalErrorMsg.setVisibility(View.VISIBLE);
+                            formkapalErrorMsg.setText(error_message);
+
+                            formkapalScroolview.fullScroll(ScrollView.FOCUS_UP);
                         }
 
 
