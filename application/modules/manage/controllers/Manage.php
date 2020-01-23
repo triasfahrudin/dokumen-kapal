@@ -156,14 +156,85 @@ class Manage extends MX_Controller
         $PHPWord  = new PHPWord();
         $document = $PHPWord->loadTemplate($template);
 
-        $this->db->select('b.nama');
+        $this->db->select('a.pemohon_id,
+                           b.nama,
+                           CONCAT(b.tempat_lahir,"/",b.tanggal_lahir) AS ttl,
+                           c.nomor_buku AS buku_pelaut,
+                           CONCAT(d.nama_sertifikat," TAHUN ", YEAR(d.tgl_terbit)) AS ijazah,
+                           a.tgl_update AS tgl_dikeluarkan');
+        $this->db->join('pemohon b','a.pemohon_id = b.id','left');
+        $this->db->join('buku_pelaut c','b.id = c.pemohon_id','left');
+        $this->db->join('(SELECT pemohon_id,
+                                 nama_sertifikat,
+                                 tgl_terbit,
+                                 MAX(id) 
+                          FROM sertifikat_pelaut 
+                          GROUP BY pemohon_id) d','c.pemohon_id = d.pemohon_id','left');
 
-        $document->setValue('NAMA_PEMOHON', 'nama');
-        $document->setValue('TTL', 'ttl');
-        $document->setValue('BUKU_PELAUT', 'buku pelaut');
-        $document->setValue('IJAZAH', 'ijazah');
-        $document->setValue('TGL_DIKELUARKAN', 'tgl');
 
+        $query = $this->db->get_where('masa_layar a',array('a.pemohon_id' => $id));
+
+        if($query->num_rows() > 0){
+
+            $q = $query->row_array();
+
+            $document->setValue('NAMA_PEMOHON', $q['nama']);
+            $document->setValue('TTL', $q['ttl']);
+            $document->setValue('BUKU_PELAUT', $q['buku_pelaut']);
+            $document->setValue('IJAZAH', $q['ijazah']);
+            $document->setValue('TGL_DIKELUARKAN', $q['tgl_dikeluarkan']);
+
+            $this->db->select('nama_kapal,
+                               tenaga_mesin,
+                               jabatan,
+                               tgl_naik,
+                               tgl_turun,
+                               timestampdiff(YEAR,tgl_naik,tgl_turun) AS diff_year,
+                               timestampdiff(MONTH,tgl_naik,tgl_turun) AS diff_month');
+            $riwayat_pelayaran = $this->db->get_where('riwayat_pelayaran',array('pemohon_id' => $q['pemohon_id']));
+
+            $loop = 0;
+            $ttot = 0;
+            $btot = 0;
+            foreach ($riwayat_pelayaran->result_array() as $rp) {
+                $loop += 1;
+                $document->setValue('KAPAL_' . $loop, $rp['nama_kapal']);
+                $document->setValue('TMESIN_' . $loop, $rp['tenaga_mesin']);
+                $document->setValue('JABATAN_' . $loop, $rp['jabatan']);
+                $document->setValue('NAIK_' . $loop, convert_sql_date_to_date($rp['tgl_naik']));
+                $document->setValue('TURUN_' . $loop, convert_sql_date_to_date($rp['tgl_turun']));
+                $document->setValue('THN_' . $loop, $rp['diff_year']);
+                $document->setValue('BLN_' . $loop, $rp['diff_month'] - ($rp['diff_year'] * 12));
+
+                $ttot +=  $rp['diff_year'];
+                $btot += $rp['diff_month'] - ($rp['diff_year'] * 12);
+            }
+
+            $document->setValue('TTOT', $ttot);
+            $document->setValue('BTOT', $btot);
+
+            if($riwayat_pelayaran->num_rows() < 5){
+                for ($i=$loop; $i <= 5 ; $i++) { 
+                    $document->setValue('KAPAL_' . $i, "");
+                    $document->setValue('TMESIN_' . $i, "");
+                    $document->setValue('JABATAN_' . $i, "");
+                    $document->setValue('NAIK_' . $i, "");
+                    $document->setValue('TURUN_' . $i, "");
+                    $document->setValue('THN_' . $i, "");
+                    $document->setValue('BLN_' . $i, "");
+                }
+            }
+
+        }else{
+            $document->setValue('NAMA_PEMOHON', '-');
+            $document->setValue('TTL', '-');
+            $document->setValue('BUKU_PELAUT', '-');
+            $document->setValue('IJAZAH', '-');
+            $document->setValue('TGL_DIKELUARKAN', '-');
+    
+        }
+
+        
         $file_save_path = FCPATH . "uploads/" . $id . '-masa_layar.docx';
         $document->save($file_save_path);
 
@@ -834,10 +905,11 @@ class Manage extends MX_Controller
                 $ret = '<table>';
 
                 if ($sertifikat_pelaut->num_rows()) {
+                    $sp = $sertifikat_pelaut->row();
 
-                    $ret .= '<tr><td>Nomor</td><td>' . $sertifikat_pelaut->nomor . '</td></tr>';
-                    if (!empty($sertifikat_pelaut->file)) {
-                        $ret .= '<tr><td>File</td><td><a href=' . site_url('uploads/dokumen/' . $sertifikat_pelaut->file) . '">Download</a></td></tr>';
+                    $ret .= '<tr><td>Nomor</td><td>' . $sp->nomor . '</td></tr>';
+                    if (!empty($sp->file)) {
+                        $ret .= '<tr><td>File</td><td><a href=' . site_url('uploads/dokumen/' . $sp->file) . '">Download</a></td></tr>';
                     } else {
                         $ret .= '<tr><td>File</td><td>Belum ada data</td></tr>';
                     }

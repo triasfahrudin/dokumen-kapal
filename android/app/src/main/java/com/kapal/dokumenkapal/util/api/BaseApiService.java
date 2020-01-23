@@ -89,6 +89,7 @@ public interface BaseApiService {
             @Field("kode_pengenal") String kodePengenal,
             @Field("pelabuhan_daftar") String pelabuhanDaftar,
             @Field("imo_number") String imoNumber,
+            @Field("lambung_timbul") int lambungTimbul,
             @Field("grt") int grt,
             @Field("tgl_kontrak") String tglKontrak,
             @Field("tgl_peletakan_lunas") String tglPeletakanLunas,
@@ -235,8 +236,12 @@ public interface BaseApiService {
             @Field("jenis_muatan") String jenis_muatan,
             @Field("bobot") int bobot,
             @Field("nama_kapal") String nama_kapal,
+            @Field("jenis_kapal") String jenis_kapal,
+            @Field("gt_kapal") String gt_kapal,
+            @Field("agen_kapal") String agen_kapal,
             @Field("angkutan_nopol") String angkutan_nopol,
-            @Field("angkutan_supir") String angkutan_supir
+            @Field("angkutan_supir") String angkutan_supir,
+            @Field("tgl_pelaksanaan") String tgl_pelaksanaan
     );
 
     @FormUrlEncoded
@@ -247,7 +252,11 @@ public interface BaseApiService {
             @Field("jenis_muatan") String jenis_muatan,
             @Field("bobot") int bobot,
             @Field("nama_kapal") String nama_kapal,
+            @Field("jenis_kapal") String jenis_kapal,
+            @Field("gt_kapal") String gt_kapal,
+            @Field("agen_kapal") String agen_kapal,
             @Field("angkutan_nopol") String angkutan_nopol,
-            @Field("angkutan_supir") String angkutan_supir
+            @Field("angkutan_supir") String angkutan_supir,
+            @Field("tgl_pelaksanaan") String tgl_pelaksanaan
     );
 }

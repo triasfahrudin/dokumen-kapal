@@ -76,6 +76,7 @@ public class KapalFragment extends Fragment {
                     bundle.putString("kode_pengenal","");
                     bundle.putString("pelabuhan_daftar","");
                     bundle.putString("imo_number", "");
+                    bundle.putInt("lambung_timbul", 0);
                     bundle.putInt("grt", 0);
 
                     bundle.putString("tgl_kontrak", "");

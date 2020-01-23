@@ -11,7 +11,9 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ScrollView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -22,6 +24,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.kapal.dokumenkapal.MainActivity;
 import com.kapal.dokumenkapal.R;
+import com.kapal.dokumenkapal.util.SetDate;
 import com.kapal.dokumenkapal.util.SharedPrefManager;
 import com.kapal.dokumenkapal.util.api.BaseApiService;
 import com.kapal.dokumenkapal.util.api.UtilsApi;
@@ -62,6 +65,18 @@ public class BongkarMuatFormFragment extends Fragment {
     EditText etAngkutanNopol;
     @BindView(R.id.bongkarmuat_angkutan_supir)
     EditText etAngkutanSupir;
+    @BindView(R.id.formbongkarmuat_error_msg)
+    TextView teErrorMsg;
+    @BindView(R.id.bongkarmuat_agen_kapal)
+    EditText etAgenKapal;
+    @BindView(R.id.bongkarmuat_jenis_kapal)
+    EditText etJenisKapal;
+    @BindView(R.id.bongkarmuat_gt_kapal)
+    EditText etGtKapal;
+    @BindView(R.id.bongkarmuat_tgl_pelaksanaan)
+    EditText etTglPelaksanaan;
+    @BindView(R.id.bongkarmuat_scroolview)
+    ScrollView scroolViewBongkarMuat;
 
     private Context mContext;
     private BaseApiService mBaseApiService;
@@ -161,8 +176,14 @@ public class BongkarMuatFormFragment extends Fragment {
         etJenisMuatan.setText(getArguments().getString("jenis_muatan"));
         etBobot.setText(String.format(localeID, "%.0f", getArguments().getDouble("bobot")));
         etNamaKapal.setText(getArguments().getString("nama_kapal"));
+        etJenisKapal.setText(getArguments().getString("jenis_kapal"));
+        etGtKapal.setText(getArguments().getString("gt_kapal"));
+        etAgenKapal.setText(getArguments().getString("agen_kapal"));
         etAngkutanNopol.setText(getArguments().getString("angkutan_nopol"));
         etAngkutanSupir.setText(getArguments().getString("angkutan_supir"));
+
+        SetDate tglPelaksanaan = new SetDate(etTglPelaksanaan, mContext);
+
 
         if (recyclerID != 0) {
             btnKirim.setText(R.string.update_data);
@@ -232,6 +253,8 @@ public class BongkarMuatFormFragment extends Fragment {
             Toasty.error(mContext, "Tidak ada data jenis muatan!", Toast.LENGTH_SHORT).show();
         } else {
 
+            teErrorMsg.setVisibility(View.GONE);
+
             if (recyclerID != 0) {
                 //update
                 new AlertDialog.Builder(mContext)
@@ -245,48 +268,56 @@ public class BongkarMuatFormFragment extends Fragment {
                                     etJenisMuatan.getText().toString(),
                                     Integer.parseInt(etBobot.getText().toString()),
                                     etNamaKapal.getText().toString(),
+                                    etJenisKapal.getText().toString(),
+                                    etGtKapal.getText().toString(),
+                                    etAgenKapal.getText().toString(),
                                     etAngkutanNopol.getText().toString(),
-                                    etAngkutanSupir.getText().toString())
-                                    .enqueue(new Callback<ResponseBody>() {
-                                        @Override
-                                        public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
-                                            if (response.isSuccessful()) {
-                                                loading.dismiss();
-                                                try {
-                                                    JSONObject jsonObject = new JSONObject(response.body().string());
-                                                    if (jsonObject.getString("error").equals("false")) {
+                                    etAngkutanSupir.getText().toString(),
+                                    etTglPelaksanaan.getText().toString()
+                            ).enqueue(new Callback<ResponseBody>() {
+                                @Override
+                                public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
+                                    if (response.isSuccessful()) {
+                                        loading.dismiss();
+                                        try {
+                                            JSONObject jsonObject = new JSONObject(response.body().string());
+                                            if (jsonObject.getString("error").equals("false")) {
 
-                                                        Toast.makeText(mContext, "Data telah berhasil diubah", Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(mContext, "Data telah berhasil diubah", Toast.LENGTH_SHORT).show();
 
-                                                        BongkarMuatFragment mf = new BongkarMuatFragment();
-                                                        FragmentTransaction ft = Objects.requireNonNull(getActivity()).getSupportFragmentManager()
-                                                                .beginTransaction()
-                                                                .add(R.id.nav_host_fragment, mf, BongkarMuatFragment.class.getSimpleName())
-                                                                .addToBackStack(null);
-                                                        ft.commit();
-
-                                                    } else {
-                                                        String error_message = jsonObject.getString("error_msg");
-                                                        Toast.makeText(mContext, error_message, Toast.LENGTH_SHORT).show();
-                                                    }
-
-
-                                                } catch (JSONException | IOException e) {
-                                                    e.printStackTrace();
-                                                }
+                                                BongkarMuatFragment mf = new BongkarMuatFragment();
+                                                FragmentTransaction ft = Objects.requireNonNull(getActivity()).getSupportFragmentManager()
+                                                        .beginTransaction()
+                                                        .add(R.id.nav_host_fragment, mf, BongkarMuatFragment.class.getSimpleName())
+                                                        .addToBackStack(null);
+                                                ft.commit();
 
                                             } else {
-                                                loading.dismiss();
+                                                String error_message = jsonObject.getString("error_msg");
+                                                Toast.makeText(mContext, "Error!", Toast.LENGTH_SHORT).show();
+                                                teErrorMsg.setVisibility(View.VISIBLE);
+                                                teErrorMsg.setText(error_message);
+
+                                                scroolViewBongkarMuat.fullScroll(ScrollView.FOCUS_UP);
                                             }
+
+
+                                        } catch (JSONException | IOException e) {
+                                            e.printStackTrace();
                                         }
 
-                                        @Override
-                                        public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
-                                            Toasty.error(mContext, t.toString(), Toast.LENGTH_LONG).show();
-                                            Log.e("debug", "onFailure: ERROR > " + t.toString());
-                                            loading.dismiss();
-                                        }
-                                    });
+                                    } else {
+                                        loading.dismiss();
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
+                                    Toasty.error(mContext, t.toString(), Toast.LENGTH_LONG).show();
+                                    Log.e("debug", "onFailure: ERROR > " + t.toString());
+                                    loading.dismiss();
+                                }
+                            });
                         }).setNegativeButton("Batal", null).show();
             } else {
                 //new data
@@ -301,48 +332,56 @@ public class BongkarMuatFormFragment extends Fragment {
                                     etJenisMuatan.getText().toString(),
                                     Integer.parseInt(etBobot.getText().toString()),
                                     etNamaKapal.getText().toString(),
+                                    etJenisKapal.getText().toString(),
+                                    etGtKapal.getText().toString(),
+                                    etAgenKapal.getText().toString(),
                                     etAngkutanNopol.getText().toString(),
-                                    etAngkutanSupir.getText().toString())
-                                    .enqueue(new Callback<ResponseBody>() {
-                                        @Override
-                                        public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
-                                            if (response.isSuccessful()) {
-                                                loading.dismiss();
-                                                try {
-                                                    JSONObject jsonObject = new JSONObject(response.body().string());
-                                                    if (jsonObject.getString("error").equals("false")) {
+                                    etAngkutanSupir.getText().toString(),
+                                    etTglPelaksanaan.getText().toString()
+                            ).enqueue(new Callback<ResponseBody>() {
+                                @Override
+                                public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
+                                    if (response.isSuccessful()) {
+                                        loading.dismiss();
+                                        try {
+                                            JSONObject jsonObject = new JSONObject(response.body().string());
+                                            if (jsonObject.getString("error").equals("false")) {
 
-                                                        Toast.makeText(mContext, "Permohonan baru berhasil dibuat", Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(mContext, "Permohonan baru berhasil dibuat", Toast.LENGTH_SHORT).show();
 
-                                                        BongkarMuatFragment mf = new BongkarMuatFragment();
-                                                        FragmentTransaction ft = Objects.requireNonNull(getActivity()).getSupportFragmentManager()
-                                                                .beginTransaction()
-                                                                .add(R.id.nav_host_fragment, mf, BongkarMuatFragment.class.getSimpleName())
-                                                                .addToBackStack(null);
-                                                        ft.commit();
-
-                                                    } else {
-                                                        String error_message = jsonObject.getString("error_msg");
-                                                        Toast.makeText(mContext, error_message, Toast.LENGTH_SHORT).show();
-                                                    }
-
-
-                                                } catch (JSONException | IOException e) {
-                                                    e.printStackTrace();
-                                                }
+                                                BongkarMuatFragment mf = new BongkarMuatFragment();
+                                                FragmentTransaction ft = Objects.requireNonNull(getActivity()).getSupportFragmentManager()
+                                                        .beginTransaction()
+                                                        .add(R.id.nav_host_fragment, mf, BongkarMuatFragment.class.getSimpleName())
+                                                        .addToBackStack(null);
+                                                ft.commit();
 
                                             } else {
-                                                loading.dismiss();
+                                                String error_message = jsonObject.getString("error_msg");
+                                                Toast.makeText(mContext, "Error!", Toast.LENGTH_SHORT).show();
+                                                teErrorMsg.setVisibility(View.VISIBLE);
+                                                teErrorMsg.setText(error_message);
+
+                                                scroolViewBongkarMuat.fullScroll(ScrollView.FOCUS_UP);
                                             }
+
+
+                                        } catch (JSONException | IOException e) {
+                                            e.printStackTrace();
                                         }
 
-                                        @Override
-                                        public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
-                                            Toasty.error(mContext, t.toString(), Toast.LENGTH_LONG).show();
-                                            Log.e("debug", "onFailure: ERROR > " + t.toString());
-                                            loading.dismiss();
-                                        }
-                                    });
+                                    } else {
+                                        loading.dismiss();
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
+                                    Toasty.error(mContext, t.toString(), Toast.LENGTH_LONG).show();
+                                    Log.e("debug", "onFailure: ERROR > " + t.toString());
+                                    loading.dismiss();
+                                }
+                            });
                         }).setNegativeButton("Batal", null).show();
             }
 

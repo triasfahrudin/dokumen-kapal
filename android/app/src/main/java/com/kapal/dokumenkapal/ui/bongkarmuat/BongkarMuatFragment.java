@@ -73,8 +73,12 @@ public class BongkarMuatFragment extends Fragment {
                 bundle.putString("jenis_muatan", "");
                 bundle.putDouble("bobot", 0);
                 bundle.putString("nama_kapal", "");
+                bundle.putString("jenis_kapal", "");
+                bundle.putString("gt_kapal", "");
+                bundle.putString("agen_kapal", "");
                 bundle.putString("angkutan_nopol", "");
                 bundle.putString("angkutan_supir", "");
+                bundle.putString("tgl_pelaksanaan", "");
 
                 BongkarMuatFormFragment fragment = new BongkarMuatFormFragment();
                 fragment.setArguments(bundle);
@@ -170,8 +174,13 @@ public class BongkarMuatFragment extends Fragment {
                 bundle.putString("jenis_muatan", viewHolder.jenis_muatan);
                 bundle.putDouble("bobot", viewHolder.bobot);
                 bundle.putString("nama_kapal", viewHolder.nama_kapal);
+                bundle.putString("jenis_kapal",viewHolder.jenis_kapal);
+                bundle.putString("gt_kapal",viewHolder.gt_kapal);
+                bundle.putString("agen_kapal",viewHolder.agen_kapal);
+
                 bundle.putString("angkutan_nopol", viewHolder.angkutan_nopol);
                 bundle.putString("angkutan_supir", viewHolder.angkutan_supir);
+                bundle.putString("tgl_pelaksanaan",viewHolder.tgl_pelaksanaan);
 
                 BongkarMuatFormFragment fragment = new BongkarMuatFormFragment();
                 fragment.setArguments(bundle);

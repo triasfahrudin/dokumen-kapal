@@ -120,9 +120,7 @@ public class BukuPelautFragment extends Fragment {
                                     String error_message = jsonObject.getString("error_msg");
                                     Toast.makeText(mContext, error_message, Toast.LENGTH_SHORT).show();
                                 }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            } catch (IOException e) {
+                            } catch (JSONException | IOException e) {
                                 e.printStackTrace();
                             }
                         } else {
@@ -132,7 +130,7 @@ public class BukuPelautFragment extends Fragment {
                     }
 
                     @Override
-                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    public void onFailure(@NonNull Call<ResponseBody> call, Throwable t) {
 
                     }
                 });
@@ -151,7 +149,7 @@ public class BukuPelautFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
-            String filepath = data.getData().getPath();
+            String filepath = Objects.requireNonNull(data.getData()).getPath();
             etUpload.setText(filepath);
             uploadFile(filepath);
         }

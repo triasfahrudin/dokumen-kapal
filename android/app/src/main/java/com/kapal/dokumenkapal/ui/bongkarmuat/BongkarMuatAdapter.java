@@ -25,8 +25,6 @@ public class BongkarMuatAdapter extends RecyclerView.Adapter<BongkarMuatAdapter.
     OnBindCallBack onBindCallBack;
     private Context context;
     private ArrayList<BongkarMuatModelRecycler> dataList;
-
-
     BongkarMuatAdapter(ArrayList<BongkarMuatModelRecycler> dataList) {
         this.dataList = dataList;
     }
@@ -79,8 +77,14 @@ public class BongkarMuatAdapter extends RecyclerView.Adapter<BongkarMuatAdapter.
         holder.jenis_muatan = dataList.get(position).getJenis_muatan();
         holder.bobot = dataList.get(position).getBobot();
         holder.nama_kapal = dataList.get(position).getNama_kapal();
+        holder.jenis_kapal = dataList.get(position).getJenis_kapal();
+        holder.gt_kapal = dataList.get(position).getGt_kapal();
+        holder.agen_kapal = dataList.get(position).getAgen_kapal();
+
         holder.angkutan_nopol = dataList.get(position).getAngkutan_nopol();
         holder.angkutan_supir = dataList.get(position).getAngkutan_supir();
+
+        holder.tgl_pelaksanaan = dataList.get(position).getTgl_pelaksanaan();
 
         holder.rating_kepuasan = (float) dataList.get(position).getRating_kepuasan();
         holder.komentar = dataList.get(position).getKomentar();
@@ -140,8 +144,12 @@ public class BongkarMuatAdapter extends RecyclerView.Adapter<BongkarMuatAdapter.
         String jenis_muatan;
         Double bobot;
         String nama_kapal;
+        String jenis_kapal;
+        String gt_kapal;
+        String agen_kapal;
         String angkutan_nopol;
         String angkutan_supir;
+        String tgl_pelaksanaan;
 
         Double biaya;
         TextView tvKode;

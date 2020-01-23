@@ -16,12 +16,24 @@ public class BongkarMuatModelRecycler {
     private Double bobot;
     @SerializedName("nama_kapal")
     private String nama_kapal;
+
+    @SerializedName("jenis_kapal")
+    private String jenis_kapal;
+
+    @SerializedName("gt_kapal")
+    private String gt_kapal;
+
+    @SerializedName("agen_kapal")
+    private String agen_kapal;
+
     @SerializedName("angkutan_nopol")
     private String angkutan_nopol;
     @SerializedName("angkutan_supir")
     private String angkutan_supir;
     @SerializedName("tgl_mohon")
     private String tgl_mohon;
+    @SerializedName("tgl_pelaksanaan")
+    private String tgl_pelaksanaan;
     @SerializedName("tgl_update")
     private String tgl_update;
     @SerializedName("biaya")
@@ -36,6 +48,38 @@ public class BongkarMuatModelRecycler {
     private int rating_kepuasan;
     @SerializedName("komentar")
     private String komentar;
+
+    public String getJenis_kapal() {
+        return jenis_kapal;
+    }
+
+    public void setJenis_kapal(String jenis_kapal) {
+        this.jenis_kapal = jenis_kapal;
+    }
+
+    public String getGt_kapal() {
+        return gt_kapal;
+    }
+
+    public void setGt_kapal(String gt_kapal) {
+        this.gt_kapal = gt_kapal;
+    }
+
+    public String getAgen_kapal() {
+        return agen_kapal;
+    }
+
+    public void setAgen_kapal(String agen_kapal) {
+        this.agen_kapal = agen_kapal;
+    }
+
+    public String getTgl_pelaksanaan() {
+        return tgl_pelaksanaan;
+    }
+
+    public void setTgl_pelaksanaan(String tgl_pelaksanaan) {
+        this.tgl_pelaksanaan = tgl_pelaksanaan;
+    }
 
     public String getKode_biaya() {
         return kode_biaya;

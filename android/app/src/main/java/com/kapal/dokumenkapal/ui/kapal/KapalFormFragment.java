@@ -119,6 +119,8 @@ public class KapalFormFragment extends Fragment {
     TextView formkapalErrorMsg;
     @BindView(R.id.formkapal_scroolview)
     ScrollView formkapalScroolview;
+    @BindView(R.id.kapal_etLambungTimbul)
+    EditText kapalEtLambungTimbul;
     private Context mContext;
     private BaseApiService mBaseApiService;
     private SharedPrefManager sharedPrefManager;
@@ -147,6 +149,8 @@ public class KapalFormFragment extends Fragment {
         kapalEtPelabuhanDaftar.setText(getArguments().getString("pelabuhan_daftar"));
         kapalEtIMONumber.setText(getArguments().getString("imo_number"));
         kapalEtGRT.setText(String.valueOf(getArguments().getInt("grt")));
+
+        kapalEtLambungTimbul.setText(String.valueOf(getArguments().getInt("lambung_timbul")));
 
         kapalEtTglKontrak.setText(getArguments().getString("tgl_kontrak"));
         kapalEtTglPeletakanLunas.setText(getArguments().getString("tgl_peletakan_lunas"));
@@ -338,6 +342,7 @@ public class KapalFormFragment extends Fragment {
                 kapalEtKodePengenal.getText().toString(),
                 kapalEtPelabuhanDaftar.getText().toString(),
                 kapalEtIMONumber.getText().toString(),
+                Integer.parseInt(kapalEtLambungTimbul.getText().toString()),
                 Integer.parseInt(kapalEtGRT.getText().toString()),
                 kapalEtTglKontrak.getText().toString(),
                 kapalEtTglPeletakanLunas.getText().toString(),

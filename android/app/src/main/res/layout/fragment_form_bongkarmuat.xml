@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/bongkarmuat_scroolview"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_white">
@@ -17,14 +18,14 @@
         android:paddingTop="10dp">
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/formbongkarmuat_error_msg"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:background="#f8d7da"
+            android:background="#E91E63"
             android:padding="10dp"
-            android:text="@string/syarat_bongkarmuat"
-            android:textColor="#721c24" />
+            android:text="TextView"
+            android:textColor="#EFF3F3"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/textView2"
@@ -82,12 +83,63 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="Kapal pengangkut"
+            android:text="Nama Kapal Pengangkut"
             android:textSize="18sp"
             android:textStyle="bold" />
 
         <EditText
             android:id="@+id/bongkarmuat_nama_kapal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="text"
+            android:autofillHints="" />
+
+        <TextView
+            android:id="@+id/textView_agenkapal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="Nama Agen Kapal"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/bongkarmuat_agen_kapal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="text"
+            android:autofillHints="" />
+
+        <TextView
+            android:id="@+id/textView_jeniskapal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="Jenis Kapal"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/bongkarmuat_jenis_kapal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="text"
+            android:autofillHints="" />
+
+        <TextView
+            android:id="@+id/textView_gtkapal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="GT Kapal"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/bongkarmuat_gt_kapal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -122,6 +174,23 @@
 
         <EditText
             android:id="@+id/bongkarmuat_angkutan_supir"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="text"
+            android:autofillHints="" />
+
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="Tanggal Pelaksanaan"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/bongkarmuat_tgl_pelaksanaan"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"

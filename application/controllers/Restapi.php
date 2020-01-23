@@ -145,7 +145,7 @@ class Restapi extends CI_Controller
         $this->db->select("id,
                            nama_sertifikat,
                            nomor,
-                           penerbit,
+                           IFNULL(penerbit,'-') AS penerbit,
                            DATE_FORMAT(tgl_terbit, '%d/%m/%Y') AS tgl_terbit");
         $qry = $this->db->get_where('sertifikat_pelaut', array('pemohon_id' => $pemohon_id));
 
@@ -234,6 +234,7 @@ class Restapi extends CI_Controller
         $this->form_validation->set_rules('jenis_kapal', 'Jenis Kapal', 'required');
         $this->form_validation->set_rules('kode_pengenal', 'Kode Pengenal', 'required');
         $this->form_validation->set_rules('imo_number', 'Nomor IMO', 'required');
+        $this->form_validation->set_rules('lambung_timbul', 'Lambung timbul', 'required');
         $this->form_validation->set_rules('grt', 'Gross Register Ton (GRT)', 'required');
 
         if ($this->form_validation->run() == true) {
@@ -245,6 +246,7 @@ class Restapi extends CI_Controller
             $jenis_kapal   = $this->input->post('jenis_kapal');
             $kode_pengenal = $this->input->post('kode_pengenal');
             $imo_number    = $this->input->post('imo_number');
+            $lambung_timbul    = $this->input->post('lambung_timbul');
             $grt           = $this->input->post('grt');
 
             $pelabuhan_daftar = $this->input->post('pelabuhan_daftar');
@@ -268,6 +270,7 @@ class Restapi extends CI_Controller
                         'kode_pengenal'        => $kode_pengenal,
                         'pelabuhan_daftar'     => $pelabuhan_daftar,
                         'imo_number'           => $imo_number,
+                        'lambung_timbul'       => $lambung_timbul,
                         'grt'                  => $grt,
 
                         'tgl_kontrak'          => convert_date_to_sql_date($tgl_kontrak, 'd/m/Y'),
@@ -301,6 +304,7 @@ class Restapi extends CI_Controller
                         'kode_pengenal'        => $kode_pengenal,
                         'pelabuhan_daftar'     => $pelabuhan_daftar,
                         'imo_number'           => $imo_number,
+                        'lambung_timbul'       => $lambung_timbul,
                         'grt'                  => $grt,
                         'tgl_kontrak'          => convert_date_to_sql_date($tgl_kontrak, 'd/m/Y'),
                         'tgl_peletakan_lunas'  => convert_date_to_sql_date($tgl_peletakan_lunas, 'd/m/Y'),
@@ -1119,7 +1123,7 @@ class Restapi extends CI_Controller
             echo json_encode($response);
 
         }
-        
+
     }
 
     public function register()
@@ -1350,11 +1354,19 @@ class Restapi extends CI_Controller
                            a.kode_biaya,
                            a.jenis_muatan,
                            a.bobot,
+
                            a.nama_kapal,
+                           a.jenis_kapal,
+                           a.gt_kapal,
+                           a.agen_kapal,
+                           
                            a.angkutan_nopol,
                            a.angkutan_supir,
+                           
                            DATE_FORMAT(a.tgl_mohon, '%d/%m/%Y') AS tgl_mohon,
-                           DATE_FORMAT(a.tgl_update,'%d/%m/%Y') AS tgl_update,
+                           DATE_FORMAT(a.tgl_pelaksanaan, '%d/%m/%Y') AS tgl_pelaksanaan,
+                           IFNULL(DATE_FORMAT(a.tgl_update,'%d/%m/%Y'),'-') AS tgl_update,
+                           
                            a.biaya,
                            a.status,
                            a.alasan_status,
@@ -1425,83 +1437,151 @@ class Restapi extends CI_Controller
     public function insert_bongkarmuat()
     {
         header("content-type: application/json");
-        $pemohon_id     = $this->input->post('pemohon_id');
-        $kode_biaya     = $this->input->post('kode_biaya');
-        $jenis_muatan   = $this->input->post('jenis_muatan');
-        $bobot          = $this->input->post('bobot');
-        $nama_kapal     = $this->input->post('nama_kapal');
-        $angkutan_nopol = $this->input->post('angkutan_nopol');
-        $angkutan_supir = $this->input->post('angkutan_supir');
 
-        $this->db->insert('bongkar_muat',
-            array(
-                'pemohon_id'     => $pemohon_id,
-                'kode_biaya'     => $kode_biaya,
-                'jenis_muatan'   => $jenis_muatan,
-                'bobot'          => $bobot,
-                'nama_kapal'     => $nama_kapal,
-                'angkutan_nopol' => $angkutan_nopol,
-                'angkutan_supir' => $angkutan_supir,
-                'tgl_mohon'      => date('Y-m-d H:i:s'),
+        $this->load->library('form_validation');
 
-            )
-        );
+        $this->form_validation->set_rules('jenis_muatan', 'Jenis Muatan', 'required');
+        $this->form_validation->set_rules('bobot', 'Bobot Muatan', 'required');
+        $this->form_validation->set_rules('nama_kapal', 'Nama Kapal', 'required');
+        $this->form_validation->set_rules('jenis_kapal', 'Jenis Kapal', 'required');
+        $this->form_validation->set_rules('agen_kapal', 'Agen Kapal', 'required');
+        $this->form_validation->set_rules('angkutan_nopol', 'Nopol angkutan', 'required');
+        $this->form_validation->set_rules('angkutan_supir', 'Supir angkutan', 'required');
+        $this->form_validation->set_rules('tgl_pelaksanaan', 'Tanggal pelaksanaan', 'required');
 
-        echo json_encode(
-            array(
-                'status'    => "Permohonan baru berhasil dibuat",
-                'error_msg' => $this->db->error()['code'],
-                'error'     => false,
-                'last_id'   => $this->db->insert_id(),
+        if ($this->form_validation->run() == true) {
 
-            )
-        );
+            $pemohon_id   = $this->input->post('pemohon_id');
+            $kode_biaya   = $this->input->post('kode_biaya');
+            $jenis_muatan = $this->input->post('jenis_muatan');
+            $bobot        = $this->input->post('bobot');
+            $nama_kapal   = $this->input->post('nama_kapal');
+            $jenis_kapal  = $this->input->post('jenis_kapal');
+            $agen_kapal   = $this->input->post('agen_kapal');
+            $gt_kapal     = $this->input->post('gt_kapal');
+
+            $angkutan_nopol = $this->input->post('angkutan_nopol');
+            $angkutan_supir = $this->input->post('angkutan_supir');
+
+            $tgl_pelaksanaan = $this->_cek_input_tgl($this->input->post('tgl_pelaksanaan'));
+
+            $this->db->insert('bongkar_muat',
+                array(
+                    'pemohon_id'      => $pemohon_id,
+                    'kode_biaya'      => $kode_biaya,
+                    'jenis_muatan'    => $jenis_muatan,
+                    'bobot'           => $bobot,
+                    'nama_kapal'      => $nama_kapal,
+                    'jenis_kapal'     => $jenis_kapal,
+                    'agen_kapal'      => $agen_kapal,
+                    'gt_kapal'        => $gt_kapal,
+                    'angkutan_nopol'  => $angkutan_nopol,
+                    'angkutan_supir'  => $angkutan_supir,
+                    'tgl_mohon'       => date('Y-m-d H:i:s'),
+                    'tgl_pelaksanaan' => convert_date_to_sql_date($tgl_pelaksanaan, 'd/m/Y'),
+
+                )
+            );
+
+            echo json_encode(
+                array(
+                    'status'    => "Permohonan baru berhasil dibuat",
+                    'error_msg' => $this->db->error()['code'],
+                    'error'     => false,
+                    'last_id'   => $this->db->insert_id(),
+
+                )
+            );
+
+        } else {
+
+            $response["error"]     = true;
+            $response["error_msg"] = validation_errors('*', '*');
+            echo json_encode($response);
+
+        }
+
     }
 
     public function edit_bongkarmuat()
     {
         header("content-type: application/json");
-        $id             = $this->input->post('id');
-        $kode_biaya     = $this->input->post('kode_biaya');
-        $jenis_muatan   = $this->input->post('jenis_muatan');
-        $bobot          = $this->input->post('bobot');
-        $nama_kapal     = $this->input->post('nama_kapal');
-        $angkutan_nopol = $this->input->post('angkutan_nopol');
-        $angkutan_supir = $this->input->post('angkutan_supir');
 
-        $bm = $this->db->get_where('bongkar_muat', array('id' => $id))->row_array();
+        $this->load->library('form_validation');
 
-        $status_baru = "";
-        if ($bm['status'] === "399") {
-            $status_baru = "210";
-        } elseif ($bm['status'] === "299") {
-            $status_baru = "200";
+        $this->form_validation->set_rules('jenis_muatan', 'Jenis Muatan', 'required');
+        $this->form_validation->set_rules('bobot', 'Bobot Muatan', 'required');
+        $this->form_validation->set_rules('nama_kapal', 'Nama Kapal', 'required');
+        $this->form_validation->set_rules('jenis_kapal', 'Jenis Kapal', 'required');
+        $this->form_validation->set_rules('agen_kapal', 'Agen Kapal', 'required');
+        $this->form_validation->set_rules('angkutan_nopol', 'Nopol angkutan', 'required');
+        $this->form_validation->set_rules('angkutan_supir', 'Supir angkutan', 'required');
+        $this->form_validation->set_rules('tgl_pelaksanaan', 'Tanggal pelaksanaan', 'required');
+
+        if ($this->form_validation->run() == true) {
+
+            $id             = $this->input->post('id');
+            $kode_biaya     = $this->input->post('kode_biaya');
+            $jenis_muatan   = $this->input->post('jenis_muatan');
+            $bobot          = $this->input->post('bobot');
+
+            $nama_kapal     = $this->input->post('nama_kapal');
+            $jenis_kapal  = $this->input->post('jenis_kapal');
+            $agen_kapal   = $this->input->post('agen_kapal');
+            $gt_kapal     = $this->input->post('gt_kapal');
+
+
+            $angkutan_nopol = $this->input->post('angkutan_nopol');
+            $angkutan_supir = $this->input->post('angkutan_supir');
+
+            $tgl_pelaksanaan = $this->input->post('tgl_pelaksanaan');
+
+            $bm = $this->db->get_where('bongkar_muat', array('id' => $id))->row_array();
+
+            $status_baru = "";
+            if ($bm['status'] === "399") {
+                $status_baru = "210";
+            } elseif ($bm['status'] === "299") {
+                $status_baru = "200";
+            }
+
+            $this->db->where('id', $id);
+            $this->db->update('bongkar_muat',
+                array(
+                    'kode_biaya'     => $kode_biaya,
+                    'jenis_muatan'   => $jenis_muatan,
+                    'bobot'          => $bobot,
+                    'nama_kapal'      => $nama_kapal,
+                    'jenis_kapal'     => $jenis_kapal,
+                    'agen_kapal'      => $agen_kapal,
+                    'gt_kapal'        => $gt_kapal,
+                    'angkutan_nopol'  => $angkutan_nopol,
+                    'angkutan_supir'  => $angkutan_supir,                    
+                    'tgl_pelaksanaan' => $this->_cek_input_tgl($tgl_pelaksanaan),
+                    'status'         => $status_baru,
+                    'tgl_update'     => date('Y-m-d H:i:s'),
+
+                )
+            );
+
+            echo json_encode(
+                array(
+                    'status'    => "Data permohonan berhasil diubah",
+                    'error_msg' => $this->db->error()['code'],
+                    'error'     => false,
+                    'last_id'   => $this->db->insert_id(),
+
+                )
+            );
+
+        } else {
+
+            $response["error"]     = true;
+            $response["error_msg"] = validation_errors('*', '*');
+            echo json_encode($response);
+
         }
 
-        $this->db->where('id', $id);
-        $this->db->update('bongkar_muat',
-            array(
-                'kode_biaya'     => $kode_biaya,
-                'jenis_muatan'   => $jenis_muatan,
-                'bobot'          => $bobot,
-                'nama_kapal'     => $nama_kapal,
-                'angkutan_nopol' => $angkutan_nopol,
-                'angkutan_supir' => $angkutan_supir,
-                'status'         => $status_baru,
-                'tgl_update'     => date('Y-m-d H:i:s'),
-
-            )
-        );
-
-        echo json_encode(
-            array(
-                'status'    => "Data permohonan berhasil diubah",
-                'error_msg' => $this->db->error()['code'],
-                'error'     => false,
-                'last_id'   => $this->db->insert_id(),
-
-            )
-        );
     }
 
     public function insert_masalayar()
@@ -1589,7 +1669,7 @@ class Restapi extends CI_Controller
         $this->db->select("a.id,
                            LPAD(a.id,6,'0') AS kode,
                            DATE_FORMAT(a.tgl_mohon, '%d/%m/%Y') AS tgl_mohon,
-                           DATE_FORMAT(a.tgl_update,'%d/%m/%Y') AS tgl_update,
+                           IFNULL(DATE_FORMAT(a.tgl_update,'%d/%m/%Y'),'-') AS tgl_update,
                            a.biaya,
                            a.status,
                            a.alasan_status,

@@ -16,6 +16,8 @@ public class KapalModelRecycler {
     private String pelabuhan_daftar;
     @SerializedName("imo_number")
     private String imo_number;
+    @SerializedName("lambung_timbul")
+    private int lambung_timbul;
     @SerializedName("grt")
     private int grt;
     @SerializedName("tgl_kontrak")
@@ -32,6 +34,14 @@ public class KapalModelRecycler {
     private int kapasitas_roda_dua;
     @SerializedName("kapasitas_roda_empat")
     private int kapasitas_roda_empat;
+
+    public int getLambung_timbul() {
+        return lambung_timbul;
+    }
+
+    public void setLambung_timbul(int lambung_timbul) {
+        this.lambung_timbul = lambung_timbul;
+    }
 
     public String getTgl_kontrak() {
         return tgl_kontrak;
