@@ -1368,7 +1368,7 @@ class Restapi extends CI_Controller
                            DATE_FORMAT(a.tgl_pelaksanaan, '%d/%m/%Y') AS tgl_pelaksanaan,
                            IFNULL(DATE_FORMAT(a.tgl_update,'%d/%m/%Y'),'-') AS tgl_update,
                            
-                           a.biaya,
+                           IFNULL(a.biaya,0) AS biaya,
                            a.status,
                            a.alasan_status,
                            b.arti AS arti_status,
@@ -1678,7 +1678,7 @@ class Restapi extends CI_Controller
                            LPAD(a.id,6,'0') AS kode,
                            DATE_FORMAT(a.tgl_mohon, '%d/%m/%Y') AS tgl_mohon,
                            IFNULL(DATE_FORMAT(a.tgl_update,'%d/%m/%Y'),'-') AS tgl_update,
-                           a.biaya,
+                           IFNULL(a.biaya,0) AS biaya,
                            a.status,
                            a.alasan_status,
                            b.arti AS arti_status,
