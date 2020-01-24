@@ -139,6 +139,7 @@
                       location.reload();   
                     }));
                  }else{
+                    download.bind(true, data.file_path, "application/vnd.openxmlformats-officedocument.wordprocessingml.document")
                     location.reload(); 
                  }
                }

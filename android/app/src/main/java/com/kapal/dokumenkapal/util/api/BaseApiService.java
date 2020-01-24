@@ -239,6 +239,7 @@ public interface BaseApiService {
             @Field("jenis_kapal") String jenis_kapal,
             @Field("gt_kapal") String gt_kapal,
             @Field("agen_kapal") String agen_kapal,
+            @Field("jenis_angkutan") String jenis_angkutan,
             @Field("angkutan_nopol") String angkutan_nopol,
             @Field("angkutan_supir") String angkutan_supir,
             @Field("tgl_pelaksanaan") String tgl_pelaksanaan
@@ -255,6 +256,7 @@ public interface BaseApiService {
             @Field("jenis_kapal") String jenis_kapal,
             @Field("gt_kapal") String gt_kapal,
             @Field("agen_kapal") String agen_kapal,
+            @Field("jenis_angkutan") String jenis_angkutan,
             @Field("angkutan_nopol") String angkutan_nopol,
             @Field("angkutan_supir") String angkutan_supir,
             @Field("tgl_pelaksanaan") String tgl_pelaksanaan

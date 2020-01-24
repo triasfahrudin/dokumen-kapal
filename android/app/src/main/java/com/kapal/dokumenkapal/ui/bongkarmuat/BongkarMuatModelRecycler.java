@@ -25,7 +25,8 @@ public class BongkarMuatModelRecycler {
 
     @SerializedName("agen_kapal")
     private String agen_kapal;
-
+    @SerializedName("jenis_angkutan")
+    private String jenis_angkutan;
     @SerializedName("angkutan_nopol")
     private String angkutan_nopol;
     @SerializedName("angkutan_supir")
@@ -48,6 +49,14 @@ public class BongkarMuatModelRecycler {
     private int rating_kepuasan;
     @SerializedName("komentar")
     private String komentar;
+
+    public String getJenis_angkutan() {
+        return jenis_angkutan;
+    }
+
+    public void setJenis_angkutan(String jenis_angkutan) {
+        this.jenis_angkutan = jenis_angkutan;
+    }
 
     public String getJenis_kapal() {
         return jenis_kapal;

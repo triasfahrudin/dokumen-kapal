@@ -47,6 +47,7 @@
       <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
 
       <script type="text/javascript">var base_path = "<?php echo site_url('manage')?>";</script>
+      <script src="<?php echo site_url('assets/manage/js/download.js')?>?timestamps=<?php echo date("YmdHis")?>"></script>
       <script src="<?php echo site_url('assets/manage/js/admin.js')?>?timestamps=<?php echo date("YmdHis")?>"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/Cookies.js/0.3.1/cookies.js"></script>
 

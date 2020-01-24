@@ -1360,6 +1360,7 @@ class Restapi extends CI_Controller
                            a.gt_kapal,
                            a.agen_kapal,
                            
+                           a.jenis_angkutan,
                            a.angkutan_nopol,
                            a.angkutan_supir,
                            
@@ -1445,6 +1446,8 @@ class Restapi extends CI_Controller
         $this->form_validation->set_rules('nama_kapal', 'Nama Kapal', 'required');
         $this->form_validation->set_rules('jenis_kapal', 'Jenis Kapal', 'required');
         $this->form_validation->set_rules('agen_kapal', 'Agen Kapal', 'required');
+
+        $this->form_validation->set_rules('jenis_angkutan', 'Jenis angkutan', 'required');
         $this->form_validation->set_rules('angkutan_nopol', 'Nopol angkutan', 'required');
         $this->form_validation->set_rules('angkutan_supir', 'Supir angkutan', 'required');
         $this->form_validation->set_rules('tgl_pelaksanaan', 'Tanggal pelaksanaan', 'required');
@@ -1460,6 +1463,7 @@ class Restapi extends CI_Controller
             $agen_kapal   = $this->input->post('agen_kapal');
             $gt_kapal     = $this->input->post('gt_kapal');
 
+            $jenis_angkutan  = $this->input->post('jenis_angkutan');
             $angkutan_nopol = $this->input->post('angkutan_nopol');
             $angkutan_supir = $this->input->post('angkutan_supir');
 
@@ -1475,6 +1479,7 @@ class Restapi extends CI_Controller
                     'jenis_kapal'     => $jenis_kapal,
                     'agen_kapal'      => $agen_kapal,
                     'gt_kapal'        => $gt_kapal,
+                    'jenis_angkutan'  => $jenis_angkutan,
                     'angkutan_nopol'  => $angkutan_nopol,
                     'angkutan_supir'  => $angkutan_supir,
                     'tgl_mohon'       => date('Y-m-d H:i:s'),
@@ -1514,6 +1519,8 @@ class Restapi extends CI_Controller
         $this->form_validation->set_rules('nama_kapal', 'Nama Kapal', 'required');
         $this->form_validation->set_rules('jenis_kapal', 'Jenis Kapal', 'required');
         $this->form_validation->set_rules('agen_kapal', 'Agen Kapal', 'required');
+
+        $this->form_validation->set_rules('jenis_angkutan', 'Jenis angkutan', 'required');
         $this->form_validation->set_rules('angkutan_nopol', 'Nopol angkutan', 'required');
         $this->form_validation->set_rules('angkutan_supir', 'Supir angkutan', 'required');
         $this->form_validation->set_rules('tgl_pelaksanaan', 'Tanggal pelaksanaan', 'required');
@@ -1530,7 +1537,7 @@ class Restapi extends CI_Controller
             $agen_kapal   = $this->input->post('agen_kapal');
             $gt_kapal     = $this->input->post('gt_kapal');
 
-
+            $jenis_angkutan  = $this->input->post('jenis_angkutan');
             $angkutan_nopol = $this->input->post('angkutan_nopol');
             $angkutan_supir = $this->input->post('angkutan_supir');
 
@@ -1555,6 +1562,7 @@ class Restapi extends CI_Controller
                     'jenis_kapal'     => $jenis_kapal,
                     'agen_kapal'      => $agen_kapal,
                     'gt_kapal'        => $gt_kapal,
+                    'jenis_angkutan'  => $jenis_angkutan,
                     'angkutan_nopol'  => $angkutan_nopol,
                     'angkutan_supir'  => $angkutan_supir,                    
                     'tgl_pelaksanaan' => $this->_cek_input_tgl($tgl_pelaksanaan),

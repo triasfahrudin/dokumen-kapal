@@ -148,7 +148,140 @@ class Manage extends MX_Controller
         }
     }
 
-    public function download_masalayar($id)
+    public function download_sertifikat($id, $download = false)
+    {
+
+        require APPPATH . '/third_party/phpword/PHPWord.php';
+
+        $template = FCPATH . "uploads/dok_sertifikat_keselamatan.docx";
+        $PHPWord  = new PHPWord();
+        $document = $PHPWord->loadTemplate($template);
+
+        $kapal = $this->db->get_where('kapal', array('id' => $id));
+
+        if ($kapal->num_rows() > 0) {
+            $k = $kapal->row_array();
+
+            $document->setValue('NAMA_KAPAL', $k['nama_kapal']);
+            $document->setValue('KODE_PENGENAL', $k['kode_pengenal']);
+            $document->setValue('PELABUHAN_DAFTAR', $k['pelabuhan_daftar']);
+            $document->setValue('GRT', $k['grt']);
+            $document->setValue('IMO_NUMBER', $k['imo_number']);
+            $document->setValue('TGL_KONTRAK', $k['tgl_kontrak']);
+            $document->setValue('TGL_PELETAKAN_LUNAS', $k['tgl_peletakan_lunas']);
+            $document->setValue('TGL_SERAH_TERIMA', $k['tgl_serah_terima']);
+            $document->setValue('TGL_PERUBAHAN', $k['tgl_perubahan']);
+            $document->setValue('LAMBUNG_TIMBUL', $k['lambung_timbul']);
+
+        } else {
+
+            $document->setValue('NAMA_KAPAL', '');
+            $document->setValue('KODE_PENGENAL', '');
+            $document->setValue('PELABUHAN_DAFTAR', '');
+            $document->setValue('GRT', '');
+            $document->setValue('IMO_NUMBER', '');
+            $document->setValue('TGL_KONTRAK', '');
+            $document->setValue('TGL_PELETAKAN_LUNAS', '');
+            $document->setValue('TGL_SERAH_TERIMA', '');
+            $document->setValue('TGL_PERUBAHAN', '');
+            $document->setValue('LAMBUNG_TIMBUL', '');
+
+        }
+
+        $file_save_path = FCPATH . "uploads/" . $id . '-sertifikat_keselamatan.docx';
+        $document->save($file_save_path);
+
+        if ($download) {
+            $this->load->helper('download');
+            $data = file_get_contents($file_save_path); // Read the file's contents
+            $name = $id . '-sertifikat_keselamatan.docx';
+
+            force_download($name, $data);
+
+        } else {
+            return $file_save_path;
+        }
+
+    }
+
+    public function download_bongkarmuat($id,$download = false)
+    {
+        require APPPATH . '/third_party/phpword/PHPWord.php';
+
+        $template = FCPATH . "uploads/dok_bongkar_muat.docx";
+        $PHPWord  = new PHPWord();
+        $document = $PHPWord->loadTemplate($template);
+
+        $this->db->select('b.nama AS nama_perusahaan,
+                           a.tgl_mohon,
+                           a.nama_kapal,
+                           a.agen_kapal,
+                           a.jenis_angkutan,
+                           a.angkutan_nopol AS nopol,
+                           a.angkutan_supir AS nama_supir,
+                           a.tgl_pelaksanaan,
+                           a.jenis_muatan AS jenis_barang,
+                           a.bobot AS berat,
+                           a.jenis_kapal,
+                           a.gt_kapal AS gt,
+                           a.tgl_update AS tgl_dikeluarkan');
+        $this->db->join('pemohon b', 'a.pemohon_id = b.id', 'left');
+        $bongkar_muat = $this->db->get_where('bongkar_muat a', array('a.id' => $id));
+
+        if ($bongkar_muat->num_rows() > 0) {
+
+            $bm = $bongkar_muat->row_array();
+
+            $document->setValue('NAMA_PERUSAHAAN', $bm['nama_perusahaan']);
+            $document->setValue('TGL_MOHON', convert_sql_date_to_date($bm['tgl_mohon']));
+            $document->setValue('NAMA_KAPAL', $bm['nama_kapal']);
+            $document->setValue('AGEN_KAPAL', $bm['agen_kapal']);
+            $document->setValue('JENIS_ANGKUTAN', $bm['jenis_angkutan']);
+            $document->setValue('NOPOL', $bm['nopol']);
+            $document->setValue('NAMA_SUPIR', $bm['nama_supir']);
+            $document->setValue('TGL_PELAKSANAAN', convert_sql_date_to_date($bm['tgl_pelaksanaan']));
+            $document->setValue('JENIS_BARANG', $bm['jenis_barang']);
+            $document->setValue('BERAT', $bm['berat'] . ' Ton');
+            $document->setValue('JENIS_KAPAL', $bm['jenis_kapal']);
+            $document->setValue('GT', $bm['gt']);
+            $document->setValue('TGL_DIKELUARKAN', $bm['tgl_dikeluarkan']);
+
+        } else {
+
+            $document->setValue('NAMA_PERUSAHAAN', '-');
+            $document->setValue('TGL_MOHON', '-');
+            $document->setValue('NAMA_KAPAL', '-');
+            $document->setValue('AGEN_KAPAL', '-');
+            $document->setValue('JENIS_ANGKUTAN', '-');
+            $document->setValue('NOPOL', '-');
+            $document->setValue('NAMA_SUPIR', '-');
+            $document->setValue('TGL_PELAKSANAAN', '-');
+            $document->setValue('JENIS_BARANG', '-');
+            $document->setValue('BERAT', '-');
+            $document->setValue('JENIS_KAPAL', '-');
+            $document->setValue('GT', '-');
+            $document->setValue('TGL_DIKELUARKAN', '-');
+
+        }
+
+        $file_save_path = FCPATH . "uploads/" . $id . '-bongkar_muat.docx';
+        $document->save($file_save_path);
+
+        if($download){
+            $this->load->helper('download');
+            $data = file_get_contents($file_save_path); // Read the file's contents
+            $name = $id . '-bongkar_muat.docx';
+
+            force_download($name, $data);    
+        }else{
+            return $file_save_path;
+        }
+
+        
+
+    }
+
+    public function download_masalayar($id,$download = false)
     {
         require APPPATH . '/third_party/phpword/PHPWord.php';
 
@@ -162,19 +295,18 @@ class Manage extends MX_Controller
                            c.nomor_buku AS buku_pelaut,
                            CONCAT(d.nama_sertifikat," TAHUN ", YEAR(d.tgl_terbit)) AS ijazah,
                            a.tgl_update AS tgl_dikeluarkan');
-        $this->db->join('pemohon b','a.pemohon_id = b.id','left');
-        $this->db->join('buku_pelaut c','b.id = c.pemohon_id','left');
+        $this->db->join('pemohon b', 'a.pemohon_id = b.id', 'left');
+        $this->db->join('buku_pelaut c', 'b.id = c.pemohon_id', 'left');
         $this->db->join('(SELECT pemohon_id,
                                  nama_sertifikat,
                                  tgl_terbit,
-                                 MAX(id) 
-                          FROM sertifikat_pelaut 
-                          GROUP BY pemohon_id) d','c.pemohon_id = d.pemohon_id','left');
+                                 MAX(id)
+                          FROM sertifikat_pelaut
+                          GROUP BY pemohon_id) d', 'c.pemohon_id = d.pemohon_id', 'left');
 
+        $query = $this->db->get_where('masa_layar a', array('a.pemohon_id' => $id));
 
-        $query = $this->db->get_where('masa_layar a',array('a.pemohon_id' => $id));
-
-        if($query->num_rows() > 0){
+        if ($query->num_rows() > 0) {
 
             $q = $query->row_array();
 
@@ -191,7 +323,8 @@ class Manage extends MX_Controller
                                tgl_turun,
                                timestampdiff(YEAR,tgl_naik,tgl_turun) AS diff_year,
                                timestampdiff(MONTH,tgl_naik,tgl_turun) AS diff_month');
-            $riwayat_pelayaran = $this->db->get_where('riwayat_pelayaran',array('pemohon_id' => $q['pemohon_id']));
+            $this->db->order_by('tgl_naik', 'ASC');
+            $riwayat_pelayaran = $this->db->get_where('riwayat_pelayaran', array('pemohon_id' => $q['pemohon_id']));
 
             $loop = 0;
             $ttot = 0;
@@ -206,15 +339,15 @@ class Manage extends MX_Controller
                 $document->setValue('THN_' . $loop, $rp['diff_year']);
                 $document->setValue('BLN_' . $loop, $rp['diff_month'] - ($rp['diff_year'] * 12));
 
-                $ttot +=  $rp['diff_year'];
+                $ttot += $rp['diff_year'];
                 $btot += $rp['diff_month'] - ($rp['diff_year'] * 12);
             }
 
             $document->setValue('TTOT', $ttot);
             $document->setValue('BTOT', $btot);
 
-            if($riwayat_pelayaran->num_rows() < 5){
-                for ($i=$loop; $i <= 5 ; $i++) { 
+            if ($riwayat_pelayaran->num_rows() < 5) {
+                for ($i = $loop; $i <= 5; $i++) {
                     $document->setValue('KAPAL_' . $i, "");
                     $document->setValue('TMESIN_' . $i, "");
                     $document->setValue('JABATAN_' . $i, "");
@@ -225,24 +358,43 @@ class Manage extends MX_Controller
                 }
             }
 
-        }else{
+            $btot       = ($ttot * 12) + $btot;
+            $btot_year  = floor($btot / 12);
+            $btot_month = $btot - ($btot_year * 12);
+
+            $document->setValue('BTTOT', $btot_year . " TAHUN " . $btot_month . " BULAN");
+
+            // $this->db->select('timestampdiff(YEAR,MIN(tgl_turun),MAX(tgl_naik))');
+            // $this->db->where('pemohon_id',$q['pemohon_id']);
+            // $riwayat_pelayaran = $this->db->get('riwayat_pelayaran');
+
+            // if($riwayat_pelayaran->num_rows() > 0){
+
+            // }else{
+
+            // }
+
+        } else {
             $document->setValue('NAMA_PEMOHON', '-');
             $document->setValue('TTL', '-');
             $document->setValue('BUKU_PELAUT', '-');
             $document->setValue('IJAZAH', '-');
             $document->setValue('TGL_DIKELUARKAN', '-');
-    
+
         }
 
-        
         $file_save_path = FCPATH . "uploads/" . $id . '-masa_layar.docx';
         $document->save($file_save_path);
 
-        $this->load->helper('download');
-        $data = file_get_contents($file_save_path); // Read the file's contents
-        $name = $id . '-masa_layar.docx';
+        if($download){
+            $this->load->helper('download');
+            $data = file_get_contents($file_save_path); // Read the file's contents
+            $name = $id . '-masa_layar.docx';
 
-        force_download($name, $data);
+            force_download($name, $data);
+        }else{
+            return $file_save_path;
+        }       
 
     }
 
@@ -607,6 +759,36 @@ class Manage extends MX_Controller
                             'message' => 'Status berhasil diubah',
                         )
                     );
+
+                } elseif ($status === "400") {
+
+                    $file_path = "";
+                    if ($jenis === "masa_layar") {
+                        $file_path = $this->download_masalayar($permohonan_id,false);
+                        echo $file_path;
+                    } elseif ($jenis === "bongkar_muat") {
+                        $file_path = $this->download_bongkarmuat($permohonan_id,false);
+                    } else {                        
+                        $file_path = $this->download_sertifikat($permohonan_id,false);                        
+                    }
+
+                    $this->db->where('id', $permohonan_id);
+                    $this->db->update($jenis,
+                        array(
+                            'status'     => $status,
+                            'tgl_update' => date('Y-m-d H:i:s'),
+                        )
+                    );
+
+                    echo json_encode(
+                        array(
+                            'error'   => false,
+                            'message' => 'Status berhasil diubah',
+                            'file_path' => $file_path
+                        )
+                    );
+
+                    
 
                 } else {
                     $this->db->where('id', $permohonan_id);

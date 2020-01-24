@@ -146,6 +146,24 @@
             android:inputType="text"
             android:autofillHints="" />
 
+
+        <TextView
+            android:id="@+id/textView_jeniskendaraan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="Jenis kendaraan pengangkut"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/bongkarmuat_jenis_kendaraan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="text"
+            android:autofillHints="" />
+
         <TextView
             android:id="@+id/textView6"
             android:layout_width="match_parent"

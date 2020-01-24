@@ -47,7 +47,7 @@ public class BongkarMuatFragment extends Fragment {
     private ProgressDialog loading;
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
 
         super.onAttach(context);
         mContext = context;
@@ -76,6 +76,7 @@ public class BongkarMuatFragment extends Fragment {
                 bundle.putString("jenis_kapal", "");
                 bundle.putString("gt_kapal", "");
                 bundle.putString("agen_kapal", "");
+                bundle.putString("jenis_angkutan", "");
                 bundle.putString("angkutan_nopol", "");
                 bundle.putString("angkutan_supir", "");
                 bundle.putString("tgl_pelaksanaan", "");
@@ -178,6 +179,7 @@ public class BongkarMuatFragment extends Fragment {
                 bundle.putString("gt_kapal",viewHolder.gt_kapal);
                 bundle.putString("agen_kapal",viewHolder.agen_kapal);
 
+                bundle.putString("jenis_angkutan",viewHolder.jenis_angkutan);
                 bundle.putString("angkutan_nopol", viewHolder.angkutan_nopol);
                 bundle.putString("angkutan_supir", viewHolder.angkutan_supir);
                 bundle.putString("tgl_pelaksanaan",viewHolder.tgl_pelaksanaan);

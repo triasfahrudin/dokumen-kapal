@@ -81,6 +81,7 @@ public class BongkarMuatAdapter extends RecyclerView.Adapter<BongkarMuatAdapter.
         holder.gt_kapal = dataList.get(position).getGt_kapal();
         holder.agen_kapal = dataList.get(position).getAgen_kapal();
 
+        holder.jenis_angkutan = dataList.get(position).getJenis_angkutan();
         holder.angkutan_nopol = dataList.get(position).getAngkutan_nopol();
         holder.angkutan_supir = dataList.get(position).getAngkutan_supir();
 
@@ -147,6 +148,7 @@ public class BongkarMuatAdapter extends RecyclerView.Adapter<BongkarMuatAdapter.
         String jenis_kapal;
         String gt_kapal;
         String agen_kapal;
+        String jenis_angkutan;
         String angkutan_nopol;
         String angkutan_supir;
         String tgl_pelaksanaan;

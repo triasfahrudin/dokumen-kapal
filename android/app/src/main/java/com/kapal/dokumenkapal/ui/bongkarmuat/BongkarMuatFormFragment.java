@@ -77,6 +77,8 @@ public class BongkarMuatFormFragment extends Fragment {
     EditText etTglPelaksanaan;
     @BindView(R.id.bongkarmuat_scroolview)
     ScrollView scroolViewBongkarMuat;
+    @BindView(R.id.bongkarmuat_jenis_kendaraan)
+    EditText etJenisAngkutan;
 
     private Context mContext;
     private BaseApiService mBaseApiService;
@@ -179,8 +181,11 @@ public class BongkarMuatFormFragment extends Fragment {
         etJenisKapal.setText(getArguments().getString("jenis_kapal"));
         etGtKapal.setText(getArguments().getString("gt_kapal"));
         etAgenKapal.setText(getArguments().getString("agen_kapal"));
+
+        etJenisAngkutan.setText(getArguments().getString("jenis_angkutan"));
         etAngkutanNopol.setText(getArguments().getString("angkutan_nopol"));
         etAngkutanSupir.setText(getArguments().getString("angkutan_supir"));
+        etTglPelaksanaan.setText(getArguments().getString("tgl_pelaksanaan"));
 
         SetDate tglPelaksanaan = new SetDate(etTglPelaksanaan, mContext);
 
@@ -271,6 +276,7 @@ public class BongkarMuatFormFragment extends Fragment {
                                     etJenisKapal.getText().toString(),
                                     etGtKapal.getText().toString(),
                                     etAgenKapal.getText().toString(),
+                                    etJenisAngkutan.getText().toString(),
                                     etAngkutanNopol.getText().toString(),
                                     etAngkutanSupir.getText().toString(),
                                     etTglPelaksanaan.getText().toString()
@@ -335,6 +341,7 @@ public class BongkarMuatFormFragment extends Fragment {
                                     etJenisKapal.getText().toString(),
                                     etGtKapal.getText().toString(),
                                     etAgenKapal.getText().toString(),
+                                    etJenisAngkutan.getText().toString(),
                                     etAngkutanNopol.getText().toString(),
                                     etAngkutanSupir.getText().toString(),
                                     etTglPelaksanaan.getText().toString()
