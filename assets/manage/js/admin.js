@@ -134,13 +134,26 @@
                  //$('#p_' + permohonan_id).removeClass('text-primary').addClass('text-secondary');   
                  //$('#p_' + permohonan_id).html('SELESAI');          
                  $('#p_loading_' + permohonan_id).hide();
-                 if(data.error == true){
+                 if(data.error == 'true'){
                     swal("Error", data.message, "error").then((value => {
-                      location.reload();   
+                      // location.reload();   
                     }));
                  }else{
-                    download.bind(true, data.file_path, "application/vnd.openxmlformats-officedocument.wordprocessingml.document")
-                    location.reload(); 
+                    //download(data.file_path,"test.docx", "application/vnd.openxmlformats-officedocument.wordprocessingml.document")
+                    // location.reload(); 
+
+                    var x = new XMLHttpRequest();
+                    x.onreadystatechange = function() {
+                        if (this.readyState == 4 && this.status == 200) {
+                            //console.log(this.responseText);
+                            location.reload();
+                        }
+                    };
+
+                    x.open("GET", data.file_path, true);
+                    x.responseType = 'blob';
+                    x.onload=function(e){download(x.response, jenis + ".docx", "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ); }
+                    x.send();
                  }
                }
              }).done(function( msg ) { });

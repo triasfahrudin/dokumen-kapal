@@ -71,7 +71,7 @@ public class MasaLayarFragment extends Fragment {
         sharedPrefManager = new SharedPrefManager(mContext);
 
         Toolbar toolbar = Objects.requireNonNull(getActivity()).findViewById(R.id.toolbar);
-        toolbar.setTitle("Data Permohonan Masa Layar");
+        toolbar.setTitle("Masa Layar");
         FloatingActionButton floatingActionButton = ((MainActivity) Objects.requireNonNull(getActivity())).getFloatingActionButton();
         if (floatingActionButton != null) {
             floatingActionButton.show();

@@ -69,7 +69,7 @@ public class SertifikatKeselamatanFragment extends Fragment {
         swipe = root.findViewById(R.id.sertifikatkeselamatan_swipeContainer);
 
         Toolbar toolbar = Objects.requireNonNull(getActivity()).findViewById(R.id.toolbar);
-        toolbar.setTitle("Data Permohonan Pembuatan Sertifikat Keselamatan");
+        toolbar.setTitle("Sertifikat Keselamatan");
         FloatingActionButton floatingActionButton = ((MainActivity) Objects.requireNonNull(getActivity())).getFloatingActionButton();
         if (floatingActionButton != null) {
             floatingActionButton.show();

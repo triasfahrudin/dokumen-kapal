@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -78,13 +79,6 @@ public class MainActivity extends AppCompatActivity {
 
         loading.execute();
 
-//        loading = ProgressDialog.show(mContext, null, getString(R.string.mengambil_data), true, false);
-        // [START retrieve_current_token]
-
-        // [END retrieve_current_token]
-//        loading.dismiss();
-
-
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
 
@@ -115,17 +109,13 @@ public class MainActivity extends AppCompatActivity {
                         if (response.isSuccessful()) {
                             try {
                                 JSONObject jsonObject = new JSONObject(response.body().string());
-                                if (jsonObject.getString("error").equals("false")) {
-
-                                } else {
+                                if (jsonObject.getString("error").equals("true")) {
                                     String error_message = jsonObject.getString("error_msg");
                                     Toast.makeText(mContext, error_message, Toast.LENGTH_SHORT).show();
                                 }
 
 
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            } catch (IOException e) {
+                            } catch (JSONException | IOException e) {
                                 e.printStackTrace();
                             }
 
@@ -134,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
                         Log.e("debug", "onFailure: ERROR > " + t.toString());
                     }
                 });

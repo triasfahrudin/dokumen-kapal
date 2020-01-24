@@ -45,7 +45,7 @@ class Manage extends MX_Controller
         $level = array('admin', 'petugas', 'kepala');
 
         if (!in_array($this->user_level, $level)) {
-            redirect(site_url('web'), 'reload');
+            redirect(site_url('signin'), 'reload');
         }
 
         $this->output->set_header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
@@ -148,7 +148,7 @@ class Manage extends MX_Controller
         }
     }
 
-    public function download_sertifikat($id, $download = false)
+    public function download_sertifikat($id, $download = "false")
     {
 
         require APPPATH . '/third_party/phpword/PHPWord.php';
@@ -191,7 +191,7 @@ class Manage extends MX_Controller
         $file_save_path = FCPATH . "uploads/" . $id . '-sertifikat_keselamatan.docx';
         $document->save($file_save_path);
 
-        if ($download) {
+        if ($download === "true") {
             $this->load->helper('download');
             $data = file_get_contents($file_save_path); // Read the file's contents
             $name = $id . '-sertifikat_keselamatan.docx';
@@ -199,12 +199,12 @@ class Manage extends MX_Controller
             force_download($name, $data);
 
         } else {
-            return $file_save_path;
+            return site_url("uploads/" . $id . '-sertifikat_keselamatan.docx');
         }
 
     }
 
-    public function download_bongkarmuat($id,$download = false)
+    public function download_bongkarmuat($id, $download = "false")
     {
         require APPPATH . '/third_party/phpword/PHPWord.php';
 
@@ -267,21 +267,19 @@ class Manage extends MX_Controller
         $file_save_path = FCPATH . "uploads/" . $id . '-bongkar_muat.docx';
         $document->save($file_save_path);
 
-        if($download){
+        if ($download === "true") {
             $this->load->helper('download');
             $data = file_get_contents($file_save_path); // Read the file's contents
             $name = $id . '-bongkar_muat.docx';
 
-            force_download($name, $data);    
-        }else{
-            return $file_save_path;
+            force_download($name, $data);
+        } else {
+            return site_url("uploads/" . $id . '-bongkar_muat.docx');
         }
-
-        
 
     }
 
-    public function download_masalayar($id,$download = false)
+    public function download_masalayar($id, $download = "false")
     {
         require APPPATH . '/third_party/phpword/PHPWord.php';
 
@@ -386,15 +384,15 @@ class Manage extends MX_Controller
         $file_save_path = FCPATH . "uploads/" . $id . '-masa_layar.docx';
         $document->save($file_save_path);
 
-        if($download){
+        if ($download === "true") {
             $this->load->helper('download');
             $data = file_get_contents($file_save_path); // Read the file's contents
             $name = $id . '-masa_layar.docx';
 
             force_download($name, $data);
-        }else{
-            return $file_save_path;
-        }       
+        } else {
+            return site_url("uploads/" . $id . '-masa_layar.docx');
+        }
 
     }
 
@@ -764,12 +762,12 @@ class Manage extends MX_Controller
 
                     $file_path = "";
                     if ($jenis === "masa_layar") {
-                        $file_path = $this->download_masalayar($permohonan_id,false);
-                        echo $file_path;
+                        $file_path = $this->download_masalayar($permohonan_id, "false");
+                        //echo $file_path;
                     } elseif ($jenis === "bongkar_muat") {
-                        $file_path = $this->download_bongkarmuat($permohonan_id,false);
-                    } else {                        
-                        $file_path = $this->download_sertifikat($permohonan_id,false);                        
+                        $file_path = $this->download_bongkarmuat($permohonan_id, "false");
+                    } else {
+                        $file_path = $this->download_sertifikat($permohonan_id, "false");
                     }
 
                     $this->db->where('id', $permohonan_id);
@@ -782,13 +780,11 @@ class Manage extends MX_Controller
 
                     echo json_encode(
                         array(
-                            'error'   => false,
-                            'message' => 'Status berhasil diubah',
-                            'file_path' => $file_path
+                            'error'     => 'false',
+                            'message'   => 'Status berhasil diubah',
+                            'file_path' => $file_path,
                         )
                     );
-
-                    
 
                 } else {
                     $this->db->where('id', $permohonan_id);
@@ -1062,7 +1058,7 @@ class Manage extends MX_Controller
                     $bk = $buku_pelaut->row();
                     $ret .= '<tr><td>Nomor</td><td>' . $bk->nomor_buku . '</td></tr>';
                     if (!empty($buku_pelaut->file)) {
-                        $ret .= '<tr><td>File</td><td><a href=' . site_url('uploads/dokumen/' . $bk->file) . '">Download</a></td></tr>';
+                        $ret .= '<tr><td>File</td><td><a target="_BLANK" href=' . site_url('uploads/dokumen/' . $bk->file) . '">Download</a></td></tr>';
                     } else {
                         $ret .= '<tr><td>File</td><td>Belum ada data</td></tr>';
                     }
@@ -1091,7 +1087,7 @@ class Manage extends MX_Controller
 
                     $ret .= '<tr><td>Nomor</td><td>' . $sp->nomor . '</td></tr>';
                     if (!empty($sp->file)) {
-                        $ret .= '<tr><td>File</td><td><a href=' . site_url('uploads/dokumen/' . $sp->file) . '">Download</a></td></tr>';
+                        $ret .= '<tr><td>File</td><td><a target="_BLANK" href=' . site_url('uploads/dokumen/' . $sp->file) . '">Download</a></td></tr>';
                     } else {
                         $ret .= '<tr><td>File</td><td>Belum ada data</td></tr>';
                     }
@@ -1119,7 +1115,13 @@ class Manage extends MX_Controller
                 } elseif ($row->status === '310') {
                     return '<span id="p_' . $row->id . '"><a class="text-success" href="#!" onclick="ajax_status_permohonan(\'masa_layar\',\'400\',' . $row->id . ')">[DOKUMEN DIAMBIL]</a></span>';
                 } elseif ($row->status === '400') {
-                    return '<a style="color:orange" href="#!" onclick="ajax_komentar_rating(\'masa_layar\',' . $row->id . ')"' . make_ratings($row->rating_kepuasan) . '</a><br/><span class="text-secondary" id="p_' . $row->id . '">SELESAI (' . $row->tgl_update . ')</span>';
+                    // return '<a style="color:orange" href="#!" onclick="ajax_komentar_rating(\'masa_layar\',' . $row->id . ')"' . make_ratings($row->rating_kepuasan) . '</a><br/><span class="text-secondary" id="p_' . $row->id . '">SELESAI (' . $row->tgl_update . ')</span>';
+
+                    $div = '<a style="color:orange" href="#!" onclick="ajax_komentar_rating(\'masa_layar\',' . $row->id . ')"' . make_ratings($row->rating_kepuasan) . '</a><br/><span class="text-secondary" id="p_' . $row->id . '">SELESAI (' . convert_sql_date_to_date($row->tgl_update) . ')</span>';
+                    $div .= '</br>Hari Proses&nbsp;:&nbsp;' . $row->total_harikerja_proses . '&nbsp;Hari (kerja)';
+                    $div .= '</br><a href="'. site_url('manage/download_masalayar/' . $row->id . '/true') . '">Download dokumen</a>';
+                    return $div;
+
                 } elseif ($row->status === '299' || $row->status === '399') {
                     return $row->alasan_status;
                 }
@@ -1131,7 +1133,7 @@ class Manage extends MX_Controller
                 if (empty($row->bukti_bayar)) {
                     return $biaya . 'Belum diunggah';
                 } else {
-                    return $biaya . '<a href="' . site_url('uploads/dokumen/' . $row->bukti_bayar) . '">Download</a>';
+                    return $biaya . '<a target="_BLANK" href="' . site_url('uploads/dokumen/' . $row->bukti_bayar) . '">Download</a>';
                 }
 
             });
@@ -1262,7 +1264,13 @@ class Manage extends MX_Controller
                 } elseif ($row->status === '310') {
                     return '<span id="p_' . $row->id . '"><a class="text-success" href="#!" onclick="ajax_status_permohonan(\'sertifikat_keselamatan\',400,' . $row->id . ')">[DOKUMEN DIAMBIL]</a></span>';
                 } elseif ($row->status === '400') {
-                    return '<a style="color:orange" href="#!" onclick="ajax_komentar_rating(\'masa_layar\',' . $row->id . ')"' . make_ratings($row->rating_kepuasan) . '</a><br/><span class="text-secondary" id="p_' . $row->id . '">SELESAI (' . $row->tgl_update . ')</span>';
+                    // return '<a style="color:orange" href="#!" onclick="ajax_komentar_rating(\'masa_layar\',' . $row->id . ')"' . make_ratings($row->rating_kepuasan) . '</a><br/><span class="text-secondary" id="p_' . $row->id . '">SELESAI (' . $row->tgl_update . ')</span>';
+
+                    $div = '<a style="color:orange" href="#!" onclick="ajax_komentar_rating(\'sertifikat_keselamatan\',' . $row->id . ')"' . make_ratings($row->rating_kepuasan) . '</a><br/><span class="text-secondary" id="p_' . $row->id . '">SELESAI (' . convert_sql_date_to_date($row->tgl_update) . ')</span>';
+                    $div .= '</br>Hari Proses&nbsp;:&nbsp;' . $row->total_harikerja_proses . '&nbsp;Hari (kerja)';
+                    $div .= '</br><a target="_BLANK" href="'. site_url('manage/download_sertifikat/' . $row->id . '/true') . '">Download dokumen</a>';
+                    return $div;
+
                 } elseif ($row->status === '299' || $row->status === '399') {
                     return $row->alasan_status;
                 }
@@ -1273,12 +1281,12 @@ class Manage extends MX_Controller
 
                 $kapal = $this->db->get_where('kapal', array('id' => $row->kapal_id))->row();
 
-                $su  = empty($kapal->file_surat_ukur) ? 'Belum diunggah' : '<a href="' . site_url('uploads/dokumen/' . $kapal->file_surat_ukur) . '">Download</a>';
-                $sl  = empty($kapal->file_surat_laut) ? 'Belum diunggah' : '<a href="' . site_url('uploads/dokumen/' . $kapal->file_surat_laut) . '">Download</a>';
-                $sks = empty($kapal->file_sertifikat_keselamatan) ? 'Belum diunggah' : '<a href="' . site_url('uploads/dokumen/' . $kapal->file_sertifikat_keselamatan) . '">Download</a>';
-                $skl = empty($kapal->file_sertifikat_klasifikasi) ? 'Belum diunggah' : '<a href="' . site_url('uploads/dokumen/' . $kapal->file_sertifikat_klasifikasi) . '">Download</a>';
-                $spm = empty($kapal->file_sertifikat_pmk) ? 'Belum diunggah' : '<a href="' . site_url('uploads/dokumen/' . $kapal->file_sertifikat_pmk) . '">Download</a>';
-                $slf = empty($kapal->file_sertifikat_keselamatan) ? 'Belum diunggah' : '<a href="' . site_url('uploads/dokumen/' . $kapal->file_sertifikat_keselamatan) . '">Download</a>';
+                $su  = empty($kapal->file_surat_ukur) ? 'Belum diunggah' : '<a target="_BLANK" href="' . site_url('uploads/dokumen/' . $kapal->file_surat_ukur) . '">Download</a>';
+                $sl  = empty($kapal->file_surat_laut) ? 'Belum diunggah' : '<a target="_BLANK" href="' . site_url('uploads/dokumen/' . $kapal->file_surat_laut) . '">Download</a>';
+                $sks = empty($kapal->file_sertifikat_keselamatan) ? 'Belum diunggah' : '<a target="_BLANK" href="' . site_url('uploads/dokumen/' . $kapal->file_sertifikat_keselamatan) . '">Download</a>';
+                $skl = empty($kapal->file_sertifikat_klasifikasi) ? 'Belum diunggah' : '<a target="_BLANK" href="' . site_url('uploads/dokumen/' . $kapal->file_sertifikat_klasifikasi) . '">Download</a>';
+                $spm = empty($kapal->file_sertifikat_pmk) ? 'Belum diunggah' : '<a target="_BLANK" href="' . site_url('uploads/dokumen/' . $kapal->file_sertifikat_pmk) . '">Download</a>';
+                $slf = empty($kapal->file_sertifikat_keselamatan) ? 'Belum diunggah' : '<a target="_BLANK" href="' . site_url('uploads/dokumen/' . $kapal->file_sertifikat_keselamatan) . '">Download</a>';
 
                 return '<table>
                           <tr>
@@ -1320,7 +1328,7 @@ class Manage extends MX_Controller
                 if (empty($row->bukti_bayar)) {
                     return $biaya . 'Belum diunggah';
                 } else {
-                    return $biaya . '<a href="' . site_url('uploads/dokumen/' . $row->bukti_bayar) . '">Download</a>';
+                    return $biaya . '<a target="_BLANK" href="' . site_url('uploads/dokumen/' . $row->bukti_bayar) . '">Download</a>';
                 }
 
             });
@@ -1429,7 +1437,7 @@ class Manage extends MX_Controller
                 if (empty($row->file_surat_permohonan)) {
                     return 'Belum diunggah';
                 } else {
-                    return '<a href="' . site_url('uploads/dokumen/' . $row->file_surat_permohonan) . '">Download</a>';
+                    return '<a target="_BLANK" href="' . site_url('uploads/dokumen/' . $row->file_surat_permohonan) . '">Download</a>';
 
                 }
 
@@ -1455,8 +1463,12 @@ class Manage extends MX_Controller
                 } elseif ($row->status === '310') {
                     return '<span id="p_' . $row->id . '"><a class="text-success" href="#!" onclick="ajax_status_permohonan(\'bongkar_muat\',400,' . $row->id . ')">[DOKUMEN DIAMBIL]</a></span>';
                 } elseif ($row->status === '400') {
+                    
                     $div = '<a style="color:orange" href="#!" onclick="ajax_komentar_rating(\'bongkar_muat\',' . $row->id . ')"' . make_ratings($row->rating_kepuasan) . '</a><br/><span class="text-secondary" id="p_' . $row->id . '">SELESAI (' . convert_sql_date_to_date($row->tgl_update) . ')</span>';
-                    return $div . '</br>Hari Proses&nbsp;:&nbsp;' . $row->total_harikerja_proses . '&nbsp;Hari (kerja)';
+                    $div .= '</br>Hari Proses&nbsp;:&nbsp;' . $row->total_harikerja_proses . '&nbsp;Hari (kerja)';
+                    $div .= '</br><a target="_BLANK" href="'. site_url('manage/download_bongkarmuat/' . $row->id . '/true') . '">Download dokumen</a>';
+                    return $div;
+
                 } elseif ($row->status === '299' || $row->status === '399') {
                     return $row->alasan_status;
                 }
@@ -1469,7 +1481,7 @@ class Manage extends MX_Controller
                 if (empty($row->bukti_bayar)) {
                     return $biaya . 'Belum diunggah';
                 } else {
-                    $div = $biaya . '<a href="' . site_url('uploads/dokumen/' . $row->bukti_bayar) . '">Download</a>';
+                    $div = $biaya . '<a target="_BLANK" href="' . site_url('uploads/dokumen/' . $row->bukti_bayar) . '">Download</a>';
                     return $div . '</br>Upload bayar&nbsp;:&nbsp;' . convert_sql_date_to_date($row->tgl_upload_bukti_bayar);
                 }
 

@@ -19,6 +19,6 @@ class Signout extends CI_Controller
 
         
         $this->session->sess_destroy();
-        redirect(site_url('web'), 'reload');
+        redirect(site_url('signin'), 'reload');
     }
 }

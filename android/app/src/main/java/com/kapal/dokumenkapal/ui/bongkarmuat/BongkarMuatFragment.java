@@ -60,7 +60,7 @@ public class BongkarMuatFragment extends Fragment {
         swipe = root.findViewById(R.id.bongkarmuat_swipeContainer);
 
         Toolbar toolbar = Objects.requireNonNull(getActivity()).findViewById(R.id.toolbar);
-        toolbar.setTitle("Data Permohonan Bongkar Muat");
+        toolbar.setTitle("Bongkar Muat Barang Berbahaya");
         FloatingActionButton floatingActionButton = ((MainActivity) Objects.requireNonNull(getActivity())).getFloatingActionButton();
         if (floatingActionButton != null) {
             floatingActionButton.show();
