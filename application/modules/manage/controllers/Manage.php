@@ -698,12 +698,12 @@ class Manage extends MX_Controller
     {
         header('content-type: application/json');
 
-        if (in_array(date('w'), array('6', '7'))) {
+        if (in_array(date('w'), array('7'))) {
 
             echo json_encode(
                 array(
-                    'error'   => true,
-                    'message' => 'Perubahan status hanya dapat dilakukan pada hari kerja!',
+                    'error'   => 'true',
+                    'message' => 'Perubahan status dan atau pengambilan berkas hanya dapat dilakukan pada hari kerja!',
                 )
             );
 
@@ -728,7 +728,7 @@ class Manage extends MX_Controller
 
                 echo json_encode(
                     array(
-                        'error'   => false,
+                        'error'   => 'false',
                         'message' => 'Status berhasil diubah',
                     )
                 );
@@ -753,7 +753,7 @@ class Manage extends MX_Controller
 
                     echo json_encode(
                         array(
-                            'error'   => false,
+                            'error'   => 'false',
                             'message' => 'Status berhasil diubah',
                         )
                     );
@@ -797,7 +797,7 @@ class Manage extends MX_Controller
 
                     echo json_encode(
                         array(
-                            'error'   => false,
+                            'error'   => 'false',
                             'message' => 'Status berhasil diubah',
                         )
                     );

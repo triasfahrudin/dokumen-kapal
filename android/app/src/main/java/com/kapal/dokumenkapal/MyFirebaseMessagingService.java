@@ -6,7 +6,10 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.os.Build;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Looper;
+import android.os.Message;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
@@ -14,6 +17,10 @@ import androidx.core.app.NotificationCompat;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+
+import java.util.Objects;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
     @Override
@@ -32,8 +39,26 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel(channelId, "Default channel", NotificationManager.IMPORTANCE_DEFAULT);
-            manager.createNotificationChannel(channel);
+            Objects.requireNonNull(manager).createNotificationChannel(channel);
         }
-        manager.notify(0, builder.build());
+        Objects.requireNonNull(manager).notify(0, builder.build());
+
+//        Thread thread = new Thread(){
+//            public void run(){
+//                Looper.prepare();//Call looper.prepare()
+//
+//                Handler mHandler = new Handler() {
+//                    public void handleMessage(Message msg) {
+//                                new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+//                .setTitleText("Are you sure?")
+//                .setContentText("Won't be able to recover this file!")
+//                .show();
+//                    }
+//                };
+//
+//                Looper.loop();
+//            }
+//        };
+//        thread.start();
     }
 }
