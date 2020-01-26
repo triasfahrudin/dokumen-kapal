@@ -13,6 +13,7 @@
 
 
 -- Dumping database structure for dokumen_kapal
+DROP DATABASE IF EXISTS `dokumen_kapal`;
 CREATE DATABASE IF NOT EXISTS `dokumen_kapal` /*!40100 DEFAULT CHARACTER SET latin1 */;
 USE `dokumen_kapal`;
 
@@ -57,7 +58,7 @@ INSERT INTO `biaya` (`id`, `kode`, `alias`, `nominal`, `keterangan`) VALUES
 	(2, 'bm_padat', 'Bongkar Muat Muatan Padat', 25000, 'per ton'),
 	(3, 'bm_gas', 'Bongkar Muat Muatan Gas', 35000, 'per ton'),
 	(4, 'masa_layar', 'Masa Layar', 10000, ''),
-	(5, 'sertifikat_keselamatan', 'Sertifikat Kapal', 25000, '');
+	(5, 'sertifikat_keselamatan', 'Sertifikat Kapal', 0, '');
 /*!40000 ALTER TABLE `biaya` ENABLE KEYS */;
 
 -- Dumping structure for table dokumen_kapal.bongkar_muat
@@ -90,11 +91,11 @@ CREATE TABLE IF NOT EXISTS `bongkar_muat` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
--- Dumping data for table dokumen_kapal.bongkar_muat: ~1 rows (approximately)
+-- Dumping data for table dokumen_kapal.bongkar_muat: ~0 rows (approximately)
 DELETE FROM `bongkar_muat`;
 /*!40000 ALTER TABLE `bongkar_muat` DISABLE KEYS */;
 INSERT INTO `bongkar_muat` (`id`, `pemohon_id`, `kode_biaya`, `jenis_muatan`, `bobot`, `nama_kapal`, `jenis_kapal`, `gt_kapal`, `agen_kapal`, `jenis_angkutan`, `angkutan_nopol`, `angkutan_supir`, `tgl_mohon`, `tgl_pelaksanaan`, `file_surat_permohonan`, `biaya`, `bukti_bayar`, `tgl_upload_bukti_bayar`, `tgl_update`, `status`, `total_harikerja_proses`, `alasan_status`, `rating_kepuasan`, `komentar`) VALUES
-	(1, 2, 'bm_gas', 'OKSIGEN', 2, 'KMP TUNU PRATAMA JAYA 3888', 'RO-RO', '0', 'PT RAPUTRA JAYA', 'TRUCK', 'B 9258 FEH, L 8087 UO', 'JUMALI,SUPARDI', '2020-01-24 10:09:04', '2020-01-29 10:09:06', NULL, NULL, NULL, NULL, '2020-01-24 10:40:27', '100', NULL, NULL, 0, NULL);
+	(1, 2, 'bm_cair', NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2020-01-25 06:25:01', '400', NULL, NULL, 0, NULL);
 /*!40000 ALTER TABLE `bongkar_muat` ENABLE KEYS */;
 
 -- Dumping structure for table dokumen_kapal.buku_pelaut
@@ -110,7 +111,7 @@ CREATE TABLE IF NOT EXISTS `buku_pelaut` (
   UNIQUE KEY `pemohon_id` (`pemohon_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
--- Dumping data for table dokumen_kapal.buku_pelaut: ~1 rows (approximately)
+-- Dumping data for table dokumen_kapal.buku_pelaut: ~0 rows (approximately)
 DELETE FROM `buku_pelaut`;
 /*!40000 ALTER TABLE `buku_pelaut` DISABLE KEYS */;
 INSERT INTO `buku_pelaut` (`id`, `pemohon_id`, `nomor_buku`, `kode_pelaut`, `nomor_daftar`, `file`) VALUES
@@ -153,19 +154,13 @@ CREATE TABLE IF NOT EXISTS `ci_session` (
   KEY `ci_sessions_timestamp` (`timestamp`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table dokumen_kapal.ci_session: ~9 rows (approximately)
+-- Dumping data for table dokumen_kapal.ci_session: ~3 rows (approximately)
 DELETE FROM `ci_session`;
 /*!40000 ALTER TABLE `ci_session` DISABLE KEYS */;
 INSERT INTO `ci_session` (`id`, `ip_address`, `timestamp`, `data`) VALUES
-	('1sputdn4r3cmj3ri2bsbqbvol6q1nsg3', '::1', 1579832636, _binary 0x5F5F63695F6C6173745F726567656E65726174657C693A313537393833313439313B757365725F69647C733A313A2231223B757365725F656D61696C7C733A31383A2261646D696E40646F6B6B6170616C2E636F6D223B757365725F6C6576656C7C733A353A2261646D696E223B),
-	('dtagmvl0ii47kdtd8ka1nm9n38sj6e47', '::1', 1579853491, _binary 0x5F5F63695F6C6173745F726567656E65726174657C693A313537393835323536313B757365725F69647C733A313A2231223B757365725F656D61696C7C733A31383A2261646D696E40646F6B6B6170616C2E636F6D223B757365725F6C6576656C7C733A353A2261646D696E223B),
-	('f4hcboqi1fep8mannnu13f4j95qll8vm', '::1', 1579854282, _binary 0x5F5F63695F6C6173745F726567656E65726174657C693A313537393835333739373B757365725F69647C733A313A2231223B757365725F656D61696C7C733A31383A2261646D696E40646F6B6B6170616C2E636F6D223B757365725F6C6576656C7C733A353A2261646D696E223B),
-	('g6lnkgr4gslb62m6eeha0025gefdtgcc', '::1', 1579854691, _binary 0x5F5F63695F6C6173745F726567656E65726174657C693A313537393835343238343B757365725F69647C733A313A2231223B757365725F656D61696C7C733A31383A2261646D696E40646F6B6B6170616C2E636F6D223B757365725F6C6576656C7C733A353A2261646D696E223B),
-	('nk3r4cj1p74jqvrde6soi3fc5elh2c97', '::1', 1579854934, _binary 0x5F5F63695F6C6173745F726567656E65726174657C693A313537393835343639323B757365725F69647C733A313A2231223B757365725F656D61696C7C733A31383A2261646D696E40646F6B6B6170616C2E636F6D223B757365725F6C6576656C7C733A353A2261646D696E223B),
-	('oth0i4mgkcp0bqqfmqe1597hfs2dt8p1', '::1', 1579837157, _binary 0x5F5F63695F6C6173745F726567656E65726174657C693A313537393833343836373B757365725F69647C733A313A2231223B757365725F656D61696C7C733A31383A2261646D696E40646F6B6B6170616C2E636F6D223B757365725F6C6576656C7C733A353A2261646D696E223B),
-	('r9emk1irbg09kp3l94cf0efo247lihqr', '::1', 1579840674, _binary 0x5F5F63695F6C6173745F726567656E65726174657C693A313537393833373136303B757365725F69647C733A313A2231223B757365725F656D61696C7C733A31383A2261646D696E40646F6B6B6170616C2E636F6D223B757365725F6C6576656C7C733A353A2261646D696E223B),
-	('rlu4l1j0sl6t52a02m4gu3b6plnc7ogb', '::1', 1579853797, _binary 0x5F5F63695F6C6173745F726567656E65726174657C693A313537393835333439333B757365725F69647C733A313A2231223B757365725F656D61696C7C733A31383A2261646D696E40646F6B6B6170616C2E636F6D223B757365725F6C6576656C7C733A353A2261646D696E223B),
-	('seetdgn4pv214es4jfbs14fe6uuj7d1h', '::1', 1579834863, _binary 0x5F5F63695F6C6173745F726567656E65726174657C693A313537393833323633363B757365725F69647C733A313A2231223B757365725F656D61696C7C733A31383A2261646D696E40646F6B6B6170616C2E636F6D223B757365725F6C6576656C7C733A353A2261646D696E223B);
+	('7chcl4mkj066f4bdgikn481i8knmh1sd', '::1', 1579907903, _binary 0x5F5F63695F6C6173745F726567656E65726174657C693A313537393930373630333B757365725F69647C733A313A2231223B757365725F656D61696C7C733A31383A2261646D696E40646F6B6B6170616C2E636F6D223B757365725F6C6576656C7C733A353A2261646D696E223B),
+	('9htbqiqfi855vjb3ebbef7j1tf3skf4q', '::1', 1579908302, _binary 0x5F5F63695F6C6173745F726567656E65726174657C693A313537393930373930373B757365725F69647C733A313A2231223B757365725F656D61696C7C733A31383A2261646D696E40646F6B6B6170616C2E636F6D223B757365725F6C6576656C7C733A353A2261646D696E223B),
+	('paliok7e2180aa0rmfui5hkgbpel8f6b', '::1', 1579916777, _binary 0x5F5F63695F6C6173745F726567656E65726174657C693A313537393930383330323B757365725F69647C733A313A2231223B757365725F656D61696C7C733A31383A2261646D696E40646F6B6B6170616C2E636F6D223B757365725F6C6576656C7C733A353A2261646D696E223B);
 /*!40000 ALTER TABLE `ci_session` ENABLE KEYS */;
 
 -- Dumping structure for table dokumen_kapal.kapal
@@ -200,8 +195,8 @@ CREATE TABLE IF NOT EXISTS `kapal` (
 DELETE FROM `kapal`;
 /*!40000 ALTER TABLE `kapal` DISABLE KEYS */;
 INSERT INTO `kapal` (`id`, `pemohon_id`, `nama_kapal`, `jenis_kapal`, `kode_pengenal`, `pelabuhan_daftar`, `imo_number`, `grt`, `tgl_kontrak`, `tgl_peletakan_lunas`, `tgl_serah_terima`, `tgl_perubahan`, `lambung_timbul`, `kapasitas_penumpang`, `kapasitas_roda_dua`, `kapasitas_roda_empat`, `file_surat_ukur`, `file_surat_laut`, `file_sertifikat_keselamatan`, `file_sertifikat_klasifikasi`, `file_sertifikat_pmk`, `file_sertifikat_liferaft`) VALUES
-	(1, 1, 'KMP.TUNU PRATAMA JAYA 3888', 'Ro-Ro', NULL, NULL, NULL, NULL, '2020-01-24', '2020-01-24', '2020-01-24', '2020-01-24', '233', 12, 3, 4, '', '', '', '', '', ''),
-	(2, 1, 'KMP.MANIKAM 668', 'Ro-Ro', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 12, 3, 4, '', '', '', '', '', '');
+	(1, 2, 'KMP.TUNU PRATAMA JAYA 3888', 'Ro-Ro', NULL, NULL, NULL, NULL, '2020-01-24', '2020-01-24', '2020-01-24', '2020-01-24', '233', 12, 3, 4, '', '', '', '', '', ''),
+	(2, 2, 'KMP.MANIKAM 668', 'Ro-Ro', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 12, 3, 4, '', '', '', '', '', '');
 /*!40000 ALTER TABLE `kapal` ENABLE KEYS */;
 
 -- Dumping structure for table dokumen_kapal.kode_status
@@ -276,13 +271,11 @@ CREATE TABLE IF NOT EXISTS `masa_layar` (
   `rating_kepuasan` tinyint(4) DEFAULT NULL,
   `komentar` text,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table dokumen_kapal.masa_layar: ~1 rows (approximately)
+-- Dumping data for table dokumen_kapal.masa_layar: ~0 rows (approximately)
 DELETE FROM `masa_layar`;
 /*!40000 ALTER TABLE `masa_layar` DISABLE KEYS */;
-INSERT INTO `masa_layar` (`id`, `pemohon_id`, `biaya`, `tgl_upload_bukti_bayar`, `bukti_bayar`, `tgl_mohon`, `tgl_update`, `status`, `total_harikerja_proses`, `alasan_status`, `rating_kepuasan`, `komentar`) VALUES
-	(1, 1, 10000, NULL, NULL, '2020-01-24 09:06:27', '2020-01-24 09:06:30', '100', NULL, NULL, NULL, NULL);
 /*!40000 ALTER TABLE `masa_layar` ENABLE KEYS */;
 
 -- Dumping structure for table dokumen_kapal.notifikasi
@@ -296,24 +289,16 @@ CREATE TABLE IF NOT EXISTS `notifikasi` (
   `isi_notifikasi` varchar(500) DEFAULT NULL,
   `tgl` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
--- Dumping data for table dokumen_kapal.notifikasi: ~12 rows (approximately)
+-- Dumping data for table dokumen_kapal.notifikasi: ~4 rows (approximately)
 DELETE FROM `notifikasi`;
 /*!40000 ALTER TABLE `notifikasi` DISABLE KEYS */;
 INSERT INTO `notifikasi` (`id`, `jenis_notifikasi`, `pemohon_id`, `jenis_permohonan`, `permohonan_id`, `isi_notifikasi`, `tgl`) VALUES
-	(1, 'success', 1, 'masa_layar', 1, 'Permohonan anda telah kami terima dengan kode PML-000001. Mohon selesaikan pembayaran agar permohonan anda segera diproses', '2020-01-24 09:06:24'),
-	(2, 'success', 2, 'bongkar-muat', 1, 'Permohonan anda telah kami terima dengan kode PBM-000001. Mohon selesaikan pembayaran agar permohonan anda segera diproses', '2020-01-24 10:06:56'),
-	(3, 'success', 1, 'sertifikat_keselamatan', 1, 'Permohonan anda telah kami terima dengan kode PS-000001. Mohon selesaikan pembayaran agar permohonan anda segera diproses', '2020-01-24 15:07:21'),
-	(4, 'success', 1, 'sertifikat_keselamatan', 1, 'Persyaratan Berkas untuk PS-000001 SELESAI untuk divalidasi!. Mohon untuk mengambil Sertifikat Keselamatan ke ... pada hari dan jam kerja. Mohon untuk membawa berkas persyaratan Asli', '2020-01-24 15:16:48'),
-	(5, 'success', 1, 'sertifikat_keselamatan', 1, 'Sertifikat Keselamatan dengan Kode permohonan PS-000001 telah diambil. Mohon untuk memberikan penilaian terhadap proses permohonan ini demi perbaikan pelayanan yang kami lakukan', '2020-01-24 15:16:54'),
-	(6, 'success', 1, 'sertifikat_keselamatan', 1, 'Sertifikat Keselamatan dengan Kode permohonan PS-000001 telah diambil. Mohon untuk memberikan penilaian terhadap proses permohonan ini demi perbaikan pelayanan yang kami lakukan', '2020-01-24 15:17:01'),
-	(7, 'success', 1, 'sertifikat_keselamatan', 1, 'Persyaratan Berkas untuk PS-000001 SELESAI untuk divalidasi!. Mohon untuk mengambil Sertifikat Keselamatan ke ... pada hari dan jam kerja. Mohon untuk membawa berkas persyaratan Asli', '2020-01-24 15:20:45'),
-	(8, 'success', 1, 'sertifikat_keselamatan', 1, 'Sertifikat Keselamatan dengan Kode permohonan PS-000001 telah diambil. Mohon untuk memberikan penilaian terhadap proses permohonan ini demi perbaikan pelayanan yang kami lakukan', '2020-01-24 15:20:52'),
-	(9, 'success', 1, 'sertifikat_keselamatan', 1, 'Persyaratan Berkas untuk PS-000001 SELESAI untuk divalidasi!. Mohon untuk mengambil Sertifikat Keselamatan ke ... pada hari dan jam kerja. Mohon untuk membawa berkas persyaratan Asli', '2020-01-24 15:21:16'),
-	(10, 'success', 1, 'sertifikat_keselamatan', 1, 'Sertifikat Keselamatan dengan Kode permohonan PS-000001 telah diambil. Mohon untuk memberikan penilaian terhadap proses permohonan ini demi perbaikan pelayanan yang kami lakukan', '2020-01-24 15:21:22'),
-	(11, 'success', 1, 'sertifikat_keselamatan', 1, 'Persyaratan Berkas untuk PS-000001 SELESAI untuk divalidasi!. Mohon untuk mengambil Sertifikat Keselamatan ke ... pada hari dan jam kerja. Mohon untuk membawa berkas persyaratan Asli', '2020-01-24 15:31:39'),
-	(12, 'success', 1, 'sertifikat_keselamatan', 1, 'Sertifikat Keselamatan dengan Kode permohonan PS-000001 telah diambil. Mohon untuk memberikan penilaian terhadap proses permohonan ini demi perbaikan pelayanan yang kami lakukan', '2020-01-24 15:31:44');
+	(1, 'success', 2, 'bongkar-muat', 1, 'Permohonan anda telah kami terima dengan kode PBM-000001. Mohon selesaikan pembayaran agar permohonan anda segera diproses', '2020-01-25 06:14:09'),
+	(2, 'success', 2, 'bongkar_muat', 1, 'Bukti bayar untuk PBM-000001 telah berhasil diunggah. Mohon menunggu untuk validasi', '2020-01-25 06:14:29'),
+	(3, 'success', 2, 'bongkar_muat', 1, 'Kelengkapan data untuk PBM-000001 SELESAI divalidasi!. Mohon untuk mengambil Dokumen Bongkar Muat ke ... pada hari dan jam kerja. Mohon untuk membawa berkas persyaratan Asli', '2020-01-25 06:15:00'),
+	(4, 'success', 2, 'bongkar_muat', 1, 'Dokumen Bongkar Muat dengan Kode permohonan PBM-000001 telah diambil. Mohon untuk memberikan penilaian terhadap proses permohonan ini demi perbaikan pelayanan yang kami lakukan', '2020-01-25 06:25:01');
 /*!40000 ALTER TABLE `notifikasi` ENABLE KEYS */;
 
 -- Dumping structure for table dokumen_kapal.pemohon
@@ -356,7 +341,7 @@ CREATE TABLE IF NOT EXISTS `riwayat_pelayaran` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
--- Dumping data for table dokumen_kapal.riwayat_pelayaran: ~3 rows (approximately)
+-- Dumping data for table dokumen_kapal.riwayat_pelayaran: ~2 rows (approximately)
 DELETE FROM `riwayat_pelayaran`;
 /*!40000 ALTER TABLE `riwayat_pelayaran` DISABLE KEYS */;
 INSERT INTO `riwayat_pelayaran` (`id`, `pemohon_id`, `nama_kapal`, `tenaga_mesin`, `jabatan`, `tgl_naik`, `tgl_turun`) VALUES
@@ -376,31 +361,17 @@ CREATE TABLE IF NOT EXISTS `riwayat_permohonan` (
   `tgl` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `notified` enum('Y','N') DEFAULT 'N',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
--- Dumping data for table dokumen_kapal.riwayat_permohonan: ~19 rows (approximately)
+-- Dumping data for table dokumen_kapal.riwayat_permohonan: ~4 rows (approximately)
 DELETE FROM `riwayat_permohonan`;
 /*!40000 ALTER TABLE `riwayat_permohonan` DISABLE KEYS */;
 INSERT INTO `riwayat_permohonan` (`id`, `jenis`, `permohonan_id`, `status`, `keterangan`, `tgl`, `notified`) VALUES
-	(1, 'masa_layar', 1, '100', NULL, '2020-01-24 09:06:24', 'N'),
-	(2, 'masa_layar', 1, '100', NULL, '2020-01-24 09:06:27', 'N'),
-	(3, 'masa_layar', 1, '100', NULL, '2020-01-24 09:06:30', 'N'),
-	(4, 'bongkar_muat', 1, '100', NULL, '2020-01-24 10:06:56', 'N'),
-	(5, 'bongkar_muat', 1, '100', NULL, '2020-01-24 10:07:06', 'N'),
-	(6, 'bongkar_muat', 1, '100', NULL, '2020-01-24 10:09:17', 'N'),
-	(7, 'bongkar_muat', 1, '100', NULL, '2020-01-24 10:38:54', 'N'),
-	(8, 'bongkar_muat', 1, '100', NULL, '2020-01-24 10:40:28', 'N'),
-	(9, 'sertifikat_keselamatan', 1, '100', NULL, '2020-01-24 15:07:21', 'N'),
-	(10, 'sertifikat_keselamatan', 1, '100', NULL, '2020-01-24 15:07:34', 'N'),
-	(11, 'sertifikat_keselamatan', 1, '310', NULL, '2020-01-24 15:16:48', 'N'),
-	(12, 'sertifikat_keselamatan', 1, '400', NULL, '2020-01-24 15:16:54', 'N'),
-	(13, 'sertifikat_keselamatan', 1, '400', NULL, '2020-01-24 15:17:01', 'N'),
-	(14, 'sertifikat_keselamatan', 1, '310', NULL, '2020-01-24 15:20:45', 'N'),
-	(15, 'sertifikat_keselamatan', 1, '400', NULL, '2020-01-24 15:20:52', 'N'),
-	(16, 'sertifikat_keselamatan', 1, '310', NULL, '2020-01-24 15:21:16', 'N'),
-	(17, 'sertifikat_keselamatan', 1, '400', NULL, '2020-01-24 15:21:22', 'N'),
-	(18, 'sertifikat_keselamatan', 1, '310', NULL, '2020-01-24 15:31:39', 'N'),
-	(19, 'sertifikat_keselamatan', 1, '400', NULL, '2020-01-24 15:31:44', 'N');
+	(1, 'bongkar_muat', 1, '100', NULL, '2020-01-25 06:14:09', 'N'),
+	(2, 'bongkar_muat', 1, '100', NULL, '2020-01-25 06:14:15', 'N'),
+	(3, 'bongkar_muat', 1, '200', NULL, '2020-01-25 06:14:29', 'Y'),
+	(4, 'bongkar_muat', 1, '310', NULL, '2020-01-25 06:15:00', 'N'),
+	(5, 'bongkar_muat', 1, '400', NULL, '2020-01-25 06:25:01', 'N');
 /*!40000 ALTER TABLE `riwayat_permohonan` ENABLE KEYS */;
 
 -- Dumping structure for table dokumen_kapal.sertifikat_keselamatan
@@ -419,13 +390,11 @@ CREATE TABLE IF NOT EXISTS `sertifikat_keselamatan` (
   `rating_kepuasan` tinyint(4) DEFAULT NULL,
   `komentar` text,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table dokumen_kapal.sertifikat_keselamatan: ~1 rows (approximately)
+-- Dumping data for table dokumen_kapal.sertifikat_keselamatan: ~0 rows (approximately)
 DELETE FROM `sertifikat_keselamatan`;
 /*!40000 ALTER TABLE `sertifikat_keselamatan` DISABLE KEYS */;
-INSERT INTO `sertifikat_keselamatan` (`id`, `kapal_id`, `biaya`, `bukti_bayar`, `tgl_upload_bukti_bayar`, `tgl_mohon`, `tgl_update`, `total_harikerja_proses`, `status`, `alasan_status`, `rating_kepuasan`, `komentar`) VALUES
-	(1, 1, 25000, NULL, NULL, '2020-01-24 15:07:34', '2020-01-24 15:31:44', NULL, '400', NULL, NULL, NULL);
 /*!40000 ALTER TABLE `sertifikat_keselamatan` ENABLE KEYS */;
 
 -- Dumping structure for table dokumen_kapal.sertifikat_pelaut
@@ -441,7 +410,7 @@ CREATE TABLE IF NOT EXISTS `sertifikat_pelaut` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
--- Dumping data for table dokumen_kapal.sertifikat_pelaut: ~1 rows (approximately)
+-- Dumping data for table dokumen_kapal.sertifikat_pelaut: ~0 rows (approximately)
 DELETE FROM `sertifikat_pelaut`;
 /*!40000 ALTER TABLE `sertifikat_pelaut` DISABLE KEYS */;
 INSERT INTO `sertifikat_pelaut` (`id`, `pemohon_id`, `nama_sertifikat`, `nomor`, `penerbit`, `tgl_terbit`, `file`) VALUES
@@ -459,7 +428,7 @@ CREATE TABLE IF NOT EXISTS `settings` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
--- Dumping data for table dokumen_kapal.settings: ~3 rows (approximately)
+-- Dumping data for table dokumen_kapal.settings: ~2 rows (approximately)
 DELETE FROM `settings`;
 /*!40000 ALTER TABLE `settings` DISABLE KEYS */;
 INSERT INTO `settings` (`id`, `title`, `keterangan`, `tipe`, `value`) VALUES
@@ -636,6 +605,9 @@ SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_ENGINE_SUBSTITUTION';
 DELIMITER //
 CREATE TRIGGER `bongkar_muat_before_insert` BEFORE INSERT ON `bongkar_muat` FOR EACH ROW BEGIN
 	SET NEW.biaya = (SELECT nominal * NEW.bobot FROM biaya WHERE kode = NEW.kode_biaya);
+	IF(NEW.biaya = 0) THEN
+		SET NEW.status = '210';
+	END IF;
 END//
 DELIMITER ;
 SET SQL_MODE=@OLDTMP_SQL_MODE;
@@ -758,7 +730,7 @@ CREATE TRIGGER `sertifikat_keselamatan_after_update` AFTER UPDATE ON `sertifikat
 		VALUES(var_pemohon_id,'success','sertifikat_keselamatan', NEW.id, CONCAT('Bukti bayar untuk PS-', LPAD(NEW.id,6,'0'), ' telah berhasil diunggah. Mohon menunggu untuk validasi'));
 	ELSEIF(NEW.status = '210') THEN
 		INSERT INTO notifikasi(pemohon_id,jenis_notifikasi,jenis_permohonan,permohonan_id,isi_notifikasi) 
-		VALUES(var_pemohon_id,'success' 'sertifikat_keselamatan', NEW.id, CONCAT('Bukti bayar untuk PS-', LPAD(NEW.id,6,'0'), ' SUKSES divalidasi. Mohon menunggu untuk validasi berkas'));
+		VALUES(var_pemohon_id, 'success','sertifikat_keselamatan', NEW.id, CONCAT('Bukti bayar untuk PS-', LPAD(NEW.id,6,'0'), ' SUKSES divalidasi. Mohon menunggu untuk validasi berkas'));
 	ELSEIF(NEW.status = '299') THEN
 		INSERT INTO notifikasi(pemohon_id,jenis_notifikasi,jenis_permohonan,permohonan_id,isi_notifikasi) 
 		VALUES(var_pemohon_id,'error', 'sertifikat_keselamatan', NEW.id, CONCAT('Bukti bayar untuk PS-', LPAD(NEW.id,6,'0'), ' GAGAL untuk divalidasi!. Mohon untuk melakukan upload ulang'));

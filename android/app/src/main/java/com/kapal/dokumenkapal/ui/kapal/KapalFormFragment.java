@@ -127,7 +127,7 @@ public class KapalFormFragment extends Fragment {
     private int recyclerID;
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         mContext = context;
     }
@@ -181,30 +181,35 @@ public class KapalFormFragment extends Fragment {
     }
 
     private void openDialog(int request_code) {
-        String[] mimeTypes = {"application/pdf"};
+//        String[] mimeTypes = {"application/pdf"};
+//
+//        Intent intent;
+//
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+//            intent = new Intent(Intent.ACTION_GET_CONTENT);
+//            intent.addCategory(Intent.CATEGORY_OPENABLE);
+//            intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+//
+//            intent.setType(mimeTypes.length == 1 ? mimeTypes[0] : "*/*");
+//            if (mimeTypes.length > 0) {
+//                intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes);
+//            }
+//        } else {
+//            intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+//            intent.addCategory(Intent.CATEGORY_OPENABLE);
+//            intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+//            String mimeTypesStr = "";
+//            for (String mimeType : mimeTypes) {
+//                mimeTypesStr += mimeType + "|";
+//            }
+//            intent.setType(mimeTypesStr.substring(0, mimeTypesStr.length() - 1));
+//        }
+//        startActivityForResult(Intent.createChooser(intent, getString(R.string.text_pilih_file_pdf)), request_code);
 
-        Intent intent;
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            intent = new Intent(Intent.ACTION_GET_CONTENT);
-            intent.addCategory(Intent.CATEGORY_OPENABLE);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-
-            intent.setType(mimeTypes.length == 1 ? mimeTypes[0] : "*/*");
-            if (mimeTypes.length > 0) {
-                intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes);
-            }
-        } else {
-            intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-            intent.addCategory(Intent.CATEGORY_OPENABLE);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-            String mimeTypesStr = "";
-            for (String mimeType : mimeTypes) {
-                mimeTypesStr += mimeType + "|";
-            }
-            intent.setType(mimeTypesStr.substring(0, mimeTypesStr.length() - 1));
-        }
-        startActivityForResult(Intent.createChooser(intent, getString(R.string.text_pilih_file_pdf)), request_code);
+        Intent intent = new Intent();
+        intent.setType("application/pdf");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Pilih file PDF"), request_code);
     }
 
     @OnClick(R.id.kapal_btnUploadSuratUkur)

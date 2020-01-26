@@ -548,8 +548,6 @@ class Restapi extends CI_Controller
                     'status'    => "Upload GAGAL",
                     'error_msg' => $this->upload->display_errors(),
                     'error'     => true,
-                    'last_id'   => $id,
-
                 )
             );
 

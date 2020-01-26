@@ -87,14 +87,40 @@ class Manage extends MX_Controller
             $('#tab_revisi').html(data.tab_revisi);
              */
 
-            echo json_encode(
-                array(
-                    'tab_proses'      => $this->_count_tab_permohonan($param_b, '200.210'),
-                    'tab_tungguambil' => $this->_count_tab_permohonan($param_b, '310'),
-                    'tab_selesai'     => $this->_count_tab_permohonan($param_b, '400'),
-                    'tab_revisi'      => $this->_count_tab_permohonan($param_b, '299.399'),
-                )
-            );
+            $ret = $this->db->query("SELECT a.tot AS tab_proses,
+                                     b.tot AS tab_tungguambil,
+                                     c.tot AS tab_selesai,
+                                     d.tot AS tab_revisi
+                              FROM (SELECT COUNT(*) AS tot FROM $param_b WHERE `status` IN ('200','210')) a,
+                                   (SELECT COUNT(*) AS tot FROM $param_b WHERE `status` IN ('310')) b,
+                                   (SELECT COUNT(*) AS tot FROM $param_b WHERE `status` IN ('400')) c,
+                                   (SELECT COUNT(*) AS tot FROM $param_b WHERE `status` IN ('299','399')) d");
+            
+            if($ret->num_rows() > 0){
+                $row = $ret->row_array();
+
+                 echo json_encode(
+                    array(
+                        'tab_proses'      => $row['tab_proses'],
+                        'tab_tungguambil' => $row['tab_tungguambil'],
+                        'tab_selesai'     => $row['tab_selesai'],
+                        'tab_revisi'      => $row['tab_revisi'],
+                    )
+                );
+            }else{
+
+                 echo json_encode(
+                    array(
+                        'tab_proses'      => 0,
+                        'tab_tungguambil' => 0,
+                        'tab_selesai'     => 0,
+                        'tab_revisi'      => 0
+                    )
+                );
+
+            }
+
+           
 
         } elseif ($param_a === 'upper_alert') {
             /*
@@ -104,18 +130,34 @@ class Manage extends MX_Controller
             $('#dd_alert_masa_layar').html(data.alert_masa_layar);
              */
 
-            $dd_alert_sertifikat_keselamatan = $this->_count_tab_permohonan('sertifikat_keselamatan', '200.210');
-            $dd_alert_bongkar_muat           = $this->_count_tab_permohonan('bongkar_muat', '200.210');
-            $dd_alert_masa_layar             = $this->_count_tab_permohonan('masa_layar', '200.210');
+            // $dd_alert_sertifikat_keselamatan = $this->_count_tab_permohonan('sertifikat_keselamatan', '200.210');
+            // $dd_alert_bongkar_muat           = $this->_count_tab_permohonan('bongkar_muat', '200.210');
+            // $dd_alert_masa_layar             = $this->_count_tab_permohonan('masa_layar', '200.210');
 
-            echo json_encode(
-                array(
-                    'dd_alert_total'                  => ($dd_alert_sertifikat_keselamatan + $dd_alert_bongkar_muat + $dd_alert_masa_layar),
-                    'dd_alert_sertifikat_keselamatan' => $dd_alert_sertifikat_keselamatan,
-                    'dd_alert_bongkar_muat'           => $dd_alert_bongkar_muat,
-                    'dd_alert_masa_layar'             => $dd_alert_masa_layar,
-                )
-            );
+            $ret = $this->db->query("SELECT a.tot AS dd_alert_sertifikat_keselamatan,
+                                            b.tot AS dd_alert_bongkar_muat,
+                                            c.tot AS dd_alert_masa_layar                                            
+                                      FROM (SELECT COUNT(*) AS tot FROM sertifikat_keselamatan WHERE `status` IN ('200','210')) a,
+                                           (SELECT COUNT(*) AS tot FROM bongkar_muat WHERE `status` IN ('200','210')) b,
+                                           (SELECT COUNT(*) AS tot FROM masa_layar WHERE `status` IN ('200','210')) c");
+            if($ret->num_rows() > 0){
+                
+                $row = $ret->row_array();
+
+                echo json_encode(
+                    array(
+                        'dd_alert_total'                  => ($row['dd_alert_sertifikat_keselamatan'] + 
+                                                              $row['dd_alert_bongkar_muat'] + $row['dd_alert_masa_layar']),
+                        'dd_alert_sertifikat_keselamatan' => $row['dd_alert_sertifikat_keselamatan'],
+                        'dd_alert_bongkar_muat'           => $row['dd_alert_bongkar_muat'],
+                        'dd_alert_masa_layar'             => $row['dd_alert_masa_layar'],
+                    )
+                );
+            }else{
+
+            }
+
+            
 
         } elseif ($param_a === 'riwayat_permohonan.200') {
 
@@ -433,6 +475,10 @@ class Manage extends MX_Controller
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fcmNotification));
         $result = curl_exec($ch);
         curl_close($ch);
+    }
+
+    public function test_notif(){
+        $this->sendNotification('f3M-Xfod23s:APA91bETSV2cD10ybCdo4_Nh6WS8u3fY2kwvEiwXUehxJpoUN4z1XJoRPS9tGS3NBP-ZArr2qkX0wpFj1S151n1O86iHLxAdWNrTg3r5KHHHRCS9Pp6Y6_ck8oqMIXQUGrZn5fWECvuA',array('title' =>'title','body_of_message' => 'Kelengkapan data untuk PBM-000001 SELESAI divalidasi!. Mohon untuk mengambil Dokumen Bongkar Muat ke ... pada hari dan jam kerja. Mohon untuk membawa berkas persyaratan Asli'));
     }
 
     public function laporan($page = "default")
