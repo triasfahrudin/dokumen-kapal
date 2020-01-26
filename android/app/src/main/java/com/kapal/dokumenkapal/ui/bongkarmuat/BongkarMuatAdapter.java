@@ -1,6 +1,5 @@
 package com.kapal.dokumenkapal.ui.bongkarmuat;
 
-import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.view.LayoutInflater;
@@ -13,9 +12,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.kapal.dokumenkapal.R;
-import com.kapal.dokumenkapal.util.SharedPrefManager;
-import com.kapal.dokumenkapal.util.api.BaseApiService;
-import com.kapal.dokumenkapal.util.api.UtilsApi;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,8 +19,8 @@ import java.util.Arrays;
 public class BongkarMuatAdapter extends RecyclerView.Adapter<BongkarMuatAdapter.BongkarMuatViewHolder> {
 
     OnBindCallBack onBindCallBack;
-    private Context context;
     private ArrayList<BongkarMuatModelRecycler> dataList;
+
     BongkarMuatAdapter(ArrayList<BongkarMuatModelRecycler> dataList) {
         this.dataList = dataList;
     }
@@ -73,10 +69,10 @@ public class BongkarMuatAdapter extends RecyclerView.Adapter<BongkarMuatAdapter.
         }
 
         holder.rowId = dataList.get(position).getId();
-        holder.kode_biaya = dataList.get(position).getKode_biaya();
-        holder.jenis_muatan = dataList.get(position).getJenis_muatan();
+        holder.kodeBiaya = dataList.get(position).getKode_biaya();
+        holder.jenisMuatan = dataList.get(position).getJenis_muatan();
         holder.bobot = dataList.get(position).getBobot();
-        holder.nama_kapal = dataList.get(position).getNama_kapal();
+        holder.namaKapal = dataList.get(position).getNama_kapal();
         holder.jenis_kapal = dataList.get(position).getJenis_kapal();
         holder.gt_kapal = dataList.get(position).getGt_kapal();
         holder.agen_kapal = dataList.get(position).getAgen_kapal();
@@ -85,16 +81,11 @@ public class BongkarMuatAdapter extends RecyclerView.Adapter<BongkarMuatAdapter.
         holder.angkutan_nopol = dataList.get(position).getAngkutan_nopol();
         holder.angkutan_supir = dataList.get(position).getAngkutan_supir();
 
-        holder.tgl_pelaksanaan = dataList.get(position).getTgl_pelaksanaan();
+        holder.tglPelaksanaan = dataList.get(position).getTgl_pelaksanaan();
 
-        holder.rating_kepuasan = (float) dataList.get(position).getRating_kepuasan();
+        holder.ratingKepuasan = (float) dataList.get(position).getRating_kepuasan();
         holder.komentar = dataList.get(position).getKomentar();
         holder.biaya = dataList.get(position).getBiaya();
-
-        Context mContext = holder.itemView.getContext();
-
-        BaseApiService mBaseApiService = UtilsApi.getAPIService();
-        SharedPrefManager sharedPrefManager = new SharedPrefManager(mContext);
 
         if (Arrays.asList("210", "310", "399", "400").contains(dataList.get(position).getStatus())) {
             holder.btnUpload.setVisibility(View.GONE);
@@ -141,17 +132,17 @@ public class BongkarMuatAdapter extends RecyclerView.Adapter<BongkarMuatAdapter.
 
     class BongkarMuatViewHolder extends RecyclerView.ViewHolder {
 
-        String kode_biaya;
-        String jenis_muatan;
+        String kodeBiaya;
+        String jenisMuatan;
         Double bobot;
-        String nama_kapal;
+        String namaKapal;
         String jenis_kapal;
         String gt_kapal;
         String agen_kapal;
         String jenis_angkutan;
         String angkutan_nopol;
         String angkutan_supir;
-        String tgl_pelaksanaan;
+        String tglPelaksanaan;
 
         Double biaya;
         TextView tvKode;
@@ -163,7 +154,7 @@ public class BongkarMuatAdapter extends RecyclerView.Adapter<BongkarMuatAdapter.
         Button btnRevisi;
 
         int rowId;
-        float rating_kepuasan;
+        float ratingKepuasan;
         String komentar;
 
         BongkarMuatViewHolder(@NonNull View itemView) {

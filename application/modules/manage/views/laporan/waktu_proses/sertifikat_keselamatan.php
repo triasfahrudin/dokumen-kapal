@@ -11,7 +11,9 @@
 			    Featured
 			  </div>
 			  <div class="card-body">
-
+			  	<div class="alert alert-success">
+				    <strong>Catatan:</strong> Waktu proses adalah jangka waktu antara bukti bayar diunggah sampai selesai validasi berkas
+				</div>
 			  	<form method="POST" action="">
 				  <div class="form-group">
 				    <label for="exampleInputEmail1">Filter tahun</label>
@@ -29,7 +31,7 @@
 					  <?php } ?>
 					</select>	
 					<?php } ?>
-				    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+				    <small id="emailHelp" class="form-text text-muted">Filter berdasarkan tahun permohonan. Anda dapat memasukkan lebih dari satu filter tahun</small>
 				  </div>				  
 				  <button type="submit" class="btn btn-primary">Submit</button>
 				</form>	

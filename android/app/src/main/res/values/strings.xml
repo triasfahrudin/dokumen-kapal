@@ -61,5 +61,6 @@
     <string name="pilih_jenis_muatan">Pilih Jenis Muatan</string>
     <string name="berat_total_muatan_dalam_ton">Berat total muatan (dalam Ton)</string>
     <string name="update_data">UPDATE DATA</string>
+    <string name="error_string">error</string>
 
 </resources>

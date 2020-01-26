@@ -29,7 +29,7 @@
 					  <?php } ?>
 					</select>	
 					<?php } ?>
-				    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+				    <small id="emailHelp" class="form-text text-muted">Filter berdasarkan tahun permohonan. Anda dapat memasukkan lebih dari satu filter tahun</small>
 				  </div>				  
 				  <button type="submit" class="btn btn-primary">Submit</button>
 				</form>	

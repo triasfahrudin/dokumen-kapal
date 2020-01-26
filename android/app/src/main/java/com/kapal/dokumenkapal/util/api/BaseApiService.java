@@ -1,6 +1,5 @@
 package com.kapal.dokumenkapal.util.api;
 
-import com.google.android.gms.common.internal.safeparcel.SafeParcelable;
 import com.kapal.dokumenkapal.ui.bongkarmuat.BongkarMuatModelList;
 import com.kapal.dokumenkapal.ui.kapal.KapalModelList;
 import com.kapal.dokumenkapal.ui.masalayar.MasaLayarModelList;
@@ -8,11 +7,10 @@ import com.kapal.dokumenkapal.ui.riwayatpelayaran.RiwayatPelayaranModelList;
 import com.kapal.dokumenkapal.ui.sertifikatkeselamatan.SertifikatKeselamatanModelList;
 import com.kapal.dokumenkapal.ui.sertifikatpelaut.SertifikatPelautModelList;
 
+import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
-import okhttp3.MultipartBody;
 import retrofit2.Call;
-import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -95,6 +93,8 @@ public interface BaseApiService {
             @Field("tgl_peletakan_lunas") String tglPeletakanLunas,
             @Field("tgl_serah_terima") String tglSerahTerima,
             @Field("tgl_perubahan") String tglPerubahan,
+            @Field("lokasi_dok_terakhir") String lokasiDokTerakhir,
+            @Field("tgl_dok_terakhir") String tglDokTerakhir,
             @Field("kapasitas_penumpang") int kapasitasPenumpang,
             @Field("kapasitas_roda_dua") int kapasitasRodaDua,
             @Field("kapasitas_roda_empat") int kapasitasRodaEmpat
@@ -173,13 +173,13 @@ public interface BaseApiService {
 
 
     @GET("get_masalayar")
-    Call<MasaLayarModelList> getMasaLayar(@Query("pemohon_id") int pemohon_id );
+    Call<MasaLayarModelList> getMasaLayar(@Query("pemohon_id") int pemohon_id);
 
     @GET("get_bongkarmuat")
-    Call<BongkarMuatModelList> getBongkarMuat(@Query("pemohon_id") int pemohon_id );
+    Call<BongkarMuatModelList> getBongkarMuat(@Query("pemohon_id") int pemohon_id);
 
     @GET("get_sertifikatkeselamatan")
-    Call<SertifikatKeselamatanModelList> getSertifikatKeselamatan(@Query("pemohon_id") int pemohon_id );
+    Call<SertifikatKeselamatanModelList> getSertifikatKeselamatan(@Query("pemohon_id") int pemohon_id);
 
     @FormUrlEncoded
     @POST("get_rating")
@@ -198,14 +198,14 @@ public interface BaseApiService {
     );
 
     @GET("get_masalayar_active_req")
-    Call<ResponseBody> getMasaLayarActiveCountRequest(@Query("pemohon_id") int pemohon_id );
+    Call<ResponseBody> getMasaLayarActiveCountRequest(@Query("pemohon_id") int pemohon_id);
 
     @GET("get_settings")
     Call<ResponseBody> getSettings();
 
     @FormUrlEncoded
     @POST("insert_masalayar")
-    Call<ResponseBody> masaLayarBuatBaruRequest (@Field("pemohon_id") int pemohon_id);
+    Call<ResponseBody> masaLayarBuatBaruRequest(@Field("pemohon_id") int pemohon_id);
 
     @FormUrlEncoded
     @POST("updatestatus_masalayar")

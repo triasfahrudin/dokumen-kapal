@@ -3,10 +3,6 @@ package com.kapal.dokumenkapal;
 import android.app.Activity;
 import android.os.Bundle;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import com.kapal.dokumenkapal.util.SharedPrefManager;
-
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class Notification extends Activity {
@@ -15,7 +11,7 @@ public class Notification extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if(getIntent().hasExtra("msg")){
+        if (getIntent().hasExtra("msg")) {
             new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
                     .setTitleText("Notifikasi")
                     .setContentText(getIntent().getExtras().getString("msg"))

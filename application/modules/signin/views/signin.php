@@ -197,7 +197,7 @@
                 <!-- <label for="fieldPassword" class="label">Password</label> -->
               </div>
 
-              <?php echo $this->recaptcha->render()?>
+              <!-- <?php echo $this->recaptcha->render()?> -->
 
               <div class="profile__footer">
                 <button class="btn" type="submit">Login</button>

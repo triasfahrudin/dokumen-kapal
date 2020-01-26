@@ -222,11 +222,11 @@
                <i class="fas fa-fw fa-table"></i>
                <span>Data Biaya</span></a>
             </li>
-            <li class="nav-item">
+            <!-- <li class="nav-item">
                <a class="nav-link" href="<?php echo site_url('manage/berita')?>">
                <i class="fas fa-fw fa-newspaper"></i>
                <span>Data Berita</span></a>
-            </li>
+            </li> -->
             <hr class="sidebar-divider">
             <!-- Heading -->
             <div class="sidebar-heading">

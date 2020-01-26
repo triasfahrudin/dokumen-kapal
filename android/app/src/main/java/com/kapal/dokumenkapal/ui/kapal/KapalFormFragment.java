@@ -3,7 +3,6 @@ package com.kapal.dokumenkapal.ui.kapal;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -121,6 +120,10 @@ public class KapalFormFragment extends Fragment {
     ScrollView formkapalScroolview;
     @BindView(R.id.kapal_etLambungTimbul)
     EditText kapalEtLambungTimbul;
+    @BindView(R.id.kapal_etLokasiDokTerakhir)
+    EditText kapalEtLokasiDokTerakhir;
+    @BindView(R.id.kapal_etTglDokTerakhir)
+    EditText kapalEtTglDokTerakhir;
     private Context mContext;
     private BaseApiService mBaseApiService;
     private SharedPrefManager sharedPrefManager;
@@ -157,10 +160,14 @@ public class KapalFormFragment extends Fragment {
         kapalEtTglSerahTerima.setText(getArguments().getString("tgl_serah_terima"));
         kapalEtTglPerubahan.setText(getArguments().getString("tgl_perubahan"));
 
+        kapalEtLokasiDokTerakhir.setText(getArguments().getString("lokasi_dok_terakhir"));
+        kapalEtTglDokTerakhir.setText(getArguments().getString("tgl_dok_terakhir"));
+
         SetDate tglKontrak = new SetDate(kapalEtTglKontrak, mContext);
         SetDate tglpeletakanLunas = new SetDate(kapalEtTglPeletakanLunas, mContext);
         SetDate tglSerahTerima = new SetDate(kapalEtTglSerahTerima, mContext);
         SetDate tglPerubahan = new SetDate(kapalEtTglPerubahan, mContext);
+        SetDate tglDokterakhir = new SetDate(kapalEtTglDokTerakhir,mContext);
 
         kapalEtKapasitasPenumpang.setText(String.valueOf(getArguments().getInt("kapasitas_penumpang")));
         kapalEtKapasitasRodaDua.setText(String.valueOf(getArguments().getInt("kapasitas_roda_dua")));
@@ -353,6 +360,10 @@ public class KapalFormFragment extends Fragment {
                 kapalEtTglPeletakanLunas.getText().toString(),
                 kapalEtTglSerahTerima.getText().toString(),
                 kapalEtTglPerubahan.getText().toString(),
+
+                kapalEtLokasiDokTerakhir.getText().toString(),
+                kapalEtTglDokTerakhir.getText().toString(),
+
                 Integer.parseInt(kapalEtKapasitasPenumpang.getText().toString()),
                 Integer.parseInt(kapalEtKapasitasRodaDua.getText().toString()),
                 Integer.parseInt(kapalEtKapasitasRodaEmpat.getText().toString())

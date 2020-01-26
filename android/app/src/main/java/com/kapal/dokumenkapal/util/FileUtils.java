@@ -96,7 +96,7 @@ public class FileUtils {
     public static String getPath(final Context context, final Uri uri) {
         // DocumentProvider
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            if(DocumentsContract.isDocumentUri(context, uri)) {
+            if (DocumentsContract.isDocumentUri(context, uri)) {
                 // ExternalStorageProvider
                 if (isExternalStorageDocument(uri)) {
                     final String docId = DocumentsContract.getDocumentId(uri);
@@ -144,12 +144,11 @@ public class FileUtils {
                 if (isGoogleOldPhotosUri(uri)) {
                     // return http path, then download file.
                     return uri.getLastPathSegment();
-                }
-                else if (isGoogleNewPhotosUri(uri)) {
-                    if(getDataColumn(context,  uri, null, null) == null) {
-                        return getDataColumn(context,  Uri.parse(getImageUrlWithAuthority(context,uri)), null, null);
-                    }else{
-                        return getDataColumn(context,  uri, null, null);
+                } else if (isGoogleNewPhotosUri(uri)) {
+                    if (getDataColumn(context, uri, null, null) == null) {
+                        return getDataColumn(context, Uri.parse(getImageUrlWithAuthority(context, uri)), null, null);
+                    } else {
+                        return getDataColumn(context, uri, null, null);
                     }
                 }
 
@@ -159,8 +158,8 @@ public class FileUtils {
             else if ("file".equalsIgnoreCase(uri.getScheme())) {
                 return uri.getPath();
             }
-        }else{
-            String[] proj = { MediaStore.Images.Media.DATA };
+        } else {
+            String[] proj = {MediaStore.Images.Media.DATA};
             String result = null;
 
             CursorLoader cursorLoader = new CursorLoader(
@@ -168,7 +167,7 @@ public class FileUtils {
                     uri, proj, null, null, null);
             Cursor cursor = cursorLoader.loadInBackground();
 
-            if(cursor != null){
+            if (cursor != null) {
                 int column_index =
                         cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
                 cursor.moveToFirst();
@@ -202,7 +201,7 @@ public class FileUtils {
                 return writeToTempImageAndGetPathUri(context, bmp).toString();
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
-            }finally {
+            } finally {
                 try {
                     is.close();
                 } catch (IOException e) {

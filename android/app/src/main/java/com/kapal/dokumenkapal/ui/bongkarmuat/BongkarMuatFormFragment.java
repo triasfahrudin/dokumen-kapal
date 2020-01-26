@@ -37,6 +37,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.logging.Logger;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -50,7 +51,7 @@ import retrofit2.Response;
 import static android.R.layout.simple_spinner_item;
 
 public class BongkarMuatFormFragment extends Fragment {
-    ProgressDialog loading;
+    private ProgressDialog loading;
     @BindView(R.id.bongkarmuat_btnKirim)
     Button btnKirim;
     @BindView(R.id.bongkarmuat_spinner)
@@ -91,7 +92,7 @@ public class BongkarMuatFormFragment extends Fragment {
     private int recyclerID;
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         mContext = context;
     }
@@ -129,6 +130,7 @@ public class BongkarMuatFormFragment extends Fragment {
                                     fillSpinnerPilihJenisMuatan(jsonResponse, root);
                                 } catch (IOException e) {
                                     e.printStackTrace();
+
                                 }
 
                             }
@@ -156,6 +158,9 @@ public class BongkarMuatFormFragment extends Fragment {
                 selectedJenisMuatanKode = Objects.requireNonNull(spinnerModel).getKode();
             }
 
+            /**
+             * @param parent
+             */
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
@@ -164,10 +169,10 @@ public class BongkarMuatFormFragment extends Fragment {
 
         /*
         *  bundle.putInt("id", viewHolder.rowId);
-                bundle.putString("kode_biaya",viewHolder.kode_biaya);
-                bundle.putString("jenis_muatan",viewHolder.jenis_muatan);
+                bundle.putString("kodeBiaya",viewHolder.kodeBiaya);
+                bundle.putString("jenisMuatan",viewHolder.jenisMuatan);
                 bundle.putDouble("bobot",viewHolder.bobot);
-                bundle.putString("nama_kapal",viewHolder.nama_kapal);
+                bundle.putString("namaKapal",viewHolder.namaKapal);
                 bundle.putString("angkutan_nopol",viewHolder.angkutan_nopol);
                 bundle.putString("angkutan_supir",viewHolder.angkutan_supir);
         * */
@@ -175,9 +180,9 @@ public class BongkarMuatFormFragment extends Fragment {
         Locale localeID = new Locale("in", "ID");
         recyclerID = Objects.requireNonNull(getArguments()).getInt("id");
         //
-        etJenisMuatan.setText(getArguments().getString("jenis_muatan"));
+        etJenisMuatan.setText(getArguments().getString("jenisMuatan"));
         etBobot.setText(String.format(localeID, "%.0f", getArguments().getDouble("bobot")));
-        etNamaKapal.setText(getArguments().getString("nama_kapal"));
+        etNamaKapal.setText(getArguments().getString("namaKapal"));
         etJenisKapal.setText(getArguments().getString("jenis_kapal"));
         etGtKapal.setText(getArguments().getString("gt_kapal"));
         etAgenKapal.setText(getArguments().getString("agen_kapal"));
@@ -185,7 +190,7 @@ public class BongkarMuatFormFragment extends Fragment {
         etJenisAngkutan.setText(getArguments().getString("jenis_angkutan"));
         etAngkutanNopol.setText(getArguments().getString("angkutan_nopol"));
         etAngkutanSupir.setText(getArguments().getString("angkutan_supir"));
-        etTglPelaksanaan.setText(getArguments().getString("tgl_pelaksanaan"));
+        etTglPelaksanaan.setText(getArguments().getString("tglPelaksanaan"));
 
         SetDate tglPelaksanaan = new SetDate(etTglPelaksanaan, mContext);
 

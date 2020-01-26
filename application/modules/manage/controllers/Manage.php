@@ -1436,7 +1436,6 @@ class Manage extends MX_Controller
                 'nama_perusahaan',
                 'jenis_muatan',
                 'angkutan',
-                'file_surat_permohonan',
                 'tgl_mohon',
                 'bukti_bayar',
                 'aksi'

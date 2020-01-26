@@ -8,13 +8,13 @@ public class BongkarMuatModelRecycler {
     private int id;
     @SerializedName("kode")
     private String kode;
-    @SerializedName("kode_biaya")
+    @SerializedName("kodeBiaya")
     private String kode_biaya;
-    @SerializedName("jenis_muatan")
+    @SerializedName("jenisMuatan")
     private String jenis_muatan;
     @SerializedName("bobot")
     private Double bobot;
-    @SerializedName("nama_kapal")
+    @SerializedName("namaKapal")
     private String nama_kapal;
 
     @SerializedName("jenis_kapal")
@@ -33,7 +33,7 @@ public class BongkarMuatModelRecycler {
     private String angkutan_supir;
     @SerializedName("tgl_mohon")
     private String tgl_mohon;
-    @SerializedName("tgl_pelaksanaan")
+    @SerializedName("tglPelaksanaan")
     private String tgl_pelaksanaan;
     @SerializedName("tgl_update")
     private String tgl_update;
@@ -45,7 +45,7 @@ public class BongkarMuatModelRecycler {
     private String alasan_status;
     @SerializedName("arti_status")
     private String arti_status;
-    @SerializedName("rating_kepuasan")
+    @SerializedName("ratingKepuasan")
     private int rating_kepuasan;
     @SerializedName("komentar")
     private String komentar;

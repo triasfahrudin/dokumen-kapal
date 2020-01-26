@@ -17,7 +17,6 @@ public class SharedPrefManager {
     public static final String SP_TELP = "spTelp";
 
 
-
     public static final String SP_SETTING_NO_REKENING = "spSettingNoRek";
     public static final String SP_SETTING_NAMA_REKENING = "spSettingNamaRek";
 
@@ -49,29 +48,45 @@ public class SharedPrefManager {
     public String getSPJenis() {
         return sp.getString(SP_JENIS, "");
     }
+
     public Integer getSPID() {
         return sp.getInt(SP_ID, 0);
     }
+
     public String getSPNPWP() {
         return sp.getString(SP_NPWP, "");
     }
+
     public String getSPFoto() {
         return sp.getString(SP_FOTO, "");
     }
-    public String getSPAlamat() {return sp.getString(SP_ALAMAT, "");}
+
+    public String getSPAlamat() {
+        return sp.getString(SP_ALAMAT, "");
+    }
+
     public String getSPTelp() {
         return sp.getString(SP_TELP, "");
     }
+
     public String getSPNama() {
         return sp.getString(SP_NAMA, "");
     }
+
     public String getSPEmail() {
         return sp.getString(SP_EMAIL, "");
     }
+
     public Boolean getSPSudahLogin() {
         return sp.getBoolean(SP_SUDAH_LOGIN, false);
     }
-    public String getSpSettingNoRekening() { return sp.getString(SP_SETTING_NO_REKENING,"");}
-    public String getSpSettingNamaRekening() {return sp.getString(SP_SETTING_NAMA_REKENING,"");}
+
+    public String getSpSettingNoRekening() {
+        return sp.getString(SP_SETTING_NO_REKENING, "");
+    }
+
+    public String getSpSettingNamaRekening() {
+        return sp.getString(SP_SETTING_NAMA_REKENING, "");
+    }
 
 }

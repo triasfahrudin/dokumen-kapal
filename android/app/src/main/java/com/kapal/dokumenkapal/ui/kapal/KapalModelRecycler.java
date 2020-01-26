@@ -34,6 +34,26 @@ public class KapalModelRecycler {
     private int kapasitas_roda_dua;
     @SerializedName("kapasitas_roda_empat")
     private int kapasitas_roda_empat;
+    @SerializedName("lokasi_dok_terakhir")
+    private String lokasi_dok_terakhir;
+    @SerializedName("tgl_dok_terakhir")
+    private String tgl_dok_terakhir;
+
+    public String getLokasi_dok_terakhir() {
+        return lokasi_dok_terakhir;
+    }
+
+    public void setLokasi_dok_terakhir(String lokasi_dok_terakhir) {
+        this.lokasi_dok_terakhir = lokasi_dok_terakhir;
+    }
+
+    public String getTgl_dok_terakhir() {
+        return tgl_dok_terakhir;
+    }
+
+    public void setTgl_dok_terakhir(String tgl_dok_terakhir) {
+        this.tgl_dok_terakhir = tgl_dok_terakhir;
+    }
 
     public int getLambung_timbul() {
         return lambung_timbul;

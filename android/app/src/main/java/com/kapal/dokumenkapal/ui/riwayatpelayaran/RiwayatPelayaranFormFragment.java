@@ -45,8 +45,6 @@ import retrofit2.Response;
 
 public class RiwayatPelayaranFormFragment extends Fragment {
 
-    private ProgressDialog loading;
-
     @BindView(R.id.rp_etNamaKapal)
     EditText rpEtNamaKapal;
     @BindView(R.id.rp_etTenagaMesin)
@@ -65,6 +63,7 @@ public class RiwayatPelayaranFormFragment extends Fragment {
     TextView formriwayatPelayaranErrorMsg;
     @BindView(R.id.form_riwayat_pelayaran)
     ScrollView formRiwayatPelayaran;
+    private ProgressDialog loading;
     private Context mContext;
     private BaseApiService mBaseApiService;
     private SharedPrefManager sharedPrefManager;

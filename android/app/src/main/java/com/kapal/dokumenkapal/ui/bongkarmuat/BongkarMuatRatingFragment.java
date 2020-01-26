@@ -82,7 +82,7 @@ public class BongkarMuatRatingFragment extends Fragment {
             });
         }
 
-        rating = getArguments().getFloat("rating_kepuasan");
+        rating = getArguments().getFloat("ratingKepuasan");
         penilaian.setRating(rating);
         taKomentarRating.setText(getArguments().getString("komentar"));
 

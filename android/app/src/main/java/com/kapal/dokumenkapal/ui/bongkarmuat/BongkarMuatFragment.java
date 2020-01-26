@@ -69,17 +69,17 @@ public class BongkarMuatFragment extends Fragment {
 
                 Bundle bundle = new Bundle();
                 bundle.putInt("id", 0);
-                bundle.putString("kode_biaya", "bm_gas");
-                bundle.putString("jenis_muatan", "");
+                bundle.putString("kodeBiaya", "bm_gas");
+                bundle.putString("jenisMuatan", "");
                 bundle.putDouble("bobot", 0);
-                bundle.putString("nama_kapal", "");
+                bundle.putString("namaKapal", "");
                 bundle.putString("jenis_kapal", "");
                 bundle.putString("gt_kapal", "");
                 bundle.putString("agen_kapal", "");
                 bundle.putString("jenis_angkutan", "");
                 bundle.putString("angkutan_nopol", "");
                 bundle.putString("angkutan_supir", "");
-                bundle.putString("tgl_pelaksanaan", "");
+                bundle.putString("tglPelaksanaan", "");
 
                 BongkarMuatFormFragment fragment = new BongkarMuatFormFragment();
                 fragment.setArguments(bundle);
@@ -156,7 +156,7 @@ public class BongkarMuatFragment extends Fragment {
 
                 Bundle bundle = new Bundle();
                 bundle.putInt("id", viewHolder.rowId);
-                bundle.putFloat("rating_kepuasan", viewHolder.rating_kepuasan);
+                bundle.putFloat("ratingKepuasan", viewHolder.ratingKepuasan);
                 bundle.putString("komentar", viewHolder.komentar);
 
                 BongkarMuatRatingFragment fragment = new BongkarMuatRatingFragment();
@@ -171,18 +171,18 @@ public class BongkarMuatFragment extends Fragment {
             } else if ("revisi_berkas".equals(jenis)) {
                 Bundle bundle = new Bundle();
                 bundle.putInt("id", viewHolder.rowId);
-                bundle.putString("kode_biaya", viewHolder.kode_biaya);
-                bundle.putString("jenis_muatan", viewHolder.jenis_muatan);
+                bundle.putString("kodeBiaya", viewHolder.kodeBiaya);
+                bundle.putString("jenisMuatan", viewHolder.jenisMuatan);
                 bundle.putDouble("bobot", viewHolder.bobot);
-                bundle.putString("nama_kapal", viewHolder.nama_kapal);
-                bundle.putString("jenis_kapal",viewHolder.jenis_kapal);
-                bundle.putString("gt_kapal",viewHolder.gt_kapal);
-                bundle.putString("agen_kapal",viewHolder.agen_kapal);
+                bundle.putString("namaKapal", viewHolder.namaKapal);
+                bundle.putString("jenis_kapal", viewHolder.jenis_kapal);
+                bundle.putString("gt_kapal", viewHolder.gt_kapal);
+                bundle.putString("agen_kapal", viewHolder.agen_kapal);
 
-                bundle.putString("jenis_angkutan",viewHolder.jenis_angkutan);
+                bundle.putString("jenis_angkutan", viewHolder.jenis_angkutan);
                 bundle.putString("angkutan_nopol", viewHolder.angkutan_nopol);
                 bundle.putString("angkutan_supir", viewHolder.angkutan_supir);
-                bundle.putString("tgl_pelaksanaan",viewHolder.tgl_pelaksanaan);
+                bundle.putString("tglPelaksanaan", viewHolder.tglPelaksanaan);
 
                 BongkarMuatFormFragment fragment = new BongkarMuatFormFragment();
                 fragment.setArguments(bundle);

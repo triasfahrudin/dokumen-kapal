@@ -99,6 +99,8 @@ class Restapi extends CI_Controller
                            DATE_FORMAT(tgl_peletakan_lunas, "%d/%m/%Y") AS tgl_peletakan_lunas,
                            DATE_FORMAT(tgl_serah_terima, "%d/%m/%Y") AS tgl_serah_terima,
                            DATE_FORMAT(tgl_perubahan, "%d/%m/%Y") AS tgl_perubahan,
+                           lokasi_dok_terakhir,
+                           DATE_FORMAT(tgl_dok_terakhir, "%d/%m/%Y") AS tgl_dok_terakhir,
                            IFNULL(kapasitas_penumpang,"0") AS kapasitas_penumpang,
                            IFNULL(kapasitas_roda_dua,"0") AS kapasitas_roda_dua,
                            IFNULL(kapasitas_roda_empat,"0") AS kapasitas_roda_empat');
@@ -242,12 +244,12 @@ class Restapi extends CI_Controller
             $id         = $this->input->post('id');
             $pemohon_id = $this->input->post('pemohon_id');
 
-            $nama_kapal    = $this->input->post('nama_kapal');
-            $jenis_kapal   = $this->input->post('jenis_kapal');
-            $kode_pengenal = $this->input->post('kode_pengenal');
-            $imo_number    = $this->input->post('imo_number');
-            $lambung_timbul    = $this->input->post('lambung_timbul');
-            $grt           = $this->input->post('grt');
+            $nama_kapal     = $this->input->post('nama_kapal');
+            $jenis_kapal    = $this->input->post('jenis_kapal');
+            $kode_pengenal  = $this->input->post('kode_pengenal');
+            $imo_number     = $this->input->post('imo_number');
+            $lambung_timbul = $this->input->post('lambung_timbul');
+            $grt            = $this->input->post('grt');
 
             $pelabuhan_daftar = $this->input->post('pelabuhan_daftar');
 
@@ -255,6 +257,9 @@ class Restapi extends CI_Controller
             $tgl_peletakan_lunas = $this->_cek_input_tgl($this->input->post('tgl_peletakan_lunas'));
             $tgl_serah_terima    = $this->_cek_input_tgl($this->input->post('tgl_serah_terima'));
             $tgl_perubahan       = $this->_cek_input_tgl($this->input->post('tgl_perubahan'));
+
+            $lokasi_dok_terakhir = $this->input->post('lokasi_dok_terakhir');
+            $tgl_dok_terakhir    = $this->_cek_input_tgl($this->input->post('tgl_dok_terakhir'));
 
             $kapasitas_penumpang  = $this->input->post('kapasitas_penumpang');
             $kapasitas_roda_dua   = $this->input->post('kapasitas_roda_dua');
@@ -277,6 +282,9 @@ class Restapi extends CI_Controller
                         'tgl_peletakan_lunas'  => convert_date_to_sql_date($tgl_peletakan_lunas, 'd/m/Y'),
                         'tgl_serah_terima'     => convert_date_to_sql_date($tgl_serah_terima, 'd/m/Y'),
                         'tgl_perubahan'        => convert_date_to_sql_date($tgl_perubahan, 'd/m/Y'),
+
+                        'lokasi_dok_terakhir'  => $lokasi_dok_terakhir,
+                        'tgl_dok_terakhir'     => convert_date_to_sql_date($tgl_dok_terakhir, 'd/m/Y'),
 
                         'kapasitas_penumpang'  => $kapasitas_penumpang,
                         'kapasitas_roda_dua'   => $kapasitas_roda_dua,
@@ -1357,15 +1365,15 @@ class Restapi extends CI_Controller
                            a.jenis_kapal,
                            a.gt_kapal,
                            a.agen_kapal,
-                           
+
                            a.jenis_angkutan,
                            a.angkutan_nopol,
                            a.angkutan_supir,
-                           
+
                            DATE_FORMAT(a.tgl_mohon, '%d/%m/%Y') AS tgl_mohon,
                            DATE_FORMAT(a.tgl_pelaksanaan, '%d/%m/%Y') AS tgl_pelaksanaan,
                            IFNULL(DATE_FORMAT(a.tgl_update,'%d/%m/%Y'),'-') AS tgl_update,
-                           
+
                            IFNULL(a.biaya,0) AS biaya,
                            a.status,
                            a.alasan_status,
@@ -1461,7 +1469,7 @@ class Restapi extends CI_Controller
             $agen_kapal   = $this->input->post('agen_kapal');
             $gt_kapal     = $this->input->post('gt_kapal');
 
-            $jenis_angkutan  = $this->input->post('jenis_angkutan');
+            $jenis_angkutan = $this->input->post('jenis_angkutan');
             $angkutan_nopol = $this->input->post('angkutan_nopol');
             $angkutan_supir = $this->input->post('angkutan_supir');
 
@@ -1525,17 +1533,17 @@ class Restapi extends CI_Controller
 
         if ($this->form_validation->run() == true) {
 
-            $id             = $this->input->post('id');
-            $kode_biaya     = $this->input->post('kode_biaya');
-            $jenis_muatan   = $this->input->post('jenis_muatan');
-            $bobot          = $this->input->post('bobot');
+            $id           = $this->input->post('id');
+            $kode_biaya   = $this->input->post('kode_biaya');
+            $jenis_muatan = $this->input->post('jenis_muatan');
+            $bobot        = $this->input->post('bobot');
 
-            $nama_kapal     = $this->input->post('nama_kapal');
-            $jenis_kapal  = $this->input->post('jenis_kapal');
-            $agen_kapal   = $this->input->post('agen_kapal');
-            $gt_kapal     = $this->input->post('gt_kapal');
+            $nama_kapal  = $this->input->post('nama_kapal');
+            $jenis_kapal = $this->input->post('jenis_kapal');
+            $agen_kapal  = $this->input->post('agen_kapal');
+            $gt_kapal    = $this->input->post('gt_kapal');
 
-            $jenis_angkutan  = $this->input->post('jenis_angkutan');
+            $jenis_angkutan = $this->input->post('jenis_angkutan');
             $angkutan_nopol = $this->input->post('angkutan_nopol');
             $angkutan_supir = $this->input->post('angkutan_supir');
 
@@ -1553,19 +1561,19 @@ class Restapi extends CI_Controller
             $this->db->where('id', $id);
             $this->db->update('bongkar_muat',
                 array(
-                    'kode_biaya'     => $kode_biaya,
-                    'jenis_muatan'   => $jenis_muatan,
-                    'bobot'          => $bobot,
+                    'kode_biaya'      => $kode_biaya,
+                    'jenis_muatan'    => $jenis_muatan,
+                    'bobot'           => $bobot,
                     'nama_kapal'      => $nama_kapal,
                     'jenis_kapal'     => $jenis_kapal,
                     'agen_kapal'      => $agen_kapal,
                     'gt_kapal'        => $gt_kapal,
                     'jenis_angkutan'  => $jenis_angkutan,
                     'angkutan_nopol'  => $angkutan_nopol,
-                    'angkutan_supir'  => $angkutan_supir,                    
+                    'angkutan_supir'  => $angkutan_supir,
                     'tgl_pelaksanaan' => $this->_cek_input_tgl($tgl_pelaksanaan),
-                    'status'         => $status_baru,
-                    'tgl_update'     => date('Y-m-d H:i:s'),
+                    'status'          => $status_baru,
+                    'tgl_update'      => date('Y-m-d H:i:s'),
 
                 )
             );

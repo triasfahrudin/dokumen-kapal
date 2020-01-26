@@ -52,6 +52,11 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
+    <LinearLayout android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:baselineAligned="false">
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/kapal_etJenisKapalWrapper"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -64,7 +69,8 @@
 
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/kapal_etNamaKapalWrapper">
+            app:layout_constraintTop_toBottomOf="@+id/kapal_etNamaKapalWrapper"
+            android:layout_weight="1">
 
             <EditText
                 android:id="@+id/kapal_etJenisKapal"
@@ -89,7 +95,8 @@
 
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/kapal_etJenisKapalWrapper">
+            app:layout_constraintTop_toBottomOf="@+id/kapal_etJenisKapalWrapper"
+            android:layout_weight="1">
 
             <EditText
                 android:id="@+id/kapal_etKodePengenal"
@@ -101,6 +108,9 @@
                 android:padding="15dp" />
 
         </com.google.android.material.textfield.TextInputLayout>
+
+    </LinearLayout>
+
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/kapal_etPelabuhanDaftarWrapper"
@@ -152,6 +162,10 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
+    <LinearLayout android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:baselineAligned="false">
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/kapal_etLambungTimbulWrapper"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -161,6 +175,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
             android:hint="Lambung Timbul (mm)"
+            android:layout_weight="1"
 
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -186,6 +201,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
             android:hint="GRT"
+            android:layout_weight="1"
 
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -201,6 +217,64 @@
                 android:padding="15dp" />
 
         </com.google.android.material.textfield.TextInputLayout>
+    </LinearLayout>
+
+    <LinearLayout android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:baselineAligned="false">
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/kapal_etLokasiDokTerakhirWrapper"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:hint="Lokasi Dok terakhir"
+            android:layout_weight="1"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/kapal_etGRTWrapper">
+
+            <EditText
+                android:id="@+id/kapal_etLokasiDokTerakhir"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/edit_text_top"
+                android:inputType="text"
+                android:padding="15dp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/kapal_etTglDokTerakhirWrapper"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:hint="Tanggal Dok terakhir"
+            android:layout_weight="1"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/kapal_etLokasiDokTerakhirWrapper">
+
+            <EditText
+                android:id="@+id/kapal_etTglDokTerakhir"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/edit_text_top"
+                android:inputType="text"
+                android:padding="15dp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+    </LinearLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/kapal_etTglKontrakWrapper"
@@ -214,7 +288,7 @@
 
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/kapal_etGRTWrapper">
+            app:layout_constraintTop_toBottomOf="@+id/kapal_etTglDokTerakhirWrapper">
 
             <EditText
                 android:id="@+id/kapal_etTglKontrak"

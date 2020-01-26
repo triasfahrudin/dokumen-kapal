@@ -10,7 +10,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
-import android.view.Menu;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -51,12 +50,11 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
-    private AppBarConfiguration mAppBarConfiguration;
     public FloatingActionButton fab;
-
     SharedPrefManager sharedPrefManager;
     BaseApiService mBaseApiService;
     Context mContext;
+    private AppBarConfiguration mAppBarConfiguration;
 
 //    private ProgressDialog loading;
 
@@ -101,34 +99,7 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navigationView, navController);
     }
 
-    private void sendRegistrationToServer(String token_id) {
-        mBaseApiService.sendRegistrationToServer(sharedPrefManager.getSPID(), token_id)
-                .enqueue(new Callback<ResponseBody>() {
-                    @Override
-                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                        if (response.isSuccessful()) {
-                            try {
-                                JSONObject jsonObject = new JSONObject(response.body().string());
-                                if (jsonObject.getString("error").equals("true")) {
-                                    String error_message = jsonObject.getString("error_msg");
-                                    Toast.makeText(mContext, error_message, Toast.LENGTH_SHORT).show();
-                                }
 
-
-                            } catch (JSONException | IOException e) {
-                                e.printStackTrace();
-                            }
-
-                        } else {
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
-                        Log.e("debug", "onFailure: ERROR > " + t.toString());
-                    }
-                });
-    }
 
     private void requestMultiplePermissions() {
         Dexter.withActivity(this)
@@ -167,19 +138,12 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder.setTitle("Need Permissions");
         builder.setMessage("This app needs permission to use this feature. You can grant them in app settings.");
-        builder.setPositiveButton("GOTO SETTINGS", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-                openSettings();
-            }
+        builder.setPositiveButton("GOTO SETTINGS", (dialog, which) -> {
+            dialog.cancel();
+            openSettings();
         });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
+
+        builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
         builder.show();
 
     }
@@ -196,12 +160,13 @@ public class MainActivity extends AppCompatActivity {
         return fab;
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
+    //https://stackoverflow.com/questions/21099386/how-do-i-remove-settings-icon-overflow-menu-on-top-right-of-action-bar
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        // Inflate the menu; this adds items to the action bar if it is present.
+//        getMenuInflater().inflate(R.menu.main, menu);
+//        return true;
+//    }
 
     @Override
     public boolean onSupportNavigateUp() {
@@ -252,6 +217,35 @@ public class MainActivity extends AppCompatActivity {
                     });
 
             return null;
+        }
+
+        private void sendRegistrationToServer(String token_id) {
+            mBaseApiService.sendRegistrationToServer(sharedPrefManager.getSPID(), token_id)
+                    .enqueue(new Callback<ResponseBody>() {
+                        @Override
+                        public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
+                            if (response.isSuccessful()) {
+                                try {
+                                    JSONObject jsonObject = new JSONObject(response.body().string());
+                                    if (jsonObject.getString("error").equals("true")) {
+                                        String error_message = jsonObject.getString("error_msg");
+                                        Toast.makeText(mContext, error_message, Toast.LENGTH_SHORT).show();
+                                    }
+
+
+                                } catch (JSONException | IOException e) {
+                                    e.printStackTrace();
+                                }
+
+                            } else {
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
+                            Log.e("debug", "onFailure: ERROR > " + t.toString());
+                        }
+                    });
         }
 
         @Override

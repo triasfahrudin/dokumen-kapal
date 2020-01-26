@@ -4,14 +4,14 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.kapal.dokumenkapal.util.api.BaseApiService;
 import com.kapal.dokumenkapal.util.api.UtilsApi;
@@ -72,25 +72,25 @@ public class RegistrationActivity extends AppCompatActivity {
 
 
     @OnClick(R.id.btnSignUp)
-    public void requestSignup(){
+    public void requestSignup() {
 
         String jenisAkun;
-        if(cbPerusahaan.isChecked()){
+        if (cbPerusahaan.isChecked()) {
             jenisAkun = "perusahaan";
-        }else{
+        } else {
             jenisAkun = "perorangan";
         }
 
-        loading = ProgressDialog.show(mContext,null,"Mohon tunggu...",true,false);
-        mBaseApiService.registerRequest(jenisAkun,etName.getText().toString(),etEmail.getText().toString(),etPassword.getText().toString())
+        loading = ProgressDialog.show(mContext, null, "Mohon tunggu...", true, false);
+        mBaseApiService.registerRequest(jenisAkun, etName.getText().toString(), etEmail.getText().toString(), etPassword.getText().toString())
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                        if(response.isSuccessful()){
+                        if (response.isSuccessful()) {
                             loading.dismiss();
                             try {
                                 JSONObject jsonObject = new JSONObject(response.body().string());
-                                if(jsonObject.getString("error").equals("false")){
+                                if (jsonObject.getString("error").equals("false")) {
 
 
                                     Toast.makeText(mContext, "Pendaftaran Berhasil, Silahkan Masuk dengan akun anda", Toast.LENGTH_SHORT).show();
@@ -99,7 +99,7 @@ public class RegistrationActivity extends AppCompatActivity {
                                             .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
                                     finish();
 
-                                }else {
+                                } else {
                                     String error_message = jsonObject.getString("error_msg");
                                     Toast.makeText(mContext, error_message, Toast.LENGTH_SHORT).show();
                                 }
@@ -111,7 +111,7 @@ public class RegistrationActivity extends AppCompatActivity {
                                 e.printStackTrace();
                             }
 
-                        }else{
+                        } else {
                             loading.dismiss();
                         }
                     }

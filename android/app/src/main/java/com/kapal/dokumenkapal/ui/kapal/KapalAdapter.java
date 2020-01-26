@@ -59,6 +59,9 @@ public class KapalAdapter extends RecyclerView.Adapter<KapalAdapter.KapalViewHol
                 bundle.putInt("kapasitas_roda_dua", dataList.get(position).getKapasitas_roda_dua());
                 bundle.putInt("kapasitas_roda_empat", dataList.get(position).getKapasitas_roda_empat());
 
+                bundle.putString("lokasi_dok_terakhir", dataList.get(position).getLokasi_dok_terakhir());
+                bundle.putString("tgl_dok_terakhir", dataList.get(position).getTgl_dok_terakhir());
+
                 KapalFormFragment fragment = new KapalFormFragment();
                 fragment.setArguments(bundle);
                 AppCompatActivity activity = (AppCompatActivity) view.getContext();

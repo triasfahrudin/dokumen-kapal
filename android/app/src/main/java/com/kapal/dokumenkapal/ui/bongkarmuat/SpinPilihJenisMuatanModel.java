@@ -11,12 +11,15 @@ class SpinPilihJenisMuatanModel {
     public String getKode() {
         return kode;
     }
+
     public void setKode(String kode) {
         this.kode = kode;
     }
+
     public String getAlias() {
         return alias;
     }
+
     public void setAlias(String alias) {
         this.alias = alias;
     }

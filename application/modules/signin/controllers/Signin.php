@@ -25,14 +25,14 @@ class Signin extends CI_Controller
         // echo get_settings('google_auth');
 
         if (!empty($_POST)) {
-            if (strrpos(current_url(), 'localhost') === false) {
-                $captcha_answer = $this->input->post('g-recaptcha-response');
-                $response       = $this->recaptcha->verifyResponse($captcha_answer);
+            // if (strrpos(current_url(), 'localhost') === false) {
+            //     $captcha_answer = $this->input->post('g-recaptcha-response');
+            //     $response       = $this->recaptcha->verifyResponse($captcha_answer);
 
-                if (!$response['success']) {
-                    redirect(site_url('web'), 'reload');
-                }
-            }
+            //     if (!$response['success']) {
+            //         redirect(site_url('web'), 'reload');
+            //     }
+            // }
 
             //$captcha_answer = $this->input->post('g-recaptcha-response');
             //$response       = $this->recaptcha->verifyResponse($captcha_answer);
