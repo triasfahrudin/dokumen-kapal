@@ -13,7 +13,7 @@ pemohon                             petugas
 
 399 (verifikasi berkas gagal)    verifikasi berkas gagal             verifikasi berkas gagal
 [UPLOAD ULANG]                      MENUNGGU UPLOAD ULANG
-=> 210
+=> 210w
 
 299 (verifikasi bayar gagal)     verifikasi bayar gagal              verifikasi bayar gagal
 [UPLOAD ULANG]                      MENUNGGU UPLOAD ULANG
@@ -785,7 +785,7 @@ class Manage extends MX_Controller
 
                     //jika hari sabtu atau minggu, berikan notifikasi kalau bukan hari kerja
 
-                    $res = $this->db->query("SELECT MakeDateList(tgl_upload_bukti_bayar,'" . date('Y-m-d') . "','1,2,3,4,5') + 1 AS hari_proses
+                    $res = $this->db->query("SELECT MakeDateList(tgl_upload_bukti_bayar,'" . date('Y-m-d') . "','1,2,3,4,5') AS hari_proses
                                              FROM $jenis WHERE id = $permohonan_id")->row_array();
 
                     $this->db->where('id', $permohonan_id);

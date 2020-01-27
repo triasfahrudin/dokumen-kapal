@@ -68,6 +68,11 @@ public class BongkarMuatAdapter extends RecyclerView.Adapter<BongkarMuatAdapter.
             ));
         }
 
+        if(dataList.get(position).getRating_kepuasan() > 0.0){
+            holder.btnRating.setText("Terimakasih atas penilaian anda");
+        }
+
+
         holder.rowId = dataList.get(position).getId();
         holder.kodeBiaya = dataList.get(position).getKode_biaya();
         holder.jenisMuatan = dataList.get(position).getJenis_muatan();

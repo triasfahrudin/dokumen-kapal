@@ -355,7 +355,7 @@
                                   $('#dd_alert_masa_layar').html(data.dd_alert_masa_layar);
                                 },
                                 complete: function() {
-                                  setTimeout(worker, 5000);
+                                  setTimeout(worker, (1000 * 60 * 10));
                                 }
                               });
                             })();
@@ -451,7 +451,7 @@
                                $('#tab_revisi').html(data.tab_revisi);
                              },
                              complete: function() {
-                               setTimeout(worker, 5000);
+                               setTimeout(worker, (1000 * 60 * 10));
                              }
                            });
                          })();
@@ -704,7 +704,7 @@
 
              },
              complete: function() {
-               setTimeout(worker, 5000);
+               setTimeout(worker, (1000 * 60 * 10));
              }
            });
          })();

@@ -545,7 +545,7 @@ class Restapi extends CI_Controller
         $upload['allowed_types'] = 'pdf|jpg|jpeg|png|bmp';
         $upload['encrypt_name']  = true;
         $upload['overwrite']     = true;
-        $upload['max_size']      = 1024;
+        $upload['max_size']      = 5120;
 
         $this->load->library('upload', $upload);
 
@@ -1691,6 +1691,7 @@ class Restapi extends CI_Controller
                            a.rating_kepuasan,
                            a.komentar");
         $this->db->join('kode_status b', 'a.status = b.kode_angka', 'left');
+        $this->db->order_by('id','DESC');
         $qry = $this->db->get_where('masa_layar a', array('pemohon_id' => $pemohon_id));
 
         echo json_encode(

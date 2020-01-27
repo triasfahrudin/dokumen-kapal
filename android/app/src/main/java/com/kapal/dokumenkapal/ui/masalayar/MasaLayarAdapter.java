@@ -74,6 +74,10 @@ public class MasaLayarAdapter extends RecyclerView.Adapter<MasaLayarAdapter.Masa
             ));
         }
 
+        if(dataList.get(position).getRating_kepuasan() > 0.0){
+            holder.btnRating.setText("Terimakasih atas penilaian anda");
+        }
+
         holder.rowId = dataList.get(position).getId();
         holder.rating_kepuasan = (float) dataList.get(position).getRating_kepuasan();
         holder.komentar = dataList.get(position).getKomentar();

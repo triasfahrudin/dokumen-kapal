@@ -73,6 +73,9 @@ public class SertifikatKeselamatanAdapter extends RecyclerView.Adapter<Sertifika
             ));
         }
 
+        if(dataList.get(position).getRating_kepuasan() > 0.0){
+            holder.btnRating.setText("Terimakasih atas penilaian anda");
+        }
 
         holder.tvKapal.setText(String.format("Kapal: %s", dataList.get(position).getNama_kapal().toUpperCase()));
         holder.rowId = dataList.get(position).getId();
