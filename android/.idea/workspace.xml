@@ -227,7 +227,7 @@
   <component name="DefaultGradleProjectSettings">
     <option name="isMigrated" value="true" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="192.168.8.101:5555" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="192.168.8.102:5555" />
   <component name="ExternalProjectsManager">
     <system id="GRADLE">
       <state>
@@ -250,17 +250,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/util/api/BaseApiService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2226">
-              <caret line="124" column="32" selection-start-line="124" selection-start-column="32" selection-end-line="124" selection-end-column="32" />
+            <state relative-caret-position="123">
+              <caret line="114" column="13" selection-start-line="114" selection-start-column="10" selection-end-line="114" selection-end-column="13" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/masalayar/MasaLayarModelRecycler.java">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/kapal/KapalAdapter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="189">
-              <caret line="9" column="32" selection-start-line="9" selection-start-column="32" selection-end-line="9" selection-end-column="32" />
+            <state relative-caret-position="40">
+              <caret line="50" column="70" lean-forward="true" selection-start-line="50" selection-start-column="70" selection-end-line="50" selection-end-column="70" />
             </state>
           </provider>
         </entry>
@@ -304,11 +304,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/bongkarmuat/BongkarMuatAdapter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="114">
-              <caret line="161" column="29" lean-forward="true" selection-start-line="161" selection-start-column="29" selection-end-line="161" selection-end-column="29" />
+            <state relative-caret-position="240">
+              <caret line="167" column="76" selection-start-line="167" selection-start-column="76" selection-end-line="167" selection-end-column="76" />
             </state>
           </provider>
         </entry>
@@ -357,10 +357,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>slideshow</find>
-      <find>etNamaLengkap</find>
-      <find>Kapal</find>
-      <find>kapal</find>
       <find>RiwayatPelayara</find>
       <find>riwayatpelayaran</find>
       <find>RiwayatPelayaran</find>
@@ -387,6 +383,10 @@
       <find>windowBackground</find>
       <find>sett</find>
       <find>onOptionsItemSelected</find>
+      <find>kapal</find>
+      <find>insertupdate</find>
+      <find>insertupdate_kapal</find>
+      <find>get</find>
     </findStrings>
     <replaceStrings>
       <replace>RiwayatPelayaran</replace>
@@ -489,26 +489,54 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope">
-        <subPane subId="Scope 'Project Files'; set:Project Files; class com.intellij.psi.search.scope.ProjectFilesScope">
-          <expand>
-            <path>
-              <item name="Dokumen Kapal" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="~/htdocs/dokumen_kapal/android" type="442cc68d:ScopeViewTreeModel$RootNode" />
-            </path>
-            <path>
-              <item name="Dokumen Kapal" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="~/htdocs/dokumen_kapal/android" type="442cc68d:ScopeViewTreeModel$RootNode" />
-              <item name="app" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
-      <pane id="PackagesPane" />
       <pane id="AndroidView">
         <subPane>
           <expand>
+            <path>
+              <item name="Dokumen Kapal" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+            </path>
+            <path>
+              <item name="Dokumen Kapal" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+            </path>
+            <path>
+              <item name="Dokumen Kapal" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+              <item name="dokumenkapal" type="cbb59c9e:AndroidPsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Dokumen Kapal" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+              <item name="dokumenkapal" type="cbb59c9e:AndroidPsiDirectoryNode" />
+              <item name="ui" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Dokumen Kapal" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+              <item name="dokumenkapal" type="cbb59c9e:AndroidPsiDirectoryNode" />
+              <item name="ui" type="462c0819:PsiDirectoryNode" />
+              <item name="kapal" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Dokumen Kapal" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+              <item name="dokumenkapal" type="cbb59c9e:AndroidPsiDirectoryNode" />
+              <item name="util" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Dokumen Kapal" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+              <item name="dokumenkapal" type="cbb59c9e:AndroidPsiDirectoryNode" />
+              <item name="util" type="462c0819:PsiDirectoryNode" />
+              <item name="api" type="462c0819:PsiDirectoryNode" />
+            </path>
             <path>
               <item name="Dokumen Kapal" type="1abcf292:AndroidViewProjectNode" />
               <item name="Gradle Scripts" type="ae0cef3a:AndroidBuildScriptsGroupNode" />
@@ -517,6 +545,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -528,6 +557,22 @@
               <item name="Dokumen Kapal" type="b2602c69:ProjectViewProjectNode" />
               <item name="android" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="app" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="Scope">
+        <subPane subId="Scope 'Project Files'; set:Project Files; class com.intellij.psi.search.scope.ProjectFilesScope">
+          <expand>
+            <path>
+              <item name="Dokumen Kapal" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="~/htdocs/dokumen_kapal/android" type="442cc68d:ScopeViewTreeModel$RootNode" />
+            </path>
+            <path>
+              <item name="Dokumen Kapal" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="~/htdocs/dokumen_kapal/android" type="442cc68d:ScopeViewTreeModel$RootNode" />
+              <item name="app" type="9f88c78c:ScopeViewTreeModel$FileNode" />
             </path>
           </expand>
           <select />
@@ -679,7 +724,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-1" y="0" width="1368" height="748" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info auto_hide="true" x="426" y="301" width="513" height="145" id="Palette " internal_type="SLIDING" order="0" type="SLIDING" weight="0.329429" />
       <window_info id="Structure" order="1" sideWeight="0.52019" side_tool="true" weight="0.25718608" />
@@ -693,12 +737,12 @@
       <window_info id="Capture Tool" order="9" />
       <window_info id="Resources Explorer" order="10" sideWeight="0.49158248" weight="0.3290469" />
       <window_info anchor="bottom" id="DB Execution Console" order="0" />
-      <window_info anchor="bottom" id="Run" order="1" sideWeight="0.49546143" weight="0.23271501" />
+      <window_info anchor="bottom" id="Run" order="1" sideWeight="0.494705" weight="0.23232323" />
       <window_info anchor="bottom" id="Android Profiler" order="2" weight="0.3288364" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.32659933" />
-      <window_info active="true" anchor="bottom" id="Event Log" order="4" sideWeight="0.5083082" side_tool="true" visible="true" weight="0.2698145" />
+      <window_info anchor="bottom" id="Event Log" order="4" sideWeight="0.505295" side_tool="true" weight="0.23271501" />
       <window_info anchor="bottom" id="Find" order="5" sideWeight="0.49924472" weight="0.32715008" />
-      <window_info anchor="bottom" id="Build" order="6" sideWeight="0.49169186" weight="0.26599327" />
+      <window_info anchor="bottom" id="Build" order="6" sideWeight="0.49092284" weight="0.26599327" />
       <window_info anchor="bottom" id="TODO" order="7" weight="0.32828283" />
       <window_info anchor="bottom" id="Logcat" order="8" sideWeight="0.4969743" weight="0.40472177" />
       <window_info anchor="bottom" id="Version Control" order="9" weight="0.32838285" />
@@ -855,12 +899,12 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
+      <provider editor-type-id="android-manifest" />
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="63">
           <caret line="39" column="42" lean-forward="true" selection-start-line="39" selection-start-column="42" selection-end-line="39" selection-end-column="42" />
         </state>
       </provider>
-      <provider editor-type-id="android-manifest" />
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/RegistrationActivity.java">
       <provider selected="true" editor-type-id="text-editor">
@@ -996,24 +1040,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/kapal/KapalAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1008">
-          <caret line="62" column="97" selection-start-line="62" selection-start-column="97" selection-end-line="62" selection-end-column="97" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/kapal/KapalFormFragment.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="6195">
           <caret line="348" column="30" selection-start-line="348" selection-start-column="30" selection-end-line="348" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/util/api/BaseApiService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2226">
-          <caret line="124" column="32" selection-start-line="124" selection-start-column="32" selection-end-line="124" selection-end-column="32" />
         </state>
       </provider>
     </entry>
@@ -1081,8 +1111,22 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/bongkarmuat/BongkarMuatAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="114">
-          <caret line="161" column="29" lean-forward="true" selection-start-line="161" selection-start-column="29" selection-end-line="161" selection-end-column="29" />
+        <state relative-caret-position="240">
+          <caret line="167" column="76" selection-start-line="167" selection-start-column="76" selection-end-line="167" selection-end-column="76" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/util/api/BaseApiService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="123">
+          <caret line="114" column="13" selection-start-line="114" selection-start-column="10" selection-end-line="114" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/kapal/KapalAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="40">
+          <caret line="50" column="70" lean-forward="true" selection-start-line="50" selection-start-column="70" selection-end-line="50" selection-end-column="70" />
         </state>
       </provider>
     </entry>

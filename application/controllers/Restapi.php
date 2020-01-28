@@ -314,10 +314,15 @@ class Restapi extends CI_Controller
                         'imo_number'           => $imo_number,
                         'lambung_timbul'       => $lambung_timbul,
                         'grt'                  => $grt,
+
                         'tgl_kontrak'          => convert_date_to_sql_date($tgl_kontrak, 'd/m/Y'),
                         'tgl_peletakan_lunas'  => convert_date_to_sql_date($tgl_peletakan_lunas, 'd/m/Y'),
                         'tgl_serah_terima'     => convert_date_to_sql_date($tgl_serah_terima, 'd/m/Y'),
                         'tgl_perubahan'        => convert_date_to_sql_date($tgl_perubahan, 'd/m/Y'),
+
+                        'lokasi_dok_terakhir'  => $lokasi_dok_terakhir,
+                        'tgl_dok_terakhir'     => convert_date_to_sql_date($tgl_dok_terakhir, 'd/m/Y'),
+
                         'kapasitas_penumpang'  => $kapasitas_penumpang,
                         'kapasitas_roda_dua'   => $kapasitas_roda_dua,
                         'kapasitas_roda_empat' => $kapasitas_roda_empat,
