@@ -3,7 +3,10 @@ package com.kapal.dokumenkapal.ui.bukupelaut;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -146,11 +149,28 @@ public class BukuPelautFragment extends Fragment {
         startActivityForResult(intent, 1);
     }
 
+    public String getRealPathFromURI(Context context, Uri contentUri) {
+        Cursor cursor = null;
+        try {
+            String[] proj = {MediaStore.Images.Media.DATA};
+            cursor = context.getContentResolver().query(contentUri, proj, null, null, null);
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+
+            return cursor.getString(column_index);
+        } finally {
+
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
-            String filepath = Objects.requireNonNull(data.getData()).getPath();
-            etUpload.setText(filepath);
+            Uri filepath = Objects.requireNonNull(data.getData());
+            etUpload.setText(filepath.getPath());
             uploadFile(filepath);
         }
 
@@ -209,10 +229,10 @@ public class BukuPelautFragment extends Fragment {
     }
 
 
-    private void uploadFile(String path) {
+    private void uploadFile(Uri path) {
         String pdfname = String.valueOf(Calendar.getInstance().getTimeInMillis());
 
-        File file = new File(path);
+        File file = new File(getRealPathFromURI(mContext,path));
         RequestBody requestBody = RequestBody.create(MediaType.parse("*/*"), file);
         MultipartBody.Part fileToUpload = MultipartBody.Part.createFormData("filename", file.getName(), requestBody);
         RequestBody filename = RequestBody.create(MediaType.parse("text/plain"), pdfname);

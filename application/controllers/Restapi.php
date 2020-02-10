@@ -570,6 +570,25 @@ class Restapi extends CI_Controller
             $file_name = $success['file_name'];
 
             switch ($jenis) {
+
+                case '"profile"':
+                    $pemohon_id = $this->input->post('id');
+
+                    $this->db->where('id',$pemohon_id);
+                    $this->db->update('pemohon',array('foto' => $file_name));
+
+                     echo json_encode(
+                        array(
+                            'status'    => "Upload berhasil",
+                            'error_msg' => $this->db->error()['code'],
+                            'error'     => false,
+
+                        )
+                    );
+
+
+                    break;
+
                 case '"buku_pelaut"':
                     $pemohon_id = $this->input->post('id');
 

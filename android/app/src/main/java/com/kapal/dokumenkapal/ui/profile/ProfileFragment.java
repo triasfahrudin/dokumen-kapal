@@ -2,7 +2,11 @@ package com.kapal.dokumenkapal.ui.profile;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -34,17 +38,24 @@ import com.kapal.dokumenkapal.util.api.UtilsApi;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import es.dmoral.toasty.Toasty;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static android.app.Activity.RESULT_OK;
 
 public class ProfileFragment extends Fragment {
 
@@ -82,6 +93,10 @@ public class ProfileFragment extends Fragment {
     TextInputLayout profileEtTanggalLahirWrapper;
     @BindView(R.id.profile_error_msg)
     TextView profileErrorMsg;
+    @BindView(R.id.profile_foto_btnUpload)
+    Button profileFotoBtnUpload;
+    @BindView(R.id.profile_foto_etUpload)
+    EditText profileFotoEtUpload;
 
     private Context mContext;
     private BaseApiService mBaseApiService;
@@ -93,6 +108,74 @@ public class ProfileFragment extends Fragment {
 
         super.onAttach(context);
         mContext = context;
+    }
+
+
+    @OnClick(R.id.profile_foto_btnUpload)
+    public void btnLoadFotoClicked() {
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        intent.setType("application/pdf");
+        startActivityForResult(intent, 1);
+    }
+
+
+    public String getRealPathFromURI(Context context, Uri contentUri) {
+        Cursor cursor = null;
+        try {
+            String[] proj = {MediaStore.Images.Media.DATA};
+            cursor = context.getContentResolver().query(contentUri, proj, null, null, null);
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+
+            return cursor.getString(column_index);
+        } finally {
+
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            Uri filepath = Objects.requireNonNull(data.getData());
+            profileFotoEtUpload.setText(filepath.getPath());
+            uploadFile(filepath);
+        }
+
+        super.onActivityResult(requestCode, resultCode, data);
+
+    }
+
+    private void uploadFile(Uri path) {
+        String pdfname = String.valueOf(Calendar.getInstance().getTimeInMillis());
+
+        File file = new File(getRealPathFromURI(mContext,path));
+        RequestBody requestBody = RequestBody.create(MediaType.parse("*/*"), file);
+        MultipartBody.Part fileToUpload = MultipartBody.Part.createFormData("filename", file.getName(), requestBody);
+        RequestBody filename = RequestBody.create(MediaType.parse("text/plain"), pdfname);
+
+        loading = ProgressDialog.show(mContext, null, "Proses upload file, Mohon tunggu ...", true, false);
+
+        mBaseApiService.uploadFile("profile", sharedPrefManager.getSPID(), fileToUpload, filename)
+                .enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+
+                        Log.e("", "Response returned by website is : " + response.code());
+
+                        Toast.makeText(mContext, "Upload file berhasil", Toast.LENGTH_SHORT).show();
+                        loading.dismiss();
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        loading.dismiss();
+                        Log.e("", "Response returned by website is : " + t.getMessage());
+                    }
+                });
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,

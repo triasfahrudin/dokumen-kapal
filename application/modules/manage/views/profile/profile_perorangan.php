@@ -2,7 +2,7 @@
   <h5 class="card-header">Profile Perorangan</h5>
   <div class="card-body">
    <form>
-     <img class="displayed" style="display: block;  margin-left: auto;  margin-right: auto;  width: 50%;" id="file_foto" src="<?php echo site_url('uploads/foto_pemohon/' . $profile['foto']) ?>" alt="" src="" width="170px" height="170px">
+     <img class="displayed" style="display: block;  margin-left: auto;  margin-right: auto;  width: 50%;" id="file_foto" src="<?php echo site_url('uploads/dokumen/' . $profile['foto']) ?>" alt="" src="" width="170px" height="170px">
       <div id="form-part">
          <div class="form-group">
             <label for="nik">Nama</label>

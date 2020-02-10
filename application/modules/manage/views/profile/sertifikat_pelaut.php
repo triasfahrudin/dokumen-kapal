@@ -7,7 +7,7 @@
                 <th>Nama Sertifikat</th>
                 <th>Penerbit</th>
                 <th>Tgl Terbit</th>
-                <th>Tgl Berakhir</th>
+                
             </tr>
         </thead>
         <tbody>
@@ -16,7 +16,7 @@
                 <td><?php echo $row['nama_sertifikat']?></td>
                 <td><?php echo $row['penerbit']?></td>
                 <td><?php echo $row['tgl_terbit']?></td>
-                <td><?php echo $row['tgl_berakhir']?></td>            
+                         
             </tr>
             <?php } ?>                
         </tbody>

@@ -91,7 +91,7 @@ CREATE TABLE IF NOT EXISTS `bongkar_muat` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
--- Dumping data for table dokumen_kapal.bongkar_muat: ~4 rows (approximately)
+-- Dumping data for table dokumen_kapal.bongkar_muat: ~3 rows (approximately)
 DELETE FROM `bongkar_muat`;
 /*!40000 ALTER TABLE `bongkar_muat` DISABLE KEYS */;
 INSERT INTO `bongkar_muat` (`id`, `pemohon_id`, `kode_biaya`, `jenis_muatan`, `bobot`, `nama_kapal`, `jenis_kapal`, `gt_kapal`, `agen_kapal`, `jenis_angkutan`, `angkutan_nopol`, `angkutan_supir`, `tgl_mohon`, `tgl_pelaksanaan`, `file_surat_permohonan`, `biaya`, `bukti_bayar`, `tgl_upload_bukti_bayar`, `tgl_update`, `status`, `total_harikerja_proses`, `alasan_status`, `rating_kepuasan`, `komentar`) VALUES
@@ -157,21 +157,20 @@ CREATE TABLE IF NOT EXISTS `ci_session` (
   KEY `ci_sessions_timestamp` (`timestamp`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table dokumen_kapal.ci_session: ~7 rows (approximately)
+-- Dumping data for table dokumen_kapal.ci_session: ~10 rows (approximately)
 DELETE FROM `ci_session`;
 /*!40000 ALTER TABLE `ci_session` DISABLE KEYS */;
 INSERT INTO `ci_session` (`id`, `ip_address`, `timestamp`, `data`) VALUES
-	('36ueemokl7ai9v65b9oebvrf98auife7', '::1', 1580052133, _binary 0x5F5F63695F6C6173745F726567656E65726174657C693A313538303035313533333B757365725F69647C733A313A2231223B757365725F656D61696C7C733A31383A2261646D696E40646F6B6B6170616C2E636F6D223B757365725F6C6576656C7C733A353A2261646D696E223B),
-	('434ckpd85043dmdnpug6jv4utlvfh53f', '::1', 1580062231, _binary 0x5F5F63695F6C6173745F726567656E65726174657C693A313538303036313938393B757365725F69647C733A313A2231223B757365725F656D61696C7C733A31383A2261646D696E40646F6B6B6170616C2E636F6D223B757365725F6C6576656C7C733A353A2261646D696E223B),
-	('557nkaq40c8o9qvrf83g7j21vu9cspe6', '::1', 1580056622, _binary 0x5F5F63695F6C6173745F726567656E65726174657C693A313538303035353933343B757365725F69647C733A313A2231223B757365725F656D61696C7C733A31383A2261646D696E40646F6B6B6170616C2E636F6D223B757365725F6C6576656C7C733A353A2261646D696E223B),
-	('6r5cgt81mji93q8bagc55af96qtip5tl', '::1', 1580052839, _binary 0x5F5F63695F6C6173745F726567656E65726174657C693A313538303035323133363B757365725F69647C733A313A2231223B757365725F656D61696C7C733A31383A2261646D696E40646F6B6B6170616C2E636F6D223B757365725F6C6576656C7C733A353A2261646D696E223B),
-	('8obgla4dm07sjrtghglvctmhchtmmjv5', '::1', 1580061987, _binary 0x5F5F63695F6C6173745F726567656E65726174657C693A313538303036313234313B757365725F69647C733A313A2231223B757365725F656D61696C7C733A31383A2261646D696E40646F6B6B6170616C2E636F6D223B757365725F6C6576656C7C733A353A2261646D696E223B),
-	('9aeegtq02nls7sl5l2lkbfrnr9dn0fgs', '::1', 1580061238, _binary 0x5F5F63695F6C6173745F726567656E65726174657C693A313538303036303633343B757365725F69647C733A313A2231223B757365725F656D61696C7C733A31383A2261646D696E40646F6B6B6170616C2E636F6D223B757365725F6C6576656C7C733A353A2261646D696E223B),
-	('eu4faqb9pdag8fh8i8s757eofdljes1j', '::1', 1580059205, _binary 0x5F5F63695F6C6173745F726567656E65726174657C693A313538303035363632373B757365725F69647C733A313A2231223B757365725F656D61696C7C733A31383A2261646D696E40646F6B6B6170616C2E636F6D223B757365725F6C6576656C7C733A353A2261646D696E223B),
-	('m2q6ffernjor5ej0ad28tebluajj7qop', '::1', 1580055933, _binary 0x5F5F63695F6C6173745F726567656E65726174657C693A313538303035323834343B757365725F69647C733A313A2231223B757365725F656D61696C7C733A31383A2261646D696E40646F6B6B6170616C2E636F6D223B757365725F6C6576656C7C733A353A2261646D696E223B),
-	('prokchabgev59jc4poj5tcc75kdt7kdd', '::1', 1580060633, _binary 0x5F5F63695F6C6173745F726567656E65726174657C693A313538303036303331363B757365725F69647C733A313A2231223B757365725F656D61696C7C733A31383A2261646D696E40646F6B6B6170616C2E636F6D223B757365725F6C6576656C7C733A353A2261646D696E223B),
-	('risvrl6nfooo9fs93ga08emampejsjpe', '::1', 1580060313, _binary 0x5F5F63695F6C6173745F726567656E65726174657C693A313538303035393230363B757365725F69647C733A313A2231223B757365725F656D61696C7C733A31383A2261646D696E40646F6B6B6170616C2E636F6D223B757365725F6C6576656C7C733A353A2261646D696E223B),
-	('th3asopdbceg960ahgup1cag9c4giqjq', '::1', 1580051531, _binary 0x5F5F63695F6C6173745F726567656E65726174657C693A313538303034303137363B757365725F69647C733A313A2231223B757365725F656D61696C7C733A31383A2261646D696E40646F6B6B6170616C2E636F6D223B757365725F6C6576656C7C733A353A2261646D696E223B);
+	('78pvncrqp4mnk287m4uq5f0fdumlolpl', '127.0.0.1', 1581371600, _binary 0x5F5F63695F6C6173745F726567656E65726174657C693A313538313337313236333B757365725F69647C733A313A2231223B757365725F656D61696C7C733A31383A2261646D696E40646F6B6B6170616C2E636F6D223B757365725F6C6576656C7C733A353A2261646D696E223B),
+	('93j44t7fqh7k4tit9lk89touineenqqp', '::1', 1580488667, _binary ''),
+	('a07jukfjlc5ouetcp67vfh9trdpsvibl', '127.0.0.1', 1581371761, _binary 0x5F5F63695F6C6173745F726567656E65726174657C693A313538313337313630393B757365725F69647C733A313A2231223B757365725F656D61696C7C733A31383A2261646D696E40646F6B6B6170616C2E636F6D223B757365725F6C6576656C7C733A353A2261646D696E223B),
+	('a52o4bah7emrgskph4bb0r0pru524puh', '::1', 1580492273, _binary ''),
+	('apjvci37l3lmm7rv874ve0ueo2ae5arg', '::1', 1580486263, _binary ''),
+	('enktva4ff28cdl7t9qoijkl4t59chli4', '::1', 1580488066, _binary ''),
+	('i257odqvmp2r8mf48p1rg48g3u4a6jb0', '::1', 1580487465, _binary ''),
+	('ke74mv1ubd59lqs2v54brdjhnqpd1951', '::1', 1580486864, _binary ''),
+	('lacj2hblsakgp4hldm1j2imici8imltn', '::1', 1580485062, _binary 0x5F5F63695F6C6173745F726567656E65726174657C693A313538303438353031313B757365725F69647C733A313A2231223B757365725F656D61696C7C733A31383A2261646D696E40646F6B6B6170616C2E636F6D223B757365725F6C6576656C7C733A353A2261646D696E223B),
+	('v2jjoic0u7de8pb88o8a36d2i6q7vifh', '::1', 1580485662, _binary '');
 /*!40000 ALTER TABLE `ci_session` ENABLE KEYS */;
 
 -- Dumping structure for table dokumen_kapal.kapal
@@ -291,7 +290,7 @@ CREATE TABLE IF NOT EXISTS `masa_layar` (
 DELETE FROM `masa_layar`;
 /*!40000 ALTER TABLE `masa_layar` DISABLE KEYS */;
 INSERT INTO `masa_layar` (`id`, `pemohon_id`, `biaya`, `tgl_upload_bukti_bayar`, `bukti_bayar`, `tgl_mohon`, `tgl_update`, `status`, `total_harikerja_proses`, `alasan_status`, `rating_kepuasan`, `komentar`) VALUES
-	(1, 1, 10000, NULL, NULL, '2020-01-27 00:40:23', NULL, '210', NULL, NULL, NULL, NULL);
+	(1, 1, 10000, '2020-01-27 12:51:24', NULL, '2020-01-27 00:40:23', '2020-01-27 13:02:25', '310', NULL, NULL, NULL, NULL);
 /*!40000 ALTER TABLE `masa_layar` ENABLE KEYS */;
 
 -- Dumping structure for table dokumen_kapal.notifikasi
@@ -305,9 +304,9 @@ CREATE TABLE IF NOT EXISTS `notifikasi` (
   `isi_notifikasi` varchar(500) DEFAULT NULL,
   `tgl` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=latin1;
 
--- Dumping data for table dokumen_kapal.notifikasi: ~17 rows (approximately)
+-- Dumping data for table dokumen_kapal.notifikasi: ~21 rows (approximately)
 DELETE FROM `notifikasi`;
 /*!40000 ALTER TABLE `notifikasi` DISABLE KEYS */;
 INSERT INTO `notifikasi` (`id`, `jenis_notifikasi`, `pemohon_id`, `jenis_permohonan`, `permohonan_id`, `isi_notifikasi`, `tgl`) VALUES
@@ -332,7 +331,10 @@ INSERT INTO `notifikasi` (`id`, `jenis_notifikasi`, `pemohon_id`, `jenis_permoho
 	(19, 'success', 1, 'masa_layar', 1, 'Bukti bayar untuk PML-000001 telah berhasil diunggah. Mohon menunggu untuk validasi', '2020-01-27 00:40:14'),
 	(20, 'success', 1, 'masa_layar', 1, 'Bukti bayar untuk PML-000001 telah berhasil diunggah. Mohon menunggu untuk validasi', '2020-01-27 00:40:23'),
 	(21, 'success', 1, 'masa_layar', 1, 'Bukti bayar untuk PML-000001 SELESAI divalidasi. Mohon menunggu untuk validasi berkas', '2020-01-27 00:40:42'),
-	(22, 'success', 2, 'sertifikat_keselamatan', 1, 'Permohonan anda telah kami terima dengan kode PS-000001. Mohon selesaikan pembayaran agar permohonan anda segera diproses', '2020-01-27 01:07:14');
+	(22, 'success', 2, 'sertifikat_keselamatan', 1, 'Permohonan anda telah kami terima dengan kode PS-000001. Mohon selesaikan pembayaran agar permohonan anda segera diproses', '2020-01-27 01:07:14'),
+	(23, 'success', 1, 'masa_layar', 1, 'Berkas persyaratan untuk PML-000001 SELESAI divalidasi!. Mohon untuk mengambil Dokumen Masa Layar ke ... pada hari dan jam kerja. Mohon untuk membawa berkas persyaratan Asli', '2020-01-27 13:02:18'),
+	(24, 'success', 1, 'masa_layar', 1, 'Berkas persyaratan untuk PML-000001 SELESAI divalidasi!. Mohon untuk mengambil Dokumen Masa Layar ke ... pada hari dan jam kerja. Mohon untuk membawa berkas persyaratan Asli', '2020-01-27 13:02:25'),
+	(25, 'success', 1, 'masa_layar', 1, 'Berkas persyaratan untuk PML-000001 SELESAI divalidasi!. Mohon untuk mengambil Dokumen Masa Layar ke ... pada hari dan jam kerja. Mohon untuk membawa berkas persyaratan Asli', '2020-01-27 13:10:54');
 /*!40000 ALTER TABLE `notifikasi` ENABLE KEYS */;
 
 -- Dumping structure for table dokumen_kapal.pemohon
@@ -343,7 +345,7 @@ CREATE TABLE IF NOT EXISTS `pemohon` (
   `nama` varchar(50) DEFAULT NULL,
   `email` varchar(50) DEFAULT NULL,
   `password` varchar(50) DEFAULT NULL,
-  `foto` varchar(50) DEFAULT NULL,
+  `foto` varchar(50) DEFAULT 'no_image_found.jpeg',
   `npwp` varchar(50) DEFAULT NULL,
   `alamat` varchar(50) DEFAULT NULL,
   `no_telp` varchar(50) DEFAULT NULL,
@@ -358,8 +360,8 @@ CREATE TABLE IF NOT EXISTS `pemohon` (
 DELETE FROM `pemohon`;
 /*!40000 ALTER TABLE `pemohon` DISABLE KEYS */;
 INSERT INTO `pemohon` (`id`, `jenis`, `nama`, `email`, `password`, `foto`, `npwp`, `alamat`, `no_telp`, `tempat_lahir`, `tanggal_lahir`, `token_id`) VALUES
-	(1, 'perorangan', 'UFUK MEGANTORO', 'pelaut@laut.com', '4b76c131914c2ee6ed57e65449913e99', '', '', 'jl.ikan duyung', '085123456789', 'SEMARANG', '1981-06-15', NULL),
-	(2, 'perusahaan', 'PT. RIO SEJAHTERA', 'perusahaan@laut.com', 'b3061438230bf1f6a1470f5991efae3a', NULL, NULL, NULL, NULL, NULL, '0000-00-00', NULL);
+	(1, 'perorangan', 'UFUK MEGANTORO', 'pelaut@laut.com', '4b76c131914c2ee6ed57e65449913e99', 'no_image_found.jpeg', '', 'jl.ikan duyung', '085123456789', 'SEMARANG', '1981-06-15', NULL),
+	(2, 'perusahaan', 'PT. RIO SEJAHTERA', 'perusahaan@laut.com', 'b3061438230bf1f6a1470f5991efae3a', 'no_image_found.jpeg', NULL, NULL, NULL, NULL, '0000-00-00', NULL);
 /*!40000 ALTER TABLE `pemohon` ENABLE KEYS */;
 
 -- Dumping structure for table dokumen_kapal.riwayat_pelayaran
@@ -395,9 +397,9 @@ CREATE TABLE IF NOT EXISTS `riwayat_permohonan` (
   `tgl` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `notified` enum('Y','N') DEFAULT 'N',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=latin1;
 
--- Dumping data for table dokumen_kapal.riwayat_permohonan: ~18 rows (approximately)
+-- Dumping data for table dokumen_kapal.riwayat_permohonan: ~22 rows (approximately)
 DELETE FROM `riwayat_permohonan`;
 /*!40000 ALTER TABLE `riwayat_permohonan` DISABLE KEYS */;
 INSERT INTO `riwayat_permohonan` (`id`, `jenis`, `permohonan_id`, `status`, `keterangan`, `tgl`, `notified`) VALUES
@@ -423,7 +425,10 @@ INSERT INTO `riwayat_permohonan` (`id`, `jenis`, `permohonan_id`, `status`, `ket
 	(20, 'masa_layar', 1, '200', NULL, '2020-01-27 00:40:14', 'Y'),
 	(21, 'masa_layar', 1, '200', NULL, '2020-01-27 00:40:23', 'Y'),
 	(22, 'masa_layar', 1, '210', NULL, '2020-01-27 00:40:42', 'N'),
-	(23, 'sertifikat_keselamatan', 1, '210', NULL, '2020-01-27 01:07:14', 'N');
+	(23, 'sertifikat_keselamatan', 1, '210', NULL, '2020-01-27 01:07:14', 'N'),
+	(24, 'masa_layar', 1, '310', NULL, '2020-01-27 13:02:18', 'N'),
+	(25, 'masa_layar', 1, '310', NULL, '2020-01-27 13:02:25', 'N'),
+	(26, 'masa_layar', 1, '310', NULL, '2020-01-27 13:10:54', 'N');
 /*!40000 ALTER TABLE `riwayat_permohonan` ENABLE KEYS */;
 
 -- Dumping structure for table dokumen_kapal.sertifikat_keselamatan

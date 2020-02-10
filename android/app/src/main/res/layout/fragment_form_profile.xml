@@ -170,6 +170,39 @@
             android:scrollbars="vertical"
             android:scrollHorizontally="false" />
 
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/profile_foto_btnUpload"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+
+                android:gravity="center|clip_vertical|center_horizontal|center_vertical"
+                android:text="Cari File"
+                android:textAlignment="center"
+                android:textColor="#FE5295"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/profile_foto_etUpload"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/edit_text_middle"
+                android:hint="File Foto"
+                android:importantForAutofill="no"
+                android:inputType="text"
+                android:padding="15dp" />
+
+
+        </LinearLayout>
+
         <Button
             android:id="@+id/profile_btnUpdate"
             android:layout_width="match_parent"
