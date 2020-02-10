@@ -227,7 +227,7 @@
   <component name="DefaultGradleProjectSettings">
     <option name="isMigrated" value="true" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="192.168.8.102:5555" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="5a51ce347d94" />
   <component name="ExternalProjectsManager">
     <system id="GRADLE">
       <state>
@@ -248,37 +248,19 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/util/api/BaseApiService.java">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/kapal/KapalAdapter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="123">
-              <caret line="114" column="13" selection-start-line="114" selection-start-column="10" selection-end-line="114" selection-end-column="13" />
+            <state relative-caret-position="-1197">
+              <caret line="18" column="51" selection-start-line="18" selection-start-column="51" selection-end-line="18" selection-end-column="51" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/kapal/KapalAdapter.java">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/kapal/KapalFormFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="40">
-              <caret line="50" column="70" lean-forward="true" selection-start-line="50" selection-start-column="70" selection-end-line="50" selection-end-column="70" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/masalayar/MasaLayarModelList.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="84">
-              <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/masalayar/MasaLayarFragment.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="693">
-              <caret line="73" column="26" selection-start-line="73" selection-start-column="26" selection-end-line="73" selection-end-column="26" />
+            <state relative-caret-position="-1800">
+              <caret line="330" lean-forward="true" selection-start-line="330" selection-end-line="330" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -287,10 +269,35 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/masalayar/MasaLayarAdapter.java">
+        <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
+          <provider editor-type-id="android-manifest" />
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1239">
-              <caret line="79" selection-start-line="76" selection-start-column="7" selection-end-line="79" />
+            <state relative-caret-position="210">
+              <caret line="10" column="77" lean-forward="true" selection-start-line="10" selection-start-column="77" selection-end-line="10" selection-end-column="77" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/MainActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="69">
+              <caret line="103" column="17" selection-start-line="103" selection-start-column="17" selection-end-line="103" selection-end-column="17" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="method#openSettings#0;class#MainActivity#0" />
+                <element signature="method#onSupportNavigateUp#0;class#MainActivity#0" />
+                <element signature="method#onBackPressed#0;class#MainActivity#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/build.gradle">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1218">
+              <caret line="58" column="59" lean-forward="true" selection-start-line="58" selection-start-column="59" selection-end-line="58" selection-end-column="59" />
             </state>
           </provider>
         </entry>
@@ -307,7 +314,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/bongkarmuat/BongkarMuatAdapter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="240">
+            <state relative-caret-position="3129">
               <caret line="167" column="76" selection-start-line="167" selection-start-column="76" selection-end-line="167" selection-end-column="76" />
             </state>
           </provider>
@@ -454,12 +461,12 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/kapal/KapalModelRecycler.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/kapal/KapalAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_form_kapal.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/kapal/KapalFormFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/util/api/BaseApiService.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/kapal/KapalFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/masalayar/MasaLayarAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/sertifikatkeselamatan/SertifikatKeselamatanAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/bongkarmuat/BongkarMuatAdapter.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/kapal/KapalFormFragment.java" />
       </list>
     </option>
   </component>
@@ -489,12 +496,33 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="Dokumen Kapal" type="b2602c69:ProjectViewProjectNode" />
+              <item name="android" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+            </path>
+            <path>
+              <item name="Dokumen Kapal" type="b2602c69:ProjectViewProjectNode" />
+              <item name="android" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="app" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
       <pane id="AndroidView">
         <subPane>
           <expand>
             <path>
               <item name="Dokumen Kapal" type="1abcf292:AndroidViewProjectNode" />
               <item name="app" type="feadf853:AndroidModuleNode" />
+            </path>
+            <path>
+              <item name="Dokumen Kapal" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="manifests" type="f94875db:AndroidManifestsGroupNode" />
             </path>
             <path>
               <item name="Dokumen Kapal" type="1abcf292:AndroidViewProjectNode" />
@@ -524,39 +552,7 @@
             </path>
             <path>
               <item name="Dokumen Kapal" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
-              <item name="dokumenkapal" type="cbb59c9e:AndroidPsiDirectoryNode" />
-              <item name="util" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Dokumen Kapal" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
-              <item name="dokumenkapal" type="cbb59c9e:AndroidPsiDirectoryNode" />
-              <item name="util" type="462c0819:PsiDirectoryNode" />
-              <item name="api" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Dokumen Kapal" type="1abcf292:AndroidViewProjectNode" />
               <item name="Gradle Scripts" type="ae0cef3a:AndroidBuildScriptsGroupNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
-      <pane id="PackagesPane" />
-      <pane id="ProjectPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="Dokumen Kapal" type="b2602c69:ProjectViewProjectNode" />
-              <item name="android" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-            </path>
-            <path>
-              <item name="Dokumen Kapal" type="b2602c69:ProjectViewProjectNode" />
-              <item name="android" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="app" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -578,6 +574,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -724,6 +721,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-1" y="0" width="1368" height="748" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info auto_hide="true" x="426" y="301" width="513" height="145" id="Palette " internal_type="SLIDING" order="0" type="SLIDING" weight="0.329429" />
       <window_info id="Structure" order="1" sideWeight="0.52019" side_tool="true" weight="0.25718608" />
@@ -877,13 +875,6 @@
       <provider selected="true" editor-type-id="android-designer2" />
       <provider editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="256">
-          <caret line="66" column="41" selection-start-line="66" selection-start-column="41" selection-end-line="66" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/values/styles.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="63">
@@ -895,14 +886,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="11422">
           <caret line="695" column="36" selection-start-line="695" selection-start-column="20" selection-end-line="695" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
-      <provider editor-type-id="android-manifest" />
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="63">
-          <caret line="39" column="42" lean-forward="true" selection-start-line="39" selection-start-column="42" selection-end-line="39" selection-end-column="42" />
         </state>
       </provider>
     </entry>
@@ -957,20 +940,6 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/build/generated/res/google-services/debug/values/values.xml">
       <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/MainActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3738">
-          <caret line="226" column="58" selection-start-line="226" selection-start-column="58" selection-end-line="226" selection-end-column="58" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#requestMultiplePermissions#0;class#MainActivity#0" />
-            <element signature="method#openSettings#0;class#MainActivity#0" />
-            <element signature="method#onSupportNavigateUp#0;class#MainActivity#0" />
-            <element signature="method#onBackPressed#0;class#MainActivity#0" />
-          </folding>
-        </state>
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/bongkarmuat/BongkarMuatFormBayarFragment.java">
       <provider selected="true" editor-type-id="text-editor">
@@ -1040,17 +1009,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/kapal/KapalFormFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6195">
-          <caret line="348" column="30" selection-start-line="348" selection-start-column="30" selection-end-line="348" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/masalayar/MasaLayarModelRecycler.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="189">
           <caret line="9" column="32" selection-start-line="9" selection-start-column="32" selection-end-line="9" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/util/api/BaseApiService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2016">
+          <caret line="114" column="13" selection-start-line="114" selection-start-column="10" selection-end-line="114" selection-end-column="13" />
         </state>
       </provider>
     </entry>
@@ -1085,6 +1054,13 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/bongkarmuat/BongkarMuatAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3129">
+          <caret line="167" column="76" selection-start-line="167" selection-start-column="76" selection-end-line="167" selection-end-column="76" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/kapal/KapalFragment.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1911">
@@ -1109,24 +1085,48 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/bongkarmuat/BongkarMuatAdapter.java">
+    <entry file="file://$PROJECT_DIR$/app/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="167" column="76" selection-start-line="167" selection-start-column="76" selection-end-line="167" selection-end-column="76" />
+        <state relative-caret-position="1218">
+          <caret line="58" column="59" lean-forward="true" selection-start-line="58" selection-start-column="59" selection-end-line="58" selection-end-column="59" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/util/api/BaseApiService.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
+      <provider editor-type-id="android-manifest" />
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="123">
-          <caret line="114" column="13" selection-start-line="114" selection-start-column="10" selection-end-line="114" selection-end-column="13" />
+        <state relative-caret-position="210">
+          <caret line="10" column="77" lean-forward="true" selection-start-line="10" selection-start-column="77" selection-end-line="10" selection-end-column="77" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/MainActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="69">
+          <caret line="103" column="17" selection-start-line="103" selection-start-column="17" selection-end-line="103" selection-end-column="17" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#openSettings#0;class#MainActivity#0" />
+            <element signature="method#onSupportNavigateUp#0;class#MainActivity#0" />
+            <element signature="method#onBackPressed#0;class#MainActivity#0" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/kapal/KapalAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="40">
-          <caret line="50" column="70" lean-forward="true" selection-start-line="50" selection-start-column="70" selection-end-line="50" selection-end-column="70" />
+        <state relative-caret-position="-1197">
+          <caret line="18" column="51" selection-start-line="18" selection-start-column="51" selection-end-line="18" selection-end-column="51" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kapal/dokumenkapal/ui/kapal/KapalFormFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1800">
+          <caret line="330" lean-forward="true" selection-start-line="330" selection-end-line="330" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

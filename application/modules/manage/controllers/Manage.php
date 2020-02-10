@@ -1103,8 +1103,8 @@ class Manage extends MX_Controller
                 if ($buku_pelaut->num_rows() > 0) {
                     $bk = $buku_pelaut->row();
                     $ret .= '<tr><td>Nomor</td><td>' . $bk->nomor_buku . '</td></tr>';
-                    if (!empty($buku_pelaut->file)) {
-                        $ret .= '<tr><td>File</td><td><a target="_BLANK" href=' . site_url('uploads/dokumen/' . $bk->file) . '">Download</a></td></tr>';
+                    if (!empty($bk->file)) {
+                        $ret .= '<tr><td>File</td><td><a target="_BLANK" href="' . site_url('uploads/dokumen/' . $bk->file) . '">Download</a></td></tr>';
                     } else {
                         $ret .= '<tr><td>File</td><td>Belum ada data</td></tr>';
                     }
@@ -1133,7 +1133,7 @@ class Manage extends MX_Controller
 
                     $ret .= '<tr><td>Nomor</td><td>' . $sp->nomor . '</td></tr>';
                     if (!empty($sp->file)) {
-                        $ret .= '<tr><td>File</td><td><a target="_BLANK" href=' . site_url('uploads/dokumen/' . $sp->file) . '">Download</a></td></tr>';
+                        $ret .= '<tr><td>File</td><td><a target="_BLANK" href="' . site_url('uploads/dokumen/' . $sp->file) . '">Download</a></td></tr>';
                     } else {
                         $ret .= '<tr><td>File</td><td>Belum ada data</td></tr>';
                     }
@@ -1332,7 +1332,7 @@ class Manage extends MX_Controller
                 $sks = empty($kapal->file_sertifikat_keselamatan) ? 'Belum diunggah' : '<a target="_BLANK" href="' . site_url('uploads/dokumen/' . $kapal->file_sertifikat_keselamatan) . '">Download</a>';
                 $skl = empty($kapal->file_sertifikat_klasifikasi) ? 'Belum diunggah' : '<a target="_BLANK" href="' . site_url('uploads/dokumen/' . $kapal->file_sertifikat_klasifikasi) . '">Download</a>';
                 $spm = empty($kapal->file_sertifikat_pmk) ? 'Belum diunggah' : '<a target="_BLANK" href="' . site_url('uploads/dokumen/' . $kapal->file_sertifikat_pmk) . '">Download</a>';
-                $slf = empty($kapal->file_sertifikat_keselamatan) ? 'Belum diunggah' : '<a target="_BLANK" href="' . site_url('uploads/dokumen/' . $kapal->file_sertifikat_keselamatan) . '">Download</a>';
+                $slf = empty($kapal->file_sertifikat_liferaft) ? 'Belum diunggah' : '<a target="_BLANK" href="' . site_url('uploads/dokumen/' . $kapal->file_sertifikat_keselamatan) . '">Download</a>';
 
                 return '<table>
                           <tr>

@@ -22,7 +22,7 @@ function get_settings($title)
 
     $result  = "";
     $setting = $CI->db->get_where('settings', array('title' => $title))->row();
-    $result = $setting->value;    
+    $result  = $setting->value;
 
     return $result;
 }
