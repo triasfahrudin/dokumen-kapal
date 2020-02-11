@@ -115,7 +115,7 @@ public class ProfileFragment extends Fragment {
     public void btnLoadFotoClicked() {
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        intent.setType("application/pdf");
+        intent.setType("image/*");
         startActivityForResult(intent, 1);
     }
 

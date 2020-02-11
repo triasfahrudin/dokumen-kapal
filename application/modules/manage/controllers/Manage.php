@@ -1687,8 +1687,8 @@ class Manage extends MX_Controller
             $extra  = array('page_title' => 'Data Biaya');
             $output = $crud->render();
 
-            $this->breadcrumbs->push('Dashboard', '/pemohon');
-            $this->breadcrumbs->push('Data Biaya', '/pemohon/data-biaya');
+            $this->breadcrumbs->push('Dashboard', '/manage/permohonan');
+            $this->breadcrumbs->push('Data Biaya', '/manage/data-biaya');
 
             $output = array_merge((array) $output, $extra);
 
