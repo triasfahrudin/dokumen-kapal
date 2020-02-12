@@ -30,6 +30,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.kapal.dokumenkapal.MainActivity;
 import com.kapal.dokumenkapal.R;
 import com.kapal.dokumenkapal.ui.menuprofiledata.MenuProfileDataFragment;
+import com.kapal.dokumenkapal.util.FileUtils;
 import com.kapal.dokumenkapal.util.SetDate;
 import com.kapal.dokumenkapal.util.SharedPrefManager;
 import com.kapal.dokumenkapal.util.api.BaseApiService;
@@ -152,7 +153,8 @@ public class ProfileFragment extends Fragment {
     private void uploadFile(Uri path) {
         String pdfname = String.valueOf(Calendar.getInstance().getTimeInMillis());
 
-        File file = new File(getRealPathFromURI(mContext,path));
+        File file = new File(Objects.requireNonNull(FileUtils.getPath(mContext, path)));
+
         RequestBody requestBody = RequestBody.create(MediaType.parse("*/*"), file);
         MultipartBody.Part fileToUpload = MultipartBody.Part.createFormData("filename", file.getName(), requestBody);
         RequestBody filename = RequestBody.create(MediaType.parse("text/plain"), pdfname);

@@ -1236,7 +1236,7 @@ class Restapi extends CI_Controller
                 $response["user"]["id"]     = $user["id"];
                 $response["user"]["jenis"]  = $user["jenis"];
                 $response["user"]["foto"]   = $user["foto"];
-                $response["user"]["npwp"]   = $user["npwp"];
+                // $response["user"]["npwp"]   = $user["npwp"];
                 $response["user"]["alamat"] = $user["alamat"];
                 $response["user"]["nama"]   = $user["nama"];
                 $response["user"]["email"]  = $user["email"];
