@@ -62,7 +62,7 @@ public class NotifikasiFragment extends Fragment {
         sharedPrefManager = new SharedPrefManager(mContext);
 
         WebView mWebView = root.findViewById(R.id.webview_notifikasi);
-        mWebView.loadUrl("https://kirana-web.000webhostapp.com/webview/notifikasi/" + sharedPrefManager.getSPID().toString());
+        mWebView.loadUrl("http://dokumen-kapal.000webhostapp.com/webview/notifikasi/" + sharedPrefManager.getSPID().toString());
 
         WebSettings webSettings = mWebView.getSettings();
         webSettings.setJavaScriptEnabled(true);

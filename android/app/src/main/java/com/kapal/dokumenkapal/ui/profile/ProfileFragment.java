@@ -116,7 +116,7 @@ public class ProfileFragment extends Fragment {
     public void btnLoadFotoClicked() {
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        intent.setType("image/*");
+        intent.setType("file/*");
         startActivityForResult(intent, 1);
     }
 
@@ -153,7 +153,7 @@ public class ProfileFragment extends Fragment {
     private void uploadFile(Uri path) {
         String pdfname = String.valueOf(Calendar.getInstance().getTimeInMillis());
 
-        File file = new File(Objects.requireNonNull(FileUtils.getPath(mContext, path)));
+        File file = new File(getRealPathFromURI(mContext,path));
 
         RequestBody requestBody = RequestBody.create(MediaType.parse("*/*"), file);
         MultipartBody.Part fileToUpload = MultipartBody.Part.createFormData("filename", file.getName(), requestBody);
