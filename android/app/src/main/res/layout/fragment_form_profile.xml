@@ -172,6 +172,7 @@
 
 
         <LinearLayout
+            android:id="@+id/profile_linier_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -202,6 +203,18 @@
 
 
         </LinearLayout>
+
+        <ImageView
+            android:id="@+id/profile_image_view"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop"
+            app:layout_anchor="@id/profile_linier_layout"
+            android:layout_gravity="bottom"
+            app:layout_anchorGravity="bottom"
+            android:layout_margin="10dp"
+            android:background="#bcc7cc"
+            />
 
         <Button
             android:id="@+id/profile_btnUpdate"

@@ -19,7 +19,17 @@
   <link rel="stylesheet" href="<?php echo site_url('assets/web/css/blog-home.css');?>">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
 
-
+  <style type="text/css">
+    footer {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        /* Set the fixed height of the footer here */
+        height: 60px;
+        line-height: 60px; /* Vertically center the text there */
+        background-color: #f5f5f5;
+      }
+  </style>
 </head>
 
 <body>
@@ -35,7 +45,7 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto menu">
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <a class="nav-link" href="<?php echo site_url('web')?>">Beranda
               <span class="sr-only">(current)</span>
             </a>
@@ -43,12 +53,10 @@
           <li class="nav-item">
             <a class="nav-link" href="<?php echo site_url('web/berita')?>">Berita</a>
           </li>
-          <!-- <li class="nav-item">
-            <a class="nav-link" href="#">FAQ</a>
-          </li> -->
+          
           <li class="nav-item">
             <a class="nav-link" href="<?php echo site_url('web/kontak')?>">Kontak</a>
-          </li>
+          </li> -->
         </ul>
       </div>
     </div>
@@ -60,15 +68,14 @@
     <div class="row">
 
       <!-- Blog Entries Column -->
-      <div class="col-md-8">
+      <div class="col-md-12">
         <?php include $page_name . ".php";?>       
 
       </div>
 
       <!-- Sidebar Widgets Column -->
-      <div class="col-md-4">
+<!--       <div class="col-md-4">
 
-        <!-- Search Widget -->
         <div class="card my-4">
           <h5 class="card-header">Pencarian</h5>
           <div class="card-body">
@@ -80,11 +87,6 @@
             </div>
           </div>
         </div>
-
-        <!-- Categories Widget -->
-        
-
-        <!-- Side Widget -->
         <div class="card my-4">
           <h5 class="card-header">Side Widget</h5>
           <div class="card-body">
@@ -92,7 +94,7 @@
           </div>
         </div>
 
-      </div>
+      </div> -->
 
     </div>
     <!-- /.row -->

@@ -523,3 +523,9 @@ $config['rewrite_short_tags'] = FALSE;
 $config['proxy_ips'] = '';
 
 $config['modules_locations'] = array(APPPATH.'modules/' => '../modules/',);
+
+
+$config['mail_Username'] = 'cs.kodeaplikasi@gmail.com';
+$config['mail_Password'] = 'a1d86f1ddbe$3dbe$3**869d5##$';
+$config['mail_setFrom'] = 'Admin Dokumen Kapal';
+$config['mail_addReplyTo'] = 'cs.kodeaplikasi@gmail.com';

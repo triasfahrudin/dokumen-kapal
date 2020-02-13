@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,7 +31,6 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.kapal.dokumenkapal.MainActivity;
 import com.kapal.dokumenkapal.R;
 import com.kapal.dokumenkapal.ui.menuprofiledata.MenuProfileDataFragment;
-import com.kapal.dokumenkapal.util.FileUtils;
 import com.kapal.dokumenkapal.util.SetDate;
 import com.kapal.dokumenkapal.util.SharedPrefManager;
 import com.kapal.dokumenkapal.util.api.BaseApiService;
@@ -98,6 +98,8 @@ public class ProfileFragment extends Fragment {
     Button profileFotoBtnUpload;
     @BindView(R.id.profile_foto_etUpload)
     EditText profileFotoEtUpload;
+    @BindView(R.id.profile_image_view)
+    ImageView profileImageView;
 
     private Context mContext;
     private BaseApiService mBaseApiService;
@@ -153,7 +155,10 @@ public class ProfileFragment extends Fragment {
     private void uploadFile(Uri path) {
         String pdfname = String.valueOf(Calendar.getInstance().getTimeInMillis());
 
-        File file = new File(getRealPathFromURI(mContext,path));
+        File file = new File(getRealPathFromURI(mContext, path));
+
+        sharedPrefManager.saveSPString(SharedPrefManager.SP_FOTO,file.getAbsolutePath());
+        profileImageView.setImageURI(path);
 
         RequestBody requestBody = RequestBody.create(MediaType.parse("*/*"), file);
         MultipartBody.Part fileToUpload = MultipartBody.Part.createFormData("filename", file.getName(), requestBody);
@@ -210,6 +215,9 @@ public class ProfileFragment extends Fragment {
         } else {
             SetDate tglLahir = new SetDate(etTanggallahir, mContext);
         }
+
+        Uri profile_picts = Uri.parse(sharedPrefManager.getSPFoto());
+        profileImageView.setImageURI(profile_picts);
 
         loading = ProgressDialog.show(mContext, null, "Mengambil data ...", true, false);
         mBaseApiService.getProfileRequest(sharedPrefManager.getSPID())

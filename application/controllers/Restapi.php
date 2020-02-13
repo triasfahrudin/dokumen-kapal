@@ -574,10 +574,10 @@ class Restapi extends CI_Controller
                 case '"profile"':
                     $pemohon_id = $this->input->post('id');
 
-                    $this->db->where('id',$pemohon_id);
-                    $this->db->update('pemohon',array('foto' => $file_name));
+                    $this->db->where('id', $pemohon_id);
+                    $this->db->update('pemohon', array('foto' => $file_name));
 
-                     echo json_encode(
+                    echo json_encode(
                         array(
                             'status'    => "Upload berhasil",
                             'error_msg' => $this->db->error()['code'],
@@ -585,7 +585,6 @@ class Restapi extends CI_Controller
 
                         )
                     );
-
 
                     break;
 
@@ -1156,6 +1155,24 @@ class Restapi extends CI_Controller
 
     }
 
+    // public function test_email(){
+
+    //     $email = 'triasfahrudin@gmail.com';
+    //     $nama  = 'trias fahrudin';
+
+    //     $message = '<h1>Verifikasi Email Anda - Pendaftaran App Dokumen Kapal <a href="mailto:' . $email . '" target="_blank">' . $email . '</a></h1>';
+    //     $message .= '<div style="font-size:16px">
+    //                     Terima kasih atas registrasi Anda! Berikut Display name Anda: ' . $nama .'. Email Anda adalah <a href="mailto:' . $email . '" target="_blank">' . $email .'</a> <br>
+    //                     Silakan verfikasi akun Anda dengan dengan mengklik link dibawah ini. 
+    //                 </div>';
+    //     $message .= '<p style="color: rgb(74, 74, 74); line-height: 26px; font-size: 17px; font-family: Arial; margin: 0px 0px 16px; padding: 0px;"><a href="' . site_url('web/konfirmasi-email/' . md5($email)) . '">Konfirmasi Email Ku</a></p>';  
+    //     $message .= '<p>Jika anda tidak bisa melihat link diatas, maka copy paste link berikut di web browser anda:' . site_url('web/konfirmasi-email/' . md5($email))  .'</p>';          
+        
+    //     $message .= "<hr />";
+    //     $message .= "{timestamp:" . date("Y-m-d H:i:s") . "}";
+    //     send_email($email, 'Aktivasi Akun ' . site_url(), $message, 'none');
+    // }
+
     public function register()
     {
         header('content-type: application/json');
@@ -1175,13 +1192,27 @@ class Restapi extends CI_Controller
                 // create a new user
                 // $user = $db->StoreUserInfo($name, $email, $password, $gender, $age);
                 $this->db->query("SET sql_mode = '' ");
-                $this->db->insert('pemohon', array(
-                    'jenis'    => $jenis,
-                    'nama'     => $nama,
-                    'email'    => $email,
-                    'password' => md5($password),
-                )
+                $this->db->insert('pemohon',
+                    array(
+                        'jenis'    => $jenis,
+                        'nama'     => $nama,
+                        'email'    => $email,
+                        'password' => md5($password),
+                    )
                 );
+
+
+                $message = '<h1>Verifikasi Email Anda - Pendaftaran App Dokumen Kapal <a href="mailto:' . $email . '" target="_blank">' . $email . '</a></h1>';
+                $message .= '<div style="font-size:16px">
+                                Terima kasih atas registrasi Anda! Berikut Display name Anda: ' . $nama .'. Email Anda adalah <a href="mailto:' . $email . '" target="_blank">' . $email .'</a> <br>
+                                Silakan verfikasi akun Anda dengan dengan mengklik link dibawah ini. 
+                            </div>';
+                $message .= '<p style="color: rgb(74, 74, 74); line-height: 26px; font-size: 17px; font-family: Arial; margin: 0px 0px 16px; padding: 0px;"><a href="' . site_url('web/konfirmasi-email/' . md5($email)) . '">Konfirmasi Email Ku</a></p>';            
+                $message .= '<p>Jika anda tidak bisa melihat link diatas, maka copy paste link berikut di web browser anda:&nbsp;' . site_url('web/konfirmasi-email/' . md5($email))  .'</p>';          
+
+                $message .= "<hr />";
+                $message .= "{timestamp:" . date("Y-m-d H:i:s") . "}";
+                send_email($email, 'Aktivasi Akun ' . site_url(), $message, 'none');
 
                 $response["error"] = false;
                 echo json_encode($response);
@@ -1227,20 +1258,23 @@ class Restapi extends CI_Controller
             $password = $_POST['password'];
 
             // get the user by email and password
+            $this->db->select('id,jenis,IFNULL(foto,"no_image_found.jpeg") AS foto,alamat,nama,email,no_telp,aktif');
             $qry = $this->db->get_where('pemohon', array('email' => $email, 'password' => md5($password)));
 
             if ($qry->num_rows() > 0) {
                 // use is found
-                $user                       = $qry->row_array();
-                $response["error"]          = false;
-                $response["user"]["id"]     = $user["id"];
-                $response["user"]["jenis"]  = $user["jenis"];
-                $response["user"]["foto"]   = $user["foto"];
+                $user                      = $qry->row_array();
+                $response["error"]         = false;
+                $response["user"]["id"]    = $user["id"];
+                $response["user"]["jenis"] = $user["jenis"];
+                $response["user"]["foto"]  = site_url('uploads/dokumen/' .  $user["foto"]);
                 // $response["user"]["npwp"]   = $user["npwp"];
                 $response["user"]["alamat"] = $user["alamat"];
                 $response["user"]["nama"]   = $user["nama"];
                 $response["user"]["email"]  = $user["email"];
                 $response["user"]["telp"]   = $user["no_telp"];
+                $response["user"]["aktif"]  = $user["aktif"];
+
 
                 // $this->output->set_header('HTTP/1.0 200 OK');
                 // $this->output->set_header('HTTP/1.1 200 OK');
@@ -1715,7 +1749,7 @@ class Restapi extends CI_Controller
                            a.rating_kepuasan,
                            a.komentar");
         $this->db->join('kode_status b', 'a.status = b.kode_angka', 'left');
-        $this->db->order_by('id','DESC');
+        $this->db->order_by('id', 'DESC');
         $qry = $this->db->get_where('masa_layar a', array('pemohon_id' => $pemohon_id));
 
         echo json_encode(

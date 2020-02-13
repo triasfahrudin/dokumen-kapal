@@ -455,7 +455,7 @@ if (!function_exists('send_email')) {
 
         $mail = new PHPMailer();
 
-        //$mail->SMTPDebug = 3;
+        // $mail->SMTPDebug = 3;
 
         $mail->isSMTP();
         $mail->Host       = 'smtp.gmail.com';

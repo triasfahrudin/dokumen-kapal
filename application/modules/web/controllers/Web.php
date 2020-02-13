@@ -41,6 +41,30 @@ class Web extends CI_Controller
         $this->_page_output($data);
     }
 
+    public function konfirmasi_email($md5_email = null){
+
+        $data = array('page_name' => 'konfirmasi_email');
+        
+        $cek = $this->db->get_where('pemohon',array('md5(email)' => $md5_email));
+
+        if($cek->num_rows() > 0){
+            $p = $cek->row_array();
+            
+            $this->db->where('id',$p['id']);
+            $this->db->update('pemohon',array('aktif' => 'Y'));
+
+            $data['message']  = '<div class="alert alert-success" role="alert">
+                                  Akun anda telah diaktifkan. Silahkan login
+                                </div>';
+        }else{
+            $data['message']  = '<div class="alert alert-danger" role="alert">
+                                  Akun tidak ditemukan !
+                                </div>';
+        }
+
+        
+        $this->_page_output($data);
+    }
 
     private function _paginate($base_url, $total_rows, $per_page, $uri_segment)
     {
@@ -91,6 +115,8 @@ class Web extends CI_Controller
 
         return $config;
     }
+
+
 
     public function baca_berita()
     {

@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.kapal.dokumenkapal.util.api.BaseApiService;
@@ -85,7 +86,7 @@ public class RegistrationActivity extends AppCompatActivity {
         mBaseApiService.registerRequest(jenisAkun, etName.getText().toString(), etEmail.getText().toString(), etPassword.getText().toString())
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
-                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
                         if (response.isSuccessful()) {
                             loading.dismiss();
                             try {
@@ -93,7 +94,7 @@ public class RegistrationActivity extends AppCompatActivity {
                                 if (jsonObject.getString("error").equals("false")) {
 
 
-                                    Toast.makeText(mContext, "Pendaftaran Berhasil, Silahkan Masuk dengan akun anda", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(mContext, "Pendaftaran Berhasil, Silahkan Cek email anda untuk aktivasi akun anda", Toast.LENGTH_SHORT).show();
 
                                     startActivity(new Intent(mContext, LoginActivity.class)
                                             .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
