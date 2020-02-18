@@ -50,7 +50,7 @@ public class HomeFragment extends Fragment {
 
     public void loadWeb(View root) {
         WebView mWebView = root.findViewById(R.id.webview_home);
-        mWebView.loadUrl("https://kirana-web.000webhostapp.com/webview");
+        mWebView.loadUrl("http://dokumen-kapal.000webhostapp.com/webview");
 
         WebSettings webSettings = mWebView.getSettings();
         webSettings.setJavaScriptEnabled(true);
